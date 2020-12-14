@@ -11,7 +11,7 @@ busses <- read_csv(my_file,
           select(-name) %>% 
           mutate(bus_time = as.integer(value)) 
 
-departure_read <- read_csv("day13.txt", 
+departure_read <- read_csv(my_file, 
                            n_max = 1, 
                            col_names = FALSE, 
                            col_types = cols(.default = col_integer())) 
@@ -36,7 +36,7 @@ bus_min <- bus_sched %>%
 (bus_min$next_time[[1]] - departure_time) * bus_min$bus_time
 
 # part two
-busses_2 <- read_csv("day13.txt", 
+busses_2 <- read_csv(my_file, 
                    skip = 1, 
                    col_names = FALSE, 
                    col_types = cols(.default = col_character())) %>% 
