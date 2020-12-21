@@ -50,3 +50,39 @@ part_one <- Reduce(`+`, mem_reduce$new_num)
 print(part_one, digits = 15)
 
 # 6386593869035
+
+######################## part two
+
+
+do_mask_mem <- function(mask, mem) {
+  mask_vector = str_split(mask, "")[[1]]
+  binary_vector = rev(as.numeric(intToBits(mem)))
+  # 4 extra zeros because intToBits() returns 32 bits, mask is 36
+  binary_vector = append(rep(0,4), binary_vector) %>% as.character()
+  
+  for (b in seq_along(mask_vector)) {
+    if (mask_vector[[b]] == "X") {
+      binary_vector[[b]] = "X"
+    } else if (mask_vector[[b]] == 1) {
+      binary_vector[[b]] = 1 
+    } else {
+      binary_vector[[b]] = binary_vector[[b]]
+    }
+  }
+  new_val = binary_vector
+  return(new_val)
+}
+
+
+for (m in seq_len(nrow(bitcode))) {
+  if (str_starts(bitcode$V1[[m]], "mask")) {
+    # get the mask
+    mask = str_replace(bitcode$V1[[m]], "mask = ", "")
+  } else {
+    # apply mask and store value
+    loc = str_extract(bitcode$V1[[m]], "\\d{4,5}")
+    val = str_extract(bitcode$V1[[m]], "\\d+$")
+    new_num = do_mask_mem(mask, loc)
+    mem_loc = rbind(mem_loc, list(loc=loc, orig_num=val, new_num=new_num))
+  }
+}
