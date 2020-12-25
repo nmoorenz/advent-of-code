@@ -116,5 +116,5 @@ mem_reduce <- mem_loc %>%
   filter(rn == max(rn)) 
 
 # quite the same as part one
-part_two <- sum(mem_reduce$num)
+part_two <- sum(as.numeric(mem_reduce$num))
 print(part_two, digits = 15)
