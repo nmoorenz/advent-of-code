@@ -123,9 +123,9 @@ for (m in seq_len(nrow(bitcode))) {
     mask = str_replace(bitcode$V1[[m]], "mask = ", "")
     mask_vector = str_split(mask, "") %>% unlist()
   } else {
-    # apply mask and store value
-    # loc = str_extract(bitcode$V1[[m]], "\\d{2}")
-    loc = str_extract(bitcode$V1[[m]], "\\d{4,5}")
+    # first group is whole thing, second group is numbers
+    loc = str_match(bitcode$V1[[m]], "mem\\[(\\d+)")[2]
+    # get the numbers at the end of the string
     val = str_extract(bitcode$V1[[m]], "\\d+$")
     # instead of the new value, get back a whole dataframe
     # there are multiple rows because of 'floating' positions
