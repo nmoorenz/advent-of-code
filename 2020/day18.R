@@ -119,3 +119,28 @@ Here are a few more examples:
 5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4)) becomes 12240.
 ((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 becomes 13632.
 "
+################################### part one again
+# make equal precedence by just replacing one of operators
+
+`-` <- function(a, b) {
+  a * b
+}
+
+replace_symbol <- function(strng) {
+  # equal precendence
+  strng = str_replace_all(strng, "\\*", "-")
+  return(strng)
+}
+
+# test on individual function
+tester <- "1 + 2 * 3 + 4 * 5 + 6"
+test1 <- replace_symbol(tester)
+eval(parse(text = test1))
+
+# change the thing we want to calculate
+equate_part_one <- equations %>% 
+  mutate(line_1 = replace_symbol(V1), 
+         eq_1 = map_dbl(line_1, ~ eval(parse(text = .))))
+
+# part one
+as.character(sum(equate_part_one$eq_1))
