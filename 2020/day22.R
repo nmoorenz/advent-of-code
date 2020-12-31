@@ -67,8 +67,11 @@ store_hands <- function(c1, c2, level) {
 
 # function which we can call recursively
 play_the_card_game <- function(cards1, cards2) {
-  # print(cards1); print(cards2)
+  # how many subgames we have
   current_level <- global_level
+  # the states for this particular game
+  this_game_record <- c()
+  # loop for as long as we need
   while (length(cards1) > 0 & length(cards2) > 0) {
     # top cards from each hand
     bet1 = cards1[1]
@@ -85,7 +88,8 @@ play_the_card_game <- function(cards1, cards2) {
       sub1 = cards1[1:bet1]
       sub2 = cards2[1:bet2]
       # recurse
-      winner = play_the_card_game(sub1, sub2)
+      result = play_the_card_game(sub1, sub2)
+      winner = result$winner
       # allocate cards, not necessarily highest
       if (winner == 1) {
         cards1 = c(cards1, bet1, bet2)
@@ -101,13 +105,18 @@ play_the_card_game <- function(cards1, cards2) {
       }
     }
     # store and check hands
-    h_check <- store_hands(cards1, cards2, current_level)
-    if (h_check) {
-      # infinite = TRUE
+    score1 = sum(cards1 * rev(seq_along(cards1)))
+    score2 = sum(cards2 * rev(seq_along(cards2)))
+    this_hand = paste(score1, score2, sep = "-")
+    # check for seeing this previously
+    if (this_hand %in% this_game_record) {
       break
+    } else {
+      this_game_record = c(this_game_record, this_hand)
     }
   }  
-  print(current_level)
+  # print(current_level)
+  game_levels <<- c(game_levels, current_level)
   # print('finished subgame')
   if (length(cards1) == 0) {
     winner = 2
@@ -115,7 +124,9 @@ play_the_card_game <- function(cards1, cards2) {
     winner = 1
   }
   # if (global_level == 9) stop()
-  return(winner)
+  return(list(winner = winner, 
+         cards1 = cards1, 
+         cards2 = cards2))
 }
 
 # tester cards
@@ -127,25 +138,30 @@ cards1 <- as.numeric(cards[2:26])
 cards2 <- as.numeric(cards[29:53])
 
 global_level <- 1
-infinite = FALSE
-hands_record <- tribble(~c1, ~c2, ~lvl)
+game_levels <- 1
+# infinite = FALSE
+# hands_record <- tribble(~c1, ~c2, ~lvl)
 
 # call the functions
-play_the_card_game(cards1, cards2)
+result <- play_the_card_game(cards1, cards2)
 
 # clean up 
-final_1 <- hands_record$c1[nrow(hands_record)]
-final_2 <- hands_record$c2[nrow(hands_record)]
+# final_1 <- hands_record$c1[nrow(hands_record)]
+# final_2 <- hands_record$c2[nrow(hands_record)]
 
 # could probably write this out but it's nice to be general
-win_cards <- str_split(final_1, "-") %>% unlist()
-win_cards <- append(win_cards[2:length(win_cards)], win_cards[1])
-win_cards <- append(win_cards, final_2)
+# win_cards <- str_split(final_1, "-") %>% unlist()
+# win_cards <- append(win_cards[2:length(win_cards)], win_cards[1])
+# win_cards <- append(win_cards, final_2)
 
 # this bit is the same as part one
-part_two_df <- tibble(hand = win_cards) %>% 
-  mutate(hand = as.numeric(hand), 
-         rr = 51 - row_number(), 
-         prd = hand * rr)
+score1 = sum(result$cards1 * rev(seq_along(result$cards1)))
 
-sum(part_two_df$prd)
+# plot the levels
+tibble(lvl = game_levels) %>% 
+  mutate(x = row_number()) %>% 
+  ggplot(aes(x, lvl)) + 
+  geom_point() + 
+  ggtitle("Completion of Subgames in Recursive Combat")
+
+ggsave("Recursive-Combat-Good-Progress.png")
