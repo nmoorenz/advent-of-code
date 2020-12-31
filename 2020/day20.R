@@ -77,3 +77,6 @@ tile_corners <- tile_matches %>%
   filter(match_num ==2)
 
 as.character(prod(tile_corners$tile_num))
+
+######################################### part two
+# find the layout for the tiles

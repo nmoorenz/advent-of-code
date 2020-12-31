@@ -1,7 +1,6 @@
 library(tidyverse)
 
 my_file <- here::here("2020", "day22.txt")
-
 cards <- readLines(my_file)
 
 cards1 <- as.numeric(cards[2:26])
@@ -10,7 +9,6 @@ cyc <- 0
 
 while (length(cards1) > 0 & length(cards2) > 0) {
   cyc = cyc + 1
-  # if (cyc == 559) break
   # top of the hands
   bet1 = cards1[1]
   bet2 = cards2[1]
@@ -41,6 +39,113 @@ part_one_df <- tibble(card = cards1) %>%
 
 sum(part_one_df$prd)
 
-# part two
+######################################################## part two
 # make a function that we can send two hands of cards to
 # need to create a check on current card and length of remaining hand
+
+# if cards are the same as any hand previous, game ends, stop infinite games
+# need to record each of the hands
+# win for player one
+
+store_hands <- function(c1, c2, level) {
+  # store in a way that we can compare and retrieve later
+  c1 = paste(c1, collapse = "-")
+  c2 = paste(c2, collapse = "-")
+  # restrict to current round
+  this_level = filter(hands_record, lvl == level)
+  # tibble_row() is nice to keep as one row for rbind
+  rr = tibble_row(c1 = c1, c2 = c2, lvl = level)
+  # check for infinity
+  if (any(c1 == this_level$c1)) {
+    hands_record <<- rbind(hands_record, rr)
+    return(TRUE)
+    }
+  # global variable between subgames
+  hands_record <<- rbind(hands_record, rr)
+  return(FALSE)
+}
+
+# function which we can call recursively
+play_the_card_game <- function(cards1, cards2) {
+  # print(cards1); print(cards2)
+  current_level <- global_level
+  while (length(cards1) > 0 & length(cards2) > 0) {
+    # top cards from each hand
+    bet1 = cards1[1]
+    bet2 = cards2[1]
+    # remove the card from the hands
+    cards1 = tail(cards1, -1)
+    cards2 = tail(cards2, -1)
+    # do we go into a subgame
+    if (bet1 <= length(cards1) & bet2 <= length(cards2)) {
+      # subgame
+      # print('sub')
+      global_level <<- global_level + 1
+      # subset by number on the card
+      sub1 = cards1[1:bet1]
+      sub2 = cards2[1:bet2]
+      # recurse
+      winner = play_the_card_game(sub1, sub2)
+      # allocate cards, not necessarily highest
+      if (winner == 1) {
+        cards1 = c(cards1, bet1, bet2)
+      } else {
+        cards2 = c(cards2, bet2, bet1)
+      }
+    } else {
+      # check where they go, regular allocation
+      if (bet1 > bet2) {
+        cards1 = c(cards1, bet1, bet2)
+      } else {
+        cards2 = c(cards2, bet2, bet1)
+      }
+    }
+    # store and check hands
+    h_check <- store_hands(cards1, cards2, current_level)
+    if (h_check) {
+      # infinite = TRUE
+      break
+    }
+  }  
+  print(current_level)
+  # print('finished subgame')
+  if (length(cards1) == 0) {
+    winner = 2
+  } else {
+    winner = 1
+  }
+  # if (global_level == 9) stop()
+  return(winner)
+}
+
+# tester cards
+# cards1 <- c(9, 2, 6, 3, 1)
+# cards2 <- c(5, 8, 4, 7, 10)
+
+# some set up of things
+cards1 <- as.numeric(cards[2:26])
+cards2 <- as.numeric(cards[29:53])
+
+global_level <- 1
+infinite = FALSE
+hands_record <- tribble(~c1, ~c2, ~lvl)
+
+# call the functions
+play_the_card_game(cards1, cards2)
+
+# clean up 
+final_1 <- hands_record$c1[nrow(hands_record)]
+final_2 <- hands_record$c2[nrow(hands_record)]
+
+# could probably write this out but it's nice to be general
+win_cards <- str_split(final_1, "-") %>% unlist()
+win_cards <- append(win_cards[2:length(win_cards)], win_cards[1])
+win_cards <- append(win_cards, final_2)
+
+# this bit is the same as part one
+part_two_df <- tibble(hand = win_cards) %>% 
+  mutate(hand = as.numeric(hand), 
+         rr = 51 - row_number(), 
+         prd = hand * rr)
+
+sum(part_two_df$prd)

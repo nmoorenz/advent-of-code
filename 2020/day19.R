@@ -16,7 +16,8 @@ messages <- filter(r_m, rule == FALSE) %>%
 
 # parse some rules
 rule_sep <- rules %>% 
-  separate(V1, into = c("rule_num", "others"), sep = ": ") 
+  separate(V1, into = c("rule_num", "others"), sep = ": ") %>% 
+  arrange(rule_num)
 
 # make a copy
 rule_sub <- rule_sep %>% 
@@ -25,8 +26,7 @@ rule_sub <- rule_sep %>%
 # run repeatedly below
 # i think we want to replace when there are all letters in the rule
 rule_sub <- rule_sub %>% 
-  mutate(any_num = str_detect(others, "\\d")) %>% 
-  arrange(rule_num)
+  mutate(any_num = str_detect(others, "\\d"))
 
 # get the rules we want to change
 rr <- rule_sub %>% 
@@ -41,7 +41,12 @@ replace_func <- function(my_list, patt, repl) {
 # now make the changes
 for (z in seq_len(nrow(rr))) {
   patt = paste0("\\b", rr$rule_num[[z]], "\\b")
-  repl = paste0("(", rr$others[[z]], ")")
+  if (nchar(rr$others[[z]]) > 8){
+    repl = paste0("(", rr$others[[z]], ")")  
+  } else {
+    repl = rr$others[[z]]
+  }
+  
   rule_sub <- rule_sub %>% mutate(others = map(others, replace_func, patt, repl), 
                                   done = done | str_detect(rule_num, paste0("\\b", rr$rule_num[[z]], "\\b")))
   
