@@ -53,15 +53,21 @@ for (i in seq_len(moves)) {
 
 }
 
+# the cups in order after 1
 part_one = '29385746'
 
 ###################### part two
 
-cup_max <- 1e6
+# number of cups
+cup_max <- 1e3
+# sequential cups for anything more than the original
 extra_cups <- seq(10, cup_max)
-orig_cups <- str_split('712643589', "")[[1]] %>% as.numeric()
-
-cups <- append(orig_cups, extra_cups)
+# original input
+orig_cups <- str_split('712643589', "")[[1]] %>% as.integer()
+# join these things
+cups <- c(orig_cups, extra_cups)
+# next cups
+next_cups <- c(cups[-1], cups[1])
 
 # large number of moves
 moves <- cup_max * 10
@@ -78,12 +84,16 @@ for (i in seq_len(moves)) {
   # to the right of the current cup
   # needs to wrap around when we get to the end
   # maybe two vectors is the way to go
-  three_cups <- append(cups, cups[1:10])[(ind+1):(ind+3)]
+  three_cups <- c(cups, cups[1:10])[(ind+1):(ind+3)]
   
   if (i %in% checker) print(i)
   
   # this preserves the order as far as I can tell
-  cups <- setdiff(cups, three_cups)
+  if (ind <= cup_max - 4) {
+    cups <- c(cups[1:ind], cups[(ind+4):cup_max])
+  } else {
+    cups <- cups[(ind-cup_max+4):ind]
+  }
   
   # destination, one less than the current cup
   good = FALSE
@@ -99,8 +109,9 @@ for (i in seq_len(moves)) {
   }
   
   # location of the destination cup
-  dest_loc <- match(dest_cup, cups)
-  
+  dest_loc <- cup_pos[dest_cup]
+  if (ind < dest_loc) dest_loc = dest_loc - 3
+    
   # need to add the three cups back into the vector
   cups <- append(cups, three_cups, after = dest_loc)
   
@@ -111,6 +122,16 @@ for (i in seq_len(moves)) {
   
 }
 
+# 1,000 cups and 10,000 moves takes about two seconds
+# 10,000 cups and 100,000 moves takes about one minute
+# 100,000 cups and 1,000,000 moves takes about one minute for 10,000 moves
+# probably means 100 minutes for the complete set
+# probably means 100*100 minutes = 166 hours
+# this is not a good thing
+
+# replacing the setdiff() removed 10 seconds from 10,000 cups time
+# replacing the match for destination location removed a further 15 seconds
+# don't get the same answer though
 
 "
 The crab picks up the three cups that are immediately clockwise of the current cup. 
