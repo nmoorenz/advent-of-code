@@ -233,82 +233,78 @@ for (rr in seq_len(12)) {
   }
 }
 
+# now we need to create a df with proper pieces
+tile_pattern <- matrix("x", nrow = 96, ncol = 96)
 
-##################### 
-# previous work that didn't quite go
-# would have to rotate pieces and figure out positions
-# might as well go full allocation
-
-dir_func <- function(my_dir) {
-  next_dir = case_when(
-    my_dir == "lef" ~ "rig", 
-    my_dir == "rig" ~ "lef", 
-    my_dir == "top" ~ "bot", 
-    my_dir == "bot" ~ "top", 
-    my_dir == "lef_r" ~ "rig_r", 
-    my_dir == "rig_r" ~ "lef_r", 
-    my_dir == "top_r" ~ "bot_r", 
-    my_dir == "bot_r" ~ "top_r"
-  )
-  return(next_dir)
-}
-
-# hopefully this works as a loop 
+# figuring out indices took longer than it should
 for (rr in seq_len(12)) {
-  # the first column is special
-  if (rr == 1) {
-    # choose these beforehand
-    first_col_tile = 1063
-    first_col_dir = "rig"
-    down_dir = "bot"
-  } else {
-    # the tile above
-    above_tile = first_col_tile
-    above_dir = down_dir
-    
-    # next tile
-    first_col_tile = tile_matches %>% 
-      filter(tile_num == above_tile & edges_id == above_dir) %>% 
-      pull(match_num)
-    
-    # what side we have matched with
-    going_back_up = tile_matches %>% 
-      filter(tile_num == above_tile & edges_id == down_dir) %>% 
-      pull(match_edges_id)
-    
-    # the next tile underneath to match
-    down_dir <- dir_func(going_back_up)
-    
-    # process of elimination for going right
-    first_col_dir = tile_matches %>% 
-      filter(tile_num == above_tile & edges_id != down_dir & 
-               edges_id != going_back_up & !is.na(match_edges_id)) %>% 
-      pull(match_edges_id)
-    
-  }
   for (cc in seq_len(12)) {
-    if (cc == 1) {
-      this_tile = first_col_tile
-      this_dir = first_col_dir
-    } else {
-      this_tile = next_tile
-      this_dir = next_dir
+    usable_matrix = tile_layout[[cc]][[rr]]$match_tile[2:9,2:9]
+    for (a in seq_len(8)) {
+      for (b in seq_len(8)) {
+        tile_pattern[(rr-1)*8+a, (cc-1)*8+b] = usable_matrix[a, b]
+      }
     }
-    
-    # tile number
-    tile_layout[rr, cc] = this_tile
-    
-    # next tile
-    next_tile = tile_matches %>% 
-      filter(tile_num == this_tile & edges_id == this_dir) %>% 
-      pull(match_num)
-      
-    # what side we have matched with
-    match_dir = tile_matches %>% 
-      filter(tile_num == this_tile & edges_id == this_dir) %>% 
-      pull(match_edges_id)
-    
-    # the next side we are going to match with
-    next_dir <- dir_func(match_dir)
   }
 }
+
+# now we need to spot some monsters
+m1 = "                  # "
+m2 = "#    ##    ##    ###"
+m3 = " #  #  #  #  #  #   "
+m1v = str_split(m1, "")[[1]]
+m2v = str_split(m2, "")[[1]]
+m3v = str_split(m3, "")[[1]]
+
+# combine into one matrix
+m_c = c(m1v, m2v, m3v)
+monster = matrix(m_c, nrow = 3, byrow = TRUE)
+
+check_for_monsters <- function(tile_pattern) {
+  count_monsters = 0
+  # check through our matrix
+  for (rr in seq(0, 96-3)) {
+    for (cc in seq(0, 96-20)) {
+      not_a_monster = FALSE
+      # loop for the monster
+      for (mm in seq_len(3)) {
+        for (nn in seq_len(20)) {
+          # spaces could be anything
+          if (monster[mm, nn] == " ") {
+            # skip, could be anything
+          } else {
+            if (tile_pattern[rr+mm,cc+nn] == "#") {
+              # keep going
+            } else {
+              # don't have a match
+              not_a_monster = TRUE
+            }
+          }
+        }
+      }
+      if (!not_a_monster) count_monsters = count_monsters + 1
+    }
+  }
+  return(count_monsters)
+}
+
+# use the function from earlier to change orientations
+dir_changes <- c("top", "top_r", "bot", "bot_r", 
+                    "lef", "lef_r", "rig", "rig_r")
+
+# check the number of monsters for each orientation
+for (dd in seq_along(dir_changes)) {
+  diff_pattern = reorient_tile_left(tile_pattern, dir_changes[dd])
+  num_monst = check_for_monsters(diff_pattern)
+  print(num_monst)
+}
+
+# 15 hashes in the monsters we've found
+num_hash = 0
+for (rr in seq_len(96)) {
+  for (cc in seq_len(96)) {
+    if (tile_pattern[rr,cc] == "#") num_hash = num_hash + 1
+  }
+}
+
+num_hash - 15 * 37
