@@ -50,6 +50,7 @@ flip_a_tile <- function(direct) {
   for (d in seq_along(direct)) {
     # I think this is the right way to do things
     # double coordinate system
+    # confirmed here https://www.redblobgames.com/grids/hexagons/
     ref_tile = case_when(
       direct[d] == "e" ~ ref_tile + c(2, 0),
       direct[d] == "w" ~ ref_tile + c(-2, 0),
