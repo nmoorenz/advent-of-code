@@ -5,7 +5,7 @@ mando_things <- c('byr','iyr','eyr','hgt','hcl','ecl','pid')
 optional_things <- c('cid')
 
 # read all at once
-passport_file <- read_file("day4.txt")
+passport_file <- read_file("2020/day4.txt")
 # split into elements with double end line
 passport_list <- str_split(passport_file, "\r\n\r\n")
 # names for the vector
@@ -25,6 +25,7 @@ pp_check <- passport_items %>%
     pass = map(pp, check_mando)
   )
 
+# part one answer
 sum(pp_check$pass >= 7)
  
 # byr (Birth Year) - four digits; at least 1920 and at most 2002.
@@ -32,7 +33,7 @@ sum(pp_check$pass >= 7)
 # eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
 # hgt (Height) - a number followed by either cm or in:
 #   If cm, the number must be at least 150 and at most 193.
-# If in, the number must be at least 59 and at most 76.
+#   If in, the number must be at least 59 and at most 76.
 # hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
 # ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
 # pid (Passport ID) - a nine-digit number, including leading zeroes.
@@ -46,6 +47,7 @@ get_item <- function(item, zz) {
   ss = str_remove(tt, zz_)
 }
 
+# get each of their items into their own column
 pp_regex <- pp_check %>% 
   mutate(
     byr = get_item(pp, "byr"), 
@@ -57,21 +59,7 @@ pp_regex <- pp_check %>%
     pid = get_item(pp, "pid")
   )
 
-
-pp_more_checks <- pp_regex %>% 
-  mutate(
-    byr_p = check_byr(byr), 
-    iyr_p = check_iyr(iyr), 
-    eyr_p = check_eyr(eyr), 
-    hgt_p = check_hgt(hgt),
-    hcl_p = check_hcl(hcl),
-    ecl_p = check_ecl(ecl), 
-    pid_p = check_pid(pid), 
-    part_b = rowSums(across(ends_with("_p")), na.rm = TRUE) == 7
-  )
-
-reduce(pp_more_checks$part_b, `+`)
-
+# checking functions for each of the passport fields
 check_pid <- function(item) {
   str_detect(item, "^\\d{9}$")
 }
@@ -86,10 +74,11 @@ check_hcl <- function(item) {
 
 check_hgt <- function(item) {
   x = parse_number(item)
-  ifelse(str_detect(item, "in"), between(x, 59, 76), 
-         ifelse(str_detect(item, "cm"),
-                between(x, 150, 193),
-                FALSE))
+  ifelse(
+    str_detect(item, "in"), between(x, 59, 76), 
+  ifelse(
+    str_detect(item, "cm"), between(x, 150, 193),
+  FALSE))
 }
 
 check_eyr <- function(item) { 
@@ -107,3 +96,18 @@ check_byr <- function(item) {
   between(xx, 1920, 2002)
 }
 
+# check if the passport things are the right kind of things
+pp_more_checks <- pp_regex %>% 
+  mutate(
+    byr_p = check_byr(byr), 
+    iyr_p = check_iyr(iyr), 
+    eyr_p = check_eyr(eyr), 
+    hgt_p = check_hgt(hgt),
+    hcl_p = check_hcl(hcl),
+    ecl_p = check_ecl(ecl), 
+    pid_p = check_pid(pid), 
+    part_b = rowSums(across(ends_with("_p")), na.rm = TRUE) == 7
+  )
+
+# part two answer
+reduce(pp_more_checks$part_b, `+`)

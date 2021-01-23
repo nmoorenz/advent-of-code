@@ -1,6 +1,6 @@
 
 # read file
-with open("day2.txt", "r") as f:
+with open("2020/day2.txt", "r") as f:
   dd = f.read().splitlines()
   
 # split with spaces

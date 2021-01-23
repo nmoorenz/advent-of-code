@@ -1,7 +1,9 @@
 library(tidyverse)
 
-trees_slim <- read.delim("day3.txt", header = FALSE)
+inputfile <- here::here("2020", "day3.txt")
+trees_slim <- read.delim(inputfile, header = FALSE)
 
+# function for movement
 move_tobog <- function(rght, dwn, course) {
   x_pos = 1
   y_pos = 1
@@ -20,15 +22,18 @@ move_tobog <- function(rght, dwn, course) {
   return(trees)
 }
 
+# part one is right 3 down 1, part two is others
 paths <- tibble::tibble(
   right = c(3, 1, 5, 7, 1), 
   down = c(1, 1, 1, 1, 2)
 )
 
+# the old map doing work
 paths_hits <- paths %>% 
   mutate(
     trees_hit = map2_dbl(right, down, move_tobog, trees_slim)
   )
 
+# part two answer
 reduce(paths_hits$trees_hit, `*`)
 

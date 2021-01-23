@@ -1,8 +1,9 @@
 
 # read file
-with open("day3.txt", "r") as f:
+with open("2020/day3.txt", "r") as f:
   course = f.read().splitlines()
   
+# function for riding the toboggan
 def move_tobog(rght, dwn, course):
   x_pos = 0
   y_pos = 0
@@ -15,11 +16,13 @@ def move_tobog(rght, dwn, course):
     x_pos = (x_pos + rght) % course_wid
     y_pos = y_pos + dwn
   return trees
-    
+ 
+# gather the different number of trees for the course movements
 trees_1 = move_tobog(3, 1, course)
 trees_2 = move_tobog(1, 1, course)
 trees_3 = move_tobog(5, 1, course)
 trees_4 = move_tobog(7, 1, course)
 trees_5 = move_tobog(1, 2, course)
 
+# part two answer
 trees_1 * trees_2 * trees_3 * trees_4 * trees_5
