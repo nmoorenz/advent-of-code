@@ -48,5 +48,15 @@ We're going on a holiday!
 * `int()` in python also has a base argument! 
 
 ### Day 6
-1.
+1. Sum the count of the letters for the passengers on the plane
+2. Sum the count of the common letters for each group
+
+* Looking back at this I'm not sure why I made part two so difficult
+* List comprehensions work great for this one too in python
+* `count()` with an argument is nice
+
+### Day 7
+1. 
 2. 
+
+*

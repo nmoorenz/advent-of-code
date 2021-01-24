@@ -1,7 +1,8 @@
 library(tidyverse)
 
 # read all at once
-answers <- read_file("day6.txt")
+answers <- read_file("2020/day6.txt")
+
 # split into elements with double end line
 answer_groups <- str_split(answers, "\r\n\r\n")
 # names
@@ -19,8 +20,24 @@ count_answers <- map(answer_join, counters)
 # reduce
 Reduce(`+`, count_answers)
 
+##################################### part two revision
+count_groups <- function(lett, num) {
+  sum(str_count(lett, letters) == num)
+}
+
 # part two
 answer_split <- str_split(answer_groups$ans, "\r\n")
+
+ans_tbl_rev <- tibble(
+                      long_str = answer_join, 
+                      ans_piece = answer_split
+                     ) %>% 
+              mutate(grp_len = lengths(ans_piece), 
+                     grp_cnt = map2_dbl(long_str, grp_len, count_groups))
+  
+Reduce(`+`, ans_tbl_rev$grp_cnt)
+
+##################################### previous part two answers
 # tibble?
 ans_tbl <- tibble(ans = answer_split) %>% 
   mutate(grp = row_number()) %>% 
@@ -42,6 +59,7 @@ for (n in seq_len(nrow(ans_tbl))) {
   ans_tbl$num[[n]] = sum(x)
 }
 
+# part two answer
 sum(ans_tbl$num)
 
 # part two type 2
