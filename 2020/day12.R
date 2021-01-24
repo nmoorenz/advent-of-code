@@ -1,7 +1,7 @@
 library(tidyverse)
 
 # read
-direct <- read.delim("day12.txt", header = FALSE) %>% 
+direct <- read.delim("2020/day12.txt", header = FALSE) %>% 
   separate(V1, into = c("dir", "num"), sep = 1) %>% 
   mutate(num = as.integer(num))
 

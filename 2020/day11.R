@@ -1,7 +1,7 @@
 library(tidyverse)
 
 # read
-seats_map <- read.delim("day11.txt", header = FALSE)
+seats_map <- read.delim("2020/day11.txt", header = FALSE)
 
 # length of character
 xx <- nrow(seats_map)
@@ -11,7 +11,7 @@ yy <- nchar(seats_map$V1[[1]])
 w = rep(1, yy)
 
 # read into matrix for nice indexing
-seat_map <- read.fwf("day11.txt", widths = w, header = FALSE) %>% 
+seat_map <- read.fwf("2020/day11.txt", widths = w, header = FALSE) %>% 
   as.matrix()
 
 fill_seats <- function(seats) { 

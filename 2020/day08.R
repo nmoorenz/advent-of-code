@@ -1,6 +1,6 @@
 library(tidyverse)
 
-game <- read.delim("day8.txt", header = FALSE) %>% 
+game <- read.delim("2020/day08.txt", header = FALSE) %>% 
   separate(V1, into = c("inst", "num"), sep = " ") %>% 
   mutate(has_run = FALSE, 
          num = parse_number(num))

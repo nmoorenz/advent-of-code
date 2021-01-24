@@ -1,7 +1,7 @@
 # library(tidyverse)
 
 # read the things
-code <- read.delim("day9.txt", header = FALSE)
+code <- read.delim("2020/day09.txt", header = FALSE)
 
 # setup
 tgt_num <- 26
