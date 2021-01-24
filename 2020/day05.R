@@ -1,6 +1,6 @@
 library(tidyverse)
 
-bp <- read.delim("2020/day5.txt", header = FALSE)
+bp <- read.delim("2020/day05.txt", header = FALSE)
 
 # conversions for letters to binary
 fm = c("F", "B", "L", "R") 

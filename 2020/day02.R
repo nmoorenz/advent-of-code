@@ -1,7 +1,7 @@
 # imports
 library(tidyverse)
 
-inputfile = here::here("2020", "day2.txt")
+inputfile = here::here("2020", "day02.txt")
 
 # data for a df 
 toboggan <- read_csv(inputfile, col_names = FALSE)

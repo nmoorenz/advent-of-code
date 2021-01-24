@@ -1,6 +1,6 @@
 
 # read file
-with open("2020/day4.txt", "r") as f:
+with open("2020/day04.txt", "r") as f:
   pp = f.read()
   
 # split by double end to separate passports
@@ -80,7 +80,7 @@ def check_items(p, m):
       result = (itm in ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth',])
     elif m == 'pid':
       result = len(itm) == 9 and itm.isnumeric()
-  print(result)
+  # print(result)
   # return, of course  
   return result
   

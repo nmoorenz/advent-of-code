@@ -5,7 +5,7 @@ mando_things <- c('byr','iyr','eyr','hgt','hcl','ecl','pid')
 optional_things <- c('cid')
 
 # read all at once
-passport_file <- read_file("2020/day4.txt")
+passport_file <- read_file("2020/day04.txt")
 # split into elements with double end line
 passport_list <- str_split(passport_file, "\r\n\r\n")
 # names for the vector

@@ -1,7 +1,7 @@
 # find the numbers that sum to 2020 and return their product
 
 # not quite as good as here::here()
-myfile = "2020/day1.txt"
+myfile = "2020/day01.txt"
 
 # read in file
 with open(myfile, "r") as f:

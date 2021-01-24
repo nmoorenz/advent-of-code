@@ -56,7 +56,7 @@ We're going on a holiday!
 * `count()` with an argument is nice
 
 ### Day 7
-1. 
-2. 
+1. How many bags can hold a shiny gold bag?
+2. How many bags can fit inside a shiny gold bag? 
 
 *

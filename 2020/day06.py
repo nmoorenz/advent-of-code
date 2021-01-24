@@ -1,6 +1,6 @@
 
 # read file
-with open("2020/day6.txt", "r") as f:
+with open("2020/day06.txt", "r") as f:
   qq = f.read()
 
 # split groups

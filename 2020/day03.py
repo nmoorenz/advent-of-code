@@ -1,6 +1,6 @@
 
 # read file
-with open("2020/day3.txt", "r") as f:
+with open("2020/day03.txt", "r") as f:
   course = f.read().splitlines()
   
 # function for riding the toboggan

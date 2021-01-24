@@ -1,6 +1,6 @@
 
 # read file
-with open("2020/day5.txt", "r") as f:
+with open("2020/day05.txt", "r") as f:
   bp = f.read().splitlines()
 
 # row and col binary via replacement

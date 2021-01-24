@@ -1,7 +1,7 @@
 # libs
 library(tidyverse)
 
-my_file <- here::here("2020", "day7.txt")
+my_file <- here::here("2020", "day07.txt")
 
 # read file
 lugg <- read.delim(my_file, header = FALSE)

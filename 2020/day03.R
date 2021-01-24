@@ -1,6 +1,6 @@
 library(tidyverse)
 
-inputfile <- here::here("2020", "day3.txt")
+inputfile <- here::here("2020", "day03.txt")
 trees_slim <- read.delim(inputfile, header = FALSE)
 
 # function for movement

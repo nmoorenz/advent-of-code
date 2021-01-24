@@ -3,7 +3,7 @@ library(tidyverse)
 
 # find two numbers that sum to 2020 and give the product of those two numbers
 
-input_file <- here::here("2020", "day1.txt")
+input_file <- here::here("2020", "day01.txt")
 my_input <- readLines(input_file) %>% as.numeric()
 
 # for plotting

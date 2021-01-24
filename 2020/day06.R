@@ -1,7 +1,7 @@
 library(tidyverse)
 
 # read all at once
-answers <- read_file("2020/day6.txt")
+answers <- read_file("2020/day06.txt")
 
 # split into elements with double end line
 answer_groups <- str_split(answers, "\r\n\r\n")
