@@ -24,8 +24,8 @@ recurs_search <- function(df) {
     as.vector() 
   # increase level for efficiency (don't look twice)
   srch_lvl <<- srch_lvl + 1
-  print(srch_lvl)
-  print(length(srch_list$first))
+  # print(srch_lvl)
+  # print(length(srch_list$first))
   if (length(srch_list$first) == 0) {
     return(df)
   }
@@ -39,7 +39,7 @@ recurs_search <- function(df) {
       }
     }
   }
-  print(sum(df$contains))
+  # print(sum(df$contains))
   df = recurs_search(df)
 }
 
