@@ -59,4 +59,30 @@ We're going on a holiday!
 1. How many bags can hold a shiny gold bag?
 2. How many bags can fit inside a shiny gold bag? 
 
-* 
+* This was the last to be completed
+* The recursion and branching was difficult to work with
+
+### Day 8
+1. Run a sequence of operations for a handheld game console until we find an infinite loop
+2. Find the corrupt record to prevent an infinite loop
+
+* This was the point at which I decided to only do R solutions rather than R and py
+* Create a function and track where we have already visited; stop when we find a loop
+* Part two is likely inefficient, go through and change nop and jmp
+
+### Day 9
+1. Find the first invalid number, where a valid number is the sum of any pair of the previous 25 numbers
+2. Find a contiguous list of numbers that add to the invalid number in part one
+
+* For loops play a big part here, I'm not sure if there's any way around that
+* Both parts run really fast so don't worry
+
+### Day 10
+1. An interesting contrivance to chain together adapters to charge a phone - what are the differences in jolts?  
+2. How many different combinations could that chain of adapters use?
+
+* https://docs.google.com/spreadsheets/d/15ep7mgmblF_96tlXdfiRHSBhKfQF9tVVCTnBopATRAs/edit?usp=sharing
+* Pretty sure this was on the bus home after work
+* It feels like there was a trick to be discovered, and somehow it was uncovered by me
+
+### Day 11

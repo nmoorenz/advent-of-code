@@ -39,6 +39,7 @@ for (qq in 3:50) {
       part_two = sum(min(chk_vect), max(chk_vect))
       print(x)
       print(qq)
+      print(paste("part two answer:", part_two))
       found = TRUE
     }
     if (found) break
