@@ -22,6 +22,7 @@ All numbers in the elves' list are in feet. How many total *square feet of wrapp
 ```{python}
 with open('data-2015-2.txt', 'r') as f:
     pres = f.read().splitlines()
+
 ```
 
 Split into separate pieces for the different dimensions - try lists first? Do some calculations - we need area, minimum area, and then sum
@@ -35,6 +36,7 @@ for y in pres_dim:
     y.append(2 * y[0] * y[2])
     y.append(min(y[3], y[4], y[5])/2)
     y.append(y[3] + y[4] + y[5] + y[6])
+    
 ```
 
 Now to do a sum of the last elements of the lists
