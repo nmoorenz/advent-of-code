@@ -45,7 +45,7 @@ i = 0
 inp = 'iwrupvqb'
 chck = ''
 
-while chck[:6] == '000000':
+while chck[:6] != '000000':
     i += 1
     chck = hashlib.md5((inp + str(i)).encode('utf-8')).hexdigest()
 
