@@ -35,7 +35,7 @@ How many strings are nice?
 import re
 
 with open('data-2015-5.txt', 'r') as f:
-    mylist = f.read().splitlines()
+    nice_list = f.read().splitlines()
 
 ```
 
@@ -43,17 +43,87 @@ I think we want some functions here?
 
 ```{python}
 def three_vowels(inp):
-    regex = "[aeiou].*[aeiou].*[aeiou]"
-    for text in inp:
-        if re.search(regex, text, re.IGNORECASE):
-            print(text)
-    
+    regex = '[aeiou].*[aeiou].*[aeiou]'
+    if re.search(regex, inp, re.IGNORECASE):
+        return True
+    else: 
+        return False
+
+def double_letter(inp):
+    regex = r'([a-z])\1'
+    if re.search(regex, inp, re.IGNORECASE):
+        return True
+    else: 
+        return False
+
+def forbidden(inp):
+    forb = ['ab', 'cd', 'pq', 'xy']
+    return all(f not in inp for f in forb)
+
+
 ```
 
 Call those functions
 
 ```{python}
 
-vwl = three_vowels(mylist)
+vowel_list = [three_vowels(x) for x in nice_list]
+
+double_list = [double_letter(x) for x in nice_list]
+
+forb_list = [forbidden(x) for x in nice_list]
+
+```
+
+Then we want to zip to see how many are all True
+
+```{python}
+sum(1 for v, d, f in zip(vowel_list, double_list, forb_list) if v and d and f)
+
+```
+
+## \-\-- Part Two \-\--
+
+Realizing the error of his ways, Santa has switched to a better model of determining whether a string is naughty or nice. None of the old rules apply, as they are all clearly ridiculous.
+
+Now, a nice string is one with all of the following properties:
+
+-   It contains a pair of any two letters that appears at least twice in the string without overlapping, like `xyxy` (`xy`) or `aabcdefgaa` (`aa`), but not like `aaa` (`aa`, but it overlaps).
+
+-   It contains at least one letter which repeats with exactly one letter between them, like `xyx`, `abcdefeghi` (`efe`), or even `aaa`.
+
+For example:
+
+-   `qjhvhtzxzqqjkmpb` is nice because is has a pair that appears twice (`qj`) and a letter that repeats with exactly one letter between them (`zxz`).
+
+-   `xxyxx` is nice because it has a pair that appears twice and a letter that repeats with one between, even though the letters used by each rule overlap.
+
+-   `uurcxstgmygtbstg` is naughty because it has a pair (`tg`) but no repeat with a single letter between them.
+
+-   `ieodomkazucvgmuy` is naughty because it has a repeating letter with one between (`odo`), but no pair that appears twice.
+
+How many strings are nice under these new rules?
+
+```{python}
+def double_pair(inp):
+    pass
+  
+def repeat_gap(inp):
+    pass
+```
+
+Call the functions
+
+```{python}
+pair_list = [double_pair(x) for x in nice_list]
+
+rep_list = [repeat_gap(x) for x in nice_list]
+
+```
+
+Make a count
+
+```{python}
+sum(1 for p, r in zip(pair_list, rep_list) if p and r)
 
 ```
