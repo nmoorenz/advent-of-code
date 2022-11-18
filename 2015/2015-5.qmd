@@ -106,10 +106,19 @@ How many strings are nice under these new rules?
 
 ```{python}
 def double_pair(inp):
-    pass
+    regex = r'([a-z]{2}).*\1'
+    if re.search(regex, inp, re.IGNORECASE):
+        return True
+    else: 
+        return False
   
 def repeat_gap(inp):
-    pass
+    regex = r'([a-z])[a-z]\1'
+    if re.search(regex, inp, re.IGNORECASE):
+        return True
+    else: 
+        return False
+
 ```
 
 Call the functions

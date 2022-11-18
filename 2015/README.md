@@ -37,10 +37,35 @@ We're building a Christmas tree!
 
 ### Day 5
 
-1.  
+1.  How many strings are nice? 
+2.  How many strings are nice with some different rules? 
 
+-   This was reasonably simple with the help of some searching
+-   Maybe I stumbled on to a good way of doing things but part two was no harder than part one
+
+### Day 6
+
+1.  After a series of on/off/toggle instructions, how many lights are lit? 
+2.  After the instructions have been revised, what is the overall brightness? 
+
+-   I learnt a little numpy for this, which is very nice
+-   Maybe I didn't need to use regex for the instructions but that was what was in my brain after the day before
+-   numpy was really good for this with array access
+
+### Day 7
+
+1.  For a number of bitwise operations, what signal is provided to wire 'a'?
 2.  
 
 -   
+-   
+
+### Day 8
+
+1.  
+2.  
 
 -   
+-   
+
+
