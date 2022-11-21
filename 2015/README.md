@@ -55,10 +55,10 @@ We're building a Christmas tree!
 ### Day 7
 
 1.  For a number of bitwise operations, what signal is provided to wire 'a'?
-2.  
+2.  Change one if the inputs, and what is the signal to 'a' now?
 
--   
--   
+-   Turns out that the signals are largely processed in order
+-   This took many small tweaks to get right but ends up being nice for the second step
 
 ### Day 8
 
