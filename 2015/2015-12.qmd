@@ -1,0 +1,6 @@
+---
+title: "Advent of Code 2015 Day 12"
+author: "Nathan Moore"
+format: html
+editor: visual
+---

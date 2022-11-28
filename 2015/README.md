@@ -37,16 +37,16 @@ We're building a Christmas tree!
 
 ### Day 5
 
-1.  How many strings are nice? 
-2.  How many strings are nice with some different rules? 
+1.  How many strings are nice?
+2.  How many strings are nice with some different rules?
 
 -   This was reasonably simple with the help of some searching
 -   Maybe I stumbled on to a good way of doing things but part two was no harder than part one
 
 ### Day 6
 
-1.  After a series of on/off/toggle instructions, how many lights are lit? 
-2.  After the instructions have been revised, what is the overall brightness? 
+1.  After a series of on/off/toggle instructions, how many lights are lit?
+2.  After the instructions have been revised, what is the overall brightness?
 
 -   I learnt a little numpy for this, which is very nice
 -   Maybe I didn't need to use regex for the instructions but that was what was in my brain after the day before
@@ -62,10 +62,40 @@ We're building a Christmas tree!
 
 ### Day 8
 
+1.  Find the difference between the string representation and the string itself (shorter)
+2.  Find the difference between string representation and the encoded string (longer)
+
+-   `eval()`
+-   Count the number of `\` and `"` and add 2 for new quotes
+
+### Day 9
+
+1.  What is the shortest route for Santa?
+2.  What is the longest route?
+
+-   Thanks to Fillipe here <https://github.com/fillipe-gsm/python-tsp>
+-   Part two takes a little thinking and adjustment
+
+### Day 10
+
+1.  Look-and-say, expanding a sequence of numbers 40 times.
+2.  50 times
+
+-   I tried this out in google sheets to validate my approach, but O(n\^2) means too many cells
+-   I made a function with number of iterations
+
+### Day 11
+
+1.  Find the next valid password, according to some weird rules.
+2.  Find the next one after that
+
+-   Functions for the checks, plus some string work, sets us up for success
+-   The second time around takes longer, which is fascinating, how does the input work? 
+
+### Day 12
+
 1.  
 2.  
 
 -   
 -   
-
-
