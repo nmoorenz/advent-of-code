@@ -5,7 +5,23 @@ format: html
 editor: visual
 ---
 
-Paste the Puzzle explanation here
+## \-\-- Day 14: Reindeer Olympics \-\--
+
+This year is the Reindeer Olympics! Reindeer can fly at high speeds, but must rest occasionally to recover their energy. Santa would like to know which of his reindeer is fastest, and so he has them race.
+
+Reindeer can only either be *flying* (always at their top speed) or *resting* (not moving at all), and always spend whole seconds in either state.
+
+For example, suppose you have the following Reindeer:
+
+-   Comet can fly *14 km/s for 10 seconds*, but then must rest for *127 seconds*.
+
+-   Dancer can fly *16 km/s for 11 seconds*, but then must rest for *162 seconds*.
+
+After one second, Comet has gone 14 km, while Dancer has gone 16 km. After ten seconds, Comet has gone 140 km, while Dancer has gone 160 km. On the eleventh second, Comet begins resting (staying at 140 km), and Dancer continues on for a total distance of 176 km. On the 12th second, both reindeer are resting. They continue to rest until the 138th second, when Comet flies for another ten seconds. On the 174th second, Dancer flies for another 11 seconds.
+
+In this example, after the 1000th second, both reindeer are resting, and Comet is in the lead at *`1120`* km (poor Dancer has only gotten `1056` km by that point). So, in this situation, Comet would win (if the race ended at 1000 seconds).
+
+Given the descriptions of each reindeer (in your puzzle input), after exactly `2503` seconds, *what distance has the winning reindeer traveled*?
 
 ```{python}
 
@@ -14,9 +30,113 @@ with open('data-2015-14.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Let's get that info into a list of lists
 
 ```{python}
-# here's another python cell for good luck
 
+rein_list = [x.split(' ') for x in inp]
+
+rein_info = [[x[0], int(x[3]), int(x[6]), int(x[13])] for x in rein_list]
+
+tm = 2503
+```
+
+Now we race!
+
+```{python}
+
+max_dist = 0
+
+for r in rein_info:
+    dist = 0
+    time = 0
+    while time <= tm:
+        dist += r[1] * r[2] # travel
+        time += r[2]        # travel time
+        if time > tm:       # check for time while travelling
+            dist -= (time - tm) * r[1]
+        time += r[3]        # wait time
+    # update maximum
+    if dist > max_dist:
+        max_dist = dist
+
+max_dist
+    
+```
+
+## \-\-- Part Two \-\--
+
+Seeing how reindeer move in bursts, Santa decides he's not pleased with the old scoring system.
+
+Instead, at the end of each second, he awards one point to the reindeer currently in the lead. (If there are multiple reindeer tied for the lead, they each get one point.) He keeps the traditional 2503 second time limit, of course, as doing otherwise would be entirely ridiculous.
+
+Given the example reindeer from above, after the first second, Dancer is in the lead and gets one point. He stays in the lead until several seconds into Comet's second burst: after the 140th second, Comet pulls into the lead and gets his first point. Of course, since Dancer had been in the lead for the 139 seconds before that, he has accumulated 139 points by the 140th second.
+
+After the 1000th second, Dancer has accumulated *`689`* points, while poor Comet, our old champion, only has `312`. So, with the new scoring system, Dancer would win (if the race ended at 1000 seconds).
+
+Again given the descriptions of each reindeer (in your puzzle input), after exactly `2503` seconds, *how many points does the winning reindeer have*?
+
+```{python}
+
+# keep a list of the distances travelled
+dist_list = []
+
+# calculate the distances at each step
+# I like this countdown timer and travel switch
+for r in rein_info:
+    dist = []
+    d = 0
+    time = 0
+    cd = r[2]
+    travel = True
+    while time < tm: 
+        time += 1
+        cd -= 1
+        if travel:
+            d += r[1] 
+            dist.append(d)
+        else: 
+            dist.append(d)
+        if cd == 0:
+            if travel == True:
+                cd = r[3]
+                travel = False
+            else:
+                cd = r[2]
+                travel = True
+    # finished
+    dist_list.append(dist)
+
+
+```
+
+Now let's compare who is in the lead at each time step
+
+```{python}
+
+dist_dict = {}
+points_dict = {}
+
+for k,v in zip(rein_info, dist_list):
+    dist_dict[k[0]] = v
+    points_dict[k[0]] = 0
+
+for j in range(tm):
+    m_r = ''
+    m_d = 0
+    for k in dist_dict.keys():
+        if dist_dict[k][j] == m_d:
+            m_r += ',' + k
+        elif dist_dict[k][j] > m_d:
+            m_d = dist_dict[k][j]
+            m_r = k
+    if ',' in m_r:
+        for m in m_r.split(','):
+            points_dict[m] += 1
+            # print(m)
+    else: 
+        points_dict[m_r] += 1
+
+
+points_dict
 ```
