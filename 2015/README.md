@@ -94,19 +94,19 @@ We're building a Christmas tree!
 
 ### Day 12
 
-1.  
-2.  
+1.  What is the sum of the numbers in the input? 
+2.  Oops! Remove the dict with 'red' and then sum up the numbers
 
--   
--   
+-   Good ol' regex helped with this one
+-   This was tough to get my head around but I got there in the end with some recursion. 
 
 ### Day 13
 
-1.  
-2.  
+1.  What is the optimal seating arrangement given some happiness scores? 
+2.  What happens when you insert yourself? 
 
--   
--  
+-   This is a two-sided TSP graph, so requires some manipulation to create a nice array
+-   Adding a row and a column to a np array is simple enough
 
 ### Day 14
 
