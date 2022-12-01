@@ -110,19 +110,19 @@ We're building a Christmas tree!
 
 ### Day 14
 
-1.  
-2.  
+1.  In a reindeer race, with flying and resting, who runs the furthest in 2503 seconds? 
+2.  In a points race, which reindeer earns the most points? 
 
--   
--  
+-   Only one trick here is that the winning reindeer is flying when the time is up
+-   Calculate the distance at each time step, then do some comparisons. Again, there's a trick: there might be ties
 
 ### Day 15
 
-1.  
-2.  
+1.  For some combination of ingredients, how great can we make some cookies? 
+2.  The cookies are now constrained by calories - how good can they be? 
 
--   
--  
+-   I spent too long on data structures, and can only think to try `product` to get combinations of teaspoons
+-   Part two is pretty similar, just with a restriction on the final variable. 
 
 ### Day 16
 
