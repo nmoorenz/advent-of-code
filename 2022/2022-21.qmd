@@ -5,18 +5,260 @@ format: html
 editor: visual
 ---
 
-Paste the Puzzle explanation here
+## \-\-- Day 21: Monkey Math \-\--
+
+The [monkeys](https://adventofcode.com/2022/day/11) are back! You're worried they're going to try to steal your stuff again, but it seems like they're just holding their ground and making various monkey noises at you.
+
+Eventually, one of the elephants realizes you don't speak monkey and comes over to interpret. As it turns out, they overheard you talking about trying to find the grove; they can show you a shortcut if you answer their *riddle*.
+
+Each monkey is given a *job*: either to *yell a specific number* or to *yell the result of a math operation*. All of the number-yelling monkeys know their number from the start; however, the math operation monkeys need to wait for two other monkeys to yell a number, and those two other monkeys might *also* be waiting on other monkeys.
+
+Your job is to *work out the number the monkey named `root` will yell* before the monkeys figure it out themselves.
+
+For example:
+
+    root: pppw + sjmn
+    dbpl: 5
+    cczh: sllz + lgvd
+    zczc: 2
+    ptdq: humn - dvpt
+    dvpt: 3
+    lfqf: 4
+    humn: 5
+    ljgn: 2
+    sjmn: drzm * dbpl
+    sllz: 4
+    pppw: cczh / lfqf
+    lgvd: ljgn * ptdq
+    drzm: hmdt - zczc
+    hmdt: 32
+
+Each line contains the name of a monkey, a colon, and then the job of that monkey:
+
+-   A lone number means the monkey's job is simply to yell that number.
+
+-   A job like `aaaa + bbbb` means the monkey waits for monkeys `aaaa` and `bbbb` to yell each of their numbers; the monkey then yells the sum of those two numbers.
+
+-   `aaaa - bbbb` means the monkey yells `aaaa`'s number minus `bbbb`'s number.
+
+-   Job `aaaa * bbbb` will yell `aaaa`'s number multiplied by `bbbb`'s number.
+
+-   Job `aaaa / bbbb` will yell `aaaa`'s number divided by `bbbb`'s number.
+
+So, in the above example, monkey `drzm` has to wait for monkeys `hmdt` and `zczc` to yell their numbers. Fortunately, both `hmdt` and `zczc` have jobs that involve simply yelling a single number, so they do this immediately: `32` and `2`. Monkey `drzm` can then yell its number by finding `32` minus `2`: *`30`*.
+
+Then, monkey `sjmn` has one of its numbers (`30`, from monkey `drzm`), and already has its other number, `5`, from `dbpl`. This allows it to yell its own number by finding `30` multiplied by `5`: *`150`*.
+
+This process continues until `root` yells a number: *`152`*.
+
+However, your actual situation involves considerably more monkeys. *What number will the monkey named `root` yell?*
 
 ```{python}
+
+import re
 
 with open('data-2022-21.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+I think `eval()` will come in handy here
 
 ```{python}
-# here's another python cell for good luck
 
+# inp[0]
+
+calcs = {x.split(': ')[0]: x.split(': ')[1] for x in inp}
+
+calcs['root']
+
+# check the length of our inputs
+lens = {1: 0, 2: 0, 4: 0, 11: 0}
+
+for k,v in calcs.items(): 
+    lens[len(v)] += 1
+
+# lens
+
+for k,v in calcs.items():
+    if len(str(v)) == 4:
+        print(k, v)
+
+# this could be done earlier but let's do it explicitly
+for k,v in calcs.items():
+    if len(v) in [1,2,4]:
+          calcs[k] = int(v)
+
+i = 0
+while i < 50: 
+    i += 1
+    j = 0
+    for k,v in calcs.items():
+        if len(str(v)) == 11: 
+            a,b,c = re.split(r' * ', v)
+            # print(a,c)
+            # if i == 10: 
+            #     print(a,c)
+            #     print(calcs[a], calcs[c])
+            if isinstance(calcs[a], int) and isinstance(calcs[c], int):
+                j += 1
+                # protect this with int otherwise returns doubles
+                calcs[k] = int(eval(str(calcs[a]) + b + str(calcs[c])))
+                # print(calcs[k])
+    # print(j)
+
+
+calcs['root']
+calcs['pgtp']
+calcs['vrvh']
 ```
+
+## \-\-- Part Two \-\--
+
+Due to some kind of monkey-elephant-human mistranslation, you seem to have misunderstood a few key details about the riddle.
+
+First, you got the wrong job for the monkey named `root`; specifically, you got the wrong math operation. The correct operation for monkey `root` should be `=`, which means that it still listens for two numbers (from the same two monkeys as before), but now checks that the two numbers *match*.
+
+Second, you got the wrong monkey for the job starting with `humn:`. It isn't a monkey - it's *you*. Actually, you got the job wrong, too: you need to figure out *what number you need to yell* so that `root`'s equality check passes. (The number that appears after `humn:` in your input is now irrelevant.)
+
+In the above example, the number you need to yell to pass `root`'s equality test is *`301`*. (This causes `root` to get the same number, `150`, from both of its monkeys.)
+
+*What number do you yell to pass `root`'s equality test?*
+
+These are the first few steps:
+
+wmdh: humn + jmjj\
+tqcb: jtcv \* wmdh\
+mwhz: tqcb - fvmf\
+jfhn: mwhz / pmmv\
+ffqr: jfhn - tqgd
+
+We can replace these:
+
+ffqr: (((jtcv \* (humn + jmjj)) - fvmf) / pmmv) - tqgd
+
+This is the last step for root, which now must be equal:
+
+pgtp + vrvh
+
+200860392171345 + 90565407195785
+
+This is very large and impossible to comprehend as a manual calculation. From below, we can see that the solution comes via reducing pgtp, but we have to trace that back 70 more steps.
+
+```{python}
+
+import copy
+
+calcs = {x.split(': ')[0]: x.split(': ')[1] for x in inp}
+
+looking = 'humn'
+stored = []
+found = ''
+
+while True: 
+    for k,v in calcs.items():
+        if len(str(v)) == 11: 
+            a,b,c = re.split(r' * ', v)
+            if a == looking or c == looking:
+                # print(k)
+                found = k
+    stored.append(looking)
+    looking = copy.deepcopy(found)
+    found = ''
+    if 'root' in looking:
+        break
+
+len(stored)
+```
+
+Why don't we try some random numbers and see what the outcomes are?
+
+```{python}
+
+calcs = {x.split(': ')[0]: x.split(': ')[1] for x in inp}
+
+for k,v in calcs.items():
+    if len(v) in [1,2,4]:
+          calcs[k] = int(v)
+          
+# calcs['humn'] = 499
+
+for z in range(10**6, 10**9, 10**6):
+    calc2 = copy.deepcopy(calcs)
+    calc2['humn'] = z
+    i = 0
+    while i < 50: 
+        i += 1
+        for k,v in calc2.items():
+            if len(str(v)) == 11: 
+                a,b,c = re.split(r' * ', v)
+                if isinstance(calc2[a], int) and isinstance(calc2[c], int):
+                    # protect this with int otherwise returns doubles
+                    calc2[k] = int(eval(str(calc2[a]) + b + str(calc2[c])))
+                    # if k in stored: 
+                        # print(eval(str(calc2[a]) + b + str(calc2[c])))
+                        # print(calc2[k])
+    # z
+    calc2['pgtp']
+
+# calc2['pgtp']
+# calc2['vrvh']
+```
+
+humn = 50
+
+496 496
+
+4464 4464
+
+4156 4156
+
+377.8181818181818 377
+
+71 71
+
+200860392246825
+
+90565407195785
+
+humn = 500
+
+946 946
+
+8514 8514
+
+8206 8206
+
+746.0 746
+
+440 440
+
+200860392231435
+
+90565407195785
+
+humn = 5000
+
+5446 5446
+
+49014 49014
+
+48706 48706
+
+4427.818181818182 4427
+
+4121 4121
+
+200860392077200
+
+90565407195785
+
+200860375119795
+
+90565407195785
+
+200860392246825\
+200860392231435\
+200860392077200\
+200860375119795\
+200860220960635

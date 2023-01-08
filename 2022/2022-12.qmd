@@ -5,18 +5,81 @@ format: html
 editor: visual
 ---
 
-Paste the Puzzle explanation here
+## \-\-- Day 12: Hill Climbing Algorithm \-\--
+
+You try contacting the Elves using your handheld device, but the river you're following must be too low to get a decent signal.
+
+You ask the device for a heightmap of the surrounding area (your puzzle input). The heightmap shows the local area from above broken into a grid; the elevation of each square of the grid is given by a single lowercase letter, where `a` is the lowest elevation, `b` is the next-lowest, and so on up to the highest elevation, `z`.
+
+Also included on the heightmap are marks for your current position (`S`) and the location that should get the best signal (`E`). Your current position (`S`) has elevation `a`, and the location that should get the best signal (`E`) has elevation `z`.
+
+You'd like to reach `E`, but to save energy, you should do it in *as few steps as possible*. During each step, you can move exactly one square up, down, left, or right. To avoid needing to get out your climbing gear, the elevation of the destination square can be *at most one higher* than the elevation of your current square; that is, if your current elevation is `m`, you could step to elevation `n`, but not to elevation `o`. (This also means that the elevation of the destination square can be much lower than the elevation of your current square.)
+
+For example:
+
+    Sabqponm
+    abcryxxl
+    accszExk
+    acctuvwj
+    abdefghi
+
+Here, you start in the top-left corner; your goal is near the middle. You could start by moving down or right, but eventually you'll need to head toward the `e` at the bottom. From there, you can spiral around to the goal:
+
+    v..v<<<<
+    >v.vv<<^
+    .>vv>E^^
+    ..v>>>^^
+    ..>>>>>^
+
+In the above diagram, the symbols indicate whether the path exits each square moving up (`^`), down (`v`), left (`<`), or right (`>`). The location that should get the best signal is still `E`, and `.` marks unvisited squares.
+
+This path reaches the goal in *`31`* steps, the fewest possible.
+
+*What is the fewest steps required to move from your current position to the location that should get the best signal?*
 
 ```{python}
+
+import numpy as np
 
 with open('data-2022-12.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+This one is tough, I think we need to write some kind of improvement algorithm.
+
+Create a valid path first and then try to improve?
+
+Create an invalid path and change it to make it valid?
 
 ```{python}
-# here's another python cell for good luck
+
+map_list = [list(i) for i in inp]
+
+# map array
+mp = np.array(map_list)
+
+# start and end
+s = np.transpose(np.nonzero(mp == 'S'))[0].tolist()
+e = np.transpose(np.nonzero(mp == 'E'))[0].tolist()
+
+# path
+pt = []
+
+# start the path
+pt.append(s)
+
+# allowable moves
+aw = {chr(i+96):[chr(i+96),chr(i+97)] for i in range(1,27)}
+aw['S'] = ['a']
+aw['z'] = ['E']
+aw['q'] = ['r', 'o']
+
+curr = 'S'
+
+while e not in pt:
+    
+    break
+
 
 ```
