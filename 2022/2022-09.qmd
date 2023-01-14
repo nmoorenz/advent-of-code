@@ -262,7 +262,7 @@ with open('data-2022-09.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Check the limits of the range.
 
 ```{python}
 
@@ -295,17 +295,20 @@ Let's do 1000x1000 rather than 3000x3000
 
 ```{python}
 
+# head range and tail range
 rH = np.zeros((1000,1000))
 rT = np.zeros((1000,1000))
 
+# location of head and tail
 xH = 500
 yH = 500
 xT = 500
 yT = 500
 
+# move the tail
 def move_tail(arr, xH, yH, xT, yT):
     if xH - 1 <= xT <= xH + 1 and yH - 1 <= yT <= yH + 1:
-        # this is fine
+        # this is fine, tail is close enough
         pass
     else: 
         if yH - yT == 2: 
@@ -778,20 +781,23 @@ Simulate your complete series of motions on a larger rope with ten knots. *How m
 
 ```{python}
 
-
-rH = np.zeros((1000,1000))
 rT = np.zeros((1000,1000))
 
-xH = 500
-yH = 500
-xT = 500
-yT = 500
+posi = [[500,500] for _ in range(10)]
 
-def move_tail(arr, xH, yH, xT, yT):
+rT[posi[9][0], posi[9][1]] = 1
+
+def move_tail(p, q):
+    xH = p[0]
+    yH = p[1]
+    xT = q[0]
+    yT = q[1]
+    move = False
     if xH - 1 <= xT <= xH + 1 and yH - 1 <= yT <= yH + 1:
-        # this is fine
+        # this is fine, don't move
         pass
     else: 
+        move = True
         if yH - yT == 2: 
             yT += 1
             xT = xH
@@ -804,24 +810,38 @@ def move_tail(arr, xH, yH, xT, yT):
         elif xT - xH == 2:
             xT -= 1
             yT = yH
-    arr[xT,yT] += 1
-    return arr, xT, yT
+    return [xT, yT], move
 
 
-for i in inp:
+# loop through the instructions
+for i in inp[:10] :   
+    # create understandable instructions
     d,n = i.split(' ')
-    for m in range(int(n)):
+    # we need to move the head of the rope the right number of times
+    for _ in range(int(n)):
         if d == 'L':
-            xH -= 1
+            posi[0][0] -= 1
         if d == 'R':
-            xH += 1
+            posi[0][0] += 1
         if d == 'U':
-            yH += 1
+            posi[0][1] += 1
         if d == 'D':
-            yH -= 1
-        rH[xH,yH] += 1
-        rT, xT, yT = move_tail(rT, xH, yH, xT, yT)
+            posi[0][1] -= 1
+        # we need to move the rest of the knots
+        print()
+        print(posi[0])
+        for k in range(1,10):
+            posi[k], mm = move_tail(posi[k-1], posi[k])
+            print(posi[k])
+            if k == 9: 
+                rT[posi[9][0], posi[9][1]] += 1
+            if not mm: 
+                break
 
+            
 np.sum(rT > 0)
+
+# 2357
+# 6551
 
 ```
