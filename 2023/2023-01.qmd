@@ -1,15 +1,14 @@
 ---
-title: "Advent of Code 2015 Day {x}"
+title: "Advent of Code 2023 Day 1"
 author: "Nathan Moore"
 format: html
-editor: visual
 ---
 
 Paste the Puzzle explanation here
 
 ```{python}
 
-with open('data-2015-{x:02d}.txt', 'r') as f:
+with open('data-2023-01.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
@@ -20,3 +19,5 @@ Maybe write an explanation of the solution approach here
 # here's another python cell for good luck
 
 ```
+
+Paste part two here
