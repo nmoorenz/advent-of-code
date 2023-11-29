@@ -29,7 +29,7 @@ After following the instructions, *how many lights are lit*?
 import re
 import numpy as np
 
-with open('data-2015-6.txt', 'r') as f:
+with open('data-2015-06.txt', 'r') as f:
     instructions = f.read().splitlines()
 
 ```

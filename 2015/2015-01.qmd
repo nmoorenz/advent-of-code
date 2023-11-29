@@ -31,7 +31,7 @@ To *what floor* do the instructions take Santa?
 
 ```{python}
 
-with open('data-2015-1.txt', 'r') as f:
+with open('data-2015-01.txt', 'r') as f:
     paren = f.read()
 
 ```

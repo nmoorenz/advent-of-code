@@ -29,10 +29,12 @@ The program exits when it tries to run an instruction beyond the ones defined.
 
 For example, this program sets `a` to `2`, because the `jio` instruction causes it to skip the `tpl` instruction:
 
-    inc a
-    jio a, +2
-    tpl a
-    inc a
+```         
+inc a
+jio a, +2
+tpl a
+inc a
+```
 
 What is *the value in register `b`* when the program in your puzzle input is finished executing?
 
@@ -43,9 +45,64 @@ with open('data-2015-23.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Loop through the input and find the output for b.
+
+This really looks like the Collatz Number: if even, divide by 2, if odd, multiply by 3 and add 1.
+
+Part two: change the input for a, and we jump to the second set of instructions.
 
 ```{python}
 # here's another python cell for good luck
+val = {"a": 0, "b": 0}
+i = 0
+j = 0
 
+while i < len(inp): 
+    if inp[i][:3] == 'inc': 
+        # increment the letter
+        # print(inp[i])
+        val[inp[i][4:]] = val[inp[i][4:]] + 1
+        i += 1
+    elif inp[i][:3] == 'tpl': 
+        # triple the letter
+        # print(inp[i])
+        val[inp[i][4:]] = val[inp[i][4:]] * 3 
+        i += 1
+    elif inp[i][:3] == 'hlf': 
+        # half of the letter
+        # print(inp[i])
+        val[inp[i][4:]] = val[inp[i][4:]] / 2
+        i += 1
+    elif inp[i][:3] == 'jio':  
+        # jump if one
+        # print(inp[i])
+        if val[inp[i][4:5]] == 1:
+            i = eval('i' + inp[i][7:])
+        else:
+            i += 1
+    elif inp[i][:3] == 'jie': 
+        # jump if even
+        # print(inp[i])
+        if val[inp[i][4:5]] % 2 == 0:
+            i = eval('i' + inp[i][7:])  
+        else: 
+            i += 1
+    elif inp[i][:3] == 'jmp': 
+        # jump a number of instructions
+        # print(inp[i])
+        i = eval('i' + inp[i][4:]) 
+        # print(val["a"])
+    else: 
+        print("This is wrong")
+        i += 1
+    j += 1
+    if j == 10000: 
+        i = 1000
+    # print(val["a"])
+    # print(str(i))
+
+print(val["a"])
+print(val["b"])
+    
+    
 ```

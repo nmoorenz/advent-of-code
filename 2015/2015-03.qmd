@@ -20,7 +20,7 @@ For example:
 -   `^v^v^v^v^v` delivers a bunch of presents to some very lucky children at only `2` houses.
 
 ```{python}
-with open('data-2015-3.txt', 'r') as f:
+with open('data-2015-03.txt', 'r') as f:
     paren = list(f.read())
 
 ```

@@ -182,11 +182,11 @@ We're building a Christmas tree!
 
 ### Day 23
 
-1.  
-2.  
+1.  Collatz Number! If even, divide by 2, if odd, multiply by 3 and add 1. Eventually, get to 1. 
+2.  Change the input and jump to a different set of instructions
 
--   
--  
+-   I thought this looked familiar! It was easy to do in a spreadsheet to find the initial number then look up an online calculator to get the Collatz number. 
+-   Code was weird, I had to go through a few times to make sure my logic was right, but we got there. 
 
 ### Day 24
 

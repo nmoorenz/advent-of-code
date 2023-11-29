@@ -20,7 +20,7 @@ For example:
 All numbers in the elves' list are in feet. How many total *square feet of wrapping paper* should they order?
 
 ```{python}
-with open('data-2015-2.txt', 'r') as f:
+with open('data-2015-02.txt', 'r') as f:
     pres = f.read().splitlines()
 
 ```

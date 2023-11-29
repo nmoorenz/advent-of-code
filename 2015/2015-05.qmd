@@ -34,7 +34,7 @@ How many strings are nice?
 ```{python}
 import re
 
-with open('data-2015-5.txt', 'r') as f:
+with open('data-2015-05.txt', 'r') as f:
     nice_list = f.read().splitlines()
 
 ```

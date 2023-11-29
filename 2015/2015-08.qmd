@@ -31,7 +31,7 @@ For example, given the four strings above, the total number of characters of str
 
 ```{python}
 
-with open('data-2015-8.txt', 'r') as f:
+with open('data-2015-08.txt', 'r') as f:
     santa_list = f.read().splitlines()
 
 ```

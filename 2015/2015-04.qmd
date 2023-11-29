@@ -35,6 +35,25 @@ print(chck)
 
 ```
 
+Let's try this in R as well!
+
+```{r}
+library(openssl)
+
+i = 0
+inp = 'iwrupvqb'
+chck = ''
+
+while (substr(chck, 1, 5) != '00000') {
+    i = i + 1
+    chck = md5(paste0(inp, as.character(i)))
+}
+
+print(i)
+print(chck)
+
+```
+
 ## \-\-- Part Two \-\--
 
 Now find one that starts with *six zeroes*.
