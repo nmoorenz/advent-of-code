@@ -29,7 +29,7 @@ We're building a Christmas tree!
 ### Day 4
 
 1.  Let's do some cryptography with AdventCoins - find the hash with five zeros
-2.  Six zeros
+2.  Six zeros, which is actually crypto 
 
 -   `import hashlib`
 -   `hashlib.md5('string'.encode('utf-8')).hexdigest()`
@@ -126,32 +126,33 @@ We're building a Christmas tree!
 
 ### Day 16
 
-1.  
-2.  
+1.  There are too many Aunt Sue, find the right one by comparing incomplete information. 
+2.  Some of that incomplete information was even more incomplete, giving less than or greater than figures. 
 
--   
--  
+-   Create some nice data structures for comparison, then loop through the lists. 
+-   Again loop through with slightly different conditions. Lucky that I can remember exactly 3 things about each Aunt Sue! 
 
 ### Day 17
 
-1.  
-2.  
+1.  How many different combinations of containers do I need to store 150 litres of eggnog? 
+2.  How many different combinations of the minimum amount of containers do I need? 
 
--   
--  
+-   `itertools.combinations()` is right there in the description, pretty much. 
+-   This was some trial and error to see how many is the minimum. 
 
 ### Day 18
 
-1.  
-2.  
+1.  How many lights are on after a certain number of iterations, given the state of the surrounding lights at each step? 
+2.  The corner lights are stuck on - what now? 
 
--   
--  
+-   numpy arrays was always the choice here. 
+-   Getting the array references right was tough but fair. I defaulted to using 1-based arrays
+-   Setting the corner lights within the loop seemed like the simplest modification. 
 
 ### Day 19
 
-1.  
-2.  
+1.  Find the distinct number of molecules when making replacements to a string of characters. 
+2.  Starting from scratch (or one electron, e) how many steps to get to the medicine molecule? 
 
 -   
 -  
@@ -190,17 +191,17 @@ We're building a Christmas tree!
 
 ### Day 24
 
-1.  
-2.  
+1.  Find the distribution of packages, such that the smallest amount of packages weighs one third of the total
+2.  Find a similar distribution, but with one fourth of the total weight. 
 
--   
--  
+-   This was reasonably easy since there weren't a large number of combinations. `itertools.combinations()` does most of the work. 
+-   I was really worried this would produce invalid combinations or more than one combination with the same product, but it really was just a simple extension of the first problem. 
 
 ### Day 25
 
-1.  
+1.  Calculate the sequence of numbers to provide the required number from the manual reference. 
 2.  
 
--   
--  
+-   I thought this might have been tricky but in the end just need to keep track of the position in the grid. 
+-   Need to complete all the other puzzles to get the 50th star! 
 

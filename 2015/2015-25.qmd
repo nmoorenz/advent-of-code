@@ -55,14 +55,50 @@ Santa looks nervous. Your puzzle input contains the message on the machine's con
 
 ```{python}
 
+# actual requirement
 _r = 3010
 _c = 3019
 
+# testing requirement
+# _r = 301
+# _c = 309
 ```
 
-Maybe write an explanation of the solution approach here
+This seems like straight forward arithmetic, but I think I need to use triangular numbers to easily calculate where the 3010th row and 3019th column would be. It's not just 3010 \* 3019, but I'll need to produce at least that many numbers.
+
+Since the sequence is sequential, I can't take any shortcuts to actually get to the number, so let's just loop through and keep track of the position.
 
 ```{python}
-# here's another python cell for good luck
+# first value, multiply by m, then divide by d
+num = 20151125
+m = 252533
+d = 33554393
+i = 0
 
+pos = {'r': 1, 'c': 1}
+
+while i < 10**8: 
+    num = (num * m) % 33554393
+    i += 1
+    if pos['r'] == 1: 
+        pos['r'] = pos['c'] + 1
+        pos['c'] = 1
+    else: 
+        pos['r'] -= 1
+        pos['c'] += 1
+    
+    # print(str(num) + ', ' + str(pos))
+    # check for finish condition
+    if pos['r'] == _r and pos['c'] == _c:
+        break
+
+print(str(num) + ', ' + str(pos))
 ```
+
+## \-\-- Part Two \-\--
+
+The machine springs to life, then falls silent again. It beeps. "Insufficient fuel", the console reads. "*Fifty stars* are required before proceeding. *One star* is available."
+
+\..."one star is available"? You check the fuel tank; sure enough, a lone star sits at the bottom, awaiting its friends. Looks like you need to provide 49 yourself.
+
+You don't have enough stars to start the machine, though. You need 3 more.
