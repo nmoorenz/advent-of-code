@@ -12,31 +12,32 @@
 
 ### Day 2
 
-1.  
-2.  
+1.  Choose some cubes out of a bag - count the games that have less than the minimum for each colour.
+2.  Given the revealed numbers for each colour are true, what is the minimum for each colour? 
 
--   
--  
+-   I struggled through creating a nice data structure of a dict of lists of dicts, and then iterating over that, but it worked out in the end making part two quite simple. 
+-   I think I struggle most with these iterations because I forget how far deep I am in the structure. 
 
 
 
 ### Day 3
 
-1.  
-2.  
+1.  Find the sum of all the 'part numbers' in the schematic
+2.  Find the sum of the gear ratios in the parts schematic
 
--   
--  
+-   This felt like a lot of loops to look at the numbers and the cells surrounding the numbers
+-   That is, it felt like a lot until I got to part two. I feel like my approach was pretty solid though, and accounted for the weird possibilities of position of numbers around a `*` i.e. gear. 
 
 
 
 ### Day 4
 
-1.  
-2.  
+1.  How many numbers on the winning scratch cards are there? 
+2.  How many scratch cards plus bonus scratch cards are there? 
 
--   
--  
+-   I thought about recording the results but I didn't really need to, just sum up as we go along. 
+-   There are probably some list comprehension ways of doing this but a loop made sense. 
+-   Here I think I did need to record the results as I went along, and once I understood the scoring properly it was easy enough. 
 
 
 
