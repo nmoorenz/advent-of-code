@@ -43,31 +43,31 @@
 
 ### Day 5
 
-1.  
-2.  
+1.  With a series of mappings, go from seed number to location number
+2.  Calculate a very large amount of potential seed numbers through the same mappings.
 
--   
--  
-
+-   I created the variables semi-manually which caused a little trouble but it was fine. 
+-   Pretty happy with my `get_next()` function rather than writing a series of functions. 
+-   Part two has me stumped, I think I need to write some kind of search function? Update to come...
 
 
 ### Day 6
 
-1.  
-2.  
+1.  Find the distance traveled by some toy boats, hold the button down and they go faster but you've got less time for travel. 
+2.  Actually, it was only one time and distance
 
--   
--  
+-   This felt really easy to work through, just do some calculations and count how many numbers are greater than a number. 
+-   Do a larger amount of calculations with the same formula. 
 
 
 
 ### Day 7
 
-1.  
-2.  
+1.  Rank the poker cards, according to some funny rules, like 5 of a kind
+2.  Rank the poker cards, including a Joker
 
--   
--  
+-   This was fine to work through, making it easier on myself to use `sorted()` with the `key` parameter
+-   Not much of a change here, need to think through the possibilities of what a wildcard joker can do to the combinations. 
 
 
 
