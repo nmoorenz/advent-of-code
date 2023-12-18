@@ -2,17 +2,14 @@
 # do this once per year 
 yr = '2023'
 
-# loop through and create text files
-for i in range(1, 26):
-    with open(f"{yr}/data-{yr}-{i:02d}.txt", "w") as f:
-        pass
-
 # read in the template
 with open(f'template.qmd', 'r') as f:
     qmd_file = f.read()
 
-# use the template with some variables
-for i in range(1, 26):
+# loop through and create text files
+for i in range(2, 26):
+    with open(f"{yr}/data-{yr}-{i:02d}.txt", "w") as f:
+        pass
     with open(f"{yr}/{yr}-{i:02d}.qmd", "w") as f:
         f.write(qmd_file.format(x=i, yr=yr, python="{python}"))
 
@@ -25,7 +22,7 @@ readme = """
 2.  
 
 -   
--  
+-   
 
 """
 
