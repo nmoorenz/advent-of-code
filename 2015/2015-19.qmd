@@ -17,9 +17,11 @@ However, the machine has to be calibrated before it can be used. Calibration inv
 
 For example, imagine a simpler machine that supports only the following replacements:
 
-    H => HO
-    H => OH
-    O => HH
+```         
+H => HO
+H => OH
+O => HH
+```
 
 Given the replacements above and starting with `HOH`, the following molecules could be generated:
 
@@ -154,11 +156,13 @@ Molecule fabrication always begins with just a single electron, `e`, and applyin
 
 For example, suppose you have the following replacements:
 
-    e => H
-    e => O
-    H => HO
-    H => OH
-    O => HH
+```         
+e => H
+e => O
+H => HO
+H => OH
+O => HH
+```
 
 If you'd like to make `HOH`, you start with `e`, and then make the following replacements:
 
