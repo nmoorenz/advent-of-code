@@ -43,11 +43,105 @@ What is the *quantum entanglement* of the first group of packages in the ideal c
 with open('data-2015-24.txt', 'r') as f:
     inp = f.read().splitlines()
 
+inp = [int(x) for x in inp]
+
+sum(inp)
+sum(inp) / 3
 ```
 
-Maybe write an explanation of the solution approach here
+It's nice that the total weight is divisable by 3.
+
+The minimum amount of packages is 5, let's find out if any of the combinations add exactly to 508.
+
+Nope! Let's try 6.
 
 ```{python}
-# here's another python cell for good luck
+# itertools gives us a nice combinations function. 
+import itertools
+import math
 
+combo5 = list(itertools.combinations(inp, 5))
+len(combo5)
+sum5 = [sum(x) for x in combo5]
+508 in sum5
+
+combo6 = list(itertools.combinations(inp, 6))
+len(combo6)
+sum6 = [sum(x) for x in combo6]
+508 in sum6
+
+valid = []
+
+for i,s in enumerate(sum6): 
+    if s == 508: 
+        valid.append(combo6[i])
+
+len(valid)
+
+# valid
+
+prod6 = [math.prod(x) for x in valid]
+
+min(prod6)
+```
+
+## \-\-- Part Two \-\--
+
+That's weird\... the sleigh still isn't balancing.
+
+"Ho ho ho", Santa muses to himself. "I forgot the trunk".
+
+Balance the sleigh again, but this time, separate the packages into *four groups* instead of three. The other constraints still apply.
+
+Given the example packages above, this would be some of the new unique first groups, their quantum entanglements, and one way to divide the remaining packages:
+
+
+    11 4    (QE=44); 10 5;   9 3 2 1; 8 7
+    10 5    (QE=50); 11 4;   9 3 2 1; 8 7
+    9 5 1   (QE=45); 11 4;   10 3 2;  8 7
+    9 4 2   (QE=72); 11 3 1; 10 5;    8 7
+    9 3 2 1 (QE=54); 11 4;   10 5;    8 7
+    8 7     (QE=56); 11 4;   10 5;    9 3 2 1
+
+Of these, there are three arrangements that put the minimum (two) number of packages in the first group: `11 4`, `10 5`, and `8 7`. Of these, `11 4` has the lowest quantum entanglement, and so it is selected.
+
+Now, what is the *quantum entanglement* of the first group of packages in the ideal configuration?
+
+```{python}
+
+sum(inp) / 4
+
+trgt = 381
+
+# looks like we can try using four packages to get to the target weight
+
+combo4 = list(itertools.combinations(inp, 4))
+len(combo4)
+sum4 = [sum(x) for x in combo4]
+trgt in sum4
+
+# it's not in 4 so let's try 5 again
+
+combo5 = list(itertools.combinations(inp, 5))
+len(combo5)
+sum5 = [sum(x) for x in combo5]
+trgt in sum5
+
+# yay, it's in 5! This feels like there will be more than one configuration of the other packages that I'll have to calculate as well
+
+valid = []
+
+for i,s in enumerate(sum5): 
+    if s == trgt: 
+        valid.append(combo5[i])
+
+len(valid)
+
+# valid
+
+prod6 = [math.prod(x) for x in valid]
+
+min(prod6)
+
+# there's only one grouping like this so it should be the answer
 ```
