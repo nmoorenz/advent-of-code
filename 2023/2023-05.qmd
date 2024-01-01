@@ -144,6 +144,7 @@ seed_to_soil = """583826644 2288418886 120919689
 2042315634 2627773294 138563928""".split('\n')
 
 seed_to_soil = [list(map(int, x.split())) for x in seed_to_soil]
+seed_to_soil.sort()
 
 
 soil_to_fertilizer = """3793729374 3825015981 63222599
@@ -174,7 +175,7 @@ soil_to_fertilizer = """3793729374 3825015981 63222599
 4049362817 3616591200 52280321""".split('\n')
 
 soil_to_fertilizer = [list(map(int, x.split())) for x in soil_to_fertilizer]
-
+soil_to_fertilizer.sort()
 
 fertilizer_to_water = """3734704645 4081344261 116089008
 474703780 198917265 194664963
@@ -225,7 +226,7 @@ fertilizer_to_water = """3734704645 4081344261 116089008
 1444941737 193812194 5105071""".split('\n')
 
 fertilizer_to_water = [list(map(int, x.split())) for x in fertilizer_to_water]
-
+fertilizer_to_water.sort()
 
 water_to_light = """3241790649 0 474458786
 1987249042 1535533387 1254541607
@@ -237,7 +238,7 @@ water_to_light = """3241790649 0 474458786
 0 2790074994 289948525""".split('\n')
 
 water_to_light = [list(map(int, x.split())) for x in water_to_light]
-
+water_to_light.sort()
 
 light_to_temperature = """2243197897 1858683458 54522139
 694397455 637497541 323467072
@@ -256,7 +257,7 @@ light_to_temperature = """2243197897 1858683458 54522139
 1452767019 2381610761 316703919""".split('\n')
 
 light_to_temperature = [list(map(int, x.split())) for x in light_to_temperature]
-
+light_to_temperature.sort()
 
 temperature_to_humidity = """36297311 0 6725362
 2219701249 4240213747 25288799
@@ -300,7 +301,7 @@ temperature_to_humidity = """36297311 0 6725362
 0 48845853 36297311""".split('\n')
 
 temperature_to_humidity = [list(map(int, x.split())) for x in temperature_to_humidity]
-
+temperature_to_humidity.sort()
 
 humidity_to_location = """2609743610 4133079426 108193613
 1608826026 1793129808 148682069
@@ -328,6 +329,8 @@ humidity_to_location = """2609743610 4133079426 108193613
 2502359673 3322472440 23907387""".split('\n')
 
 humidity_to_location = [list(map(int, x.split())) for x in humidity_to_location]
+humidity_to_location.sort()
+
 ```
 
 ```{python}
@@ -477,4 +480,62 @@ min(loc)
 
 # 28580646
 # 240320250
+```
+
+We only need to assess the ranges, since we know that anything in between is within the end points.
+
+Problem: our ranges could expand, which means that if we start with passing one pair into the function, and we return two pairs of mappings, then we need to somehow loop through that list as we go through the different mappings. This means we should just pass the whole list through to the function in the first place, working with the different mapping lists as we go.
+
+```{python}
+
+seed_list = "3429320627 235304036 1147330745 114559245 1684000747 468955901 677937579 96599505 1436970021 26560102 3886049334 159534901 936845926 25265009 3247146679 95841652 3696363517 45808572 2319065313 125950148"
+
+seed_list = [int(x) for x in seed_list.split()]
+
+seeds = []
+
+for s,n in zip(seed_list[:-1:2], seed_list[1::2]): 
+    seeds.append([s,s+n])
+    
+seeds.sort()
+    
+# seeds
+
+
+def get_range(prev, lst):
+    "Get the next range in the process"
+    "This receives the whole list of ranges, so we need to work through them"
+    next = []
+    for p in prev:
+        for ss in lst: 
+            # if the prev range is entirely within one mapping
+            if ss[1] <= p[0] <= p[1] <= ss[1] + ss[2]:
+                next.append([p[0] - ss[1] + ss[0], p[0] - ss[1] + ss[0]])
+            # if we cross over boundaries of mappings, expand our list
+            
+            # this could also include not being within a mapping
+        
+        # if we don't return within the loop i.e. no mapping
+        next.append(p)
+    return next
+  
+
+ss = get_range(seeds, seed_to_soil)
+# print(ss)
+sf = get_range(ss, soil_to_fertilizer)
+# print(sf)
+fw = get_range(sf, fertilizer_to_water)
+# print(fw)
+wl = get_range(fw, water_to_light)
+# print(wl)
+lt = get_range(wl, light_to_temperature)
+# print(lt)
+th = get_range(lt, temperature_to_humidity)
+# print(th)
+hl = get_range(th, humidity_to_location)
+# print(hl)
+
+for h in hl:
+    print(h[0])
+    
 ```

@@ -5,20 +5,281 @@ format: html
 editor: visual
 ---
 
-Paste the Puzzle explanation here
+## \-\-- Day 11: Cosmic Expansion \-\--
+
+You continue following signs for "Hot Springs" and eventually come across an [observatory](https://en.wikipedia.org/wiki/Observatory). The Elf within turns out to be a researcher studying cosmic expansion using the giant telescope here.
+
+He doesn't know anything about the missing machine parts; he's only visiting for this research project. However, he confirms that the hot springs are the next-closest area likely to have people; he'll even take you straight there once he's done with today's observation analysis.
+
+Maybe you can help him with the analysis to speed things up?
+
+The researcher has collected a bunch of data and compiled the data into a single giant *image* (your puzzle input). The image includes *empty space* (`.`) and *galaxies* (`#`). For example:
+
+```         
+...#...... 
+.......#.. 
+#......... 
+.......... 
+......#... 
+.#........ 
+.........# 
+.......... 
+.......#.. 
+#...#..... 
+```
+
+The researcher is trying to figure out the sum of the lengths of the *shortest path between every pair of galaxies*. However, there's a catch: the universe expanded in the time it took the light from those galaxies to reach the observatory.
+
+Due to something involving gravitational effects, *only some space expands*. In fact, the result is that *any rows or columns that contain no galaxies* should all actually be twice as big.
+
+In the above example, three columns and two rows contain no galaxies:
+
+```         
+   v  v  v  
+ ...#......  
+ .......#.. 
+ #......... 
+>..........<  
+ ......#...  
+ .#........  
+ .........# 
+>..........<  
+ .......#..  
+ #...#.....    
+   ^  ^  ^ 
+```
+
+These rows and columns need to be *twice as big*; the result of cosmic expansion therefore looks like this:
+
+```         
+....#........ 
+.........#... 
+#............ 
+............. 
+............. 
+........#.... 
+.#........... 
+............# 
+............. 
+............. 
+.........#... 
+#....#....... 
+```
+
+Equipped with this expanded universe, the shortest path between every pair of galaxies can be found. It can help to assign every galaxy a unique number:
+
+```         
+....1........ 
+.........2... 
+3............ 
+............. 
+............. 
+........4.... 
+.5........... 
+............6 
+............. 
+............. 
+.........7... 
+8....9....... 
+```
+
+In these 9 galaxies, there are *36 pairs*. Only count each pair once; order within the pair doesn't matter. For each pair, find any shortest path between the two galaxies using only steps that move up, down, left, or right exactly one `.` or `#` at a time. (The shortest path between two galaxies is allowed to pass through another galaxy.)
+
+For example, here is one of the shortest paths between galaxies `5` and `9`:
+
+```         
+....1........ 
+.........2... 
+3............ 
+............. 
+............. 
+........4.... 
+.5........... 
+.##.........6 
+..##......... 
+...##........ 
+....##...7... 
+8....9....... 
+```
+
+This path has length *`9`* because it takes a minimum of *nine steps* to get from galaxy `5` to galaxy `9` (the eight locations marked `#` plus the step onto galaxy `9` itself). Here are some other example shortest path lengths:
+
+-   Between galaxy `1` and galaxy `7`: 15
+
+-   Between galaxy `3` and galaxy `6`: 17
+
+-   Between galaxy `8` and galaxy `9`: 5
+
+In this example, after expanding the universe, the sum of the shortest path between all 36 pairs of galaxies is *`374`*.
+
+Expand the universe, then find the length of the shortest path between every pair of galaxies. *What is the sum of these lengths?*
 
 ```{python}
 
-with open('data-2023-11.txt', 'r') as f:
+import numpy as np
+
+with open('data-2023-11-test.txt', 'r') as f:
     inp = f.read().splitlines()
 
+# check on things
+nrow = len(inp)
+ncol = len(inp[0])
+
+
 ```
 
-Maybe write an explanation of the solution approach here
+Expansion first: find the rows and columns that are all dots and double them up (with some array trickery?). Yes: `np.insert()`
 
 ```{python}
-# here's another python cell for good luck
 
+# numpy.insert(arr, i, the_object_to_be_added, axis)
+# https://stackoverflow.com/a/64490174
+
+# create an array
+gal = np.array([list(x) for x in inp])
+
+nrow = len(gal)
+ncol = len(gal[0])
+
+# new row to insert
+d = '.' * ncol
+
+# looping with ability to skip 
+n = 0
+
+# rows first, I guess
+while n < nrow: 
+    if ''.join(gal[n, :]) == d:
+        print(n)
+        gal = np.insert(gal, n, d, axis=0)
+        n += 2
+        nrow += 1
+    else: 
+        n += 1
+
+# new column to insert
+nrow = len(gal)
+d = '.' * nrow
+n = 0
+
+while n < ncol:
+    if ''.join(gal[:, n]) == d:
+        print(n)
+        gal = np.insert(gal, n, d, axis=1)
+        n += 2
+        ncol += 1
+    else: 
+        n += 1
+
+ncol = len(gal[0])
 ```
 
-Paste part two here
+```{python}
+# for g in gal: 
+#     print(''.join(g))
+```
+
+Collect the locations of the hashes i.e. galaxies
+
+```{python}
+from itertools import combinations
+
+xies = []
+
+# collect the locations of the galaxies
+for r in range(nrow):
+    for c in range(ncol): 
+        if gal[r,c] == '#':
+            xies.append([r,c])
+
+# len(xies)
+# len(list(combinations(xies, 2)))
+
+summer = 0
+
+for x in list(combinations(xies, 2)):
+    summer += abs(x[0][0] - x[1][0]) + abs(x[0][1] - x[1][1])
+    
+summer
+
+# 9540803 too low
+# create a better loop by adding to nrow and ncol as I go through
+# 9543156
+```
+
+## \-\-- Part Two \-\--
+
+The galaxies are much *older* (and thus much *farther apart*) than the researcher initially estimated.
+
+Now, instead of the expansion you did before, make each empty row or column *one million times* larger. That is, each empty row should be replaced with `1000000` empty rows, and each empty column should be replaced with `1000000` empty columns.
+
+(In the example above, if each empty row or column were merely `10` times larger, the sum of the shortest paths between every pair of galaxies would be *`1030`*. If each empty row or column were merely `100` times larger, the sum of the shortest paths between every pair of galaxies would be *`8410`*. However, your universe will need to expand far beyond these values.)
+
+Starting with the same initial image, expand the universe according to these new rules, then find the length of the shortest path between every pair of galaxies. *What is the sum of these lengths?*
+
+I don't t need to do the expansion, though that would be possible: I could just record the initial columns, and if the pairwise comparison of galaxies straddles those values, then add the number of millions at that stage.
+
+So iterating wouldn't be too bad, in the millions, not billions, but better to work smarter, not harder.
+
+```{python}
+
+# create an array
+gal = np.array([list(x) for x in inp])
+
+nrow = len(gal)
+ncol = len(gal[0])
+
+d = '.' * ncol
+dotrow = []
+
+# rows first, I guess
+for n in range(nrow): 
+    if ''.join(gal[n, :]) == d:
+        # print(n)
+        dotrow.append(n)
+
+# new column to insert
+d = '.' * nrow
+dotcol = []
+
+for n in range(ncol):
+    if ''.join(gal[:, n]) == d:
+        # print(n)
+        dotcol.append(n)
+
+dotrow
+dotcol
+```
+
+Use a similar scheme to the original
+
+```{python}
+
+xies = []
+
+# collect the locations of the galaxies
+for r in range(nrow):
+    for c in range(ncol): 
+        if gal[r,c] == '#':
+            xies.append([r,c])
+
+# len(xies)
+# len(list(combinations(xies, 2)))
+
+def get_dist(x):
+    y = abs(x[0][0] - x[1][0]) + abs(x[0][1] - x[1][1])
+    e = sum([x[0][0] < r < x[1][0] for r in dotrow])
+    f = sum([x[0][1] < c < x[1][1] for c in dotcol])
+    y += e * 10**1 + f * 10**1
+    # print(y)
+    return y
+
+summer = 0
+
+for x in list(combinations(xies, 2)):
+    summer += get_dist(x)
+    
+summer
+
+# 410227917921 too low
+```

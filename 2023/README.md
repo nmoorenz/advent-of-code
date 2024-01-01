@@ -73,57 +73,57 @@
 
 ### Day 8
 
-1.  
-2.  
+1.  Navigate through the network with the instructions given by Left or Right
+2.  Don't just follow one path, follow many paths. 
 
--   
--  
+-   I like the little things that make problems easier: a dictionary for L/R directions, and a function for a lambda to create another dictionary for the options. 
+-   Part two could be a very bad time, but realising that the paths are probably independent really helped, so it's actually six individual problems. 
 
 
 
 ### Day 9
 
-1.  
-2.  
+1.  Extrapolate forwards to get the next number in the sequence.
+2.  Extrapolate backwards to get the previous number in the sequence. 
 
--   
--  
+-   I was sceptical that the way the instructions gave the method was the right way to go but it turned out ok. 
+-   This was very similar to the first part, but still required a bit of thinking. 
 
 
 
 ### Day 10
 
-1.  
-2.  
+1.  Follow the loop around the pipes. 
+2.  How many tiles are enclosed by the loop? 
 
--   
--  
+-   It took some time to create the correct dictionary for the movement, but it still feels like the right way to do things. 
+-   Not really sure how to do this one: update to come. 
 
 
 
 ### Day 11
 
-1.  
-2.  
+1.  Find the shortest path between each pair of galaxies. 
+2.  The celestial picture is actually much older and the distance between the galaxies is actually way bigger. 
 
--   
--  
+-   `np.insert()` does me well here. 
+-   I thought I had part two done by not actually doing the expansion and adding millions to the distances between the galaxies but that did not quote work. 
 
 
 
 ### Day 12
 
-1.  
-2.  
+1.  How many different arrangements of springs are there? 
+2.  Actually, there are way more arrangements, what are the possibilities? 
 
--   
--  
+-   Created two functions: `create_options()` and `verify_arr()` which helps things along
+-   Part two creates way more iterations than is reasonable: back to the drawing board. 
 
 
 
 ### Day 13
 
-1.  
+1.  Find the row or column of reflection for each set of mirrors. 
 2.  
 
 -   

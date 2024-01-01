@@ -5,20 +5,228 @@ format: html
 editor: visual
 ---
 
-Paste the Puzzle explanation here
+## \-\-- Day 8: Haunted Wasteland \-\--
+
+You're still riding a camel across Desert Island when you spot a sandstorm quickly approaching. When you turn to warn the Elf, she disappears before your eyes! To be fair, she had just finished warning you about *ghosts* a few minutes ago.
+
+One of the camel's pouches is labeled "maps" - sure enough, it's full of documents (your puzzle input) about how to navigate the desert. At least, you're pretty sure that's what they are; one of the documents contains a list of left/right instructions, and the rest of the documents seem to describe some kind of *network* of labeled nodes.
+
+It seems like you're meant to use the *left/right* instructions to *navigate the network*. Perhaps if you have the camel follow the same instructions, you can escape the haunted wasteland!
+
+After examining the maps for a bit, two nodes stick out: `AAA` and `ZZZ`. You feel like `AAA` is where you are now, and you have to follow the left/right instructions until you reach `ZZZ`.
+
+This format defines each *node* of the network individually. For example:
+
+```         
+RL 
+
+AAA = (BBB, CCC) 
+BBB = (DDD, EEE) 
+CCC = (ZZZ, GGG) 
+DDD = (DDD, DDD) 
+EEE = (EEE, EEE) 
+GGG = (GGG, GGG) 
+ZZZ = (ZZZ, ZZZ) 
+```
+
+Starting with `AAA`, you need to *look up the next element* based on the next left/right instruction in your input. In this example, start with `AAA` and go *right* (`R`) by choosing the right element of `AAA`, *`CCC`*. Then, `L` means to choose the *left* element of `CCC`, *`ZZZ`*. By following the left/right instructions, you reach `ZZZ` in *`2`* steps.
+
+Of course, you might not find `ZZZ` right away. If you run out of left/right instructions, repeat the whole sequence of instructions as necessary: `RL` really means `RLRLRLRLRLRLRLRL...` and so on. For example, here is a situation that takes *`6`* steps to reach `ZZZ`:
+
+```         
+LLR  
+
+AAA = (BBB, BBB) 
+BBB = (AAA, ZZZ) 
+ZZZ = (ZZZ, ZZZ) 
+```
+
+Starting at `AAA`, follow the left/right instructions. *How many steps are required to reach `ZZZ`?*
 
 ```{python}
 
 with open('data-2023-08.txt', 'r') as f:
     inp = f.read().splitlines()
 
+# inp = """RL
+# 
+# AAA = (BBB, CCC)
+# BBB = (DDD, EEE)
+# CCC = (ZZZ, GGG)
+# DDD = (DDD, DDD)
+# EEE = (EEE, EEE)
+# GGG = (GGG, GGG)
+# ZZZ = (ZZZ, ZZZ)""".split('\n')
+# 
+# inp = """LLR
+# 
+# AAA = (BBB, BBB)
+# BBB = (AAA, ZZZ)
+# ZZZ = (ZZZ, ZZZ)""".split('\n')
+
+# inp = """LR
+# 
+# 11A = (11B, XXX)
+# 11B = (XXX, 11Z)
+# 11Z = (11B, XXX)
+# 22A = (22B, XXX)
+# 22B = (22C, 22C)
+# 22C = (22Z, 22Z)
+# 22Z = (22B, 22B)
+# XXX = (XXX, XXX)""".split('\n')
 ```
 
-Maybe write an explanation of the solution approach here
+Create a dictionary with L: 0, R: 1 for directions i.e. list members; Split the instructions into a list; create a dictionary with the coordinates.
 
 ```{python}
-# here's another python cell for good luck
+
+from itertools import cycle
+
+# first line is left/right directions
+inst = list(inp[0])
+
+# for converting left/right into nodes
+id = {'L': 0, 'R': 1}
+
+# function for dictionary
+def pairwise(y): 
+    return y.split(' = ')[1].replace('(', '').replace(')', '').split(', ')
+
+# nodes 
+nodes = {x.split(' = ')[0]: pairwise(x) for x in inp[2:]}
 
 ```
 
-Paste part two here
+```{python}
+
+# initialise
+steps = 0
+lmnt = 'AAA'
+trgt = 'ZZZ'
+
+# let us start by assuming less than one trip through the instructions
+# I'm not sure how many trips it was but 1000 to 1001 didn't change the answer
+# and then I found itertools.cycle
+for k in cycle(inst): 
+    steps += 1
+    # print(k)
+    # print(lmnt)
+    # print(nodes[lmnt])
+    lmnt = nodes[lmnt][id[k]]
+    if lmnt == trgt: break
+    
+steps
+```
+
+## \-\-- Part Two \-\--
+
+The sandstorm is upon you and you aren't any closer to escaping the wasteland. You had the camel follow the instructions, but you've barely left your starting position. It's going to take *significantly more steps* to escape!
+
+What if the map isn't for people - what if the map is for *ghosts*? Are ghosts even bound by the laws of spacetime? Only one way to find out.
+
+After examining the maps a bit longer, your attention is drawn to a curious fact: the number of nodes with names ending in `A` is equal to the number ending in `Z`! If you were a ghost, you'd probably just *start at every node that ends with `A`* and follow all of the paths at the same time until they all simultaneously end up at nodes that end with `Z`.
+
+For example:
+
+```         
+LR  
+
+11A = (11B, XXX) 
+11B = (XXX, 11Z) 
+11Z = (11B, XXX) 
+22A = (22B, XXX) 
+22B = (22C, 22C) 
+22C = (22Z, 22Z) 
+22Z = (22B, 22B) 
+XXX = (XXX, XXX) 
+```
+
+Here, there are two starting nodes, `11A` and `22A` (because they both end with `A`). As you follow each left/right instruction, use that instruction to *simultaneously* navigate away from both nodes you're currently on. Repeat this process until *all* of the nodes you're currently on end with `Z`. (If only some of the nodes you're on end with `Z`, they act like any other node and you continue as normal.) In this example, you would proceed as follows:
+
+-   Step 0: You are at `11A` and `22A`.
+
+-   Step 1: You choose all of the *left* paths, leading you to `11B` and `22B`.
+
+-   Step 2: You choose all of the *right* paths, leading you to *`11Z`* and `22C`.
+
+-   Step 3: You choose all of the *left* paths, leading you to `11B` and *`22Z`*.
+
+-   Step 4: You choose all of the *right* paths, leading you to *`11Z`* and `22B`.
+
+-   Step 5: You choose all of the *left* paths, leading you to `11B` and `22C`.
+
+-   Step 6: You choose all of the *right* paths, leading you to *`11Z`* and *`22Z`*.
+
+So, in this example, you end up entirely on nodes that end in `Z` after *`6`* steps.
+
+Simultaneously start on every node that ends with `A`. *How many steps does it take before you're only on nodes that end with `Z`?*
+
+```{python}
+
+
+# for instructions, for elements
+lmnts = []
+
+# get our starting elements, rather than just one element
+for k in nodes.keys():
+    if k[2] == 'A':
+        lmnts.append(k)
+
+# check on this        
+# lmnts
+
+steps = 0
+
+# checking function, if they all end in 'Z'
+def checker(lst):
+    # if any([j[2] == 'Z' for j in lst]):
+    #     print(lst)
+    return all([j[2] == 'Z' for j in lst])
+  
+
+for k in cycle(inst): 
+    steps += 1
+    for e, l in enumerate(lmnts): 
+        lmnts[e] = nodes[l][id[k]]
+    if checker(lmnts): break
+    if steps == 10**6: break
+    # print(lmnts)
+    
+steps
+```
+
+Don't do this, do them individually and multiply the results
+
+```{python}
+
+# for instructions, for elements
+lmnts = []
+
+# get our starting elements, rather than just one element
+for k in nodes.keys():
+    if k[2] == 'A':
+        lmnts.append(k)
+
+# check on this        
+lmnts
+
+for l in lmnts: 
+    steps = 0
+    for k in cycle(inst): 
+        steps += 1
+        l = nodes[l][id[k]]
+        if l[2] == 'Z': break
+    print(steps)
+    print(l)
+
+
+```
+
+Lowest Common Denominator
+
+```{python}
+from math import lcm
+
+lcm(21883, 13019, 19667, 16343, 18559, 14681)
+
+```
