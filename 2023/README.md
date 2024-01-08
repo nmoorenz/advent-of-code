@@ -133,17 +133,18 @@
 
 ### Day 14
 
-1.  
-2.  
+1.  Roll the rocks north to see the load on the support beams
+2.  Roll the rocks around and around a billion times to see how things end up
 
--   
--  
+-   This is simple enough, since the usual iteration means we move the rocks in the correct order to avoid errors
+-   Part two required setting up different functions for movement and iteration
+-   We don't actually have to iterate a billion times, since we get into a repeating pattern, and once we figure that out, we can work out where we would be at the billion mark. 
 
 
 
 ### Day 15
 
-1.  
+1.  Run the hash algorithm for the initialization sequence. 
 2.  
 
 -   
@@ -153,7 +154,7 @@
 
 ### Day 16
 
-1.  
+1.  Follow the laser around the hall of mirrors, except the laser can be split
 2.  
 
 -   
@@ -163,7 +164,7 @@
 
 ### Day 17
 
-1.  
+1.  Find the shortest path through the city, except you can only go three blocks in the same direction at a time. 
 2.  
 
 -   
@@ -248,254 +249,3 @@
 
 -   
 -  
-
-## Advent of Code 2023
-
-### Day 1
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 2
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 3
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 4
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 5
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 6
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 7
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 8
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 9
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 10
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 11
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 12
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 13
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 14
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 15
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 16
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 17
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 18
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 19
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 20
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 21
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 22
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 23
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 24
-
-1.  
-2.  
-
--   
--   
-
-
-
-### Day 25
-
-1.  
-2.  
-
--   
--   
-

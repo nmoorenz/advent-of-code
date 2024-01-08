@@ -70,10 +70,20 @@ with open('data-2023-17.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+This seems like a simple optimisation problem but the restriction makes it weird.
+
+From a manual inspection of the input we should generally avoid the middle of the city, there are lots of 8 and 9 in the middle.
+
+Should I plot a random course and try to improve it? A greedy path for one or two steps then look around more?
 
 ```{python}
-# here's another python cell for good luck
+import numpy as np
+import matplotlib.pyplot as plt
+
+blocks = np.array([list(map(int, i)) for i in inp])
+
+plt.imshow(blocks, cmap='hot', interpolation='nearest')
+plt.show()
 
 ```
 
