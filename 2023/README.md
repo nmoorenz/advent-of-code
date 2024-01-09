@@ -174,8 +174,8 @@
 
 ### Day 18
 
-1.  
-2.  
+1.  Find how much space there is for the lava to fill, following a rambling path around the edge of the lagoon
+2.  Actually, there is a much larger lagoon bounded by a rambling path described by the hex digits. 
 
 -   
 -  
