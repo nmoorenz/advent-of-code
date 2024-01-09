@@ -7,7 +7,7 @@ with open(f'template.qmd', 'r') as f:
     qmd_file = f.read()
 
 # loop through and create text files
-for i in range(2, 26):
+for i in range(1, 26):
     with open(f"{yr}/data-{yr}-{i:02d}.txt", "w") as f:
         pass
     with open(f"{yr}/{yr}-{i:02d}.qmd", "w") as f:
@@ -27,7 +27,7 @@ readme = """
 """
 
 # pre-formatted readme to describe each day's attempt
-with open(f'{yr}/README.md', 'a') as f:
+with open(f'{yr}/README.md', 'w') as f:
     f.write(f"## Advent of Code {yr}")
     for i in range(1, 26):
         f.write(readme.format(i=i))
