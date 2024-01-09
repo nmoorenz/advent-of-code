@@ -71,16 +71,16 @@ Tilt the platform so that the rounded rocks all roll north. Afterward, *what is 
 with open('data-2023-14.txt', 'r') as f:
     inp = f.read().splitlines()
 
-inp = """O....#....
-O.OO#....#
-.....##...
-OO.#O....O
-.O.....O#.
-O.#..O.#.#
-..O..#O..O
-.......O..
-#....###..
-#OO..#....""".splitlines()
+# inp = """O....#....
+# O.OO#....#
+# .....##...
+# OO.#O....O
+# .O.....O#.
+# O.#..O.#.#
+# ..O..#O..O
+# .......O..
+# #....###..
+# #OO..#....""".splitlines()
 
 
 
@@ -294,6 +294,6 @@ for c in range(1000):
 
 # 100183 too low 
 # 100184 too low
-100310
+# 100310
 
 ```
