@@ -124,9 +124,9 @@
 ### Day 13
 
 1.  Find the row or column of reflection for each set of mirrors. 
-2.  
+2.  There's a smudge on the mirrors! Find the different line of reflection.
 
--   
+-   I tried some different approaches and eventually found the correct loop scheme, checking all the rows/columns. 
 -  
 
 

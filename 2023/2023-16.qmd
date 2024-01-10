@@ -110,7 +110,7 @@ track[x,y] = 1
 
 # need to manage changes of direction with angled mirrors i.e. \ and /
 # need to manage splits with perpendicular approaches 
-# dots and straight through have no effect
+# dots and straight through have no effect but count those as energised
 
 
 
