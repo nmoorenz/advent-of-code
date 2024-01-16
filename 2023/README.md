@@ -46,9 +46,10 @@
 1.  With a series of mappings, go from seed number to location number
 2.  Calculate a very large amount of potential seed numbers through the same mappings.
 
--   I created the variables semi-manually which caused a little trouble but it was fine. 
+-   I created the variables semi-manually which caused a little trouble initially but it was fine. 
 -   Pretty happy with my `get_next()` function rather than writing a series of functions. 
 -   Part two has me stumped, I think I need to write some kind of search function? Update to come...
+-   I don't need to keep track of every number, just the boundaries, so I think a list of lists will do nicely. 
 
 
 ### Day 6
@@ -184,7 +185,7 @@
 
 ### Day 19
 
-1.  
+1.  Accept or reject the machine parts, according to a series of rules based on: Cool looking, musical, aerodynamic, or shiny. 
 2.  
 
 -   
@@ -194,7 +195,7 @@
 
 ### Day 20
 
-1.  
+1.  Propagate the pulse through a series of modules
 2.  
 
 -   
@@ -204,7 +205,7 @@
 
 ### Day 21
 
-1.  
+1.  Step Counter: How far can the elf go in exactly 64 steps? 
 2.  
 
 -   
@@ -214,7 +215,7 @@
 
 ### Day 22
 
-1.  
+1.  Given the locations of some falling bricks, how many can be safely disintegrated when they have come to rest? 
 2.  
 
 -   
@@ -224,7 +225,7 @@
 
 ### Day 23
 
-1.  
+1.  Find the longest hike through the snow
 2.  
 
 -   
@@ -234,7 +235,7 @@
 
 ### Day 24
 
-1.  
+1.  Given a flurry of hailstones, determine how many of those hailstones interact within the test area
 2.  
 
 -   
@@ -244,7 +245,7 @@
 
 ### Day 25
 
-1.  
+1.  Disconnect three wires to create two distinct groups of components. 
 2.  
 
 -   
