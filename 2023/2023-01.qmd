@@ -1,0 +1,142 @@
+---
+title: "Advent of Code 2023 Day 1"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 1: Trebuchet?! ---
+
+### Part One
+
+The calibration document for the trebuchet sending you into the sky isn't quite right. Combine the first and last digits from each line to find the calibration value.
+
+*What is the sum of all of the calibration values?*
+
+```{python}
+
+with open('data-2023-01.txt', 'r') as f:
+    inp = f.read().splitlines()
+
+```
+
+Find the first and last digit in a string. We could use `re` or split the string with list comprehension.
+
+```{python}
+# let's try regex first
+import re
+
+get_digi = [re.findall(r'\d', x) for x in inp]
+
+double_digi = [int(x[0])*10 + int(x[-1]) for x in get_digi]
+
+sum(double_digi)
+
+```
+
+This could work with splitting a string forwards and backwards, and is more like what I think part 2 will be which is including the numbers as words.
+
+```{python}
+
+first_digi = []
+last_digi = []
+
+for i in inp:
+    # forwards
+    for s in str(i): 
+        if s.isdigit(): 
+            first_digi.append(int(s))
+            break
+    # reverse the string
+    for s in i[::-1]:
+        if s.isdigit():
+            last_digi.append(int(s))
+            break
+
+double_digi_1 = [f*10+l for f,l in zip(first_digi, last_digi)]
+
+sum(double_digi_1)
+
+```
+
+Part one: 54916
+
+### Part Two
+
+Oops, there are "digits" that are actually spelled out.
+
+*What is the sum of all of the calibration values?*
+
+I think I want to make a function first to return the digit found, that'll be much nicer in the long run for the loop of input.
+
+```{python}
+
+def get_first(ss):
+    """Get the first digit, numeric or spelled, from the input string ss"""
+    # define dict for values
+    nums = {'one': 1, 
+            'two': 2, 
+            'three': 3, 
+            'four': 4, 
+            'five': 5, 
+            'six': 6, 
+            'seven': 7, 
+            'eight': 8, 
+            'nine': 9,
+            }
+
+    # loop through the input
+    for s in range(len(ss)): 
+        # simplest case first, we've found an actual digit
+        if ss[s].isdigit(): 
+            return int(ss[s])
+        for k,v in nums.items(): 
+            if ss[s:s+len(k)] == k:
+                return v
+ 
+def get_last(ss):
+    """
+    Get the LAST digit, numeric or spelled, from the input string ss
+    The input string is already reversed, so we need to reverse our numbers
+    """
+    # define dict for values
+    nums = {'eno': 1, 
+            'owt': 2, 
+            'eerht': 3, 
+            'ruof': 4, 
+            'evif': 5, 
+            'xis': 6, 
+            'neves': 7, 
+            'thgie': 8, 
+            'enin': 9,
+            }
+
+    # loop through the input
+    for s in range(len(ss)): 
+        # simplest case first, we've found an actual digit
+        if ss[s].isdigit(): 
+            return int(ss[s])
+        for k,v in nums.items(): 
+            if ss[s:s+len(k)] == k:
+                return v       
+
+```
+
+Now do the searching and gathering
+
+```{python}
+
+first_digi = []
+last_digi = []
+
+for i in inp:
+    first_digi.append(get_first(i))
+    last_digi.append(get_last(i[::-1]))
+
+double_digi_2 = [f*10+l for f,l in zip(first_digi, last_digi)]
+
+sum(double_digi_2)
+
+```
+
+Part two: 54728

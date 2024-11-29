@@ -1,0 +1,24 @@
+---
+title: "Advent of Code 2020 Day 10"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+Write the Puzzle explanation here
+
+```{python}
+
+with open('data-2020-10.txt', 'r') as f:
+    inp = f.read().splitlines()
+
+```
+
+Maybe write an explanation of the solution approach here
+
+```{python}
+# here's another python cell for good luck
+
+```
+
+Paste part two here
