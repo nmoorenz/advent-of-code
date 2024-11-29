@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 4: Scratchcards ---
+
+There are lots of scratchcards, with your numbers, and winning numbers. The point value of each card doubles with the number of winning numbers you have i.e. 1, 2, 4, 8, etc.
+
+Take a seat in the large pile of colorful cards. *How many points are they worth in total?*
 
 ```{python}
 
@@ -14,11 +18,73 @@ with open('data-2023-04.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+This seems simple enough. Probably?
 
 ```{python}
 # here's another python cell for good luck
 
+cards = {x.split(':')[0]: x.split(':')[1] for x in inp}
+
+summer = 0
+
+for k,v in cards.items():
+    pt = 0
+    win_num = v.split('|')[0].split()
+    my_num = v.split('|')[1].split()
+    for m in my_num: 
+        if m in win_num: 
+            if pt == 0:
+                pt = 1
+            else: 
+                pt *= 2
+    # add the results
+    summer += pt
+    
+summer
 ```
 
-Paste part two here
+Part one: 28538
+
+## --- Part Two ---
+
+Actually you win more copies of scratchcards somehow?
+
+Process all of the original and copied scratchcards until no more scratchcards are won. Including the original set of scratchcards, *how many total scratchcards do you end up with?*
+
+```{python}
+import re
+
+cards = {x.split(':')[0]: x.split(':')[1] for x in inp}
+crd_cnt = {}
+
+for k,v in cards.items():
+    crd_cnt[k] = 1
+
+for k,v in cards.items():
+    # initialise for each loop
+    pt = 0
+    n = int(re.findall(r'\d+', k)[0])
+    # split the cards into winning numbers and my numbers
+    win_num = v.split('|')[0].split()
+    my_num = v.split('|')[1].split()
+    # loop to find how many winning numbers I have
+    for m in my_num: 
+        if m in win_num: 
+            pt += 1
+    # find how many cards we have at the moment
+    j = crd_cnt[k]
+    # pt is the number of following cards
+    for i in range(n+1, n+pt+1):
+        cn = 'Card' + str(i).rjust(4)
+        crd_cnt[cn] += j
+        
+summer = 0
+
+for k,v in crd_cnt.items():
+    summer += v
+    
+summer
+
+```
+
+Part two: 9,425,061
