@@ -5,20 +5,66 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 6: Wait For It ---
+
+Determine the number of ways you could beat the record in each race. *What do you get if you multiply these numbers together?*
 
 ```{python}
 
 with open('data-2023-06.txt', 'r') as f:
     inp = f.read().splitlines()
 
+Time = inp[0].split()[1:]
+Distance = inp[1].split()[1:]
+
+Time = [int(x) for x in Time]
+Distance = [int(x) for x in Distance]
 ```
 
-Maybe write an explanation of the solution approach here
+This seems straightforward - solved on google sheets to start with.
 
 ```{python}
-# here's another python cell for good luck
 
+# this is our answer, multiplied together
+mult = 1
+
+for d,t in zip(Distance, Time):
+    # count of choices that make it past the distance
+    cnt = 0
+    # pretty sure it's not going to matter that we don't use the last one
+    for x in range(t):
+        z = (t - x) * x
+        if z > d:
+            cnt += 1
+    # once we've gone through, multiply
+    mult *= cnt
+    
+mult
 ```
 
-Paste part two here
+Part one: 2374848
+
+## --- Part Two ---
+
+Actually there was only one race
+
+*How many ways can you beat the record in this one much longer race?*
+
+```{python}
+
+Time = int(''.join(inp[0].split()[1:]))
+Distance = int(''.join(inp[1].split()[1:]))
+
+# count of choices that make it past the distance
+cnt = 0
+
+# pretty sure it's not going to matter that we don't use the last one
+for x in range(0, Time, 1):
+    z = (Time - x) * x
+    if z > Distance:
+        cnt += 1
+        
+cnt
+```
+
+Part two: 39132886

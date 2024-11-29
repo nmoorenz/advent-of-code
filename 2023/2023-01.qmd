@@ -7,8 +7,6 @@ editor: visual
 
 ## --- Day 1: Trebuchet?! ---
 
-### Part One
-
 The calibration document for the trebuchet sending you into the sky isn't quite right. Combine the first and last digits from each line to find the calibration value.
 
 *What is the sum of all of the calibration values?*
@@ -61,7 +59,7 @@ sum(double_digi_1)
 
 Part one: 54916
 
-### Part Two
+## Part Two
 
 Oops, there are "digits" that are actually spelled out.
 

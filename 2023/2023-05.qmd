@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 5: If You Give A Seed A Fertilizer ---
+
+There's a convoluted mapping system to help the gardener grow food.
+
+*What is the lowest location number that corresponds to any of the initial seed numbers?*
 
 ```{python}
 
@@ -14,11 +18,212 @@ with open('data-2023-05.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Redoing this one in an attempt to keep the input off github. Need to parse the input into list of lists.
 
 ```{python}
-# here's another python cell for good luck
+
+seeds = inp[0].split()[1:]
+seeds = [int(x) for x in seeds]
+# seeds
+
+seed_to_soil = inp[4:20]
+seed_to_soil = [list(map(int, x.split())) for x in seed_to_soil]
+seed_to_soil.sort()
+# seed_to_soil
+
+soil_to_fertilizer = inp[23:48]
+soil_to_fertilizer = [list(map(int, x.split())) for x in soil_to_fertilizer]
+soil_to_fertilizer.sort()
+# soil_to_fertilizer
+
+fertilizer_to_water = inp[51:97]
+fertilizer_to_water = [list(map(int, x.split())) for x in fertilizer_to_water]
+fertilizer_to_water.sort()
+# fertilizer_to_water
+
+water_to_light = inp[100:107]
+water_to_light = [list(map(int, x.split())) for x in water_to_light]
+water_to_light.sort()
+# water_to_light
+
+light_to_temperature = inp[110:124]
+light_to_temperature = [list(map(int, x.split())) for x in light_to_temperature]
+light_to_temperature.sort()
+# light_to_temperature
+
+temperature_to_humidity = inp[127:166]
+temperature_to_humidity = [list(map(int, x.split())) for x in temperature_to_humidity]
+temperature_to_humidity.sort()
+# temperature_to_humidity
+
+humidity_to_location = inp[169:192]
+humidity_to_location = [list(map(int, x.split())) for x in humidity_to_location]
+humidity_to_location.sort()
+# humidity_to_location
 
 ```
 
-Paste part two here
+Now we have to do something with this info.
+
+```{python}
+
+# seed_to_soil
+# soil_to_fertilizer
+# fertilizer_to_water
+# water_to_light
+# light_to_temperature
+# temperature_to_humidity
+# humidity_to_location
+
+loc = []
+
+def get_next(prev, lst):
+    "Get the next thing in the process"
+    for ss in lst: 
+        if ss[1] <= prev <= ss[1] + ss[2]:
+            return prev - ss[1] + ss[0]
+    # if we don't return within the loop i.e. no mapping
+    return prev
+        
+        
+for s in seeds: 
+    # print(s)
+    ss = get_next(s, seed_to_soil)
+    # print(ss)
+    sf = get_next(ss, soil_to_fertilizer)
+    # print(sf)
+    fw = get_next(sf, fertilizer_to_water)
+    # print(fw)
+    wl = get_next(fw, water_to_light)
+    # print(wl)
+    lt = get_next(wl, light_to_temperature)
+    # print(lt)
+    th = get_next(lt, temperature_to_humidity)
+    # print(th)
+    hl = get_next(th, humidity_to_location)
+    # print(hl)
+    loc.append(hl)  
+    # print()
+    
+min(loc)
+```
+
+Part one: 240320250
+
+## --- Part Two ---
+
+Actually, the seeds information is ranges of seeds.
+
+Consider all of the initial seed numbers listed in the ranges on the first line of the almanac. *What is the lowest location number that corresponds to any of the initial seed numbers?*
+
+```{python}
+
+seed_list = inp[0].split()[1:]
+seed_list = [int(x) for x in seed_list]
+
+seeds = []
+
+for s,n in zip(seed_list[:-1:2], seed_list[1::2]): 
+    seeds.append([s,s+n])
+    
+seeds.sort()
+
+# this is now our list of min and max of ranges for seeds    
+seeds
+
+```
+
+We only need to assess the ranges, since we know that anything in between is within the end points.
+
+Problem: our ranges could expand, which means that if we start with passing one pair into the function, and we return two pairs of mappings, then we need to somehow loop through that list as we go through the different mappings. This means we should just pass the whole list through to the function in the first place, working with the different mapping lists as we go.
+
+```{python}
+
+# Each line within a map contains three numbers: 
+# the destination range start, the source range start, and the range length.
+
+def get_range(prev, lst):
+    "Get the next list of ranges in the process"
+    "This receives the whole list of ranges, so we need to work through them"
+    # append start/end of each range to this array
+    next = []
+    # keep track of where we are within the lists
+    mm = 0
+    # we should be able to loop through this and collect the values
+    for p in prev:
+        # collect pairs of ranges
+        nx = []
+        # find one
+        f1 = ''
+        # checker
+        print(p)
+        # check where we land
+        while True: 
+            if p[0] < lst[mm][1]:
+                # our value is less than the next map range
+                nx.append(p[0])
+                f1 = 'pre'
+                break
+            elif lst[mm][1] < p[0] < lst[mm][1] + lst[mm][2]:
+                # make an adjustment
+                nx.append(p[0] - lst[mm][1] + lst[mm][0])
+                f1 = 'in'
+                break
+            else: 
+                # look for the next mapper
+                mm += 1
+            
+        while True:
+            if p[1] < lst[mm][1]: 
+                # both values were below the next in the range
+                nx.append(p[1])
+                break
+            elif lst[mm][1] < p[1] < lst[mm][1] + lst[mm][2]: 
+                # second from the pair is within a range
+                if f1 == 'pre': 
+                    # we jump over a boundary and need to record
+                    nx.append(lst[mm][1] - 1)
+                    next.append(nx)
+                    nx = []
+                    nx.append(lst[mm][1])
+                    nx.append(p[0] - lst[mm][1] + lst[mm][0])
+                    break
+                elif f1 == 'in': 
+                    # range is both within the mapping
+                    nx.append(p[0] - lst[mm][1] + lst[mm][0])
+                    break
+                else: 
+                    # I don't know why we might be here
+                    pass
+            else: 
+                # go to the next
+                nx.append(lst[mm][1] - 1)
+                next.append(nx)
+                nx = []
+                nx.append(lst[mm][1])
+                # look at the next in the range
+                mm += 1
+
+        # append our min/max 
+        next.append(nx)
+    return next
+  
+
+ss = get_range(seeds, seed_to_soil)
+# print(ss)
+sf = get_range(ss, soil_to_fertilizer)
+# print(sf)
+fw = get_range(sf, fertilizer_to_water)
+# print(fw)
+wl = get_range(fw, water_to_light)
+# print(wl)
+lt = get_range(wl, light_to_temperature)
+# print(lt)
+th = get_range(lt, temperature_to_humidity)
+# print(th)
+hl = get_range(th, humidity_to_location)
+# print(hl)
+
+
+    
+```

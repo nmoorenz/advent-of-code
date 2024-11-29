@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 2: Cube Conundrum ---
+
+An elf is playing a game of "take the cubes out of the bag". They contain 12 red, 13 green, and 14 blue cubes. Which of the games are possible from your puzzle input?
+
+*What is the sum of the IDs of those games?*
 
 ```{python}
 
@@ -14,11 +18,97 @@ with open('data-2023-02.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Create a nice dict / list structure for easy iteration. I'm not sure what part two will be so let us set ourselves up for success. Overall it's a dictionary with the game number as keys, then lists of dictionaries for each draw for each game.
 
 ```{python}
+import re
+
 # here's another python cell for good luck
+games = {i.split(':')[0]: i.split(':')[1].split(';') for i in inp}
+
+# check the structure
+# games['Game 1']
+
+# create dict to build on
+game_dict = dict()
+
+# loop through the dictionary
+for k,v in games.items():
+    # get the key for the game as number
+    z = re.findall(r'\d+', k)[0]
+    # an empty list for the dict
+    game_dict[z] = []
+    # loop through the values in the original list
+    for d in v: 
+        # print(d)
+        # turn each of these into a dictionary
+        game_dict[z].append( 
+            {re.findall(r'[a-z]+', y)[0]: int(re.findall(r'\d+', y)[0])
+            for y in d.split(',')}
+            )
+
+game_dict['1']    
+```
+
+Okay, now that the building of the hopefully nice structure is done after much too long, let's look for good games.
+
+```{python}
+# 12 red cubes, 13 green cubes, and 14 blue cubes
+lims = {'red': 12, 'green': 13, 'blue': 14}
+counter = 0
+
+# loop through the games
+for k,v in game_dict.items():
+    found = False
+    # loop through the dicts
+    for d in v: 
+        # print(d)
+        # loop through the elements in the dict
+        for g,h in d.items(): 
+            # if we are in an impossible game
+            if h > lims[g]: 
+                # print(d)
+                # print(k)
+                counter += int(k)
+                found = True
+                break
+    # the first break gets out of the d.items() loop, this gets us out of v
+        if found == True:
+            break
+
+# turns out I'm counting impossible games and we want possible games   
+# using ramanujan to get the total of 100 games = (n+1)*(n/2)
+101*50-counter
+
+            
+    
+```
+
+Part one: 2551
+
+## --- Part Two ---
+
+For each game, find the minimum set of cubes that must have been present. *What is the sum of the power of these sets?*
+
+```{python}
+
+# create a nice dict to hold the minimum numbers
+min_dice = {str(x): {'red': 0, 'green': 0, 'blue': 0} for x in range(1, 101)}
+
+# loop through the games
+for k,v in game_dict.items():
+    # loop through the dicts
+    for d in v: 
+        # print(d)
+        # loop through the elements in the dict
+        for g,h in d.items(): 
+            # print(g)
+            if h > min_dice[k][g]:
+                min_dice[k][g] = h
+    # print(min_dice[k])
+
+sum([n['red'] * n['green'] * n['blue'] for m,n in min_dice.items()])
 
 ```
 
-Paste part two here
+Part two: 62811
