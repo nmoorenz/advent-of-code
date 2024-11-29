@@ -5,20 +5,271 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 3: Gear Ratios ---
+
+We need to fix the gondola with a part schematic. *Any number adjacent to a symbol*, even diagonally, is a "part number" and should be included in your sum. (Periods (`.`) do not count as a symbol.)
+
+*What is the sum of all of the part numbers in the engine schematic?*
 
 ```{python}
 
 with open('data-2023-03.txt', 'r') as f:
     inp = f.read().splitlines()
 
+len(inp)
+len(inp[0])
 ```
 
-Maybe write an explanation of the solution approach here
+Let's find the possible symbols, that should be easier than regex, maybe?
 
 ```{python}
 # here's another python cell for good luck
 
+charact = ''.join(inp)
+
+sc = sorted(list(set(charact)))
+
+sc
+
+remover = '.0123456789'
+
+sym = [i for i in sc if i not in remover]
+
+sym
+
+num = remover[1:]
+
+num
+
 ```
 
-Paste part two here
+Create an array with the schematic input, but we want to have `.` characters on the outside so that we can loop more easily i.e. not have to worry if we're on an edge.
+
+```{python}
+import numpy as np
+import itertools
+
+# array full of dots
+arr = np.full((142, 142), '.')
+
+# list of lists
+inp_char = [list(x) for x in inp]
+
+# put the input into the array
+arr[1:141, 1:141] = inp_char
+
+# check 
+# arr[1, 59]
+
+```
+
+```{python}
+
+summer = 0
+i = 0
+
+while i < arr.shape[1]: 
+    j = 0
+    while j < arr.shape[0]:
+        # reset these through each loop
+        sym_found = False
+        curr_num = ''
+        # test the current character
+        if arr[i,j] == '.':
+            # do nothing
+            j += 1
+        elif arr[i,j] in sym: 
+            # do nothing
+            j += 1
+        elif arr[i,j] in num: 
+            # record the number
+            curr_num += arr[i,j]
+            # print(arr[i,j])
+            # search for symbols
+            for m,n in itertools.product([-1, 0, 1], [-1, 0, 1]):
+                if arr[i+m,j+n] in sym: 
+                    sym_found = True
+            # increase the position in our row
+            j += 1
+            if arr[i,j] in num:
+                curr_num += arr[i,j]
+                for m,n in itertools.product([-1, 0, 1], [-1, 0, 1]):
+                    if arr[i+m,j+n] in sym:
+                        sym_found = True
+                # increase row position again
+                j += 1
+                if arr[i,j] in num: 
+                    curr_num += arr[i,j]
+                    for m,n in itertools.product([-1, 0, 1], [-1, 0, 1]):
+                        if arr[i+m,j+n] in sym:
+                            sym_found = True
+                    # increase row position again
+                    j += 1
+            # if there is a symbol, add the number to the sum
+            if sym_found == True: 
+                summer += int(curr_num)
+                # print(curr_num)
+    # iterate i when we reach the end of j
+    i += 1
+        
+summer
+
+```
+
+## --- Part Two ---
+
+A *gear* is any `*` symbol that is adjacent to *exactly two part numbers*. Its *gear ratio* is the result of multiplying those two numbers together.
+
+*What is the sum of all of the gear ratios in your engine schematic?*
+
+Now we are looking for all of the `*` symbols and checking for surrounding numbers. We need to be more careful since we are looking for exactly two adjacent strings of numbers, so we need to know where those numbers start and finish.
+
+```{python}
+
+# change symbol input, we actually only care about the * now
+sym = '#$%&+-/=@'
+
+summer = 0
+i = 0
+
+while i < arr.shape[1]: 
+    j = 0
+    while j < arr.shape[0]:
+        # reset these through each loop
+        nf = ''
+        row_above = False
+        row_below = False
+        # test the current character
+        if arr[i,j] == '.' or arr[i,j] in sym or arr[i,j] in num:
+            # do nothing
+            j += 1
+        elif arr[i,j] == '*': 
+            # we have found a gear if we have also found two numbers. 
+            # in the row above and below, we could go from j-3 to j+3
+            # there could also be two numbers in that range
+            # in the same row as * we have j-3 to j+3
+            # but we know those are different numbers
+                    
+            # look to the left of the *
+            if arr[i,j-1] in num:
+                if arr[i,j-2] in num: 
+                    if arr[i,j-3] in num: 
+                        nf += arr[i,j-3] + arr[i,j-2] + arr[i,j-1] + ' '
+                    else: 
+                        nf += arr[i,j-2] + arr[i,j-1] + ' '
+                else: 
+                    nf += arr[i,j-1]
+                    
+            # look to the right of the *
+            if arr[i,j+1] in num:
+                if arr[i,j+2] in num: 
+                    if arr[i,j+3] in num:
+                        nf += arr[i,j+1] + arr[i,j+2] + arr[i,j+3] + ' '
+                    else: 
+                        nf += arr[i,j+1] + arr[i,j+2] + ' '
+                else: 
+                    nf += arr[i,j+1] + ' '
+            
+            # look above the *
+            if arr[i-1,j] in num: 
+                # backwards then forwards
+                row_above = True
+                if arr[i-1,j-1] in num:
+                    if arr[i-1,j-2] in num: 
+                        nf += arr[i-1,j-2] + arr[i-1,j-1] + arr[i-1,j] + ' '
+                    else: 
+                        if arr[i-1,j+1] in num: 
+                            nf += arr[i-1,j-1] + arr[i-1,j] + arr[i-1,j+1] + ' '
+                        else: 
+                            nf += arr[i-1,j-1] + arr[i-1,j] + ' '
+                else: 
+                    if arr[i-1,j+1] in num:
+                        if arr[i-1,j+2] in num:
+                            nf += arr[i-1,j] + arr[i-1,j+1] + arr[i-1,j+2] + ' '
+                        else: 
+                            nf += arr[i-1,j] + arr[i-1,j+1] + ' '
+                    else: 
+                        nf += arr[i-1,j] + ' '
+                            
+            # look up and left
+            if not row_above and arr[i-1,j-1] in num: 
+                # look backwards
+                if arr[i-1,j-2] in num: 
+                    if arr[i-1,j-3] in num: 
+                        nf += arr[i-1,j-3] + arr[i-1,j-2] + arr[i-1,j-1] + ' '
+                    else: 
+                        nf += arr[i-1,j-2] + arr[i-1,j-1] + ' '
+                else: 
+                    nf += arr[i-1,j-1] + ' '
+                    
+            # look up and right
+            if not row_above and arr[i-1,j+1] in num: 
+                # look forwards
+                if arr[i-1,j+2] in num: 
+                    if arr[i-1,j+3] in num: 
+                        nf += arr[i-1,j+1] + arr[i-1,j+2] + arr[i-1,j+3] + ' '
+                    else: 
+                        nf += arr[i-1,j+1] + arr[i-1,j+2] + ' '
+                else: 
+                    nf += arr[i-1,j+1] + ' '
+                
+            # look below the *
+            if arr[i+1,j] in num: 
+                # backwards then forwards
+                row_below = True
+                if arr[i+1,j-1] in num:
+                    if arr[i+1,j-2] in num: 
+                        nf += arr[i+1,j-2] + arr[i+1,j-1] + arr[i+1,j] + ' '
+                    else: 
+                        if arr[i+1,j+1] in num: 
+                            nf += arr[i+1,j-1] + arr[i+1,j] + arr[i+1,j+1] + ' '
+                        else: 
+                            nf += arr[i+1,j-1] + arr[i+1,j] + ' '
+                else: 
+                    if arr[i+1,j+1] in num:
+                        if arr[i+1,j+2] in num:
+                            nf += arr[i+1,j] + arr[i+1,j+1] + arr[i+1,j+2] + ' '
+                        else: 
+                            nf += arr[i+1,j] + arr[i+1,j+1] + ' '
+                    else: 
+                        nf += arr[i+1,j] + ' '
+                
+            if not row_below and arr[i+1,j-1] in num: 
+                # look backwards
+                if arr[i+1,j-2] in num: 
+                    if arr[i+1,j-3] in num: 
+                        nf += arr[i+1,j-3] + arr[i+1,j-2] + arr[i+1,j-1] + ' '
+                    else: 
+                        nf += arr[i+1,j-2] + arr[i+1,j-1] + ' '
+                else: 
+                    nf += arr[i+1,j-1] + ' '
+              
+            if not row_below and arr[i+1,j+1] in num:
+                # look forwards
+                if arr[i+1,j+2] in num: 
+                    if arr[i+1,j+3] in num: 
+                        nf += arr[i+1,j+1] + arr[i+1,j+2] + arr[i+1,j+3] + ' '
+                    else: 
+                        nf += arr[i+1,j+1] + arr[i+1,j+2] + ' '
+                else: 
+                    nf += arr[i+1,j+1] + ' '
+                
+              
+            # now do something with this information
+            # print(nf)
+            yy = nf.split()
+            if len(yy) == 2:
+                summer += int(yy[0]) * int(yy[1])
+            j += 1
+    # iterate i when we reach the end of j
+    i += 1
+      
+
+summer
+```
+
+First answer: 64,491,217 (too low)
+
+Second: 24,397,395 (too low)
+
+Third: 75,847,567 (gold star)
