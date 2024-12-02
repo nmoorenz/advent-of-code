@@ -5,20 +5,188 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 11: Cosmic Expansion ---
+
+A researcher with some weird observations of galaxies needs your help with some cosmic expansion calculations.
+
+Expand the universe, then find the length of the shortest path between every pair of galaxies. *What is the sum of these lengths?*
 
 ```{python}
+
+import numpy as np
 
 with open('data-2023-11.txt', 'r') as f:
     inp = f.read().splitlines()
 
+# check on things
+nrow = len(inp)
+ncol = len(inp[0])
+
+nrow, ncol
 ```
 
-Maybe write an explanation of the solution approach here
+Expansion first: find the rows and columns that are all dots and double them up (with some array trickery?). Yes: `np.insert()`
 
 ```{python}
-# here's another python cell for good luck
+
+# numpy.insert(arr, i, the_object_to_be_added, axis)
+# https://stackoverflow.com/a/64490174
+
+# create an array
+gal = np.array([list(x) for x in inp])
+
+nrow = len(gal)
+ncol = len(gal[0])
+
+# new row to insert
+d = '.' * ncol
+
+# looping with ability to skip 
+n = 0
+
+# rows first, I guess
+while n < nrow: 
+    if ''.join(gal[n, :]) == d:
+        print(n)
+        gal = np.insert(gal, n, d, axis=0)
+        n += 2
+        nrow += 1
+    else: 
+        n += 1
+
+# new column to insert
+nrow = len(gal)
+d = '.' * nrow
+n = 0
+
+while n < ncol:
+    if ''.join(gal[:, n]) == d:
+        print(n)
+        gal = np.insert(gal, n, d, axis=1)
+        n += 2
+        ncol += 1
+    else: 
+        n += 1
+
+ncol = len(gal[0])
+```
+
+```{python}
+# for g in gal:
+#     print(''.join(g))
+```
+
+Collect the locations of the hashes i.e. galaxies
+
+```{python}
+from itertools import combinations
+
+xies = []
+
+# collect the locations of the galaxies
+for r in range(nrow):
+    for c in range(ncol): 
+        if gal[r,c] == '#':
+            xies.append([r,c])
+
+# len(xies)
+# len(list(combinations(xies, 2)))
+
+summer = 0
+
+for x in list(combinations(xies, 2)):
+    summer += abs(x[0][0] - x[1][0]) + abs(x[0][1] - x[1][1])
+    
+summer
+
+# 9540803 too low
+# create a better loop by adding to nrow and ncol as I go through
+# 9543156
+```
+
+## --- Part Two ---
+
+The universe is way older and therefore the expansion is one million times as big!
+
+Starting with the same initial image, expand the universe according to these new rules, then find the length of the shortest path between every pair of galaxies. *What is the sum of these lengths?*
+
+I don't need to do the expansion, though that would be possible: I could just record the initial columns, and if the pairwise comparison of galaxies straddles those values, then add the number of millions at that stage.
+
+So iterating wouldn't be too bad, in the millions, not billions, but better to work smarter, not harder.
+
+```{python}
+
+# create an array
+gal = np.array([list(x) for x in inp])
+
+nrow = len(gal)
+ncol = len(gal[0])
+
+d = '.' * ncol
+dotrow = []
+
+# rows first, I guess
+for n in range(nrow): 
+    if ''.join(gal[n, :]) == d:
+        # print(n)
+        dotrow.append(n)
+
+# new column to insert
+d = '.' * nrow
+dotcol = []
+
+for n in range(ncol):
+    if ''.join(gal[:, n]) == d:
+        # print(n)
+        dotcol.append(n)
+
+dotrow
+dotcol
+```
+
+Use a similar scheme to the original
+
+```{python}
+
+xies = []
+
+# collect the locations of the galaxies
+for r in range(nrow):
+    for c in range(ncol): 
+        if gal[r,c] == '#':
+            xies.append([r,c])
+
+len(xies)
+len(list(combinations(xies, 2)))
+
+def get_dist(x):
+    # print(x)
+    # get the proper order of things
+    # it doesn't really matter which is bigger and smaller
+    # we can calculate the Manhattan distance either way
+    r1 = min(x[0][0], x[1][0])
+    r2 = max(x[0][0], x[1][0])
+    c1 = min(x[0][1], x[1][1])
+    c2 = max(x[0][1], x[1][1])
+    
+    y = (r2-r1) + (c2-c1)
+    e = sum([r1 < r < r2 for r in dotrow])
+    f = sum([c1 < c < c2 for c in dotcol])
+    y += (e + f) * (10**6 - 1) 
+    # print(y)
+    return y
+
+summer = 0
+
+for x in list(combinations(xies, 2)):
+    summer += get_dist(x)
+    
+summer 
+
+# 410227917921 too low
+# 625243917921 too high
+# 625243292686
 
 ```
 
-Paste part two here
+I was on the right track with not actually using one million with the difference <https://www.reddit.com/r/adventofcode/comments/18fzv4k/2023_day_11_part_2_how_to_approach_the_challenge/>

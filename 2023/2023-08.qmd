@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 8: Haunted Wasteland ---
+
+There are ghosts, and you have to follow some Left/Right instructions on a map.
+
+Starting at `AAA`, follow the left/right instructions. *How many steps are required to reach `ZZZ`?*
 
 ```{python}
 
@@ -14,11 +18,126 @@ with open('data-2023-08.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Create a dictionary with L: 0, R: 1 for directions i.e. list members; Split the instructions into a list; create a dictionary with the coordinates.
 
 ```{python}
-# here's another python cell for good luck
+
+from itertools import cycle
+
+# first line is left/right directions
+inst = list(inp[0])
+
+# for converting left/right into nodes
+id = {'L': 0, 'R': 1}
+
+# function for dictionary
+def pairwise(y): 
+    return y.split(' = ')[1].replace('(', '').replace(')', '').split(', ')
+
+# nodes 
+nodes = {x.split(' = ')[0]: pairwise(x) for x in inp[2:]}
 
 ```
 
-Paste part two here
+```{python}
+
+# initialise
+steps = 0
+lmnt = 'AAA'
+trgt = 'ZZZ'
+
+# let us start by assuming less than one trip through the instructions
+# I'm not sure how many trips it was but 1000 to 1001 didn't change the answer
+# and then I found itertools.cycle
+for k in cycle(inst): 
+    steps += 1
+    # print(k)
+    # print(lmnt)
+    # print(nodes[lmnt])
+    lmnt = nodes[lmnt][id[k]]
+    if lmnt == trgt: break
+    
+steps
+```
+
+Part one: 16343
+
+## --- Part Two ---
+
+It's not one start AAA and one end ZZZ there are actually more starts and ends.
+
+Simultaneously start on every node that ends with `A`. *How many steps does it take before you're only on nodes that end with `Z`?*
+
+```{python}
+
+
+# for instructions, for elements
+lmnts = []
+
+# get our starting elements, rather than just one element
+for k in nodes.keys():
+    if k[2] == 'A':
+        lmnts.append(k)
+
+# check on this        
+# lmnts
+
+steps = 0
+
+# checking function, if they all end in 'Z'
+def checker(lst):
+    # if any([j[2] == 'Z' for j in lst]):
+    #     print(lst)
+    return all([j[2] == 'Z' for j in lst])
+  
+
+for k in cycle(inst): 
+    steps += 1
+    for e, l in enumerate(lmnts): 
+        lmnts[e] = nodes[l][id[k]]
+    if checker(lmnts): break
+    if steps == 10**6: break
+    # print(lmnts)
+    
+steps
+```
+
+It's more than one million, and I don't know how much more.
+
+Don't do this, do them individually and multiply the results
+
+```{python}
+
+# for instructions, for elements
+lmnts = []
+
+# get our starting elements, rather than just one element
+for k in nodes.keys():
+    if k[2] == 'A':
+        lmnts.append(k)
+
+# check on this        
+lmnts
+
+for l in lmnts: 
+    steps = 0
+    for k in cycle(inst): 
+        steps += 1
+        l = nodes[l][id[k]]
+        if l[2] == 'Z': break
+    print(steps)
+    print(l)
+
+
+```
+
+Lowest Common Multiple
+
+```{python}
+from math import lcm
+
+lcm(21883, 13019, 19667, 16343, 18559, 14681)
+
+```
+
+Part two: 15299095336639

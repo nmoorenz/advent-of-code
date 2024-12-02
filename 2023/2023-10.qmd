@@ -5,20 +5,272 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 10: Pipe Maze ---
+
+On metal island the ground is covered in pipes.
+
+Find the single giant loop starting at `S`. *How many steps along the loop does it take to get from the starting position to the point farthest from the starting position?*
 
 ```{python}
+
+import numpy as np 
+import pandas as pd 
+import os
+from collections import Counter
 
 with open('data-2023-10.txt', 'r') as f:
     inp = f.read().splitlines()
 
+# 140 x 140
+len(inp)
+len(inp[0])
+
+pp = [list(x) for x in inp]
+
+pipes = np.array(pp)
+
+# pipes[1:10]
 ```
 
-Maybe write an explanation of the solution approach here
+`numpy` plus finding my way through some pipes.
 
 ```{python}
-# here's another python cell for good luck
+
+# find the starting location
+my_loc = list(np.where(pipes == 'S'))
+
+# print for good measure
+# print(my_loc)
+
+# by simply having a look at the input,
+# there is an F to the left and a 7 above - 
+# let's start by going up
+
+steps = 0
+
+# the moves don't just depend on the cell, but how we came into the cell
+# so I think we need four different variables with moves
+# variable name: the direction we came into the cell from
+# numbers: how we move the location
+# string: the direction we go into the next location
+
+moves = {
+    'right': {
+        '-': [0,1,'right'],
+        'J': [-1,0,'up'],
+        '7': [1,0,'down'],
+    },
+    'left': {
+        '-': [0,-1,'left'],
+        'L': [-1,0,'up'],
+        'F': [1,0,'down'],
+    },
+    'up': {
+        '|': [-1,0,'up'],
+        '7': [0,-1,'left'],
+        'F': [0,1,'right'],
+    },
+    'down': {
+        '|': [1,0,'down'],
+        'L': [0,1,'right'],
+        'J': [0,-1,'left'],
+    },
+}
+
+next_move = [-1,0,'up']
+locs = [my_loc]
+
+# keep looping
+# we come into the cell with how we got into the cell
+# check how we get out of the cell
+while True:
+    steps += 1
+    # safety
+    if steps == 1000000: break
+    
+    # make the move
+    my_loc[0] += next_move[0]
+    my_loc[1] += next_move[1]
+    next_dir = next_move[2]
+    this_pipe = pipes[my_loc[0], my_loc[1]][0]
+    locs.append(my_loc)
+    # print(my_loc)
+    # print(next_dir)
+    # print(this_pipe)
+
+    # check for a finish
+    if this_pipe == 'S': 
+        break
+    # get the next directions to move in the next loop
+    next_move = moves[next_dir][this_pipe]
+ 
+steps / 2
+
+# 13226 too high
+# half of it, of course
+# 6613
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Actually, the pipes form a loop.
+
+Figure out whether you have time to search for the nest by calculating the area within the loop. *How many tiles are enclosed by the loop?*
+
+```{python}
+140*140         # number of pipe locations i.e. input
+140*140-13266   # number of locations not in the loop
+
+# 6334 is highest possible
+                
+
+```
+
+Create a new array with zeros and convert the pipe loop locations to ones
+
+```{python}
+
+tracker = np.zeros([140, 140], dtype = int)
+
+# find the starting location
+my_loc = list(np.where(pipes == 'S'))
+
+steps = 0
+
+next_move = [-1,0,'up']
+
+# keep looping
+# we come into the cell with how we got into the cell
+# check how we get out of the cell
+while True:
+    steps += 1
+    # safety
+    if steps == 10**6: break
+    
+    # make the move
+    my_loc[0] += next_move[0]
+    my_loc[1] += next_move[1]
+    next_dir = next_move[2]
+    this_pipe = pipes[my_loc[0], my_loc[1]][0]
+
+    # new bit to track where the pipe goes
+    tracker[my_loc[0], my_loc[1]] = 1
+    # tracker[my_loc[0], my_loc[1]] = steps
+    # print(sum(tracker))
+    # check for a finish
+    if this_pipe == 'S': 
+        break
+    # get the next directions to move in the next loop
+    next_move = moves[next_dir][this_pipe]
+
+
+df = pd.DataFrame(tracker)
+df.to_csv("pipe-tracker.csv", header=False, index=False)
+
+```
+
+This looks quite good in csv form and conditional formatted google sheets but it's too much to count it manually without trying to code it first. Easier than counting inside is eliminating the outside ones - probably.
+
+```{python}
+
+for x in range(140): 
+    tracker[x,0] = 2
+    tracker[0,x] = 2
+    tracker[139,x] = 2
+    tracker[x,139] = 2
+
+for r in range(140): 
+    for c in range(140): 
+        if tracker[r,c] == 0:
+            if (tracker[r-1,c] == 2 or
+                tracker[r+1,c] == 2 or
+                tracker[r,c-1] == 2 or
+                tracker[r,c+1] == 2):
+                # update the value to be outside the pipe
+                tracker[r,c] = 2
+
+for r in range(140): 
+    for c in range(139,-1,-1): 
+        if tracker[r,c] == 0:
+            if (tracker[r-1,c] == 2 or
+                tracker[r+1,c] == 2 or
+                tracker[r,c-1] == 2 or
+                tracker[r,c+1] == 2):
+                # update the value to be outside the pipe
+                tracker[r,c] = 2
+                        
+for r in range(139,-1,-1): 
+    for c in range(140): 
+        if tracker[r,c] == 0:
+            if (tracker[r-1,c] == 2 or
+                tracker[r+1,c] == 2 or
+                tracker[r,c-1] == 2 or
+                tracker[r,c+1] == 2):
+                # update the value to be outside the pipe
+                tracker[r,c] = 2     
+
+for r in range(140): 
+    for c in range(139,-1,-1): 
+        if tracker[r,c] == 0:
+            if (tracker[r-1,c] == 2 or
+                tracker[r+1,c] == 2 or
+                tracker[r,c-1] == 2 or
+                tracker[r,c+1] == 2):
+                # update the value to be outside the pipe
+                tracker[r,c] = 2
+    
+df = pd.DataFrame(tracker)
+df.to_csv("pipe-tracker-2.csv", header=False, index=False)       
+
+(tracker == 0).sum()
+
+# 756 too high
+```
+
+Nope - could be diagonal into some spots
+
+```{python}
+
+for x in range(140): 
+    tracker[x,0] = 2
+    tracker[0,x] = 2
+    tracker[139,x] = 2
+    tracker[x,139] = 2
+
+def checker(arr):
+    for i in range(3):
+        for j in range(3):
+            if arr[i,j] == 2:
+                return True
+    # no outcome, not a 2
+    return False
+
+for r in range(140): 
+    for c in range(140): 
+        if tracker[r,c] == 0:
+            if checker(tracker[r-1:r+2,c-1:c+2]):
+                # update the value to be outside the pipe
+                tracker[r,c] = 2
+
+for r in range(139,-1,-1): 
+    for c in range(140): 
+        if tracker[r,c] == 0:
+            if checker(tracker[r-1:r+2,c-1:c+2]):
+                # update the value to be outside the pipe
+                tracker[r,c] = 2
+                
+for r in range(140): 
+    for c in range(139,-1,-1): 
+        if tracker[r,c] == 0:    
+            if checker(tracker[r-1:r+2,c-1:c+2]):
+                # update the value to be outside the pipe
+                tracker[r,c] = 2
+                
+df = pd.DataFrame(tracker)
+df.to_csv("pipe-tracker-2.csv", header=False, index=False)       
+
+(tracker == 0).sum()
+
+# 740
+```

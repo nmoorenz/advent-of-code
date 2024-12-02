@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 9: Mirage Maintenance ---
+
+*Oasis And Sand Instability Sensor*
+
+Analyze your OASIS report and extrapolate the next value for each history. *What is the sum of these extrapolated values?*
 
 ```{python}
 
@@ -14,11 +18,83 @@ with open('data-2023-09.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Looooops
 
 ```{python}
-# here's another python cell for good luck
 
+oasis = [list(map(int, x.split())) for x in inp]
+
+summer = 0
+
+# go through the list
+for o in oasis: 
+    # print(o)
+    # collect some other lists, until we reach zeros
+    cll = []
+    # the first list in our collection is the original list
+    cll.append(o)
+    # loop through while we don't have zeros
+    while not all([x == 0 for x in cll[-1]]):
+        # create a new list of differences
+        dd = [q - p for p,q in zip(cll[-1], cll[-1][1:])]
+        # add it in 
+        cll.append(dd)
+        # print(dd)
+
+    # let's go back through this list, I think
+    # add the previous number from one list to the next
+    u = 0
+    for r in cll[::-1]:
+        u += r[-1]
+    # keep track of everything
+    # print(u)
+    summer += u
+        
+summer    
+
+# 1721780360
+# 1782868781
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Analyze your OASIS report again, this time extrapolating the *previous* value for each history. *What is the sum of these extrapolated values?*
+
+This took about two minutes! Sometimes you stumble on something nice.
+
+```{python}
+
+
+oasis = [list(map(int, x.split())) for x in inp]
+
+summer = 0
+
+# go through the list
+for o in oasis: 
+    # print(o)
+    # collect some other lists, until we reach zeros
+    cll = []
+    # the first list in our collection is the original list
+    cll.append(o)
+    # loop through while we don't have zeros
+    while not all([x == 0 for x in cll[-1]]):
+        # create a new list of differences
+        dd = [q - p for p,q in zip(cll[-1], cll[-1][1:])]
+        # add it in 
+        cll.append(dd)
+        # print(dd)
+
+    # let's go back through this list, I think
+    # add the previous number from one list to the next
+    u = 0
+    for r in cll[::-1]:
+        u = r[0] - u
+        # print(u)
+    # keep track of everything
+    # print(u)
+    summer += u
+        
+summer    
+
+# 1057
+```
