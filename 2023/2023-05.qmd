@@ -26,37 +26,37 @@ seeds = inp[0].split()[1:]
 seeds = [int(x) for x in seeds]
 # seeds
 
-seed_to_soil = inp[4:20]
+seed_to_soil = inp[3:20]
 seed_to_soil = [list(map(int, x.split())) for x in seed_to_soil]
 seed_to_soil.sort()
 # seed_to_soil
 
-soil_to_fertilizer = inp[23:48]
+soil_to_fertilizer = inp[22:48]
 soil_to_fertilizer = [list(map(int, x.split())) for x in soil_to_fertilizer]
 soil_to_fertilizer.sort()
 # soil_to_fertilizer
 
-fertilizer_to_water = inp[51:97]
+fertilizer_to_water = inp[50:97]
 fertilizer_to_water = [list(map(int, x.split())) for x in fertilizer_to_water]
 fertilizer_to_water.sort()
 # fertilizer_to_water
 
-water_to_light = inp[100:107]
+water_to_light = inp[99:107]
 water_to_light = [list(map(int, x.split())) for x in water_to_light]
 water_to_light.sort()
 # water_to_light
 
-light_to_temperature = inp[110:124]
+light_to_temperature = inp[109:124]
 light_to_temperature = [list(map(int, x.split())) for x in light_to_temperature]
 light_to_temperature.sort()
 # light_to_temperature
 
-temperature_to_humidity = inp[127:166]
+temperature_to_humidity = inp[126:166]
 temperature_to_humidity = [list(map(int, x.split())) for x in temperature_to_humidity]
 temperature_to_humidity.sort()
 # temperature_to_humidity
 
-humidity_to_location = inp[169:192]
+humidity_to_location = inp[168:192]
 humidity_to_location = [list(map(int, x.split())) for x in humidity_to_location]
 humidity_to_location.sort()
 # humidity_to_location
@@ -137,14 +137,37 @@ We only need to assess the ranges, since we know that anything in between is wit
 
 Problem: our ranges could expand, which means that if we start with passing one pair into the function, and we return two pairs of mappings, then we need to somehow loop through that list as we go through the different mappings. This means we should just pass the whole list through to the function in the first place, working with the different mapping lists as we go.
 
+2024 update: we need to sort by the second element of the mapping lists, because we are relying on the order of the ranges. Or, another update, why don't we just convert these into more logical and useful expressions? 
+
+```{python}
+# seed_to_soil
+# soil_to_fertilizer
+# fertilizer_to_water
+# water_to_light
+# light_to_temperature
+# temperature_to_humidity
+# humidity_to_location
+
+seed_to_soil.sort(key = lambda x: x[1])
+soil_to_fertilizer.sort(key = lambda x: x[1])
+fertilizer_to_water.sort(key = lambda x: x[1])
+water_to_light.sort(key = lambda x: x[1])
+light_to_temperature.sort(key = lambda x: x[1])
+temperature_to_humidity.sort(key = lambda x: x[1])
+humidity_to_location.sort(key = lambda x: x[1])
+```
+
+
 ```{python}
 
 # Each line within a map contains three numbers: 
 # the destination range start, the source range start, and the range length.
 
 def get_range(prev, lst):
-    "Get the next list of ranges in the process"
-    "This receives the whole list of ranges, so we need to work through them"
+    """
+    Get the next list of ranges in the process
+    This receives the whole list of ranges, so we need to work through them
+    """
     # append start/end of each range to this array
     next = []
     # keep track of where we are within the lists
@@ -169,10 +192,16 @@ def get_range(prev, lst):
                 nx.append(p[0] - lst[mm][1] + lst[mm][0])
                 f1 = 'in'
                 break
+            # elif p[0] > 
             else: 
                 # look for the next mapper
                 mm += 1
-            
+        
+        print(f1)
+        # print(p)
+        print(lst[mm])
+        print(nx)
+        
         while True:
             if p[1] < lst[mm][1]: 
                 # both values were below the next in the range
@@ -206,23 +235,24 @@ def get_range(prev, lst):
 
         # append our min/max 
         next.append(nx)
+        print(next)
     return next
   
 
 ss = get_range(seeds, seed_to_soil)
 # print(ss)
-sf = get_range(ss, soil_to_fertilizer)
-# print(sf)
-fw = get_range(sf, fertilizer_to_water)
-# print(fw)
-wl = get_range(fw, water_to_light)
-# print(wl)
-lt = get_range(wl, light_to_temperature)
-# print(lt)
-th = get_range(lt, temperature_to_humidity)
-# print(th)
-hl = get_range(th, humidity_to_location)
-# print(hl)
+# sf = get_range(ss, soil_to_fertilizer)
+# # print(sf)
+# fw = get_range(sf, fertilizer_to_water)
+# # print(fw)
+# wl = get_range(fw, water_to_light)
+# # print(wl)
+# lt = get_range(wl, light_to_temperature)
+# # print(lt)
+# th = get_range(lt, temperature_to_humidity)
+# # print(th)
+# hl = get_range(th, humidity_to_location)
+# # print(hl)
 
 
     

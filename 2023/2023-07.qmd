@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 7: Camel Cards ---
+
+It's not poker, it's actually called Camel Cards.
+
+Find the rank of every hand in your set. *What are the total winnings?*
 
 ```{python}
 
@@ -14,11 +18,162 @@ with open('data-2023-07.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Strings and such, maybe some `itertools`?
 
 ```{python}
 # here's another python cell for good luck
 
+from collections import Counter
+
+cards = []
+
+for i in inp:
+    c = i.split()
+    c[1] = int(c[1])
+    cnt = Counter(c[0])
+    # sort out which category each of these fall into 
+    if 5 in cnt.values(): 
+        typ = 50
+    elif 4 in cnt.values():
+        typ = 40
+    elif 3 in cnt.values() and 2 in cnt.values():
+        typ = 32
+    elif 3 in cnt.values(): 
+        typ = 30
+    elif sorted(list(cnt.values())) == [1, 2, 2]:
+        typ = 22
+    elif 2 in cnt.values(): 
+        typ = 20
+    else: 
+        typ = 10
+    c.append(typ)
+    # add them to the thing
+    cards.append(c)
+    
+
 ```
 
-Paste part two here
+Need to sort these into the proper order
+
+```{python}
+
+val_dict = {
+    'T': 'V', 
+    'J': 'W',
+    'Q': 'X',
+    'K': 'Y',
+    'A': 'Z',
+}
+
+def sorter(item):
+    # sort by type, and then by highest cards
+    type = item[2]
+    z = item[0]
+    for k,v in val_dict.items():
+        z = z.replace(k,v)
+    return (type, z)
+
+
+sorted_cards = sorted(cards, key=sorter)
+
+ans = 0
+
+for i in range(len(sorted_cards)):
+    ans += (i+1) * sorted_cards[i][1]
+    
+ans
+```
+
+Part one: 253603890
+
+## --- Part Two ---
+
+Using the new joker rule, find the rank of every hand in your set. *What are the new total winnings?*
+
+```{python}
+
+cards = []
+
+for i in inp:
+    c = i.split()
+    c[1] = int(c[1])
+    cnt = Counter(c[0])
+    # sort out which category each of these fall into 
+    if 5 in cnt.values(): 
+        typ = 50
+    elif 'J' in c[0]:
+        # need to do some extra work here
+        if sorted(cnt.values()) == [1, 1, 1, 1, 1]:
+            # we move from singles to one pair
+            typ = 20
+        elif sorted(cnt.values()) == [1, 4]:
+            # we move from 4 to 5, doesn't matter if J has 1 or 4
+            typ = 50
+        elif sorted(cnt.values()) == [2, 3]:
+            # we move from full house to 5
+            typ = 50
+        elif sorted(cnt.values()) == [1, 1, 3]:
+            typ = 40
+        elif sorted(cnt.values()) == [1, 2, 2]:
+            # this could be 4 of a kind or full house
+            if ('J', 2) in cnt.items(): 
+                typ = 40
+            else: 
+                typ = 32
+        elif sorted(cnt.values()) == [1, 1, 1, 2]:
+            typ = 30
+    else: 
+        if 4 in cnt.values():
+            typ = 40
+        elif 3 in cnt.values() and 2 in cnt.values():
+            typ = 32
+        elif 3 in cnt.values(): 
+            typ = 30
+        elif sorted(cnt.values()) == [1, 2, 2]:
+            typ = 22
+        elif 2 in cnt.values(): 
+            typ = 20
+        else: 
+            typ = 10
+    c.append(typ)
+    # add them to the thing
+    cards.append(c)
+    
+```
+
+This isn't too different from what was in part one, except I now need to account for Jokers making up the strongest hand. This includes what the current hand is, and how many jokers there are in the hand.
+
+For sorting, I think I can just replace 'J' with '1' and it will sort J as the weakest card.
+
+```{python}
+
+val_dict = {
+    'T': 'V', 
+    'J': '1',
+    'Q': 'X',
+    'K': 'Y',
+    'A': 'Z',
+}
+
+def sorter(item):
+    # sort by type, and then by highest cards
+    type = item[2]
+    z = item[0]
+    for k,v in val_dict.items():
+        z = z.replace(k,v)
+    return (type, z)
+
+
+sorted_cards = sorted(cards, key=sorter)
+
+ans = 0
+
+for i in range(len(sorted_cards)):
+    ans += (i+1) * sorted_cards[i][1]
+    
+ans
+
+# 253786148 too high
+# 253662425 too high
+# 253630098
+```
