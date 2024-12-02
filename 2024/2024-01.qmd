@@ -5,7 +5,13 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 1: Historian Hysteria ---
+
+Help the senior historians find the chief historian.
+
+There are lists of locations to check.
+
+Your actual left and right lists contain many location IDs. What is the total distance between your lists?
 
 ```{python}
 
@@ -14,11 +20,52 @@ with open('data-2024-01.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+This seems simple with sorting lists
 
 ```{python}
-# here's another python cell for good luck
+
+L = []
+R = []
+
+for i in inp: 
+    x,y = i.split()
+    L.append(int(x))
+    R.append(int(y))
+
+L.sort()
+R.sort()
+
+summ = 0
+
+for l,r in zip(L, R): 
+    summ += abs(l-r)
+    
+summ
+
+# 2367773
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Some numbers appear in both lists.
+
+Once again consider your left and right lists. What is their similarity score?
+
+```{python}
+
+from collections import Counter
+
+summ = 0
+
+r_count = Counter(R)
+
+for l in L:
+    if l in r_count:
+        summ += l * r_count[l]
+
+summ
+
+# 21271939
+
+```
