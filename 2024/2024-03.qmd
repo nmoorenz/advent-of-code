@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 3: Mull It Over ---
+
+We need to multiply some numbers from corrupted computer memory.
+
+## --- Day 3: Mull It Over ---
 
 ```{python}
 
@@ -14,11 +18,78 @@ with open('data-2024-03.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Regex, amirite?
 
 ```{python}
-# here's another python cell for good luck
+
+import re
+
+patt = r'mul\([0-9]+,[0-9]+\)'
+
+mul_out = []
+
+for i in inp: 
+    mul_out += re.findall(patt, i)
+    
+# mul_out
+
+def get_digi(z): 
+    a,b = z.split(',')
+    c,d = a.split('(')
+    e = b[:-1]
+    return int(d) * int(e)
+
+
+digi = [get_digi(x) for x in mul_out]
+
+# digi
+
+sum(digi)
+
+# 174561379
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+There are some `do()` and some `don't()` instructions which turn on and turn off the `mul()` instructions.
+
+Handle the new instructions; what do you get if you add up all of the results of just the enabled multiplications?
+
+```{python}
+
+patt = r'mul\([0-9]+,[0-9]+\)|do\(\)|don\'t\(\)'
+
+new_out = []
+
+for i in inp: 
+    new_out += re.findall(patt, i)
+    
+# new_out
+
+nice_out = []
+
+do_dont = True
+
+for n in new_out:
+    if n == 'do()': 
+        do_dont = True
+    elif n == "don't()": 
+        do_dont = False
+    else: 
+        if do_dont: 
+            nice_out.append(n)
+
+len(mul_out)
+len(new_out)
+len(nice_out)
+# nice_out
+
+digi = [get_digi(x) for x in nice_out]
+
+# digi
+
+sum(digi)
+
+# 106921067
+```
