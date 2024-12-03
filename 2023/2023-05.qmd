@@ -18,7 +18,7 @@ with open('data-2023-05.txt', 'r') as f:
 
 ```
 
-Redoing this one in an attempt to keep the input off github. Need to parse the input into list of lists.
+Redoing this one in an attempt to keep the input off github. Need to parse the input into list of lists. Using line numbers is fine: as long as I get those numbers correct. Ugh. 
 
 ```{python}
 
@@ -148,13 +148,27 @@ Problem: our ranges could expand, which means that if we start with passing one 
 # temperature_to_humidity
 # humidity_to_location
 
-seed_to_soil.sort(key = lambda x: x[1])
-soil_to_fertilizer.sort(key = lambda x: x[1])
-fertilizer_to_water.sort(key = lambda x: x[1])
-water_to_light.sort(key = lambda x: x[1])
-light_to_temperature.sort(key = lambda x: x[1])
-temperature_to_humidity.sort(key = lambda x: x[1])
-humidity_to_location.sort(key = lambda x: x[1])
+def edit_lists(ss):
+    start = ss[1]
+    end = ss[1] + ss[2] - 1
+    change = ss[0] - ss[1]
+    return [start, end, change]
+
+seed_to_soil = [edit_lists(s) for s in seed_to_soil]
+soil_to_fertilizer = [edit_lists(s) for s in soil_to_fertilizer]
+fertilizer_to_water = [edit_lists(s) for s in fertilizer_to_water]
+water_to_light = [edit_lists(s) for s in water_to_light]
+light_to_temperature = [edit_lists(s) for s in light_to_temperature]
+temperature_to_humidity = [edit_lists(s) for s in temperature_to_humidity]
+humidity_to_location = [edit_lists(s) for s in humidity_to_location]
+
+seed_to_soil.sort(key = lambda x: x[0])
+soil_to_fertilizer.sort(key = lambda x: x[0])
+fertilizer_to_water.sort(key = lambda x: x[0])
+water_to_light.sort(key = lambda x: x[0])
+light_to_temperature.sort(key = lambda x: x[0])
+temperature_to_humidity.sort(key = lambda x: x[0])
+humidity_to_location.sort(key = lambda x: x[0])
 ```
 
 
@@ -182,7 +196,7 @@ def get_range(prev, lst):
         print(p)
         # check where we land
         while True: 
-            if p[0] < lst[mm][1]:
+            if p[0] < lst[mm][0]:
                 # our value is less than the next map range
                 nx.append(p[0])
                 f1 = 'pre'
