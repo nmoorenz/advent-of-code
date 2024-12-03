@@ -109,7 +109,7 @@
 
 -   `np.insert()` does me well here. 
 -   I thought I had part two done by not actually doing the expansion and adding millions to the distances between the galaxies but that did not quote work. 
-
+-   What did work was realising that you've accounted for one unit of distance so actually insert 999,999 rows or columns. 
 
 
 ### Day 12
