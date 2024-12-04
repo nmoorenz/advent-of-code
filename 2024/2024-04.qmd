@@ -5,20 +5,127 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 4: Ceres Search ---
+
+We are doing a word search for `XMAS`
+
+Take a look at the little Elf's word search. How many times does `XMAS` appear?
 
 ```{python}
+
+import numpy as np 
 
 with open('data-2024-04.txt', 'r') as f:
     inp = f.read().splitlines()
 
+# 140 x 140
+# len(inp)
+# len(inp[0])
+
+xx = [list(x) for x in inp]
+
+grid = np.array(xx)
+
+# grid[1:10]
 ```
 
-Maybe write an explanation of the solution approach here
+Words have to start with X, then we have to search in possible directions.
 
 ```{python}
-# here's another python cell for good luck
+
+x_count = 0
+
+for i in range(len(inp)): 
+    for j in range(len(inp[0])): 
+        # print(grid[i,j])
+        if grid[i,j] == 'X': 
+            # west
+            if ''.join(grid[i,j-3:j+1]) == 'SAMX': 
+                x_count += 1
+            # east
+            if ''.join(grid[i,j:j+4]) == 'XMAS':
+                x_count += 1
+            # north 
+            if ''.join(grid[i-3:i+1,j]) == 'SAMX':
+                x_count += 1
+            # south
+            if ''.join(grid[i:i+4,j]) == 'XMAS':
+                x_count += 1
+            # northwest
+            if i < 3 or j < 3: 
+                pass
+            elif (grid[i,j] + grid[i-1,j-1] + 
+                  grid[i-2,j-2] + grid[i-3,j-3]) == 'XMAS':
+                x_count += 1
+            # northeast
+            if i < 3 or j > 136: 
+                pass
+            elif (grid[i,j] + grid[i-1,j+1] + 
+                  grid[i-2,j+2] + grid[i-3,j+3]) == 'XMAS':
+                x_count += 1
+            # southwest
+            if i > 136 or j < 3: 
+                pass
+            elif (grid[i,j] + grid[i+1,j-1] + 
+                  grid[i+2,j-2] + grid[i+3,j-3]) == 'XMAS':
+                x_count += 1
+            # southeast
+            if i > 136 or j > 136: 
+                pass
+            elif (grid[i,j] + grid[i+1,j+1] + 
+                  grid[i+2,j+2] + grid[i+3,j+3]) == 'XMAS':
+                x_count += 1
+
+x_count
+
+# 2460 too low
+# fix a spelling mistake in north check
+# 2646
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+oh, actually, we are looking for `X-MAS` i.e. two MAS in a X shape.
+
+Flip the word search from the instructions back over to the word search side and try again. How many times does an `X-MAS` appear?
+
+```{python}
+
+x_count = 0
+
+for i in range(1,len(inp)-1): 
+    for j in range(1,len(inp[0])-1): 
+        # this time we are looking for A
+        # but it is also symmetrical so we can not be in first or last
+        if grid[i,j] == 'A':
+            # if any of the surrounds are X then we don't have a thing
+            if (grid[i-1,j-1] == 'X' or grid[i-1,j+1] == 'X' or
+                grid[i+1,j-1] == 'X' or grid[i+1,j+1] == 'X'):
+                    pass
+            # M over S
+            elif (grid[i-1,j-1] == 'M' and grid[i-1,j+1] == 'M' and
+                  grid[i+1,j-1] == 'S' and grid[i+1,j+1] == 'S'):
+                x_count += 1
+            # S over M
+            elif (grid[i-1,j-1] == 'S' and grid[i-1,j+1] == 'S' and
+                  grid[i+1,j-1] == 'M' and grid[i+1,j+1] == 'M'):
+                x_count += 1
+            # M then S
+            elif (grid[i-1,j-1] == 'M' and grid[i-1,j+1] == 'S' and
+                  grid[i+1,j-1] == 'M' and grid[i+1,j+1] == 'S'):
+                x_count += 1
+            # S then M
+            elif (grid[i-1,j-1] == 'S' and grid[i-1,j+1] == 'M' and
+                  grid[i+1,j-1] == 'S' and grid[i+1,j+1] == 'M'):
+                x_count += 1
+            
+            
+# 4947 A in the grid
+x_count
+
+# 3115 too high
+# fix the typo making sure we use and
+# 2000
+
+```
