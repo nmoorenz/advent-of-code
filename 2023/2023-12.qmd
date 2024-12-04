@@ -5,20 +5,192 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 12: Hot Springs ---
+
+For each row, count all of the different arrangements of operational and broken springs that meet the given criteria. *What is the sum of those counts?*
 
 ```{python}
+
+from itertools import combinations, permutations, product
 
 with open('data-2023-12.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+This is the first time I don't immediately have an approach and am worried about not getting finished.
+
+Update: create all the possible options
 
 ```{python}
-# here's another python cell for good luck
+
+# let us start by getting things organised
+spr = [[x.split()[0], list(map(int, x.split()[1].split(',')))] for x in inp]
+
+dothash = ['.', '#']
+
+# somewhat brute force to create all options
+def create_options(w, aim):
+    # how many questions marks, means how many replacements
+    q = w.count('?')
+    # print(q)
+    # print(w)
+    # this provides binary "combinations" 
+    # (not the combinations or permutations function)
+    combo = list(product(dothash, repeat=q))
+    # this is what we are collecting, possible arrangements
+    arr = []
+    # loop through our different dothash combos
+    for c in combo: 
+        # print(c)
+        # current possibility
+        this = []
+        # position of replacement
+        it = 0
+        # original string of characters
+        for d in w: 
+            # print(d)
+            # make a replacement, iterate the replacer
+            if d == '?':
+                # print(c[it])
+                this.append(c[it])
+                it += 1
+            # take the original char
+            else: 
+                this.append(d)
+        # once used up the combos, assign back
+        # print(this)
+        if this.count('#') == aim: 
+            arr.append(''.join(this))
+    return arr
+    
+  
+# check if our things match the thing we want
+def verify_arr(opt, v):
+    num = 0
+    # loop through opt and count the hash to see if they match v
+    for o in opt: 
+        # collect the current count
+        curr = []
+        # set the count to zero
+        cnt = 0
+        # characters in current option
+        for c in o: 
+            if c == '.':
+                if cnt > 0: 
+                    curr.append(cnt)
+                cnt = 0
+            else: 
+                cnt += 1
+        if cnt > 0: 
+            curr.append(cnt)
+        # add to our tally for correct sequences
+        if curr == v: 
+            num += 1
+    return num
+  
+  
+summer = 0
+
+for s in spr: 
+    aim = sum(s[1])
+    opt = create_options(s[0], aim)
+    cnt = verify_arr(opt, s[1])
+    summer += cnt
+    
+summer
+
+# 7916
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Actually, each record is folded up 5 times.
+
+Unfold your condition records; *what is the new sum of possible arrangement counts?*
+
+```{python}
+
+spr2 = []
+
+for s in spr:
+    spr2.append([s[0]*5, s[1]*5])
+
+dothash = ['.', '#']
+
+# somewhat brute force to create all options
+def create_options(w, aim):
+    # how many questions marks, means how many replacements
+    q = w.count('?')
+    # print(q)
+    # print(w)
+    # this provides binary "combinations" 
+    # (not the combinations or permutations function)
+    combo = list(product(dothash, repeat=q))
+    # this is what we are collecting, possible arrangements
+    arr = []
+    # loop through our different dothash combos
+    for c in combo: 
+        # print(c)
+        # if we don't have the right number don't entertain the possibility
+        if ''.join(c).count('#') + w.count('#') != aim: 
+            continue        
+        # current possibility
+        this = []
+        # position of replacement
+        it = 0
+        # original string of characters
+        for d in w: 
+            # print(d)
+            # make a replacement, iterate the replacer
+            if d == '?':
+                # print(c[it])
+                this.append(c[it])
+                it += 1
+            # take the original char
+            else: 
+                this.append(d)
+        # once used up the combos, assign back
+        # print(this)
+        if this.count('#') == aim: 
+            arr.append(''.join(this))
+    return arr
+    
+  
+# check if our things match the thing we want
+def verify_arr(opt, v):
+    num = 0
+    # loop through opt and count the hash to see if they match v
+    for o in opt: 
+        # collect the current count
+        curr = []
+        # set the count to zero
+        cnt = 0
+        # characters in current option
+        for c in o: 
+            if c == '.':
+                if cnt > 0: 
+                    curr.append(cnt)
+                cnt = 0
+            else: 
+                cnt += 1
+        if cnt > 0: 
+            curr.append(cnt)
+        # add to our tally for correct sequences
+        if curr == v: 
+            num += 1
+    return num
+  
+  
+summer = 0
+
+for s in spr: 
+    aim = sum(s[1])
+    opt = create_options(s[0], aim)
+    cnt = verify_arr(opt, s[1])
+    summer += cnt
+    
+summer
+
+```
