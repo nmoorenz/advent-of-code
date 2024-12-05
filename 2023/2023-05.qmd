@@ -129,7 +129,7 @@ for s,n in zip(seed_list[:-1:2], seed_list[1::2]):
 seeds.sort()
 
 # this is now our list of min and max of ranges for seeds    
-seeds
+# seeds
 
 ```
 
@@ -193,7 +193,7 @@ def get_range(prev, lst):
         # find one
         f1 = ''
         # checker
-        print(p)
+        # print(p)
         # check where we land
         while True: 
             if p[0] < lst[mm][0]:
@@ -201,62 +201,71 @@ def get_range(prev, lst):
                 nx.append(p[0])
                 f1 = 'pre'
                 break
-            elif lst[mm][1] < p[0] < lst[mm][1] + lst[mm][2]:
+            elif lst[mm][0] < p[0] < lst[mm][1]:
                 # make an adjustment
-                nx.append(p[0] - lst[mm][1] + lst[mm][0])
+                nx.append(p[0] + lst[mm][2])
                 f1 = 'in'
                 break
-            # elif p[0] > 
+            elif p[0] > lst[-1][1]: 
+                # collect the p values
+                nx.append(p[0])
+                f1 = 'aft'
+                break
             else: 
                 # look for the next mapper
                 mm += 1
         
-        print(f1)
+        # print(f1)
         # print(p)
-        print(lst[mm])
-        print(nx)
+        # print(lst[mm])
+        # print(nx)
         
         while True:
-            if p[1] < lst[mm][1]: 
+            if p[1] < lst[mm][0]: 
                 # both values were below the next in the range
                 nx.append(p[1])
                 break
-            elif lst[mm][1] < p[1] < lst[mm][1] + lst[mm][2]: 
+            elif lst[mm][0] < p[1] < lst[mm][1]: 
                 # second from the pair is within a range
                 if f1 == 'pre': 
                     # we jump over a boundary and need to record
-                    nx.append(lst[mm][1] - 1)
+                    nx.append(lst[mm][0] - 1)
                     next.append(nx)
                     nx = []
-                    nx.append(lst[mm][1])
-                    nx.append(p[0] - lst[mm][1] + lst[mm][0])
+                    nx.append(lst[mm][0])
+                    nx.append(p[1] + lst[mm][2])
                     break
                 elif f1 == 'in': 
                     # range is both within the mapping
-                    nx.append(p[0] - lst[mm][1] + lst[mm][0])
+                    nx.append(p[0] + lst[mm][2])
                     break
                 else: 
                     # I don't know why we might be here
-                    pass
+                    raise('this is no good')
+            elif p[1] > lst[-1][1]: 
+                # gone beyond the range of the next list
+                nx.append(p[1])
+                break
             else: 
-                # go to the next
-                nx.append(lst[mm][1] - 1)
+                # go to the next in the future map list
+                nx.append(lst[mm][0] - 1)
                 next.append(nx)
                 nx = []
-                nx.append(lst[mm][1])
+                nx.append(lst[mm][0])
                 # look at the next in the range
                 mm += 1
 
         # append our min/max 
         next.append(nx)
-        print(next)
+        # print(next)
+    # after we've been through previous, then return the next list
     return next
   
 
 ss = get_range(seeds, seed_to_soil)
-# print(ss)
-# sf = get_range(ss, soil_to_fertilizer)
-# # print(sf)
+print(ss.sort())
+sf = get_range(ss.sort(), soil_to_fertilizer)
+print(sf)
 # fw = get_range(sf, fertilizer_to_water)
 # # print(fw)
 # wl = get_range(fw, water_to_light)
