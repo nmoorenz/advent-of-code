@@ -5,20 +5,109 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 11: Plutonian Pebbles ---
+
+There is a weird set of magic pebbles that split and have numbers on them.
+
+Consider the arrangement of stones in front of you. How many stones will you have after blinking 25 times?
 
 ```{python}
 
 with open('data-2024-11.txt', 'r') as f:
     inp = f.read().splitlines()
 
+
 ```
 
-Maybe write an explanation of the solution approach here
+Create rules for what happens
+
+-   zero becomes 1
+
+-   even number of digits, split into two
+
+-   else, multiply by 2024
 
 ```{python}
-# here's another python cell for good luck
+
+peb = inp[0].split()
+
+peb = [int(p) for p in peb]
+
+for i in range(25): 
+    new_peb = []
+    for j in peb: 
+        js = str(j)
+        if j == 0: 
+            new_peb.append(1)
+        elif len(js) % 2 == 0: 
+            new_peb.append(int(js[:len(js)//2]))
+            new_peb.append(int(js[len(js)//2:]))
+        else: 
+            new_peb.append(j * 2024)
+    # assign it back to work on it next time
+    peb = new_peb
+    # print(peb)
+
+
+len(peb)
+
+# 43        (5)
+# 346       (10)
+# 2901      (15)
+# 22872     (20)
+# 185894    (25)
+# 1503224   (30)
+# 12133105  (35)
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+75 times, see above.
+
+It's going to be too long!
+
+How do I take care of this? Keep the counts, not in a list.
+
+```{python}
+
+from collections import Counter
+
+peb_count = Counter(peb)
+
+len(peb_count)
+
+def apply_rule(j): 
+    js = str(j)
+    if j == 0: 
+        return 1
+    elif len(js) % 2 == 0: 
+        return int(js[:len(js)//2]),int(js[len(js)//2:])
+    else: 
+        return j * 2024
+
+
+for r in range(26, 76):
+    new_count = {}
+    for k,v in peb_count.items():
+        nn = apply_rule(k)
+        if isinstance(nn, int):
+            if nn in new_count:
+                new_count[nn] += v
+            else: 
+                new_count[nn] = v
+        else: 
+            for m in nn:
+                if m in new_count:
+                    new_count[m] += v
+                else: 
+                    new_count[m] = v
+    # assign back and loop again
+    peb_count = new_count
+
+len(peb_count)
+
+sum(peb_count.values())
+
+# 221632504974231
+```
