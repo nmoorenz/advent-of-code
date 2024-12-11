@@ -5,16 +5,36 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 8: Resonant Collinearity ---
+
+Antinodes make people buy inferior easter bunny chocolate.
+
+Calculate the impact of the signal. How many unique locations within the bounds of the map contain an antinode?
 
 ```{python}
+
+import numpy as np
 
 with open('data-2024-08.txt', 'r') as f:
     inp = f.read().splitlines()
 
+nodes = [list(x) for x in inp]
+
+antenna = np.array(nodes)
+
+# len(antenna)
+# len(antenna[0])
+
+all_char = list(set([x for i in inp for x in i]))
+all_char.sort()
+# all_char
+
+char_count = np.unique(antenna, return_counts=True)
+
+# np.array(char_count).T
 ```
 
-Maybe write an explanation of the solution approach here
+Guess I have to loop through these? It's not so many.
 
 ```{python}
 # here's another python cell for good luck
