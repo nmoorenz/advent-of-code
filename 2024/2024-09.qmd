@@ -5,20 +5,159 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 9: Disk Fragmenter ---
+
+We have a dense representation of disk memory.
+
+Compact the amphipod's hard drive using the process he requested. What is the resulting filesystem checksum?
 
 ```{python}
 
 with open('data-2024-09.txt', 'r') as f:
     inp = f.read().splitlines()
 
+hd = list(inp[0])
+
+hd = [int(x) for x in hd]
+
+len(hd)
 ```
 
-Maybe write an explanation of the solution approach here
+Guess I just have to loop, like always
 
 ```{python}
-# here's another python cell for good luck
+
+long_map = []
+dig = 0
+
+gap = False
+
+for h in hd: 
+    # fill in the gaps
+    if gap: 
+        for i in range(h): 
+            long_map.append('.')
+        gap = False
+    # populate the array      
+    else: 
+        for i in range(h): 
+            long_map.append(dig)
+        gap = True
+        dig += 1
+
+long_map[:30]
+long_map[-30:]
+```
+
+Good so far, now we have to move from the end to the gaps.
+
+```{python}
+
+place = 0
+back = len(long_map)-1
+
+new_map = []
+
+for m in long_map: 
+    if isinstance(m, str):
+        # if it is a dot then put numbers in
+        if isinstance(long_map[-1], int): 
+            # new_map.append(long_map[back])
+            new_map.append(long_map.pop())
+            # back -= 1
+            # place += 1
+        else: 
+            # reduce the iterator
+            while isinstance(long_map[-1], str):
+                _ = long_map.pop()
+            new_map.append(long_map.pop())
+    else: 
+        # populate the new array with current array in order
+        new_map.append(m)
+        # place += 1
+    # check for swapping, reached the end
+    # if place > back: 
+    if len(new_map) == len(long_map):
+        break
+        
+            
 
 ```
 
-Paste part two here
+OK, now, so, create a sumproduct to find the answer
+
+```{python}
+
+summer = 0
+
+for e,n in enumerate(new_map): 
+    summer += e*n
+    
+summer
+
+# 6398252054886
+```
+
+## --- Part Two ---
+
+We need to move whole blocks of files instead of piece by piece.
+
+Start over, now compacting the amphipod's hard drive using this new method instead. What is the resulting filesystem checksum?
+
+```{python}
+
+# check how many blocks of each there are, files and spaces. 
+file_len = {}
+gap_len = {}
+
+for i in range(0, len(hd), 2):
+    if hd[i] in file_len: 
+        file_len[hd[i]] += 1
+    else: 
+        file_len[hd[i]] = 1
+        
+for j in range(1, len(hd), 2): 
+    if hd[j] in gap_len:
+        gap_len[hd[j]] += 1
+    else: 
+        gap_len[hd[j]] = 1
+        
+dict(sorted(file_len.items()))
+dict(sorted(gap_len.items()))
+```
+
+Gaps can be zero, so not everything is going to be able to move.
+
+```{python}
+
+# go backwards from the end of the long_map
+# recreate it first since we popped it for part one
+
+long_map = []
+dig = 0
+
+gap = False
+
+for h in hd: 
+    # fill in the gaps
+    if gap: 
+        for i in range(h): 
+            long_map.append('.')
+        gap = False
+    # populate the array      
+    else: 
+        for i in range(h): 
+            long_map.append(dig)
+        gap = True
+        dig += 1
+
+```
+
+O(n2) sounds like the situation for the looping through the long_map to find the place to put the files.
+
+It's not massive so not too worried?
+
+```{python}
+
+
+```

@@ -5,20 +5,140 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 7: Bridge Repair ---
+
+There is a bridge that needs repair and we have to find the instructions to do that, by adding or multiplying.
+
+Determine which equations could possibly be true. What is their total calibration result?
 
 ```{python}
 
 with open('data-2024-07.txt', 'r') as f:
     inp = f.read().splitlines()
 
+# checking
+inp[0]
+len(inp)
+
+# result and then values
+cal_list = [x.split(':') for x in inp]
+
+# make a nice dictionary
+cal = {int(s[0]):  list(map(int, s[1].split())) for s in cal_list}
+
+# check the length of the lists, is trying all values feasible
+max([len(v) for v in cal.values()])
+
+# cal[7218]
 ```
 
-Maybe write an explanation of the solution approach here
+I think just have a go through the different options and see what works.
+
+Generate a function for the combinations of + and \* for each length of list.
 
 ```{python}
 # here's another python cell for good luck
 
+# list length 4
+# generate options length 3
+# 2**3 - 1 = 7
+# 000 to 111
+
+# generate the operators
+def gen_ops(num):
+    targ = 2**(num-1)
+    opers = []
+    for r in range(targ):
+        bin_num = bin(r)[2:].zfill(num-1)
+        op_string = bin_num.replace('0', '+').replace('1', '*')
+        opers.append(list(op_string))
+    return opers 
+
+# do the evaluation
+def do_eval(ops, dig):
+    summ = dig[0]
+    # print(ops)
+    # print(dig)
+    for o,d in zip(ops,dig[1:]):
+        expr = str(summ) + o + str(d)
+        summ = eval(expr)
+        # print(expr)
+        # print(summ)
+    return summ
+
+summer = 0
+
+for t,c in cal.items(): 
+    # print(t)
+    # print(c)
+    # generate operator combos
+    ops = gen_ops(len(c))
+    # loop for operator possiblities
+    for o in ops: 
+        # print(o)
+        if do_eval(o, c) == t: 
+            summer += t
+            # print('found')
+            break
+
+
+summer
+
+# 10515638659 too low
+# 1361389105912 too low
+# 1361264929496 without repeats
+# 1620690235709 making sure I go through all operators
+# range is up to limit, of course
+
 ```
 
-Paste part two here
+## --- Part Two ---
+
+There's a new concatenation operator that we need to consider.
+
+Using your new knowledge of elephant hiding spots, determine which equations could possibly be true. What is their total calibration result?
+
+```{python}
+
+# we still need to define the operators
+# and then evaluate the operators. 
+
+def gen_ops(num):
+    targ = 2**(num-1)
+    opers = []
+    for r in range(targ):
+        bin_num = bin(r)[2:].zfill(num-1)
+        op_string = bin_num.replace('0', '+').replace('1', '*')
+        opers.append(list(op_string))
+    return opers 
+
+
+def do_eval(ops, dig): 
+    summ = dig[0]
+    # print(ops)
+    # print(dig)
+    for o,d in zip(ops,dig[1:]):
+        expr = str(summ) + o + str(d)
+        summ = eval(expr)
+        # print(expr)
+        # print(summ)
+    return summ
+
+
+summer = 0
+
+for t,c in cal.items(): 
+    # print(t)
+    # print(c)
+    # generate operator combos
+    ops = gen_ops(len(c))
+    # loop for operator possiblities
+    for o in ops: 
+        # print(o)
+        if do_eval(o, c) == t: 
+            summer += t
+            break
+
+
+summer
+```
