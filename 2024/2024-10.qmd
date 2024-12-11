@@ -5,16 +5,25 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 10: Hoof It ---
+
+A reindeer has a map of a hiking trail.
+
+The reindeer gleefully carries over a protractor and adds it to the pile. What is the sum of the scores of all trailheads on your topographic map?
 
 ```{python}
+
+import numpy as np
 
 with open('data-2024-10.txt', 'r') as f:
     inp = f.read().splitlines()
 
+trail = [list(x) for x in inp]
+
+trail_map = np.array(trail)
 ```
 
-Maybe write an explanation of the solution approach here
+Find the zeros and do a search through all the different paths.
 
 ```{python}
 # here's another python cell for good luck

@@ -5,20 +5,230 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 6: Guard Gallivant ---
+
+There's a security guard and we want to track where they are walking.
+
+Predict the path of the guard. **How many distinct positions will the guard visit before leaving the mapped area?**
 
 ```{python}
+
+import numpy as np
+import pandas as pd
+from copy import deepcopy
 
 with open('data-2024-06.txt', 'r') as f:
     inp = f.read().splitlines()
 
+grid = [list(x) for x in inp]
+
+walking = np.array(grid)
+
+np.where(walking == '^')
+
+len(walking)
+len(walking[0])
+
 ```
 
-Maybe write an explanation of the solution approach here
+Iteration, I guess. Make sure we keep track of the direction the guard is walking.
 
 ```{python}
-# here's another python cell for good luck
+# make some functions to move and check 
+
+def move_me(dir, a, b):
+    if dir == 'up': 
+        a -= 1
+    elif dir == 'right':
+        b += 1
+    elif dir == 'down':
+        a += 1
+    elif dir == 'left':
+        b -= 1
+    return a,b
+
+def turn_me(dir):
+    if dir == 'up': 
+        return 'right'
+    elif dir == 'right':
+        return 'down'
+    elif dir == 'down':
+        return 'left'
+    elif dir == 'left':
+        return 'up'
+    
+def able_to_move(walking, dir, a, b):
+    if dir == 'up' and walking[a-1,b] == '#':
+        return False
+    elif dir == 'right' and walking[a,b+1] == '#':
+        return False
+    elif dir == 'down' and walking[a+1,b] == '#':
+        return False
+    elif dir == 'left' and walking[a,b-1] == '#':
+        return False
+    else: 
+        return True
+    
+def check_edges(dir, a, b):
+    if dir == 'up' and a == 0:
+        return True
+    elif dir == 'right' and b == 129:
+        return True
+    elif dir == 'down' and a == 129:
+        return True
+    elif dir == 'left' and b == 0:
+        return True
+
+
+dir = 'up'
+
+a,b = 60,60
+
+counter = np.zeros([130,130], dtype = int)
+
+counter[a,b] = 1
+
+stopper = 0
+
+while True: 
+    # safety so we don't get in an infinite loop
+    stopper += 1
+    if stopper == 100000: break
+    # if we can move then do it
+    if able_to_move(walking, dir, a, b):
+        # print('moving')
+        a,b = move_me(dir, a, b)
+    # if we cannot then we should turn
+    else: 
+        # print('turning')
+        dir = turn_me(dir)
+        a,b = move_me(dir, a, b)
+    # iterate our counter
+    counter[a,b] = 1
+    # also check if the guard is going off the map
+    if check_edges(dir, a, b):
+        break
+
+
+np.sum(counter)
+
+# 4789 too high
+# 4662 too low
+# 4663 move the counter iteration
+
+df = pd.DataFrame(counter)
+df.to_csv("guard-path.csv", header=False, index=False)
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+We should be able to place an object to make the guard walk in a loop.
+
+You need to get the guard stuck in a loop by adding a single new obstruction. **How many different positions could you choose for this obstruction?**
+
+The obstructions could only be on the path that the guard walks on, otherwise it has no effect. Maximum possibilities is 4663. That is not too large to iterate, test each one. How do we test for a loop? It isn't just the starting position, since the loop could begin after and not include the start. If the guard does not go off the map then it must be a loop.
+
+```{python}
+
+# reuse the same setup but record the locations of the path
+# then use that list to place obstructions
+
+dir = 'up'
+
+a,b = 60,60
+
+counter = np.zeros([130,130], dtype = int)
+
+counter[a,b] = 1
+
+stopper = 0
+
+guard_path = []
+guard_path.append([a,b])
+
+while True: 
+    # safety so we don't get in an infinite loop
+    stopper += 1
+    if stopper == 100000: break
+    # if we can move then do it
+    if able_to_move(walking, dir, a, b):
+        # print('moving')
+        a,b = move_me(dir, a, b)
+    # if we cannot then we should turn
+    else: 
+        # print('turning')
+        dir = turn_me(dir)
+        a,b = move_me(dir, a, b)
+    # iterate our counter
+    counter[a,b] = 1
+    guard_path.append([a,b])
+    # also check if the guard is going off the map
+    if check_edges(dir, a, b):
+        break
+
+# guard_path
+len(guard_path)
+guard_path = guard_path[1:]
+guard_tuple = [tuple(x) for x in guard_path]
+guard_set = set(guard_tuple)
+guard_path = [list(x) for x in guard_set]
+len(guard_path)
+```
+
+Convert the list of positions into a set of positions, since we don't want to consider the same location twice, and we can't use the starting position.
+
+I am also going to create a function for the walking of the guard since that makes the most sense.
+
+```{python}
+
+def check_for_loop(obs):
+    # variables for starting    
+    dir = 'up'
+    a,b = 60,60
+    stopper = 0
+    loop = True
+    
+    while True: 
+        # safety so we don't get in an infinite loop
+        # I do not have well defined stopping criteria so this is it
+        stopper += 1
+        if stopper == 10000: break
+        # if we can move then do it
+        if able_to_move(obs, dir, a, b):
+            a,b = move_me(dir, a, b)
+        # if we cannot then we should turn
+        else: 
+            dir = turn_me(dir)
+            a,b = move_me(dir, a, b)
+        # check if the guard is going off the map
+        if check_edges(dir, a, b):
+            loop = False
+            break
+    # print(stopper)
+    # after we break return loop or no
+    return loop
+    
+```
+
+Now we can do our assessment
+
+```{python}
+
+loops = 0
+
+for g in guard_path[:]:
+    # create a new obstruction map
+    obs = deepcopy(walking)
+    # add a new obstruction
+    obs[g[0],g[1]] = '#' 
+    # do the walking assessment
+    if check_for_loop(obs): 
+        loops += 1
+
+loops
+
+# 4375 too high
+# 1430 too low
+
+```
