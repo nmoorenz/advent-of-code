@@ -159,5 +159,44 @@ It's not massive so not too worried?
 
 ```{python}
 
+# loop backwards for the things to move
+# repeatedly loop forward through the gaps
 
+from copy import deepcopy
+
+new_map = deepcopy(long_map)
+iter = 0
+file_pos = len(new_map)
+
+def find_gap():
+    pass
+
+def get_len():
+    pass
+
+while True:
+    # safety
+    iter += 1
+    if iter == 100: break
+    
+    # find the 
+    # find the length of the file
+    # send the reversed map over to the function
+    file_len = get_len(new_map[-10::-1])
+    
+    # find a length to fit the thing
+    # need to allow for no gap
+    gap_num = find_gap()
+    
+    # do the replacement
+    new_map[gap_num:gap_num+file_len] = file_val
+    
+    # remove the values if we were able to move
+    
+    # find the next value
+    # this could be at the start of the loop?
+    
+
+
+    
 ```
