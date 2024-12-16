@@ -151,11 +151,16 @@ for h in hd:
         gap = True
         dig += 1
 
+len(long_map)
+long_map[:50]
+long_map[-50:]
 ```
 
 O(n2) sounds like the situation for the looping through the long_map to find the place to put the files.
 
 It's not massive so not too worried?
+
+Do I need to make a copy of the array or just move the original files around? It is likely that I have to go backwards through the whole loop. Let us assume that we do not have to make a copy to start with.
 
 ```{python}
 
@@ -164,39 +169,96 @@ It's not massive so not too worried?
 
 from copy import deepcopy
 
-new_map = deepcopy(long_map)
-iter = 0
-file_pos = len(new_map)
+file_pos = len(long_map) - 1
 
-def find_gap():
-    pass
+safe = 0
 
-def get_len():
-    pass
+
+def find_gap(arr, file_len, place):
+    # loop forwards
+    for i in range(place - file_len): 
+        # look for dots as gaps
+        if arr[i] == '.':
+            # get the length of the gap
+            gap_len = get_len(arr[i:i+10])
+            # if we have an appropriate length
+            if gap_len >= file_len: 
+                return i
+    # if we cannot find an appropriate gap
+    return False
+        
+
+def get_len(arr):
+    num = arr[0]
+    z = 1
+    for i in range(1, len(arr)): 
+        if arr[i] == num: 
+            z += 1
+        else: 
+            break
+    # return our count
+    return z
+
 
 while True:
     # safety
-    iter += 1
-    if iter == 100: break
+    # safe += 1
+    # if safe == 500:
+    #     break
     
-    # find the 
+    # print('file position ', file_pos)
+    # store the current value that's looking for a home
+    file_val = long_map[file_pos]
+    # print('file value ', file_val)
+    
     # find the length of the file
     # send the reversed map over to the function
-    file_len = get_len(new_map[-10::-1])
+    file_len = get_len(long_map[file_pos-10:file_pos+1][::-1])
+    # print('file length ', file_len)
     
     # find a length to fit the thing
     # need to allow for no gap
-    gap_num = find_gap()
+    gap_num = find_gap(long_map, file_len, file_pos)
+    # print('gap number ', gap_num)
     
-    # do the replacement
-    new_map[gap_num:gap_num+file_len] = file_val
+    # if we don't have a place then we need to leave files in place
+    if not gap_num: 
+        print(file_pos)
+    else: 
+        # do the replacement
+        long_map[gap_num:gap_num+file_len] = [file_val] * file_len
+        
+        # remove the values if we were able to move
+        long_map[file_pos-file_len:file_pos+1] = ['.'] * file_len
     
-    # remove the values if we were able to move
+    # get our new file_pos
+    # at most file_len = 9 and gap_len = 9
+    for j in range(20): 
+        file_pos -= 1
+        if long_map[file_pos] != '.' and long_map[file_pos] != file_val: 
+            break
+        
+    # some kind of safety, expecting to fill the first 100 
+    if file_pos < 100: 
+        break
     
-    # find the next value
-    # this could be at the start of the loop?
     
 
+len(long_map)
+long_map[:50]
+long_map[-50:]
+```
 
+Do the check sum again, but we need to account for the dots left behind
+
+```{python}
+
+summer = 0
+
+for e,n in enumerate(new_map): 
+    summer += e*n
     
+summer
+
+# 6398252054886
 ```
