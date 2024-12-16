@@ -5,20 +5,83 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 12: Garden Groups ---
+
+We have a gardening map where the plants grow all over the place.
+
+*What is the total price of fencing all regions on your map?*
 
 ```{python}
+
+import numpy as np
 
 with open('data-2024-12.txt', 'r') as f:
     inp = f.read().splitlines()
 
+grid = [list(x) for x in inp]
+
+fences = np.array(grid)
+
+fence_space = np.empty([281, 281], dtype=str)
+
+for i in range(140):
+    for j in range(140):
+        fence_space[i*2+1,j*2+1] = fences[i,j]
+
 ```
 
-Maybe write an explanation of the solution approach here
+Loop through and mark all the boundaries.
 
 ```{python}
-# here's another python cell for good luck
 
+# outside boundaries for good luck
+for k in range(281):
+    fence_space[0,k] = '-'
+    fence_space[280,k] = '-'
+    fence_space[k,0] = '|'
+    fence_space[k,280] = '|'
+
+fence_space[0,0] = ''
+fence_space[280,280] = ''
+
+
+for i in range(1, 280, 2):
+    for j in range(2, 279, 2):
+        if fence_space[i,j-1] != fence_space[i,j+1]: 
+            fence_space[i,j] = '|'
+            
+
+for i in range(2, 279, 2):
+    for j in range(1, 280, 2):
+        if fence_space[i-1,j] != fence_space[i+1,j]: 
+            fence_space[i,j] = '-'
+
+            
+            
 ```
 
-Paste part two here
+Boundaries are done, now we have to pick out the groups. I think, pick off the bits and search around for how many are in the group.
+
+```{python}
+
+def check_empty()
+    # see if we have anything left from the original array
+    pass
+
+def gather_garden()
+    # loop around the place to see what's included in the garden
+    
+
+while True: 
+    # pick a place to start searching
+    
+    # count the boundaries
+    
+    # count the area
+    
+    # remove the area from consideration
+    
+    
+```
+
+Well, do I need to create an elaborate array of spacings? Can I just pick out the garden and work the boundary afterwards? I would still be using the same gather function.

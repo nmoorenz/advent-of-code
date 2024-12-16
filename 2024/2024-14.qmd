@@ -5,20 +5,145 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 14: Restroom Redoubt ---
+
+Watch out for the robot guards!
+
+Predict the motion of the robots in your list within a space which is `101` tiles wide and `103` tiles tall. What will the safety factor be after exactly 100 seconds have elapsed?
 
 ```{python}
+
+import re
 
 with open('data-2024-14.txt', 'r') as f:
     inp = f.read().splitlines()
 
+robots = []
+
+for i in inp: 
+    rb = {}
+    rb['px'] = int(re.findall(r'p=(\d+)', i)[0])
+    rb['py'] = int(re.findall(r'p=\d+,(\d+)', i)[0])
+    rb['vx'] = int(re.findall(r'v=(-*\d+)', i)[0])
+    rb['vy'] = int(re.findall(r'v=-*\d+,(-*\d+)', i)[0])
+    robots.append(rb)
+    
+# robots
+
 ```
 
-Maybe write an explanation of the solution approach here
+Prep done, make a function.
 
 ```{python}
-# here's another python cell for good luck
 
+# wide = 101
+# tall = 103
+# 100 seconds
+
+finals = []
+
+def move_robots(rob): 
+    # total distance moved after 100 seconds
+    dist_x = rob['vx'] * 100
+    dist_y = rob['vy'] * 100
+    # remainder of movement since we loop around
+    move_x = dist_x % 101
+    move_y = dist_y % 103
+    # relative position
+    p1x = rob['px'] + move_x
+    p1y = rob['py'] + move_y
+    # final position because we need to adjust
+    if p1x < 0: 
+        fx = 101 + p1x
+    elif p1x > 100:
+        fx = p1x - 101
+    else: 
+        fx = p1x
+    if p1y < 0: 
+        fy = 103 + p1y
+    elif p1y > 102:
+        fy = p1y - 103
+    else: 
+        fy = p1y
+    # return
+    return [fx, fy]
+        
+        
+for r in robots: 
+    pos = move_robots(r)
+    finals.append(pos)
+    
+nw = 0
+ne = 0
+sw = 0
+se = 0
+
+for f in finals: 
+    if f[0] < 50 and f[1] < 51: 
+        nw += 1
+    elif f[0] < 50 and f[1] > 51: 
+        sw += 1
+    elif f[0] > 50 and f[1] < 51: 
+        ne += 1
+    elif f[0] > 50 and f[1] > 51: 
+        se += 1
+        
+nw, ne, sw, se
+nw * ne * sw * se
+
+# 230461440
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Hey! The robots make a christmas tree picture at some stage.
+
+What is the fewest number of seconds that must elapse for the robots to display the Easter egg?
+
+```{python}
+
+from PIL import Image
+from copy import deepcopy
+import numpy as np
+import csv
+
+bots = deepcopy(robots)
+
+# image = Image.fromarray(numpy_array)
+# image.save('file name with extension(like .jpg)')
+  
+def move_bots(rob): 
+    # move the robots
+    p1x = rob['px'] + rob['vx']
+    p1y = rob['py'] + rob['vy']
+    # final position because we need to adjust
+    if p1x < 0: 
+        fx = 101 + p1x
+    elif p1x > 100:
+        fx = p1x - 101
+    else: 
+        fx = p1x
+    if p1y < 0: 
+        fy = 103 + p1y
+    elif p1y > 102:
+        fy = p1y - 103
+    else: 
+        fy = p1y
+    # return
+    return fx, fy
+
+
+for x in range(100): 
+    pic = np.zeros([101,103])
+    # do one iteration for moving
+    for r in robots: 
+        r['px'], r['py'] = move_bots(r)
+        pic[r['px'], r['py']] = 8
+    # export the array
+    # export=open(f'day14/pic{x}.jpg', 'wb')
+    np.savetxt(f'day14/pic{x}.txt', pic, delimiter='', fmt='%0.f')
+
+    
+
+
+```
