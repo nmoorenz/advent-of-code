@@ -5,20 +5,153 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 17: Chronospatial Computer ---
+
+Registers and instructions and things? There's a lot of explanation in this one and not much input.
+
+Using the information provided by the debugger, initialize the registers to the given values, then run the program. Once it halts, what do you get if you use commas to join the values it output into a single string?
 
 ```{python}
 
 with open('data-2024-17.txt', 'r') as f:
     inp = f.read().splitlines()
 
+A = int(inp[0][12:])
+B = int(inp[1][-1:])
+C = int(inp[2][-1:])
+
+inst = list(map(int, inp[4][9:].split(',')))
+
+inst
+A,B,C
 ```
 
-Maybe write an explanation of the solution approach here
+I guess we have to write these instructions
 
 ```{python}
-# here's another python cell for good luck
+
+
+
+def get_combo(oo,a,b,c): 
+    if oo <= 3: 
+        combo = oo
+    elif oo == 4: 
+        combo = a
+    elif oo == 5: 
+        combo = b
+    elif oo == 6: 
+        combo = c
+    else: 
+        raise ValueError('7 should not be the operand')
+    return combo
+    
+    
+def operations(opc, ope, a, b, c, i): 
+    out = -1
+    jump = False
+    if opc == 0: 
+        # division
+        combo = get_combo(ope,a,b,c)
+        a = int(a / 2**combo)
+    elif opc == 1: 
+        # bitwise xor
+        b = b ^ ope
+    elif opc == 2: 
+        # modulo
+        combo = get_combo(ope,a,b,c)
+        b = combo % 8
+    elif opc == 3: 
+        # jumps
+        if a != 0: 
+            i = ope
+            jump = True
+    elif opc == 4: 
+        # bitwise xor
+        b = b ^ c
+    elif opc == 5: 
+        # modulo and output
+        combo = get_combo(ope,a,b,c)
+        out = combo % 8
+    elif opc == 6: 
+        # divide into B
+        combo = get_combo(ope,a,b,c)
+        b = int(a/2**combo)
+    elif opc == 7: 
+        # divide into C
+        combo = get_combo(ope,a,b,c)
+        c = int(a/2**combo)
+    # edits on pointer
+    if not jump: 
+        i += 2
+    # return new values
+    return a,b,c,i,out
+
+i = 0
+outer = []
+
+while True: 
+    A,B,C,i,out = operations(inst[i], inst[i+1], A, B, C, i)
+    # append output values
+    if out >= 0: 
+        outer.append(out)
+    # break if we have no more instructions
+    if i >= len(inst): 
+        break
+    
+
+','.join(map(str, outer))
+
+# 4,3,2,6,4,5,3,2,4
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+What is the lowest positive initial value for register `A` that causes the program to output a copy of itself?
+
+```{python}
+
+from copy import deepcopy
+
+lens = {}
+
+for z in range(100000000): 
+    # set our initial values
+    A = deepcopy(z)
+    B = 0
+    C = 0
+    i = 0
+    outer = []
+    # loop through like we did before
+    while True: 
+        A,B,C,i,out = operations(inst[i], inst[i+1], A, B, C, i)
+        # append output values
+        if out >= 0: 
+            outer.append(out)
+        # break if we have no more instructions
+        if i >= len(inst): 
+            break
+    # print for now
+    # print(outer)
+    # collect length to see if we are close
+    if len(outer) in lens: 
+        lens[len(outer)] += 1
+    else: 
+        lens[len(outer)] = 1
+    # check if we have success
+    if inst == outer: 
+        break
+    
+# we are aiming for length 16   
+lens    
+inst
+outer
+z
+```
+
+```         
+{1: 8, 2: 56, 3: 448, 4: 3584, 5: 28672, 6: 229376, 7: 1835008, 8: 14680064, 9: 83222784} 
+[2, 4, 1, 1, 7, 5, 1, 5, 4, 5, 0, 3, 5, 5, 3, 0] 
+[0, 3, 7, 4, 4, 5, 6, 3, 1] 
+99999999
+```
