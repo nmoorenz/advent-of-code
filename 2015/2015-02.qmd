@@ -5,20 +5,70 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 2: I Was Told There Would Be No Math ---
+
+The elves need to order some wrapping paper, luckily they are all cube-ish.
+
+All numbers in the elves' list are in feet. How many total *square feet of wrapping paper* should they order?
 
 ```{python}
 
 with open('data-2015-02.txt', 'r') as f:
-    inp = f.read().splitlines()
+    pres = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+Split into separate pieces for the different dimensions - try lists first? Do some calculations - we need area, minimum area, and then sum
 
 ```{python}
-# here's another python cell for good luck
+
+pres_dim = [[int(y) for y in p.split('x')] for p in pres]
+
+for y in pres_dim:
+    y.append(2 * y[0] * y[1])
+    y.append(2 * y[1] * y[2])
+    y.append(2 * y[0] * y[2])
+    y.append(min(y[3], y[4], y[5])/2)
+    y.append(y[3] + y[4] + y[5] + y[6])
 
 ```
 
-Paste part two here
+Now to do a sum of the last elements of the lists
+
+```{python}
+
+sum(x[7] for x in pres_dim)
+
+# 1586300
+
+```
+
+## --- Part Two ---
+
+We also need some ribbon for the presents!
+
+How many total *feet of ribbon* should they order?
+
+```{python}
+
+pres_dim = [[int(y) for y in p.split('x')] for p in pres]
+
+for y in pres_dim:
+    y.append(2 * y[0] + 2 * y[1]) 
+    y.append(2 * y[1] + 2 * y[2])
+    y.append(2 * y[0] + 2 * y[2])
+    y.append(min(y[3], y[4], y[5]))
+    y.append(y[0] * y[1] * y[2])
+    y.append(y[6] + y[7]) 
+
+```
+
+And sum up the ribbon lengths :)
+
+```{python}
+
+sum(x[8] for x in pres_dim)
+
+# 3737498
+
+```

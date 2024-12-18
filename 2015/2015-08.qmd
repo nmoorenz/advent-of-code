@@ -5,20 +5,60 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 8: Matchsticks ---
+
+Space on the sleigh is limited this year, and so Santa will be bringing his list as a digital copy. He needs to know how much space it will take up when stored.
+
+Disregarding the whitespace in the file, what is *the number of characters of code for string literals* minus *the number of characters in memory for the values of the strings* in total for the entire file?
 
 ```{python}
 
 with open('data-2015-08.txt', 'r') as f:
-    inp = f.read().splitlines()
+    santa_list = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+Count each of the strings
 
 ```{python}
-# here's another python cell for good luck
+
+sum(len(x) for x in santa_list)
+
+sum(len(eval(x)) for x in santa_list)
+
+sum(len(x) for x in santa_list) - sum(len(eval(x)) for x in santa_list)
 
 ```
 
-Paste part two here
+Let's try a for loop for printing to see what's happening. Does this make sense? It does.
+
+```{python}
+
+for x in santa_list[:10]:
+    print(str(len(x)) + ' ' + x)
+    print(str(len(eval(x))) + ' ' + eval(x))
+    
+# 1333    
+```
+
+## --- Part Two ---
+
+Go the other way, expand things.
+
+Your task is to find *the total number of characters to represent the newly encoded strings* minus *the number of characters of code in each original string literal*.
+
+This looks like we have to find the required characters: `\` + `"` + 2 for each string, quotes at the start and end.
+
+```{python}
+
+nn = 0
+
+for x in santa_list:
+    nn += sum(1 for y in x if '\\' in y)
+    nn += sum(1 for y in x if '"' in y)
+    nn += 2
+
+nn
+
+# 2046
+```

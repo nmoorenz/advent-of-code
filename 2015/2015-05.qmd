@@ -5,20 +5,107 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 5: Doesn't He Have Intern-Elves For This? ---
+
+Santa needs help figuring out which strings in his text file are naughty or nice, according to some rules.
+
+How many strings are nice?
 
 ```{python}
+
+import re
 
 with open('data-2015-05.txt', 'r') as f:
-    inp = f.read().splitlines()
+    nice_list = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+I think we want some functions here?
 
 ```{python}
-# here's another python cell for good luck
+
+def three_vowels(inp):
+    regex = '[aeiou].*[aeiou].*[aeiou]'
+    if re.search(regex, inp, re.IGNORECASE):
+        return True
+    else: 
+        return False
+
+def double_letter(inp):
+    regex = r'([a-z])\1'
+    if re.search(regex, inp, re.IGNORECASE):
+        return True
+    else: 
+        return False
+
+def forbidden(inp):
+    forb = ['ab', 'cd', 'pq', 'xy']
+    return all(f not in inp for f in forb)
 
 ```
 
-Paste part two here
+Call those functions
+
+```{python}
+
+vowel_list = [three_vowels(x) for x in nice_list]
+
+double_list = [double_letter(x) for x in nice_list]
+
+forb_list = [forbidden(x) for x in nice_list]
+
+```
+
+Then we want to zip to see how many are all True
+
+```{python}
+
+sum(1 for v, d, f in zip(vowel_list, double_list, forb_list) if v and d and f)
+
+# 258
+
+```
+
+## --- Part Two ---
+
+Now we have some different rules to determine naughty and nice.
+
+How many strings are nice under these new rules?
+
+```{python}
+
+def double_pair(inp):
+    regex = r'([a-z]{2}).*\1'
+    if re.search(regex, inp, re.IGNORECASE):
+        return True
+    else: 
+        return False
+  
+def repeat_gap(inp):
+    regex = r'([a-z])[a-z]\1'
+    if re.search(regex, inp, re.IGNORECASE):
+        return True
+    else: 
+        return False
+    
+```
+
+Call the functions
+
+```{python}
+
+pair_list = [double_pair(x) for x in nice_list]
+
+rep_list = [repeat_gap(x) for x in nice_list]
+
+```
+
+Make a count
+
+```{python}
+
+sum(1 for p, r in zip(pair_list, rep_list) if p and r)
+
+# 53
+
+```

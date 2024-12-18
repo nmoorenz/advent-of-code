@@ -5,20 +5,69 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 4: The Ideal Stocking Stuffer ---
+
+Santa is mining some AdventCoins.
+
+To mine AdventCoins, you must find Santa the lowest positive number (no leading zeroes: `1`, `2`, `3`, ...) that produces such a hash.
 
 ```{python}
+
+import hashlib
 
 with open('data-2015-04.txt', 'r') as f:
-    inp = f.read().splitlines()
+    inp = f.read()
+
+i = 0
+chck = ''
+
+while chck[:5] != '00000':
+    i += 1
+    chck = hashlib.md5((inp + str(i)).encode('utf-8')).hexdigest()
+
+print(i)
+print(chck)
+
+# 346386
 
 ```
 
-Maybe write an explanation of the solution approach here
+Let's try this in R as well!
+
+```{r warning=FALSE}
+
+library(openssl)
+
+i = 0
+inp = readLines('data-2015-04.txt')
+chck = ''
+
+while (substr(chck, 1, 5) != '00000') {
+    i = i + 1
+    chck = md5(paste0(inp, as.character(i)))
+}
+
+print(i)
+print(chck)
+
+```
+
+## --- Part Two ---
+
+Now find one that starts with *six zeroes*.
 
 ```{python}
-# here's another python cell for good luck
+
+i = 0
+chck = ''
+
+while chck[:6] != '000000':
+    i += 1
+    chck = hashlib.md5((inp + str(i)).encode('utf-8')).hexdigest()
+
+print(i)
+print(chck)
+
+# 9958218
 
 ```
-
-Paste part two here
