@@ -5,20 +5,64 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 10: Elves Look, Elves Say ---
 
 ```{python}
 
 with open('data-2015-10.txt', 'r') as f:
-    inp = f.read().splitlines()
+    inp = f.read()
+
+inp = list(inp)
 
 ```
 
-Maybe write an explanation of the solution approach here
+For loop, yeah?
 
 ```{python}
-# here's another python cell for good luck
+
+import copy
+
+def looper(inp, l):
+    for j in range(l):
+        new_inp = []
+        k = 1
+        for i in range(len(inp)):
+            if i == len(inp)-1:
+                new_inp.append(str(k))
+                new_inp.append(inp[i])
+            elif inp[i] == inp[i+1]:
+                k += 1
+            else: 
+                new_inp.append(str(k))
+                new_inp.append(inp[i])
+                k = 1
+        # assign for the next iteration   
+        inp = copy.deepcopy(new_inp)
+        # print(inp)
+    return len(inp)
 
 ```
 
-Paste part two here
+Check the length
+
+```{python}
+
+looper(inp, 40)
+
+# 329356
+
+```
+
+## --- Part Two ---
+
+Now, starting again with the digits in your puzzle input, apply this process *50* times. What is *the length of the new result*?
+
+Make this a function!
+
+```{python}
+
+looper(inp, 50)
+
+# 4666278
+
+```

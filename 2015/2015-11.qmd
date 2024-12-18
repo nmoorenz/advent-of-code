@@ -5,20 +5,104 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 11: Corporate Policy ---
+
+Santa's previous password expired, and he needs help choosing a new one.
+
+Given Santa's current password (your puzzle input), what should his *next password* be?
 
 ```{python}
+
+import re
+import string
 
 with open('data-2015-11.txt', 'r') as f:
-    inp = f.read().splitlines()
+    inp = f.read()
+    
+inp = list(inp)
 
 ```
 
-Maybe write an explanation of the solution approach here
+Set up the requirements
 
 ```{python}
-# here's another python cell for good luck
+
+def req1(st):
+    # must contain three consecutive letters
+    return any([q for q in seq if q in st])
+  
+def req2(st):
+    # must not contain i, o, l
+    # I think we can set this up as part of iteration
+    pass
+  
+def req3(st):
+    # must contain two double letters
+    regex = r'([a-z])\1.*([a-z])\2'
+    if re.search(regex, st, re.IGNORECASE):
+        return True
+    else: 
+        return False
 
 ```
 
-Paste part two here
+Set up our letters
+
+```{python}
+
+# use this handy dandy string
+letters = list(string.ascii_lowercase)
+
+# create sequence of consecutive letters
+seq = [letters[n] + letters[n+1] + letters[n+2] for n in range(len(letters) - 2)]
+# these cannot be in our answer so remove from sequence
+seq = [m for m in seq if 'i' not in m and 'l' not in m and 'o' not in m]
+
+# remove from the list for iteration purposes
+letters.remove('i')
+letters.remove('l')
+letters.remove('o')
+
+# one letter goes on to the next, this seems like a good idea
+vals = letters[1:] + [letters[0]]
+# usage: password[i] = next[password[i]]
+next = dict(zip(letters, vals))
+
+```
+
+There's probably some nice way to do this, but let's make a big nested loop
+
+```{python}
+
+a = 0
+inp = list('hxbxxzaa')
+
+
+while not (req1(''.join(inp)) and req3(''.join(inp))): 
+    a += 1
+    # print(inp)
+    if inp[-1] == 'z':
+        if inp[-2] == 'z':
+            if inp[-3] == 'z':
+                if inp[-4] == 'z':
+                    if inp[-5] == 'z':
+                        if inp[-6] == 'z':
+                            if inp[-7] == 'z':
+                                inp[-8] = next[inp[-8]]    
+                            inp[-7] = next[inp[-7]]       
+                        inp[-6] = next[inp[-6]]        
+                    inp[-5] = next[inp[-5]]
+                inp[-4] = next[inp[-4]]
+            inp[-3] = next[inp[-3]]
+        inp[-2] = next[inp[-2]]
+    inp[-1] = next[inp[-1]]
+    
+    # if a > 100000:
+    #     break
+      
+    
+
+a
+''.join(inp)
+
+```

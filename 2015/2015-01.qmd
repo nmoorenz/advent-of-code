@@ -5,20 +5,47 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 1: Not Quite Lisp ---
+
+Santa is delivering presents in a large apartment building, but the lifts are a bit screwy.
+
+To *what floor* do the instructions take Santa?
 
 ```{python}
 
 with open('data-2015-01.txt', 'r') as f:
-    inp = f.read().splitlines()
+    paren = f.read()
 
 ```
 
-Maybe write an explanation of the solution approach here
+Simple enough, count the ups and downs.
 
 ```{python}
-# here's another python cell for good luck
 
+paren.count('(') - paren.count(')')
+
+# 137
 ```
 
-Paste part two here
+## --- Part Two ---
+
+What is the *position* of the character that causes Santa to first enter the basement?
+
+```{python}
+i = 0
+santa = 0
+p = list(paren)
+while santa >= 0: 
+    # move santa
+    if p[i] == '(':
+        santa += 1
+    else:
+        santa -= 1
+    # increment
+    i += 1
+    
+print(i)
+
+# 1771
+
+```

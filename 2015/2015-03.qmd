@@ -5,20 +5,205 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 3: Perfectly Spherical Houses in a Vacuum ---
+
+Santa is delivering his presents in a 2d grid of houses.
+
+However, the elf back at the north pole has had a little too much eggnog, and so his directions are a little off, and Santa ends up visiting some houses more than once. How many houses receive *at least one present*?
 
 ```{python}
 
 with open('data-2015-03.txt', 'r') as f:
-    inp = f.read().splitlines()
+    paren = list(f.read())
 
 ```
 
-Maybe write an explanation of the solution approach here
+Add the first present
 
 ```{python}
-# here's another python cell for good luck
+
+x = 0
+y = 0
+pp = dict()
+pp[str(x) + ',' + str(y)] = 1
 
 ```
 
-Paste part two here
+I like this as a function
+
+```{python}
+
+def add_item(pp, x, y):
+    # create key
+    k = str(x) + ',' + str(y)
+    # if key exists then add one
+    if k in pp:
+        pp[k] += 1
+    # else create a new key
+    else: 
+        pp[k] = 1
+    # return
+    return pp
+
+```
+
+Add some more presents
+
+```{python}
+
+for i in range(len(paren)):
+    if paren[i] == '^':
+        y += 1
+        pp = add_item(pp, x, y)
+    elif paren[i] == '<':
+        x -= 1
+        pp = add_item(pp, x, y)      
+    elif paren[i] == '>':
+        x += 1
+        pp = add_item(pp, x, y)      
+    else:
+        y -= 1
+        pp = add_item(pp, x, y)    
+        
+```
+
+Print the answer
+
+```{python}
+
+sum([1 for k,v in pp.items() if v >= 1])
+
+# 2081
+
+```
+
+Let's try a different approach with lists
+
+```{python}
+
+x = 100
+y = 100
+pp = [[0] * 200 for _ in range(200)]
+pp[x][y] += 1
+
+```
+
+This doesn't need to be a function without the weird dictionary key
+
+```{python}
+
+for i in range(len(paren)):
+    if paren[i] == '^':
+        y += 1
+        pp[x][y] += 1
+    elif paren[i] == '<':
+        x -= 1
+        pp[x][y] += 1      
+    elif paren[i] == '>':
+        x += 1
+        pp[x][y] += 1      
+    else:
+        y -= 1
+        pp[x][y] += 1   
+        
+```
+
+Flatten this list because I'm not sure about 2d lists and comprehensions
+
+```{python}
+
+ll = []
+for p in pp:
+    ll.extend(p)
+    
+```
+
+Sums
+
+*My mistake: at least one means \>= not \>, the first approach was actually fine.*
+
+```{python}
+
+sum([1 for l in ll if l >= 1])
+
+# 2081
+
+```
+
+## --- Part Two ---
+
+Santa and Robo-Santa are delivering presents, with alternating instructions.
+
+This year, how many houses receive *at least one present*?
+
+```{python}
+
+# enlarge this range just in case
+x1 = 500
+y1 = 500
+x2 = 500
+y2 = 500
+pp = [[0] * 1000 for _ in range(1000)]
+pp[x1][y1] += 1
+
+```
+
+This could maybe be smarter, but I feel like this is effective.\
+Referring to variables with variable names is weird so best avoided.
+
+```{python}
+
+i = 0
+while i < len(paren) - 1:
+    if i % 2 == 0:
+        if paren[i] == '^':
+            y1 += 1
+            pp[x1][y1] += 1
+        elif paren[i] == '<':
+            x1 -= 1
+            pp[x1][y1] += 1      
+        elif paren[i] == '>':
+            x1 += 1
+            pp[x1][y1] += 1      
+        else:
+            y1 -= 1
+            pp[x1][y1] += 1   
+    
+    # increment
+    i += 1
+    
+    if i % 2 == 1:
+
+        if paren[i] == '^':
+            y2 += 1
+            pp[x2][y2] += 1
+            
+        elif paren[i] == '<':
+            x2 -= 1
+            pp[x2][y2] += 1
+            
+        elif paren[i] == '>':
+            x2 += 1
+            pp[x2][y2] += 1
+        else:
+            y2 -= 1
+            pp[x2][y2] += 1
+
+    # increment
+    i += 1
+    
+```
+
+Now do the sum again
+
+```{python}
+
+ll = []
+for p in pp:
+    ll.extend(p)
+
+sum([1 for l in ll if l >= 1])
+
+# 2341
+
+```

@@ -5,20 +5,140 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 7: Some Assembly Required ---
+
+In little Bobby's kit's instructions booklet (provided as your puzzle input), what signal is ultimately provided to *wire `a`*?
 
 ```{python}
 
 with open('data-2015-07.txt', 'r') as f:
-    inp = f.read().splitlines()
+    logics = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+This might be a similar construction to yesterday's instructions:
+
+-   input
+-   wire1
+-   operation
+-   wire2
+-   output
+
+Sometimes there is only input and output i.e. if it's a number on the left hand side. For a `NOT` operator there is only wire2.
+
+Operators are:
+
+-   `NOT ~`
+-   `AND &`
+-   `OR |`
+-   `RSHIFT >>`
+-   `LSHIFT <<`
 
 ```{python}
-# here's another python cell for good luck
+
+print('Total: ' + str(len(logics)))
+
+def lens(lst, op='AND'):
+    return len([x for x in lst if op in x])
+
+print('AND: ' + str(lens(logics, 'AND')))  
+print('OR: ' + str(lens(logics, 'OR')))  
+print('NOT: ' + str(lens(logics, 'NOT')))  
+print('RSHIFT: ' + str(lens(logics, 'RSHIFT')))  
+print('LSHIFT: ' + str(lens(logics, 'LSHIFT')))  
+
+print('Sub-Total:' +  
+      str(lens(logics, 'AND') + lens(logics, 'OR') + 
+          lens(logics, 'NOT') + lens(logics, 'RSHIFT') + 
+          lens(logics, 'LSHIFT')))
 
 ```
 
-Paste part two here
+The remaining instructions after all the others above:
+
+-   `1674 -> b`
+-   `0 -> c`
+-   `lx -> a`
+
+I'm not sure how to make this efficient. There doesn't seem like a good way to loop through these instructions to fill out wires and signals. We need to gather a dictionary of all the possible wires first, I think, then populate that dictionary.
+
+```{python}
+
+# get the before and after pieces
+logic_split = [x.split(' -> ') for x in logics]
+
+# we want to get the targets in a dictionary and then populate that dictionary
+targets_list = [x[1] for x in logic_split]
+targets = dict.fromkeys(targets_list)
+
+# split by space for signals
+signals_list = [x[0].split(' ') + [False] for x in logic_split]
+
+```
+
+I think we're in a good place to start iterating.
+
+```{python}
+
+i = 0
+
+while None in targets.values():
+# while i < 100:  
+    # sum([1 for x in targets.values() if x is None])
+    i += 1
+    for s,t in zip(signals_list, targets_list):
+        if s[-1]:
+            # we've already processed
+            if targets[t] is None: 
+                raise('This is awful')
+        elif len(s) == 4:
+            # get some information from the signals
+            try: m = targets[s[0]]
+            except: m = int(s[0])
+            try: n = targets[s[2]]
+            except: n = int(s[2])
+            
+            # these need to both be populated
+            if isinstance(m, int) and isinstance(n, int):
+                print(str(m) + ' ' + s[1] + ' ' + str(n) + ' -> ' + t)
+                if s[1] == 'AND':
+                    targets[t] = m & n
+                elif s[1] == 'OR':
+                    targets[t] = m | n
+                elif s[1] == 'LSHIFT':
+                    targets[t] = m << n
+                elif s[1] == 'RSHIFT':
+                    targets[t] = m >> n
+                else: 
+                    raise('this is bad')
+                # skip this instruction next time
+                s[-1] = True
+        # this is always NOT
+        elif len(s) == 3:
+            if isinstance(targets[s[1]], int):
+                print('NOT ' + str(s[1]) + ' -> ' + t)
+                targets[t] = ~ targets[s[1]]
+                s[-1] = True
+        # this is usually a number, but might also be the answer
+        elif len(s) == 2:
+            if s[0].isdigit():
+                print('ONE: ' + str(s[0]) + ' -> ' + t)
+                targets[t] = int(s[0])
+                s[-1] = True
+            else: 
+                # print(t + ': ' + str(s[0]))
+                targets[t] = targets[s[0]]
+        else:
+            raise('this is not good')
+
+```
+
+46065
+
+## --- Part Two ---
+
+Now, take the signal you got on wire `a`, override wire `b` to that signal, and reset the other wires (including wire `a`). What new signal is ultimately provided to wire `a`?
+
+```{python}
+
+```
