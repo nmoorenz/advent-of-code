@@ -5,20 +5,113 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 15: Warehouse Woes ---
+
+Lanternfish apparently use automated warehouses for storage?
+
+Predict the motion of the robot and boxes in the warehouse. After the robot is finished moving, what is the sum of all boxes' GPS coordinates?
 
 ```{python}
 
 with open('data-2024-15.txt', 'r') as f:
     inp = f.read().splitlines()
 
+wh = inp[:50]
+wh = [list(w) for w in wh]
+
+inst = inp[51:]
+inst = [y for x in inst for y in list(x)]
+
+# len(inst)
 ```
 
-Maybe write an explanation of the solution approach here
+Create a function to see if we can move in a given direction, and work through the moves.
+
+Thoughts:
+
+If the next move is a dot, move the robot, update the position
+
+If any in the row is a hash, and we haven't found any dots, we can't move
+
+If there are a circles in the way, and we find a dot, update that dot to O, and replace the adjoining O with an @.
+
+We don't strictly need to keep the @ but it might make for better debugging.
 
 ```{python}
-# here's another python cell for good luck
 
+# do this here so we don't have to run again
+wh = inp[:50]
+wh = [list(w) for w in wh]
+
+# function to check if we can move
+# needs current position, warehouse map, and new direction
+def check_move(wh, pos, i): 
+    shove = False
+    if i == '^': 
+        for j in range(50): 
+            if wh[pos[0]-j,pos[1]] == '.':
+                # shove if we've found a O in our row, and then .
+                if shove: 
+                    wh[pos[0]-j,pos[1]] = 'O'
+                # we can move the robot
+                wh[pos[0]-1,pos[1]] = '@'
+                wh[pos[0], pos[1]] = '.'
+                pos[0] -= 1
+                break
+            elif wh[pos[0]-j,pos[1]] == '#':
+                break
+            else: 
+                shove = True
+    elif i == '<': 
+        for j in range(50): 
+            if wh[pos[0],pos[1]-j] == '.':
+                if shove: 
+                    wh[pos[0],pos[1]-j] = 'O'
+                wh[pos[0],pos[1]-1] = '@'
+                wh[pos[0],pos[1]] = '.'
+                pos[1] -= 1
+                break
+            elif wh[pos[0],pos[1]-j] == '#':
+                break
+            else: 
+                shove = True
+    elif i == '>': 
+        for j in range(50): 
+            if wh[pos[0],pos[1]+j] == '.':
+                if shove: 
+                    wh[pos[0],pos[1]+j] = 'O'
+                wh[pos[0],pos[1]+1] = '@'
+                wh[pos[0],pos[1]] = '.'
+                pos[1] += 1
+                break
+            elif wh[pos[0],pos[1]+j] == '#':
+                break
+            else: 
+                shove = True
+    else: 
+        for j in range(50): 
+            if wh[pos[0]+j,pos[1]] == '.':
+                if shove: 
+                    wh[pos[0]+j,pos[1]] = 'O'
+                wh[pos[0]+1,pos[1]] = '@'
+                wh[pos[0],pos[1]] = '.'
+                pos[0] += 1
+                break
+            elif wh[pos[0]+j,pos[1]] == '#':
+                break
+            else: 
+                shove = True
+    # return new warehouse and position
+    return wh, pos
+
+# starting position of robot, found manually
+pos = [24,24]
+
+# loop the instructions
+for i in inst: 
+    check_move(wh, pos, i)
+    
+    
 ```
 
 Paste part two here
