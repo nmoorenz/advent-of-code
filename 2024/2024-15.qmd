@@ -33,13 +33,13 @@ If the next move is a dot, move the robot, update the position
 
 If any in the row is a hash, and we haven't found any dots, we can't move
 
-If there are a circles in the way, and we find a dot, update that dot to O, and replace the adjoining O with an @.
+If there are a circles in the way, and we find a dot, update that dot to O, and replace the adjoining O with an \@.
 
-We don't strictly need to keep the @ but it might make for better debugging.
+We don't strictly need to keep the \@ but it might make for better debugging.
 
 ```{python}
 
-# do this here so we don't have to run again
+# do this here so we don't have to run the cell above again
 wh = inp[:50]
 wh = [list(w) for w in wh]
 

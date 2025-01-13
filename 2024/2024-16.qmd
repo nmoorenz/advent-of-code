@@ -5,16 +5,26 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 16: Reindeer Maze ---
+
+Find the path from the start to the end, except that turns cost you 1000 points.
+
+Analyze your map carefully. What is the lowest score a Reindeer could possibly get?
 
 ```{python}
+
+import numpy as np
 
 with open('data-2024-16.txt', 'r') as f:
     inp = f.read().splitlines()
 
+maze_list = [list(x) for x in inp]
+
+maze = np.array(maze_list)
+
 ```
 
-Maybe write an explanation of the solution approach here
+Try to go through the maze, but need to find a weird way of doing so.
 
 ```{python}
 # here's another python cell for good luck
