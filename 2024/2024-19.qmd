@@ -5,20 +5,48 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 19: Linen Layout ---
+
+There are some towels and some designs with lots of colours.
+
+To get into the onsen as soon as possible, consult your list of towel patterns and desired designs carefully. How many designs are possible?
 
 ```{python}
 
 with open('data-2024-19.txt', 'r') as f:
     inp = f.read().splitlines()
 
+towels = inp[0]
+towels = towels.split(', ')
+towels.sort()
+
+patterns = inp[2:]
+
 ```
 
-Maybe write an explanation of the solution approach here
+There are multiple possibilities for towels into patterns so we need to assess each one, I think. Feels like recording each one and looping multiple times.
+
+Loop through patterns, and see if towels can fit in each pattern. If more than one then we expand our possible patterns. These could happen at different rates. Because we create an expansion then lists and lists isn't a good idea, we need one list to enter into.
 
 ```{python}
-# here's another python cell for good luck
 
+counter = 0
+
+for pp in patterns[:1]:     # outer loop for input
+    poss = [pp]
+    
+    for p in poss:          # loop through current possibilities
+        temp = []
+        for t in towels:    # get into our actual check
+            if p[0:len(t)] == t:
+                print(t)
+                temp.append(p[len(t):])  # expand our possibilities
+        # once we have gone through one of the possibilities
+        
+                
+  
+
+        
 ```
 
 Paste part two here

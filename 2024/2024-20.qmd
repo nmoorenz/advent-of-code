@@ -5,20 +5,99 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 20: Race Condition ---
+
+There is a racetrack, and only one path, but maybe we can cheat.
+
+You aren't sure what the conditions of the racetrack will be like, so to give yourself as many options as possible, you'll need a list of the best cheats. How many cheats would save you at least 100 picoseconds?
 
 ```{python}
+
+import numpy as np
 
 with open('data-2024-20.txt', 'r') as f:
     inp = f.read().splitlines()
 
+trail = [list(x) for x in inp]
+
+racetrack = np.array(trail, dtype='object')
+
+# find the location of the start and end 
+np.where(racetrack == 'S')
+np.where(racetrack == 'E')
+
 ```
 
-Maybe write an explanation of the solution approach here
+Let us label the array, and then we can just go through again and see which is a good jump, +- 2 in each direction.
 
 ```{python}
-# here's another python cell for good luck
+
+i = 33
+j = 61
+k = 0
+
+while True: 
+    racetrack[i][j] = k
+    k += 1
+    if racetrack[i+1][j] == '.': 
+        i += 1
+    elif racetrack[i][j+1] == '.':
+        j+=1
+    elif racetrack[i-1][j] == '.':
+        i -= 1
+    elif racetrack[i][j-1] == '.':
+        j -= 1
+    else:
+        break
+
+racetrack[np.where(racetrack == 'E')] = k
+
+np.savetxt('data-racetrack.txt', racetrack, delimiter=',', fmt='%s')
 
 ```
 
-Paste part two here
+Now, we want to loop and see if we can find some shortcuts.
+
+```{python}
+
+counter = 0
+
+for i in range(len(racetrack)): 
+    for j in range(len(racetrack[0])): 
+        if racetrack[i][j] != '#':
+            # up
+            if (i - 2 > 0) and (racetrack[i-2][j] != '#'):
+                if racetrack[i-2][j] - racetrack[i][j] >= 102: 
+                    counter += 1 
+            # left
+            if (j - 2 > 0) and (racetrack[i][j-2] != '#'): 
+                if racetrack[i][j-2] - racetrack[i][j] >= 102: 
+                    counter += 1
+            # right
+            if (i + 2 < 140) and (racetrack[i+2][j] != '#'):
+                if racetrack[i+2][j] - racetrack[i][j] >= 102:
+                    counter += 1
+            # down
+            if (j + 2 < 140) and (racetrack[i][j+2] != '#'):
+                if racetrack[i][j+2] - racetrack[i][j] >= 102:
+                    counter += 1
+
+counter
+
+# 1432 too high
+# 1415
+```
+
+It takes two picoseconds to move for the cheat, therefore must be over 102
+
+## --- Part Two ---
+
+Cheats can actually be up to 20 seconds!
+
+Find the best cheats using the updated cheating rules. **How many cheats would save you at least 100 picoseconds?**
+
+So, we need to figure out the Manhattan distance for each location? We can only follow the hashes, otherwise it's a shorter cheat.
+
+```{python}
+
+```
