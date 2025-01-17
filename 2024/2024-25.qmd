@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 25: Code Chronicle ---
+
+There are some locks and some keys.
+
+Analyze your lock and key schematics. How many unique lock/key pairs fit together without overlapping in any column?
 
 ```{python}
 
@@ -14,11 +18,88 @@ with open('data-2024-25.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Get a list of the keys and of the locks, and organise them into lists of heights.
 
 ```{python}
-# here's another python cell for good luck
+
+keys = []
+locks = []
+prog = 0
+
+for i in inp: 
+    if prog == 0: 
+        # start of the sequence
+        prog += 1
+        if i == '.....':
+            # key
+            key,lock = True,False
+            this = [i]
+            # print('set key')
+        else:
+            # lock
+            lock,key = True,False
+            this = [i]
+            # print('set lock')
+    elif i == '': 
+        prog = 0
+        if key: 
+            keys.append(this)
+            # print('append key')
+        elif lock:
+            locks.append(this)
+            # print('append lock')
+    else: 
+        prog += 1
+        this.append(i)
+        # print('progress')
+        
+# added a blank line at the end of the input to get all locks and keys
+
 
 ```
 
-Paste part two here
+Create a function that returns the columns rather than the rows
+
+```{python}
+
+def make_things(x):
+    a = [0,0,0,0,0]
+    for b in x[1:]: 
+        # print(b)
+        for c,d in enumerate(b):
+            if d == '#':
+                a[c] += 1
+    return a
+            
+def make_keys(x):
+    return make_things(list(reversed(x)))
+
+def make_locks(x):
+    return make_things(x)
+
+
+keysN = [make_keys(q) for q in keys]
+locksN = [make_locks(q) for q in locks]
+
+
+```
+
+OK, good.
+
+```{python}
+
+counter = 0
+
+for k in keysN:
+    for l in locksN:
+        add = True
+        for v,w in zip(k,l):
+            if v+w > 5:
+                add = False
+        if add: 
+            counter += 1
+
+
+counter
+# 3127
+```
