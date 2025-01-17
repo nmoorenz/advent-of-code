@@ -5,20 +5,73 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 24: Crossed Wires ---
+
+There are some gates and some wires and some logic, and we want to produce a number.
+
+Simulate the system of gates and wires. What decimal number does it output on the wires starting with `z`?
 
 ```{python}
 
 with open('data-2024-24.txt', 'r') as f:
     inp = f.read().splitlines()
 
+init = inp[:90]
+log = inp[91:]
+
 ```
 
-Maybe write an explanation of the solution approach here
+Create dictionaries to keep track of these things. Actually a dict and a list.
 
 ```{python}
 # here's another python cell for good luck
 
+di = {}
+
+for i in init: 
+    a,b = i.split(': ')
+    di[a] = int(b)
+    
+dl = [i.split() for i in log]
+
 ```
 
-Paste part two here
+Now we need to go through with some smart order. Start with x and y?
+
+Examples
+
+```         
+['qgv', 'OR', 'dsf', '->', 'mjm'] 
+['shj', 'AND', 'wsr', '->', 'ftr']
+```
+
+```{python}
+
+def combo(x): 
+    if x[1] == 'XOR': 
+        if di[x[0]] + di[x[2]] == 1:
+            return 1
+        else: 
+            return 0
+    elif x[1] == 'OR':
+        if di[x[0]] + di[x[2]] >= 1: 
+            return 1
+        else: 
+            return 0
+    elif x[1] == 'AND':
+        if di[x[0]] + di[x[2]] == 2:
+            return 1
+        else: 
+            return 0
+    else: 
+        raise
+
+
+for d in dl: 
+    if ((d[0][0] == 'x' or d[0][0] == 'y') and 
+        (d[2][0] == 'x' or d[2][0] == 'y')):
+        # add to the dictionary with the operation
+        # print(d)
+        di[d[4]] = combo(d)
+    
+```
