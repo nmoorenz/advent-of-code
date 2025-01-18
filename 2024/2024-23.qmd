@@ -5,20 +5,76 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 23: LAN Party ---
+
+Find all the sets of three inter-connected computers. How many contain at least one computer with a name that starts with `t`?
 
 ```{python}
 
 with open('data-2024-23.txt', 'r') as f:
     inp = f.read().splitlines()
 
+comps = [i.split('-') for i in inp]
 ```
 
-Maybe write an explanation of the solution approach here
+I think just create some ordered lists?
 
 ```{python}
 # here's another python cell for good luck
 
+links = []
+
+links.append(comps[0])
+
+for c in comps[1:]: 
+    # print(c)
+    for l in links: 
+        # print(l)
+        if c[0] in l: 
+            # add it to something
+            if c[1] not in l: 
+                l.append(c[1])
+        elif c[1] in l:
+            if c[0] not in l: 
+                l.append(c[0])
+        else: 
+            links.append(c)
+            break
+    # print('---links ', links)
+
+
+# lens = [len(l) for l in links]
+# 
+# for j,k in zip(lens,links): 
+#     if j != 2: 
+#         print(k)
+
+# for a in links[0]:
+#     if a in links[1]: 
+#         print('uh-oh')
+        
 ```
 
-Paste part two here
+There are many uh-oh because there are loops of many and computers show up in many links.
+
+I think sets of three are just going to show up three times in the whole thing.
+
+```{python}
+
+counts = {}
+
+for c in comps: 
+    a,b = c
+    ax = 0
+    bx = 0
+    for d in links: 
+        if a in d: 
+            ax+= 1
+        if b in d: 
+            bz += 1
+    if ax == 3: 
+        print(a)
+    if bx == 3: 
+        print(b)
+
+```
