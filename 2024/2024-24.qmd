@@ -66,12 +66,55 @@ def combo(x):
     else: 
         raise
 
+while True: 
+    for d in dl: 
+        if d[0] in di.keys() and d[2] in di.keys(): 
+            di[d[4]] = combo(d)
+    break
 
-for d in dl: 
-    if ((d[0][0] == 'x' or d[0][0] == 'y') and 
-        (d[2][0] == 'x' or d[2][0] == 'y')):
-        # add to the dictionary with the operation
-        # print(d)
-        di[d[4]] = combo(d)
-    
+len(di)   
+
+# actually just run this a bunch of times
+# until the length doesn't change
+# 312 length 
+```
+
+get the z
+
+```{python}
+
+zz = []
+
+# only get the z, combined into list
+for k,v in di.items(): 
+    if k[0] == 'z': 
+        # print(k,v)
+        zz.append(' '.join([k,str(v)]))
+
+# check
+zz
+# sort in order
+zz.sort()
+# split and get the numbers
+znum = [x.split()[1] for x in zz]
+# check
+znum
+# join and reverse the string
+zbin = ''.join(znum)[::-1]
+# convert binary to integer
+int(zbin, 2)
+
+# 5063606933169
+# 38869984335432
+
+```
+
+## --- Part Two ---
+
+Actually, we are trying to add x digits and y digits, but the system isn't working properly. What do you get if you sort the names of the eight wires involved in a swap and then join those names with commas?
+
+```{python}
+
+
+
 ```
