@@ -5,7 +5,39 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 21: Keypad Conundrum ---
+
+In summary, there are the following keypads:
+
+-   One directional keypad that *you* are using.
+
+-   Two directional keypads that *robots* are using.
+
+-   One numeric keypad (on a door) that a *robot* is using.
+
+Find the fewest number of button presses you'll need to perform in order to cause the robot in front of the door to type each code. What is the sum of the complexities of the five codes on your list?
+
+```         
++---+---+---+ 
+| 7 | 8 | 9 | 
++---+---+---+ 
+| 4 | 5 | 6 | 
++---+---+---+ 
+| 1 | 2 | 3 | 
++---+---+---+
+    | 0 | A |     
+    +---+---+
+```
+
+Keypad above and direction pad below
+
+```         
+    +---+---+     
+    | ^ | A | 
++---+---+---+ 
+| < | v | > | 
++---+---+---+
+```
 
 ```{python}
 
@@ -14,11 +46,8 @@ with open('data-2024-21.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Not quite sure how to code this one. 
+Manual seems like it would take a long time. 
 
-```{python}
-# here's another python cell for good luck
 
-```
 
-Paste part two here
