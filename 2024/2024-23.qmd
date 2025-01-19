@@ -61,20 +61,27 @@ I think sets of three are just going to show up three times in the whole thing.
 
 ```{python}
 
-counts = {}
+counts = []
 
 for c in comps: 
     a,b = c
     ax = 0
     bx = 0
-    for d in links: 
-        if a in d: 
-            ax+= 1
-        if b in d: 
-            bz += 1
-    if ax == 3: 
+    for d in comps: 
+        if c != d: 
+            if a in d: 
+                ax += 1
+            if b in d: 
+                bx += 1
+    if ax == 12: 
         print(a)
-    if bx == 3: 
+    if bx == 4: 
         print(b)
+    if ax not in counts: 
+        counts.append(ax)
+    if bx not in counts: 
+        counts.append(bx)
+        
+# len(counts)
 
 ```
