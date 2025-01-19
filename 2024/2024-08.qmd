@@ -15,11 +15,13 @@ Calculate the impact of the signal. How many unique locations within the bounds
 
 import numpy as np
 
-with open('data-2024-08.txt', 'r') as f:
+with open('data-2024-08-test.txt', 'r') as f:
     inp = f.read().splitlines()
 
+# list of lists
 nodes = [list(x) for x in inp]
 
+# list of lists to numpy
 antenna = np.array(nodes)
 
 # len(antenna)
@@ -27,18 +29,78 @@ antenna = np.array(nodes)
 
 all_char = list(set([x for i in inp for x in i]))
 all_char.sort()
+all_char.remove('.')
 # all_char
 
 char_count = np.unique(antenna, return_counts=True)
 
-# np.array(char_count).T
+# np.array(char_count)
+
 ```
 
 Guess I have to loop through these? It's not so many.
 
-```{python}
-# here's another python cell for good luck
+Key insight is we need to add and subtract the difference between the locations.
 
+```{python}
+
+counter = 0
+
+def get_it(x): 
+    b = np.where(antenna == a)
+    e = []
+    for c,d in zip(b[0],b[1]):
+        e.append([c,d])
+    return e
+
+for a in all_char: 
+    f = get_it(a)
+    for j,k in enumerate(f): 
+        for m,n in enumerate(f): 
+            if m > j: 
+                # only if one is larger, to prevent duplicates
+                # get the differences 
+                yd = abs(k[0] - n[0])
+                xd = abs(k[1] - n[1])
+                
+                # NE/SW or NW/SE
+                # or maybe horizontal or vertical
+                
+                if k[0] == n[0]: 
+                    # horizontal
+                    if min(k[1],n[1]) - xd >= 0: 
+                        counter += 1
+                    if max(k[1],n[1]) + xd <= 49: 
+                        counter += 1
+                    
+                elif k[1] == n[1]: 
+                    # vertical
+                    if min(k[0],n[0]) - yd >= 0: 
+                        counter += 1
+                    if max(k[0],n[0]) + yd <= 49:
+                        counter += 1
+                
+                elif k[0] < n[0]:
+                    if k[1] < n[1]: 
+                        # NW/SE
+                        if (k[0] - yd >= 0) and (k[1] - xd >= 0): 
+                            counter += 1
+                            
+                        if (n[0] + yd <= 49) and (n[1] + xd <= 49):
+                            counter += 1
+                    else: 
+                        # NE/SW
+                        
+                else:
+                    if k[1] < n[1]: 
+                        # SW/NE
+                        
+                    else: 
+                        # SE/NW
+
+    
+
+counter
 ```
 
 Paste part two here
