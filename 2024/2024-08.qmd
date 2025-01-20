@@ -15,7 +15,7 @@ Calculate the impact of the signal. How many unique locations within the bounds
 
 import numpy as np
 
-with open('data-2024-08-test.txt', 'r') as f:
+with open('data-2024-08.txt', 'r') as f:
     inp = f.read().splitlines()
 
 # list of lists
@@ -44,10 +44,12 @@ Key insight is we need to add and subtract the difference between the locations.
 
 ```{python}
 
-counter = 0
+q = 49
+
+counter = np.zeros((q+1,q+1))
 
 def get_it(x): 
-    b = np.where(antenna == a)
+    b = np.where(antenna == a) 
     e = []
     for c,d in zip(b[0],b[1]):
         e.append([c,d])
@@ -65,42 +67,150 @@ for a in all_char:
                 
                 # NE/SW or NW/SE
                 # or maybe horizontal or vertical
-                
-                if k[0] == n[0]: 
+
+                if k[0] == n[0]:
                     # horizontal
-                    if min(k[1],n[1]) - xd >= 0: 
-                        counter += 1
-                    if max(k[1],n[1]) + xd <= 49: 
-                        counter += 1
-                    
-                elif k[1] == n[1]: 
+                    if min(k[1],n[1]) - xd >= 0:
+                        counter[k[0]][min(k[1],n[1]) - xd] = 1
+                    if max(k[1],n[1]) + xd <= q:
+                        counter[max(k[1],n[1]) + xd] = 1
+
+                elif k[1] == n[1]:
                     # vertical
-                    if min(k[0],n[0]) - yd >= 0: 
-                        counter += 1
-                    if max(k[0],n[0]) + yd <= 49:
-                        counter += 1
-                
-                elif k[0] < n[0]:
-                    if k[1] < n[1]: 
+                    if min(k[0],n[0]) - yd >= 0:
+                        counter[min(k[0],n[0]) - yd][k[1]] = 1
+                    if max(k[0],n[0]) + yd <= q:
+                        counter[max(k[0],n[0]) + yd][k[1]] = 1
+
+                elif k[0] < n[0]: # k is above n
+                    if k[1] < n[1]: # k is left of n
                         # NW/SE
-                        if (k[0] - yd >= 0) and (k[1] - xd >= 0): 
-                            counter += 1
-                            
-                        if (n[0] + yd <= 49) and (n[1] + xd <= 49):
-                            counter += 1
-                    else: 
+                        if (k[0] - yd >= 0) and (k[1] - xd >= 0):
+                            counter[k[0] - yd][k[1] - xd] = 1
+                        if (n[0] + yd <= q) and (n[1] + xd <= q):
+                            counter[n[0] + yd][n[1] + xd] = 1
+                    else:
                         # NE/SW
-                        
+                        if (k[0] - yd >= 0) and (k[1] + xd <= q):
+                            counter[k[0] - yd][k[1] + xd] = 1
+                        if (n[0] + yd <= q) and (n[1] - xd >= 0):
+                            counter[n[0] + yd][n[1] - xd] = 1
                 else:
-                    if k[1] < n[1]: 
-                        # SW/NE
-                        
-                    else: 
-                        # SE/NW
+                    print('see if we get here')
 
     
 
 counter
+np.sum(counter)
+# 289
 ```
 
-Paste part two here
+## --- Part Two ---
+
+There are antinodes all over the place!
+
+Calculate the impact of the signal using this updated model. How many unique locations within the bounds of the map contain an antinode?
+
+```{python}
+
+q = 49
+
+counter = np.zeros((q+1,q+1))
+
+def get_it(x): 
+    b = np.where(antenna == a) 
+    e = []
+    for c,d in zip(b[0],b[1]):
+        e.append([c,d])
+    return e
+
+for a in all_char: 
+    f = get_it(a)
+    for j,k in enumerate(f): 
+        for m,n in enumerate(f): 
+            if m > j: 
+                # only if one is larger, to prevent duplicates
+                # get the differences 
+                yd = abs(k[0] - n[0])
+                xd = abs(k[1] - n[1])
+                # record antenna locations as antinodes
+                counter[k[0]][k[1]] = 1
+                counter[n[0]][n[1]] = 1
+                
+                # NE/SW or NW/SE
+                # or maybe horizontal or vertical
+                if k[0] == n[0]:
+                    # horizontal
+                    z = 1
+                    while True: 
+                        if min(k[1],n[1]) - z*xd >= 0:
+                            counter[k[0]][min(k[1],n[1]) - z*xd] = 1
+                            z += 1
+                        else: 
+                            break
+                    z = 1
+                    while True:
+                        if max(k[1],n[1]) + z*xd <= q:
+                            counter[max(k[1],n[1]) + z*xd] = 1
+                            z += 1
+                        else: 
+                            break
+
+                elif k[1] == n[1]:
+                    # vertical
+                    z = 1
+                    while True:
+                        if min(k[0],n[0]) - z*yd >= 0:
+                            counter[min(k[0],n[0]) - z*yd][k[1]] = 1
+                            z += 1
+                        else: 
+                            break
+                    z = 1
+                    while true:
+                        if max(k[0],n[0]) + z*yd <= q:
+                            counter[max(k[0],n[0]) + z*yd][k[1]] = 1
+                            z += 1
+                        else: 
+                            break
+
+                elif k[0] < n[0]: # k is above n
+                    if k[1] < n[1]: # k is left of n
+                        # NW/SE
+                        z = 1
+                        while True:
+                            if (k[0] - z*yd >= 0) and (k[1] - z*xd >= 0):
+                                counter[k[0] - z*yd][k[1] - z*xd] = 1
+                                z += 1
+                            else: 
+                                break
+                        z = 1
+                        while True:
+                            if (n[0] + z*yd <= q) and (n[1] + z*xd <= q):
+                                counter[n[0] + z*yd][n[1] + z*xd] = 1
+                                z += 1
+                            else: 
+                                break
+                    else:
+                        # NE/SW
+                        z = 1
+                        while True:
+                            if (k[0] - z*yd >= 0) and (k[1] + z*xd <= q):
+                                counter[k[0] - z*yd][k[1] + z*xd] = 1
+                                z += 1
+                            else: 
+                                break
+                        z = 1
+                        while True:
+                            if (n[0] + z*yd <= q) and (n[1] - z*xd >= 0):
+                                counter[n[0] + z*yd][n[1] - z*xd] = 1
+                                z += 1
+                            else: 
+                                break
+                else:
+                    print('see if we get here')
+
+    
+
+counter
+np.sum(counter)
+```
