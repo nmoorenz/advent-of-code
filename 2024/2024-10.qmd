@@ -18,15 +18,55 @@ import numpy as np
 with open('data-2024-10.txt', 'r') as f:
     inp = f.read().splitlines()
 
-trail = [list(x) for x in inp]
+trail = [list(map(int,x)) for x in inp]
 
-trail_map = np.array(trail)
+trail = np.array(trail)
 ```
 
 Find the zeros and do a search through all the different paths.
 
 ```{python}
-# here's another python cell for good luck
+
+counter = 0
+q = 59
+
+zero = np.where(trail == '0')
+
+zero = [[a,b] for a,b in zip(zero[0],zero[1])]
+
+# zero
+
+def get_d(z):
+    dd = [[-1,0],[0,-1],[1,0],[0,1]]
+    if z[0] == 0: 
+        dd.remove([-1,0])
+    elif z[0] == q:
+        dd.remove([1,0])
+    elif z[1] == 0:
+        dd.remove([0,-1])
+    elif z[1] == q:
+        dd.remove([0,1])
+    else: 
+        pass # leave all
+    return dd
+
+
+def find_paths(z): 
+    dd = get_d(z)
+    paths = 0
+    for d in dd: 
+        if trail[z[0]+d[0]][z[1]+d[1]] == trail[z[0]][z[1]] + 1:
+            pass # continue
+        else: 
+            print(z)
+    return 0
+    
+    
+for z in zero:
+    counter += find_paths(z)
+     
+            
+counter
 
 ```
 
