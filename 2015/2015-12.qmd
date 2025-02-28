@@ -5,20 +5,316 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+Santa's elves are doing some accounting, but with JSON for some reason.
+
+What is the *sum of all numbers* in the document?
 
 ```{python}
+
+import json
+import re
+import copy
 
 with open('data-2015-12.txt', 'r') as f:
-    inp = f.read().splitlines()
+    accounts = f.read()
 
 ```
 
-Maybe write an explanation of the solution approach here
+I think regex can handle finding the number of numbers?
 
 ```{python}
-# here's another python cell for good luck
+
+nums = re.findall(r'[-]?\d+', accounts)
+
+sum([int(x) for x in nums])
+
+# 156366
+```
+
+## --- Part Two ---
+
+Uh oh, the elves did something wrong with some "red" elements.
+
+Now we actually have to think about the json.
+
+```{python}
+
+acc = json.loads(accounts)
+
+len(acc)
+
+isinstance(acc, list)
+
+acc[0]['a']['e']['e']
 
 ```
 
-Paste part two here
+I guess we have to use recursion with an unknown depth
+
+```{python}
+
+acc = json.loads(accounts)
+
+dis = []
+
+def traverse_list(zz):
+    for z in zz:
+        if isinstance(z, list): 
+            traverse_list(z)
+        elif isinstance(z, dict):
+            traverse_dict(z)
+        else: 
+            # skip over element
+            pass
+            
+            
+def traverse_dict(zz):
+    if 'red' in zz.values():
+        dis.append(json.dumps(zz))
+    # keep going down the tree
+    for k,v in zz.items():
+        if isinstance(v, list):
+            traverse_list(v)
+        elif isinstance(v, dict):
+            traverse_dict(v)
+        else: 
+            # skip over element
+            pass
+
+traverse_list(acc)
+
+# dis
+```
+
+Remove the items from the object and compute the sum
+
+```{python}
+
+print('items: ', len(dis))
+
+print('string length: ', len(json.dumps(acc)))
+
+edited = json.dumps(acc)
+
+for d in dis:
+    try:
+        edited = edited.replace(d, '', 1)
+    except: 
+        # this is ok, I don't think we should get here? 
+        print(d)
+
+
+print('shorter string: ', len(edited))
+
+nums = re.findall(r'[-]?\d+', edited)
+
+print('sum of digits: ', sum([int(x) for x in nums]))
+
+```
+
+This is not correct, since we remove some items before we are meant to and that leaves the following strings as not able to be replaced.
+
+Let's use a test to see what's happening
+
+```{python}
+
+test1 = json.loads('[1,{"c":"red","b":2},3]')
+# test2 = json.loads('{"d":"red","e":[1,2,3,4],"f":5}')
+
+dis = []
+
+traverse_list(test1)
+# traverse_list(test2)
+
+edited = json.dumps(test1)
+# edited = json.dumps(test2)
+
+for d in dis:
+    try:
+        edited = edited.replace(d, '')
+    except: 
+        # this is ok, I don't think we should get here? 
+        print(d)
+
+edited
+
+```
+
+Something else to try to make sure we're doing things right
+
+```{python}
+
+tt = {'f': 1, 'g': {'t': 'red'}}
+
+'red' in tt
+'red' in tt.values()
+'red' in tt['g'].values()
+
+tt = {'f': 1, 'g': ['t', 'red']}
+
+'red' in tt['g']
+```
+
+Test to see where we are going wrong
+
+```{python}
+
+': "red"' in edited
+
+for d,e in enumerate(dis):
+    if '"c": 20, "h": "red"' in e:
+        print(d)
+        print(e)
+
+```
+
+Let's try this again, removing the item at the point that we find it
+
+```{python}
+
+
+temp = json.loads(accounts)
+full = json.dumps(temp)
+
+def starter(fs):
+    # convert to object
+    bb = json.loads(fs)
+    # iterate
+    if isinstance(bb, list):
+        fs = traverse_list(bb, fs)
+    elif isinstance(bb, dict):
+        fs = traverse_dict(bb, fs)
+    else: 
+        raise('oops')
+    # give back
+    return fs
+      
+
+def traverse_list(zz, fs):
+    for z in zz:
+        if isinstance(z, list): 
+            fs = traverse_list(z, fs)
+        elif isinstance(z, dict):
+            fs = traverse_dict(z, fs)
+        else: 
+            # skip over element
+            pass
+    return fs
+            
+            
+def traverse_dict(zz, fs):
+    if 'red' in zz.values():
+        dis = json.dumps(zz)
+        fs = fs.replace(dis, '"x"', 1)
+        # maybe something here? 
+    # keep going down the tree
+    for k,v in zz.items():
+        if isinstance(v, list):
+            fs = traverse_list(v, fs)
+        elif isinstance(v, dict):
+            fs = traverse_dict(v, fs)
+        else: 
+            # skip over element
+            pass
+    # give back
+    return fs
+
+edited = starter(full)
+
+```
+
+Let's see how that goes
+
+```{python}
+
+len(edited)
+
+nums = re.findall(r'[-]?\d+', edited)
+
+sum([int(x) for x in nums])
+
+```
+
+What happens if we send it through again?
+
+```{python}
+
+next = starter(edited)
+
+len(edited)
+
+```
+
+That's still not working because we edit pieces out of order somehow, or, at least, the pieces we find to remove are not what is in the full string. However, if we start again, we run into maximum recursion problems. Is there a way to not keep traversing down the tree?
+
+```{python}
+
+temp = json.loads(accounts)
+full = json.dumps(temp)
+
+def starter(fs):
+    # convert to object
+    bb = json.loads(fs)
+    found = False
+    # iterate
+    fs, found = traverse_list(bb, fs, found)
+    # recurse
+    if found: 
+        fs = starter(fs)
+    # give back
+    return fs
+      
+
+def traverse_list(zz, fs, found):
+    for z in zz:
+        if isinstance(z, list): 
+            fs, found = traverse_list(z, fs, found)
+            if found: break
+        elif isinstance(z, dict):
+            fs, found = traverse_dict(z, fs, found)
+            if found: break
+        else: 
+            # skip over element
+            pass
+    return fs, found
+            
+            
+def traverse_dict(zz, fs, found):
+    if 'red' in zz.values():
+        # print('red!')
+        dis = json.dumps(zz)
+        # print(len(fs))
+        fs = fs.replace(dis, '"x"', 1)
+        # print(len(fs))
+        found = True
+    else: 
+        # keep going down the tree
+        for k,v in zz.items():
+            if isinstance(v, list):
+                fs, found = traverse_list(v, fs, found)
+                if found: break
+            elif isinstance(v, dict):
+                fs, found = traverse_dict(v, fs, found)
+                if found: break
+            else: 
+                # skip over element
+                pass
+    # give back
+    return fs, found
+
+edited = starter(full)
+
+```
+
+The answer! Maybe! Yes!
+
+```{python}
+
+len(edited)
+
+nums = re.findall(r'[-]?\d+', edited)
+
+sum([int(x) for x in nums])
+
+# 96852
+```
