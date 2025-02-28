@@ -75,6 +75,7 @@ There's probably some nice way to do this, but let's make a big nested loop
 ```{python}
 
 a = 0
+# change the input to part one answer
 inp = list('hxbxxzaa')
 
 
