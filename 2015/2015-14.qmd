@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 14: Reindeer Olympics ---
+
+Reindeer race!
+
+Given the descriptions of each reindeer (in your puzzle input), after exactly `2503` seconds, *what distance has the winning reindeer traveled*?
 
 ```{python}
 
@@ -14,11 +18,111 @@ with open('data-2015-14.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Let's get that info into a list of lists
 
 ```{python}
-# here's another python cell for good luck
+
+rein_list = [x.split(' ') for x in inp]
+
+rein_info = [[x[0], int(x[3]), int(x[6]), int(x[13])] for x in rein_list]
+
+tm = 2503
 
 ```
 
-Paste part two here
+Now we race!
+
+```{python}
+
+max_dist = 0
+
+for r in rein_info:
+    dist = 0
+    time = 0
+    while time <= tm:
+        dist += r[1] * r[2] # travel
+        time += r[2]        # travel time
+        if time > tm:       # check for time while travelling
+            dist -= (time - tm) * r[1]
+        time += r[3]        # wait time
+    # update maximum
+    if dist > max_dist:
+        max_dist = dist
+
+max_dist
+
+# 2696
+```
+
+## --- Part Two ---
+
+Actually, Santa awards a point to each reindeer when they are in the lead.
+
+Again given the descriptions of each reindeer (in your puzzle input), after exactly `2503` seconds, *how many points does the winning reindeer have*?
+
+```{python}
+
+# keep a list of the distances travelled
+dist_list = []
+
+# calculate the distances at each step
+# I like this countdown timer and travel switch
+for r in rein_info:
+    dist = []
+    d = 0
+    time = 0
+    cd = r[2]
+    travel = True
+    while time < tm: 
+        time += 1
+        cd -= 1
+        if travel:
+            d += r[1] 
+            dist.append(d)
+        else: 
+            dist.append(d)
+        if cd == 0:
+            if travel == True:
+                cd = r[3]
+                travel = False
+            else:
+                cd = r[2]
+                travel = True
+    # finished
+    dist_list.append(dist)
+
+```
+
+Now let's compare who is in the lead at each time step
+
+```{python}
+
+
+dist_dict = {}
+points_dict = {}
+
+for k,v in zip(rein_info, dist_list):
+    dist_dict[k[0]] = v
+    points_dict[k[0]] = 0
+
+for j in range(tm):
+    m_r = ''
+    m_d = 0
+    for k in dist_dict.keys():
+        if dist_dict[k][j] == m_d:
+            m_r += ',' + k
+        elif dist_dict[k][j] > m_d:
+            m_d = dist_dict[k][j]
+            m_r = k
+    if ',' in m_r:
+        for m in m_r.split(','):
+            points_dict[m] += 1
+            # print(m)
+    else: 
+        points_dict[m_r] += 1
+
+
+points_dict
+
+# 1084
+```
