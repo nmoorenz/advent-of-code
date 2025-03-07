@@ -5,20 +5,88 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 13: Knights of the Dinner Table ---
+
+You have to decide how to seat people for Christmas dinner.
+
+What is the *total change in happiness* for the optimal seating arrangement of the actual guest list?
 
 ```{python}
+
+import numpy as np
+import pandas as pd
+from python_tsp.exact import solve_tsp_dynamic_programming
 
 with open('data-2015-13.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+This feels to me like a TSP with two weights per link/edge/seating combo.
 
 ```{python}
-# here's another python cell for good luck
+
+seat_list = [x.split(' ') for x in inp]
+
+seat_info = [[x[0], x[-1][:-1], x[2], x[3]] for x in seat_list]
+
+names = list(set([x[0] for x in seat_info]))
+names.sort()
+
+df = pd.DataFrame(0, 
+                  index=pd.Index(names, name='Seats'),
+                  columns=pd.Index(names, name='Seats'))
+
+# allocate our arrangement
+for s in seat_info:
+    if s[2] == 'gain':
+        df.loc[s[0],s[1]] = -1 * int(s[3])
+    else: 
+        df.loc[s[0],s[1]] = int(s[3])
+
+
+# but we need to make this symmetrical
+# not needed for the optimisation, but for the proper input
+
+df2 = df.transpose()
+
+df3 = (df + df2).to_numpy()
+
+df3
 
 ```
 
-Paste part two here
+Now for the solver. Actually - go back and make `gain` negative, because we want to maximise happiness which is minimise in this array.
+
+```{python}
+
+permutation, distance = solve_tsp_dynamic_programming(df3)
+permutation
+distance
+
+
+for e, p in enumerate(permutation[:-1]):
+    df3[permutation[e]][permutation[e+1]]
+   
+# 733 
+```
+
+## --- Part Two ---
+
+Actually, you need to seat yourself too.
+
+What is the *total change in happiness* for the optimal seating arrangement that actually includes yourself?
+
+```{python}
+
+df4 = np.c_[df3, np.zeros(8)]
+
+df4 = np.r_[df4, [np.zeros(9)]]
+
+permutation, distance = solve_tsp_dynamic_programming(df4)
+permutation
+distance
+
+# 725
+
+```
