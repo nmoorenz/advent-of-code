@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 15: Science for Hungry People ---
+
+Let's make some cookies!
+
+Given the ingredients in your kitchen and their properties, what is the *total score* of the highest-scoring cookie you can make?
 
 ```{python}
 
@@ -14,11 +18,109 @@ with open('data-2015-15.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+`split()` this into dictionaries
 
 ```{python}
-# here's another python cell for good luck
+
+# lists to start
+ingr = [x.split(':') for x in inp]
+
+print(ingr)
+
+# dictionary, probably
+ing = {x[0]: x[1].split(',') for x in ingr}
+
+for k,v in ing.items():
+    ing[k] = {}
+    for x in [m.strip() for m in v]:
+        a,b = x.split()
+        ing[k].update({a: int(b)})
+
+
+print()
+print(ing)
 
 ```
 
-Paste part two here
+That may have been too much, but there it is.
+
+Now we need to know how much of each thing to include in our cookies.
+
+How many ways are there to have four ingredients that add to 100?
+
+```{python}
+
+import itertools
+
+counter = []
+
+for g,h,i,j in itertools.product(range(101),
+                                 range(101),
+                                 range(101),
+                                 range(101)):
+    if g + h + i + j == 100:
+        counter.append([g,h,i,j])
+
+len(counter)
+
+```
+
+Takes a bit of time but that's fine, I think?
+
+Sweet! Hopefully, we want to make delicious cookies.
+
+```{python}
+
+score = 0
+
+ings = list(ing.keys())
+prop = list(ing['Sprinkles'].keys())[:-1]
+
+for c in counter:
+    s = [0,0,0,0]
+    for e,i in enumerate(ings):
+        for f,p in enumerate(prop):
+            s[f] += ing[i][p] * c[e]
+            
+    sc = max(0,s[0]) * max(0,s[1]) * max(0,s[2]) * max(0,s[3])
+    if sc > score:
+        # print(sc)
+        # print(s)
+        score = sc
+
+print(score)
+
+# 21367368
+
+```
+
+## --- Part Two ---
+
+But wait, there's a change!
+
+Given the ingredients in your kitchen and their properties, what is the *total score* of the highest-scoring cookie you can make with a calorie total of `500`?
+
+```{python}
+
+score = 0
+z = 'calories'
+
+ings = list(ing.keys())
+prop = list(ing['Sprinkles'].keys())[:-1]
+
+for c in counter:
+    s = [0,0,0,0]
+    for e,i in enumerate(ings):
+        for f,p in enumerate(prop):
+            s[f] += ing[i][p] * c[e]
+    # check scores and calories    
+    sc = max(0,s[0]) * max(0,s[1]) * max(0,s[2]) * max(0,s[3])
+    cal = sum([ing[i][z] * c[e] for e,i in enumerate(ings)])
+    if sc > score and cal == 500:
+        score = sc
+
+print(score)
+
+# 1766400
+
+```
