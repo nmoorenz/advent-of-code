@@ -5,20 +5,194 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 19: Medicine for Rudolph ---
+
+Your puzzle input describes all of the possible replacements and, at the bottom, the medicine molecule for which you need to calibrate the machine. *How many distinct molecules can be created* after all the different ways you can do one replacement on the medicine molecule?
 
 ```{python}
+
+import re
+import copy
+from itertools import product
 
 with open('data-2015-19.txt', 'r') as f:
     inp = f.read().splitlines()
 
+mol = inp[-1]
+rep = inp[:-2]
+
 ```
 
-Maybe write an explanation of the solution approach here
+Split the molecule into its parts, which means knowing what replacements are possible.
 
 ```{python}
-# here's another python cell for good luck
+
+mm = []
+p = re.compile(r'[A-Z][a-z]')
+
+for i in range(len(mol)):
+    if i == len(mol) - 1:
+        break
+    elif re.match(r'[A-Z][a-z]', mol[i:i+2]):
+        mm.append(mol[i:i+2])
+        i += 1
+    elif re.match(r'[a-z]', mol[i:i+2]):
+        pass # lower case, skip
+    else: 
+        mm.append(mol[i])
+
+mm
 
 ```
 
-Paste part two here
+Let's organise the replacements into lists, then we can insert those lists into the big list, and then we can use itertools `combinations()` or similar to expand those lists and count how many there are.
+
+```{python}
+
+froms = [x.split(' => ')[0] for x in rep]
+tos = [x.split(' => ')[1] for x in rep]
+
+froms = list(set(froms))
+
+present = {x: x in mol for x in froms}
+print(present)
+print()
+
+reps = {}
+
+for r in rep:
+    a,b = r.split(' => ')
+    if a in reps.keys():
+        reps[a].append(b)
+    else: 
+        reps[a] = [b]
+
+reps
+```
+
+Now we need to put reps into mm
+
+```{python}
+
+mmr = []
+
+for m in mm:
+    if m in reps.keys():
+        mmr.append(reps[m])
+    else: 
+        mmr.append(m)
+
+mmr
+
+```
+
+Create a list of possible molecules
+
+```{python}
+
+mmrl = [x for x in mmr if isinstance(x, list)]
+
+num = 0
+
+for m in mmrl:
+    num = num + len(m)
+
+num
+
+```
+
+Actually, use mm and then if it's a list do the replacements from a list
+
+```{python}
+
+new_m = []
+
+for e,m in enumerate(mm):
+    if m in reps.keys():
+        for r in reps[m]:
+            tmp = mm[:e] + [r] + mm[e+1:]
+            new_m.append(''.join(tmp))
+
+len(new_m)
+len(set(new_m))
+
+# 509
+```
+
+## --- Part Two ---
+
+How long will it take to make the medicine? Given the available *replacements* and the *medicine molecule* in your puzzle input, what is the *fewest number of steps* to go from `e` to the medicine molecule?
+
+```{python}
+# molecule string
+mol
+```
+
+```{python}
+# replacement list of lists
+reps
+```
+
+Which of these replacements are in the molecule and do any of them overlap? It looks like some of them overlap, especially when involved with Ca.
+
+```{python}
+
+for k,v in reps.items():
+    for s in v: 
+        if s in mol: 
+            print(s + ': ' + str(mol.count(s)))
+
+```
+
+If I just go ahead and loop through and try to do some replacements I'm worried that I'm going to end up in some state that is not solvable, i.e. can't make any more reduction replacements. I'm assuming I need to start at the current molecule and work backwards to get to e. This seems inefficient in computation and in number of replacements but I think I have to try it and see.
+
+```{python}
+
+# get another version of mol that I can operate backwards on
+bk = inp[-1]
+rr = 0
+
+# loop through the molecule
+for i,s in enumerate(bk[:20]):
+    # loop through the possible replacements
+    if s == s.lower(): 
+        continue
+    for k,v in reps.items():
+        for s in v:
+            # if the replacement is possible, display it 
+            if s == bk[i:i+len(s)]:
+                print(s)
+                print(bk[i:i+len(s)])
+                print()
+
+```
+
+Let's try going through and restarting at the start each time we find a replacement. Other strategies: sort by longest replacements, and use those first.
+
+```{python}
+
+# get another version of mol that I can operate backwards on
+bk = inp[-1]
+# print(bk)
+rr = 0
+found = False
+
+# loop through the molecule
+for i,s in enumerate(bk):
+    # replacement not possible on the second letter of element
+    if s == s.lower(): 
+        continue
+    # loop through the possible replacements
+    for k,v in reps.items():
+        for z in v:
+            # if the replacement is possible, display it 
+            if z == bk[i:i+len(z)]:
+                # print()
+                # print(z + ': ' + k)
+                bk = bk[:i] + k + bk[i+len(z):]
+                # print(bk)
+                found = True
+                continue
+
+
+```

@@ -5,20 +5,82 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 17: No Such Thing as Too Much ---
+
+You've got some containers and the elves have some eggnog that you need to put into the containers.
+
+Filling all containers entirely, how many different *combinations of containers* can exactly fit all `150` liters of eggnog?
 
 ```{python}
 
 with open('data-2015-17.txt', 'r') as f:
     inp = f.read().splitlines()
 
+inp = [int(x) for x in inp]
+inp.sort()
+
 ```
 
-Maybe write an explanation of the solution approach here
+This seems like another use case for permutations.
+
+How many permutations are there for 20 containers?
+
+No! Let's use combinations, since we don't want to repeat ourselves.
 
 ```{python}
-# here's another python cell for good luck
+
+# https://stackoverflow.com/questions/44977216/get-the-total-number-of-permutations-in-python
+
+from math import factorial
+
+def nPr(n, r):
+    return int(factorial(n)/factorial(n-r))
+  
+def nCr(n, r):
+    return int(factorial(n)/(factorial(n-r)*factorial(r)))
+  
+nPr(20, 4)
+nCr(20, 4)
 
 ```
 
-Paste part two here
+Combinations and itertools!
+
+```{python}
+
+from itertools import combinations
+
+i = 0
+
+for k in range(4,14):
+    for c in combinations(inp, k):
+        if sum(list(c)) == 150:
+            i += 1
+
+print(i)    
+
+# 4372
+```
+
+## --- Part Two ---
+
+We need to use the least amount of containers
+
+*How many different ways* can you fill that number of containers and still hold exactly `150` litres?
+
+Keep reducing the range until we find the shortest possible lists.
+
+```{python}
+
+i = 0
+
+for k in range(4,5):
+    for c in combinations(inp, k):
+        if sum(list(c)) == 150:
+            i += 1
+            print(c)
+
+print(i)   
+
+# 4
+```

@@ -5,20 +5,149 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 20: Infinite Elves and Infinite Houses ---
+
+What is the *lowest house number* of the house to get at least as many presents as the number in your puzzle input?
 
 ```{python}
 
 with open('data-2015-20.txt', 'r') as f:
     inp = f.read().splitlines()
 
+presents = int(inp[0])
+
 ```
 
-Maybe write an explanation of the solution approach here
+I think we just have to loop: try this as an estimation.
 
 ```{python}
-# here's another python cell for good luck
+
+house = 600000
+tot = 0
+step = 1000
+
+while tot < presents:
+    # increment house visited
+    house += step
+    # always start with elf 1
+    tot = 10   
+    # if even, then go through everything
+    if house % 2 == 0:
+        for h in range(house, 1, -1):
+            if house % h == 0:
+                tot += 10 * h
+    else: 
+        # odd number, we can just go through odds
+        for h in range(house, 1, -2):
+            if house % h == 0:
+                tot += 10 * h
+    # print(tot)
+
+tot
+house
+
 
 ```
 
-Paste part two here
+Steps of 10000: 29295310, 810000
+
+From 500,000, steps of 1,000: 29203200, 693000
+
+From 600,000, steps of 100: 29203200, 693000
+
+I think I want to try this somewhat differently, counting down.
+
+```{python}
+
+# house = 700000
+# tot = 0
+# 
+# 
+# while house > 600000:
+#     # increment house visited
+#     house -= 10
+#     # always start with elf 1
+#     tot = 10   
+#     # if even, then go through everything
+#     if house % 2 == 0:
+#         for h in range(house, 1, -1):
+#             if house % h == 0:
+#                 tot += 10 * h
+#     else: 
+#         # odd number, we can just go through odds
+#         for h in range(house, 1, -2):
+#             if house % h == 0:
+#                 tot += 10 * h
+#     if tot > presents: 
+#         print(tot)
+#         print(house)
+# 
+# 
+# tot
+# house
+
+```
+
+`29030400, 695520`
+
+`29203200, 693000`
+
+`29260800, 665280`
+
+Let's look for factors instead
+
+https://stackoverflow.com/questions/6800193/what-is-the-most-efficient-way-of-finding-all-the-factors-of-a-number-in-python
+
+```{python}
+
+from functools import reduce
+
+def factors(n):    
+    return set(reduce(list.__add__, 
+                ([i, n//i] for i in range(1, int(n**0.5) + 1) if n % i == 0)))
+
+```
+
+Use it in a loop
+
+```{python}
+
+for i in range(600000, 700000):
+    x = sum(factors(i)) * 10
+    if x > presents:
+        print(x)
+        print(i)
+        break
+
+```
+
+## --- Part Two ---
+
+Elves are only going to deliver to 50 houses each.
+
+With these changes, what is the new *lowest house number* of the house to get at least as many presents as the number in your puzzle input?
+
+```{python}
+
+def factors2(n):    
+    tmp = reduce(list.__add__, ([i, n//i] 
+          for i in range(1, int(n**0.5) + 1) if n % i == 0))
+    return set([t for t in tmp if t >= (n/50)])
+
+```
+
+Again loop it
+
+```{python}
+
+mx = 0
+
+for i in range(650000, 750000, 1):
+    x = sum(factors2(i)) * 11
+    if x > mx:
+        mx = x
+        print(x)
+        print(i)
+        
+# 705600
+```

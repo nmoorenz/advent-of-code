@@ -5,20 +5,98 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 22: Wizard Simulator 20XX ---
+
+You're a wizard, Harry!
+
+You start with 50 hit points and 500 mana points. The boss's actual stats are in your puzzle input. What is the least amount of mana you can spend and still win the fight?
 
 ```{python}
 
 with open('data-2015-22.txt', 'r') as f:
     inp = f.read().splitlines()
 
+inp_dict = {x.split(':')[0]: int(x.split(':')[1]) for x in inp}
+
+b_hp = inp_dict['Hit Points']
+b_d = inp_dict['Damage']
+
+# me
+m_hp = 50
+m_mana = 500
+
 ```
 
-Maybe write an explanation of the solution approach here
+For day 21 there was only back and forward, each turn was independent. I buy things at the start to set myself up for success. Now the moves last for more than one move, and I am going to find it difficult to create a dataframe to see which is combination of things is best. Let's create a nice structure for the spells, anyway.
+
+-   Magic Missile costs `53` mana. It instantly does `4` damage.
+-   Drain costs `73` mana. It instantly does `2` damage and heals you for `2` hit points.
+-   Shield costs `113` mana. It starts an effect that lasts for `6` turns. While it is active, your armor is increased by `7`.
+-   Poison costs `173` mana. It starts an effect that lasts for `6` turns. At the start of each turn while it is active, it deals the boss `3` damage.
+-   Recharge costs `229` mana. It starts an effect that lasts for `5` turns. At the start of each turn while it is active, it gives you `101` new mana.
 
 ```{python}
-# here's another python cell for good luck
+
+# spells dictionary
+
+spells = {
+    'missile': {'cost': 53, 'damage': 4, 'turns': 1},
+    'drain': {'cost': 73, 'damage': 2, 'heal': 2, 'turns': 1},
+    'shield': {'cost': 113, 'armor': 7, 'turns': 6},
+    'poison': {'cost': 173, 'damage': 3, 'turns': 6},
+    'recharge': {'cost': 229, 'turns': 5, 'mana': 101},
+}
+
 
 ```
 
-Paste part two here
+So: I need to track what things are active at any given turn, and remove those from consideration when the turns get to zero, and I can't start a new one of those while they are active.
+
+I'm leaning towards a hierarchy of spells: determine the priority of what we want to be active. Then I can alter the priority of spells to determine a good path. I can also figure out how many turns it will take to kill the boss, and how long I need to survive for.
+
+Calculation: Missile costs 53/4=13.25 mana per hit point. Poison costs 173/6/3=9.611 mana per hit point, so I want Poison to be active as often as possible.
+
+Insight: if I cast Shield or Poison followed by Recharge, two spells will finish on the same turn, so we probably don't want to do that.
+
+Then: I need to write a function that will run through the game while making sure I survive and record the mana spent.
+
+```{python}
+
+# priority list
+spell_priority = ['recharge', 'poison', 'drain', 'missile', 'shield']
+
+spell_turns = {k: 0 for k in spell_priority}
+
+mana_spent = 0
+
+
+```
+
+Function. I can probably rearrange the priority programatically as well. There will be slight alterations that might be optimal but let us see.
+
+```{python}
+
+def my_turn(): 
+    pass
+    # apply the effect
+    # reduce the turns by one
+    # choose which new spell to cast
+
+def boss_turn(): 
+    pass
+    # apply the effect
+    # reduce the turns by one
+    # boss attacks
+    
+alive = True
+
+while alive: 
+    my_turn()
+    if dead(): 
+        break
+    boss_turn()
+    if dead(): 
+        break
+    
+
+```
