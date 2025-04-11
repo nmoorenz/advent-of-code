@@ -5,20 +5,124 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 21: RPG Simulator 20XX ---
+
+Buy things from the shop to defeat the boss.
+
+You have *100 hit points*. The boss's actual stats are in your puzzle input. What is *the least amount of gold you can spend* and still win the fight?
 
 ```{python}
 
 with open('data-2015-21.txt', 'r') as f:
     inp = f.read().splitlines()
 
+inp_dict = {x.split(':')[0]: int(x.split(':')[1]) for x in inp}
+
+b_hp = inp_dict['Hit Points']
+b_d = inp_dict['Damage']
+b_a = inp_dict['Armor']
+
+# me
+m_hp = 100
+
 ```
 
-Maybe write an explanation of the solution approach here
+How long can we survive with different damage and armor variables?
 
 ```{python}
-# here's another python cell for good luck
+
+def battle(dam, def_):
+    # how many turns I can survive for
+    m_turns = m_hp / max(b_d - def_, 1)
+    # how many turns the boss can survive for
+    b_turns = b_hp / max(dam - b_a, 1)
+    # if I can survive longer than the boss, then I win
+    return m_turns > b_turns
+
 
 ```
 
-Paste part two here
+Lists of damage and armor possibilities
+
+```{python}
+
+# Weapons:    Cost  Damage  Armor
+# Dagger        8     4       0
+# Shortsword   10     5       0
+# Warhammer    25     6       0
+# Longsword    40     7       0
+# Greataxe     74     8       0
+# 
+# Armor:      Cost  Damage  Armor
+# Leather      13     0       1
+# Chainmail    31     0       2
+# Splintmail   53     0       3
+# Bandedmail   75     0       4
+# Platemail   102     0       5
+# 
+# Rings:      Cost  Damage  Armor
+# Damage +1    25     1       0
+# Damage +2    50     2       0
+# Damage +3   100     3       0
+# Defense +1   20     0       1
+# Defense +2   40     0       2
+# Defense +3   80     0       3
+
+weapons_cost = [8, 10, 25, 40, 74]
+weapons_damage = [4, 5, 6, 7, 8]
+rings_cost_d = [0, 25, 50, 100]
+rings_damage = [0, 1, 2, 3]
+
+armor_cost = [0, 13, 31, 53, 75, 102]
+armor_defense = [0, 1, 2, 3, 4, 5]
+rings_cost_a = [0, 20, 40, 80]
+rings_defense = [0, 1, 2, 3]
+
+```
+
+It looks like I want to use product to create a dataframe
+
+```{python}
+import pandas as pd
+import itertools
+
+result = pd.DataFrame(list(itertools.product(weapons_damage, 
+                                             rings_damage, 
+                                             armor_defense, 
+                                             rings_defense))
+                     ).rename(columns={0:'w_dam', 1:'r_dam', 2:'a_def', 3:'r_def'})
+
+result['dam'] = result['w_dam'] + result['r_dam']
+result['def'] = result['a_def'] + result['r_def']
+
+wpc = pd.DataFrame([weapons_cost, weapons_damage], index=['wpc', 'w_dam']).T
+rcd = pd.DataFrame([rings_cost_d, rings_damage], index=['rcd', 'r_dam']).T
+arc = pd.DataFrame([armor_cost, armor_defense], index=['arc', 'a_def']).T
+rca = pd.DataFrame([rings_cost_a, rings_defense], index=['rca', 'r_def']).T
+
+result = pd.merge(result, wpc, on='w_dam')
+result = pd.merge(result, rcd, on='r_dam')
+result = pd.merge(result, arc, on='a_def')
+result = pd.merge(result, rca, on='r_def')
+
+result['cost'] = result['wpc'] + result['rcd'] + result['arc'] + result['rca']
+
+result['win'] = result.apply(lambda row: battle(row['dam'], row['def']), axis=1)
+
+result[result['win']==True].nsmallest(1, 'cost')
+
+# 111
+
+```
+
+## --- Part Two ---
+
+What is the *most* amount of gold you can spend and still *lose* the fight?
+
+```{python}
+
+result[result['win']==False].nlargest(1, 'cost')
+
+# 188
+
+```

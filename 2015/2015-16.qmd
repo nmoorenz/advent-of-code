@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 16: Aunt Sue ---
+
+You've got too many Aunt Sue and need to find the right one to thank them.
+
+What is the *number* of the Sue that got you the gift?
 
 ```{python}
 
@@ -14,11 +18,101 @@ with open('data-2015-16.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Preparation
 
 ```{python}
-# here's another python cell for good luck
+
+tape = """children: 3
+          cats: 7
+          samoyeds: 2
+          pomeranians: 3
+          akitas: 0
+          vizslas: 0
+          goldfish: 5
+          trees: 3
+          cars: 2
+          perfumes: 1"""
+
+tape = tape.split('\n')
+tape = [x.split(': ') for x in tape]
+taped = {x[0].strip(): int(x[1]) for x in tape}
+taped
 
 ```
 
-Paste part two here
+Sue information
+
+```{python}
+
+sue = [x.split(': ', 1) for x in inp]
+sue = {x[0]: x[1].split(', ') for x in sue}
+
+for k,v in sue.items():
+    sue[k] = {}
+    for x in [m.strip() for m in v]:
+        a,b = x.split(': ')
+        sue[k].update({a: int(b)})
+        
+```
+
+Now for the comparison
+
+```{python}
+
+for k,v in sue.items():
+    found = 0
+    for a,b in v.items():
+        if b != taped[a]:
+            # it's not this sue
+            break
+        else:
+            # keep going
+            found += 1
+            if found == 3:
+                print(k)
+                print(v)
+
+# 213
+```
+
+## --- Part Two ---
+
+Actually, the numbers are different, so do some greater than and less than operations.
+
+What is the *number* of the real Aunt Sue?
+
+```{python}
+
+_eq = ['children', 'samoyeds', 'akitas', 'vizslas', 'cars', 'perfumes', ]
+
+_gt = ['cats', 'trees', ]
+
+_lt = ['pomeranians', 'goldfish', ]
+
+# same basic structure as before
+for k,v in sue.items():
+    found = 0
+    for a,b in v.items():
+        if a in _eq:
+            if b != taped[a]:
+                # it's not this sue
+                break
+            else:
+                # keep going
+                found += 1
+        elif a in _gt: 
+            if b <= taped[a]:
+                break
+            else: 
+                found += 1
+        elif a in _lt:
+            if b >= taped[a]:
+                break
+            else:
+                found += 1
+    if found == 3:
+        print(k)
+        print(v)
+
+# 323
+```

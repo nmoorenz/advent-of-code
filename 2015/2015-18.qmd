@@ -5,20 +5,94 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 18: Like a GIF For Your Yard ---
+
+In your grid of 100x100 lights, given your initial configuration, *how many lights are on after 100 steps*?
 
 ```{python}
+
+import numpy as np
+import copy
 
 with open('data-2015-18.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+Arrays are a good choice
 
 ```{python}
-# here's another python cell for good luck
+
+lites_list = [list(x) for x in inp]
+
+lites_grid = np.array(lites_list)
+
+lites = np.full((102, 102), '.')
+
+lites[1:101,1:101] = lites_grid
 
 ```
 
-Paste part two here
+Now, let's iterate!
+
+```{python}
+
+for s in range(100):
+    # lights previously
+    lp = copy.deepcopy(lites)
+    for x in range(1, 101):
+        for y in range(1, 101):
+            if lp[x,y] == '.':
+                # we might turn on
+                if np.sum(np.char.count(lp[x-1:x+2,y-1:y+2], '#')
+                ) - np.sum(np.char.count(lp[x,y], '#')) == 3:
+                    lites[x,y] = '#'
+                else: 
+                    lites[x,y] = '.'
+            else: 
+                # we might turn off
+                if np.sum(np.char.count(lp[x-1:x+2,y-1:y+2], '#')
+                ) - np.sum(np.char.count(lp[x,y], '#')) in [2,3]:
+                    lites[x,y] = '#'
+                else: 
+                    lites[x,y] = '.'
+
+
+np.sum(np.char.count(lites[:], '#'))
+
+# 768 
+```
+
+## --- Part Two ---
+
+In your grid of 100x100 lights, given your initial configuration, but with the four corners always in the *on* state, *how many lights are on after 100 steps*?
+
+```{python}
+
+for s in range(100):
+    # lights previously
+    lp = copy.deepcopy(lites)
+    for x in range(1, 101):
+        for y in range(1, 101):
+            if x in [1,100] and y in [1,100]:
+                lites[x,y] = '#'
+            elif lp[x,y] == '.':
+                # we might turn on
+                if np.sum(np.char.count(lp[x-1:x+2,y-1:y+2], '#')
+                ) - np.sum(np.char.count(lp[x,y], '#')) == 3:
+                    lites[x,y] = '#'
+                else: 
+                    lites[x,y] = '.'
+            else: 
+                # we might turn off
+                if np.sum(np.char.count(lp[x-1:x+2,y-1:y+2], '#')
+                ) - np.sum(np.char.count(lp[x,y], '#')) in [2,3]:
+                    lites[x,y] = '#'
+                else: 
+                    lites[x,y] = '.'
+
+
+np.sum(np.char.count(lites[:], '#'))
+
+# 781
+```

@@ -161,11 +161,12 @@ We're building a Christmas tree!
 
 ### Day 20
 
-1.  
-2.  
+1.  Find the lowest house number which gets a number of presents when elves do some funky delivery
+2.  Elves are only delivering to 50 houses, now where do we get to
 
--   
--   
+-   Looping is bad because loops can take a long time. 
+-   We should actually look at factors, since the deliveries work more like that. Stack Overflow!
+-   Slightly modify the function for a limit of deliveries i.e. factors
 
 
 
