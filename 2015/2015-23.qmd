@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 23: Opening the Turing Lock ---
+
+Little Jane Marie just got her very first computer for Christmas from some unknown benefactor. It comes with instructions and an example program, but the computer itself seems to be malfunctioning. She's curious what the program does, and would like you to help her run it.
+
+What is *the value in register `b`* when the program in your puzzle input is finished executing?
 
 ```{python}
 
@@ -14,11 +18,73 @@ with open('data-2015-23.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Loop through the input and find the output for b.
+
+This really looks like the Collatz Number: if even, divide by 2, if odd, multiply by 3 and add 1.
+
+Generally, just have to work through the coding with this in a loop
 
 ```{python}
-# here's another python cell for good luck
+
+val = {"a": 1, "b": 0}
+i = 0
+j = 0
+
+while i < len(inp): 
+    if inp[i][:3] == 'inc': 
+        # increment the letter
+        # print(inp[i])
+        val[inp[i][4:]] = val[inp[i][4:]] + 1
+        i += 1
+    elif inp[i][:3] == 'tpl': 
+        # triple the letter
+        # print(inp[i])
+        val[inp[i][4:]] = val[inp[i][4:]] * 3 
+        i += 1
+    elif inp[i][:3] == 'hlf': 
+        # half of the letter
+        # print(inp[i])
+        val[inp[i][4:]] = val[inp[i][4:]] / 2
+        i += 1
+    elif inp[i][:3] == 'jio':  
+        # jump if one
+        # print(inp[i])
+        if val[inp[i][4:5]] == 1:
+            i = eval('i' + inp[i][7:])
+        else:
+            i += 1
+    elif inp[i][:3] == 'jie': 
+        # jump if even
+        # print(inp[i])
+        if val[inp[i][4:5]] % 2 == 0:
+            i = eval('i' + inp[i][7:])  
+        else: 
+            i += 1
+    elif inp[i][:3] == 'jmp': 
+        # jump a number of instructions
+        # print(inp[i])
+        i = eval('i' + inp[i][4:]) 
+        # print(val["a"])
+    else: 
+        print("This is wrong")
+        i += 1
+    j += 1
+    if j == 10000: 
+        i = 1000
+    # print(val["a"])
+    # print(str(i))
+
+print(val["a"])
+print(val["b"])
+    
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+What is the value in register `b` after the program is finished executing if register `a` starts as `1` instead?
+
+Change the input for a, and we jump to the second set of instructions.
+
+Part 1: 307\
+Part 2: 160

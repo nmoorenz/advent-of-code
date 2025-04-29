@@ -5,20 +5,58 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 25: Let It Snow ---
+
+We need to fix Santa's weather machine with some code generation.
+
+Your puzzle input contains the message on the machine's console. *What code do you give the machine?*
 
 ```{python}
 
-with open('data-2015-25.txt', 'r') as f:
-    inp = f.read().splitlines()
+# actual requirement
+_r = 3010
+_c = 3019
 
+# testing requirement
+# _r = 301
+# _c = 309
 ```
 
-Maybe write an explanation of the solution approach here
+This seems like straight forward arithmetic, but I think I need to use triangular numbers to easily calculate where the 3010th row and 3019th column would be. It's not just 3010 \* 3019, but I'll need to produce at least that many numbers.
+
+Since the sequence is sequential, I can't take any shortcuts to actually get to the number, so let's just loop through and keep track of the position. Probably: no doubt there's some kind of shortcut.
 
 ```{python}
-# here's another python cell for good luck
+
+# first value, multiply by m, then divide by d
+num = 20151125
+m = 252533
+d = 33554393
+i = 0
+
+pos = {'r': 1, 'c': 1}
+
+while i < 10**8: 
+    num = (num * m) % 33554393
+    i += 1
+    if pos['r'] == 1: 
+        pos['r'] = pos['c'] + 1
+        pos['c'] = 1
+    else: 
+        pos['r'] -= 1
+        pos['c'] += 1
+    
+    # print(str(num) + ', ' + str(pos))
+    # check for finish condition
+    if pos['r'] == _r and pos['c'] == _c:
+        break
+
+print(str(num) + ', ' + str(pos))
+
+# 8997277
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Do all of the other days :)
