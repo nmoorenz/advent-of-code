@@ -18,16 +18,19 @@ with open('data-2015-22.txt', 'r') as f:
 
 inp_dict = {x.split(':')[0]: int(x.split(':')[1]) for x in inp}
 
-b_hp = inp_dict['Hit Points']
-b_d = inp_dict['Damage']
+nums = {}
+
+nums['b_hp'] = inp_dict['Hit Points']
+nums['b_d'] = inp_dict['Damage']
 
 # me
-m_hp = 50
-m_mana = 500
+nums['m_hp'] = 50
+nums['m_mana'] = 500
+nums['m_armor'] = 0
 
 ```
 
-For day 21 there was only back and forward, each turn was independent. I buy things at the start to set myself up for success. Now the moves last for more than one move, and I am going to find it difficult to create a dataframe to see which is combination of things is best. Let's create a nice structure for the spells, anyway.
+For day 21 there was only back and forward, each turn was independent. I buy things at the start to set myself up for success. Now the spells last for more than one move, and I am going to find it difficult to create a dataframe to see which combination of things is best. Let's create a nice structure for the spells, anyway.
 
 -   Magic Missile costs `53` mana. It instantly does `4` damage.
 -   Drain costs `73` mana. It instantly does `2` damage and heals you for `2` hit points.
@@ -39,15 +42,79 @@ For day 21 there was only back and forward, each turn was independent. I buy thi
 
 # spells dictionary
 
-spells = {
-    'missile': {'cost': 53, 'damage': 4, 'turns': 1},
-    'drain': {'cost': 73, 'damage': 2, 'heal': 2, 'turns': 1},
-    'shield': {'cost': 113, 'armor': 7, 'turns': 6},
-    'poison': {'cost': 173, 'damage': 3, 'turns': 6},
-    'recharge': {'cost': 229, 'turns': 5, 'mana': 101},
+spell_effect = {
+    'missile':  {'cost': 53,  'damage': 4, 'turns': 1},
+    'drain':    {'cost': 73,  'damage': 2, 'turns': 1, 'heal': 2},
+    'shield':   {'cost': 113, 'damage': 0, 'turns': 6, 'armor': 7},
+    'poison':   {'cost': 173, 'damage': 3, 'turns': 6},
+    'recharge': {'cost': 229, 'damage': 0, 'turns': 5, 'mana': 101},
 }
 
+def spell_apply(spell, nums): 
+    # there's always damage, might be zero
+    nums['b_hp'] -= spell_effect[spell]['damage']
+    # check if there's healing
+    if 'heal' in spell_effect[spell]:
+        nums['m_hp'] += spell_effect[spell]['heal']
+    # check if there's recharge
+    if 'mana' in spell_effect[spell]:
+        nums['m_mana'] += spell_effect[spell]['mana']
+    # reduce the turns
+    nums['spell_turns'][spell] -= 1
+    # shield has finished
+    if spell == 'shield' and nums['spell_turns'][spell] == 0:
+        nums['m_armor'] = 0
+    # print the counter
+    print(spell, "is being used; Its counter is now", nums['spell_turns'][spell])
+    # give back
+    return nums
 
+
+def spell_choose(nums): 
+    # loop through the choices
+    for sp in spell_priority: 
+        if nums['m_mana'] < spell_effect[sp]['cost']:
+            print('not enough mana to cast ', sp)
+        elif nums['spell_turns'][sp] > 0:
+            # cannot cast a spell if it is already active
+            pass
+        else: 
+            # a spell could just be one turn, so need to call effect after this
+            # for spells with more than one turn the effect starts next turn
+            print(sp, 'has been cast')
+            nums['spell_turns'][sp] = spell_effect[sp]['turns']
+            nums['mana_spent'] += spell_effect[sp]['cost']
+            nums['m_mana'] -= spell_effect[sp]['cost']
+            if sp in ['missile', 'drain']:
+                nums = spell_apply(sp, nums)
+            elif sp == 'shield':
+                nums['m_armor'] = 7
+            return nums
+
+
+def spell_cast(nums, i): 
+    # we know what spells we are casting
+    sp = nums['spell_choices'][i]
+    # still check them before casting
+    if nums['m_mana'] < spell_effect[sp]['cost']:
+        print('not enough mana to cast ', sp)
+        raise
+    elif nums['spell_turns'][sp] > 0:
+        # cannot cast a spell if it is already active
+        print('cannot cast this spell, already active')
+        raise
+    else: 
+        print(sp, 'has been cast')
+        nums['spell_turns'][sp] = spell_effect[sp]['turns']
+        nums['mana_spent'] += spell_effect[sp]['cost']
+        nums['m_mana'] -= spell_effect[sp]['cost']
+        if sp in ['missile', 'drain']:
+            nums = spell_apply(sp, nums)
+        elif sp == 'shield':
+            nums['m_armor'] = 7
+        return nums
+        
+    
 ```
 
 So: I need to track what things are active at any given turn, and remove those from consideration when the turns get to zero, and I can't start a new one of those while they are active.
@@ -56,47 +123,493 @@ I'm leaning towards a hierarchy of spells: determine the priority of what we wan
 
 Calculation: Missile costs 53/4=13.25 mana per hit point. Poison costs 173/6/3=9.611 mana per hit point, so I want Poison to be active as often as possible.
 
-Insight: if I cast Shield or Poison followed by Recharge, two spells will finish on the same turn, so we probably don't want to do that.
-
 Then: I need to write a function that will run through the game while making sure I survive and record the mana spent.
 
 ```{python}
 
 # priority list
-spell_priority = ['recharge', 'poison', 'drain', 'missile', 'shield']
+spell_priority = ['poison', 'recharge', 'shield', 'drain', 'missile']
 
-spell_turns = {k: 0 for k in spell_priority}
+# prescriptive choices
+spell_choices = ['poison', 'recharge', 'shield', 'poison', 'recharge', 'shield', 'poison', 'missile', 'missile', 'missile', ]
 
-mana_spent = 0
+nums['spell_choices'] = spell_choices
 
+nums['spell_turns'] = {k: 0 for k in spell_priority}
+
+nums['mana_spent'] = 0
 
 ```
 
-Function. I can probably rearrange the priority programatically as well. There will be slight alterations that might be optimal but let us see.
+Functions. I can probably rearrange the priority programatically as well (edit: would that I had). There will be slight alterations that might be optimal but let us see.
 
 ```{python}
 
-def my_turn(): 
-    pass
+
+def my_turn(nums, i): 
+    # game tracking
+    print(f"-- Player turn {i} --")
+    print("- Player has", nums['m_hp'],"hit points,", nums['m_mana'], "mana")
+    print("- Boss has", nums['b_hp'], "hit points")
+    
     # apply the effect
-    # reduce the turns by one
+    for s,c in nums['spell_turns'].items(): 
+        if c > 0:
+            nums = spell_apply(s, nums)
+            
     # choose which new spell to cast
+    # spell_choose(nums)
+    
+    # use a list to run through choices
+    nums = spell_cast(nums, i)
+ 
+    return nums
 
-def boss_turn(): 
-    pass
+def boss_turn(nums, i): 
+    print(f"-- Boss turn {i} --")
+    print("- Player has", nums['m_hp'],"hit points,", nums['m_mana'], "mana")
+    print("- Boss has", nums['b_hp'], "hit points ")
+    
     # apply the effect
-    # reduce the turns by one
+    for s,c in nums['spell_turns'].items(): 
+        if c > 0:
+            nums = spell_apply(s, nums)
+            
     # boss attacks
+    # maintain armor in the big dict so this is simpler (is it simpler?)
+    this_damage = nums['b_d'] - nums['m_armor']
+    print("Boss attacks for", this_damage, "damage.")
+    nums['m_hp'] -= this_damage
     
-alive = True
+    return nums
+ 
+def check_death(nums):
+    if nums['m_hp'] <= 0: 
+        print('Player dies')
+        return True
+    if nums['b_hp'] <= 0: 
+        print('Boss dies')
+        return True
+    
+# use a counter as a better way of controlling infinite loop    
+i = 0
 
-while alive: 
-    my_turn()
-    if dead(): 
-        break
-    boss_turn()
-    if dead(): 
-        break
+while i <= 20: 
+    # I start the game
+    nums = my_turn(nums, i)
+    if check_death(nums): break
     
+    # the boss takes a turn
+    nums = boss_turn(nums, i)
+    if check_death(nums): break
+    
+    print()
+    i += 1
+    
+
+nums['mana_spent']
+
+# spell_priority = ['recharge', 'shield', 'poison', 'drain', 'missile']
+# 2289
+
+# spell_priority = ['shield', 'recharge', 'poison', 'drain', 'missile']
+# 2173
+
+# spell_priority = ['poison', 'shield', 'recharge', 'drain', 'missile']
+# spell_priority = ['shield', 'poison', 'recharge', 'drain', 'missile']
+# run out of mana, should be obvious
+# I can calculate that recharge needs to be higher
+
+# spell_priority = ['poison', 'recharge', 'shield', 'drain', 'missile']
+# 1947
+
+# spell_priority = ['recharge', 'poison', 'shield', 'drain', 'missile']
+# spell_priority = ['recharge', 'poison', 'shield', 'missile', 'drain', ]
+# 2060
+# this doesn't matter because I don't get down in priority very often
+
 
 ```
+
+From the examples, used as a hint for printing
+
+```         
+-- Player turn -- 
+- Player has 10 hit points, 0 armor, 250 mana 
+- Boss has 13 hit points 
+Player casts Poison.  
+-- Boss turn -- 
+- Player has 10 hit points, 0 armor, 77 mana 
+- Boss has 13 hit points 
+Poison deals 3 damage; its timer is now 5. 
+Boss attacks for 8 damage.
+```
+
+Notes after a few run throughs: The end game needs better management. If I have enough mana to beat the boss, I don't need to cast recharge. But, how do I calculate that? I need to anticipate ahead of time. Maybe I can run through a few scenarios manually and do that calculation. Is it going to be the current minimum that is going to be the minimum, or will I be able to figure something with another sequence? There are no guarantees.
+
+Also: There aren't that many choices I have to make. I could just keep a list of choices. This is kind of like permutations but there are limits on the order of things. Including Player \> Boss \> Player turns etc, I can choose on turns 1, 3, 5, 7 and so on. I think what I want to write is a permutation builder, or a permutation validator, and plug all those in to my algorithm to see who wins and how much mana I spend. Maybe just work things out manually and use my current scheme as a validator.
+
+OK, so, after editing two scenarios and getting the calculations wrong, let's write a sequence validator.
+
+However: I need to use something in between `permutations` and `product`, and `product` is so many options.
+
+```{python}
+
+from itertools import product, pairwise
+
+# possible spells
+spell_options = ['poison', 'recharge', 'shield', 'drain', 'missile']
+
+# need all possible options, so use product
+# but we need to validate the turns, with variables
+# so use the concept of applying spells and Player/Boss turns
+
+# within un-optimised priority it's usually 10 turns
+# we can probably finish within 8 turns, but use 10
+# this is nearly ten million, which is not impossible
+
+spell_mega = product(spell_options, repeat=10)
+
+# list(spell_mega)[:10]
+# sum(1 for _ in spell_mega)
+
+```
+
+OK, that's good, but we can eliminate some/most of those with a bit of logic.
+
+First, we want to remove poison, recharge, shield repeats. We can't cast those on consecutive turns. That's going to be quite a lot, I hope! Let's see if we can append.
+
+We can't cast poison, recharge, shield on alternate either, needs to be every three, but start with the easiest first.
+
+```{python}
+
+# interesting comparison method
+# any(x == y for (x, y) in pairwise(s))
+    
+no_repeats = []
+
+i = 0
+
+for s in spell_mega: 
+    good = True
+    for p in pairwise(s):
+        # print(p)
+        if ('poison', 'poison') == p: 
+            good = False
+            break
+        elif ('shield', 'shield') == p: 
+            good = False
+            break
+        elif ('recharge', 'recharge') == p: 
+            good = False
+            break
+    # add if we like the sequence
+    if good: 
+        no_repeats.append(s)
+        # break
+    
+    
+    # quit early for testing
+    i += 1
+    # if i == 1:
+    #     break
+
+```
+
+Now, use a similar technique and make sure we don't have alternates. Poison, Shield, Recharge last 5 or 6 turns, so we can't have Poison, X, Poison for example.
+
+```{python}
+
+no_alt = []
+
+for i in no_repeats:
+# for i in no_repeats:
+    good = True
+    for x,y in zip(i[:-2], i[2:]):
+        # print(x, y)
+        if (x,y) == ('poison', 'poison'):
+            # print(x,y)
+            good = False
+            break
+        elif (x,y) == ('shield', 'shield'):
+            good = False
+            break
+        elif (x,y) == ('recharge', 'recharge'):
+            good = False
+            break
+    # add the good ones
+    if good: 
+        no_alt.append(i)
+
+len(no_alt)
+```
+
+This is a good reduction! We need more though.
+
+I wrote this below code to try to validate the options, but we've already done a large part of that with removing consecutive and alternate spells.
+
+```{python}
+
+
+def spell_apply_x(spell, nums): 
+    # reduce the turns
+    nums['spell_turns'][spell] -= 1
+    # give back
+    return nums
+
+
+def spell_cast_x(nums, i): 
+    # we know what spells we are casting
+    sp = nums['spell_choices'][i]
+    print("casting", sp)
+    if nums['spell_turns'][sp] > 0:
+        print('oops')
+        return nums, True
+    else: 
+        nums['spell_turns'][sp] = spell_effect[sp]['turns']
+        if sp in ['missile', 'drain']:
+            nums = spell_apply_x(sp, nums)
+        return nums, False
+        
+    
+def my_turn_x(nums, i): 
+    # apply the effect
+    for s,c in nums['spell_turns'].items(): 
+        if c > 0:
+            nums = spell_apply_x(s, nums)
+    # do the cast of the spell
+    nums, invalid = spell_cast_x(nums, i)
+    # return if the casting is invalid
+    return nums, invalid
+
+
+def boss_turn_x(nums, i): 
+    # apply the effect
+    for s,c in nums['spell_turns'].items(): 
+        if c > 0:
+            nums = spell_apply_x(s, nums)
+    # give back 
+    return nums
+
+
+def run_the_game(sp_list): 
+    nums = {}
+    nums['spell_choices'] = sp_list
+    nums['spell_turns'] = {k: 0 for k in spell_priority}
+    i = 0
+    while i < 10: 
+        # I start the game
+        nums, invalid = my_turn_x(nums, i)
+        # return early
+        if invalid: 
+            return False
+        # the boss takes a turn
+        nums = boss_turn_x(nums, i)
+        # iterate
+        i += 1
+    # after making it through the game
+    return True
+        
+        
+good_spells = []
+
+for s in no_alt[:10]: 
+    ok = run_the_game(s)
+    if ok: 
+        good_spells.append(s)
+
+
+len(good_spells)
+```
+
+We need to try these through the actual game.
+
+Notes: Figure out if we win, how much mana we spent, if there are any changes we need to make to the list we are using. Copy the functions from above and make some modifications for efficiency, and for exiting early if our spell sequence is no good.
+
+```{python}
+
+def create_nums(sp_list): 
+    nums = {}
+    nums['msg'] = ''
+    # boss
+    nums['b_hp'] = inp_dict['Hit Points']
+    nums['b_d'] = inp_dict['Damage']
+    # me
+    nums['m_hp'] = 50
+    nums['m_mana'] = 500
+    nums['m_armor'] = 0
+    # more
+    nums['mana_spent'] = 0
+    nums['spell_choices'] = sp_list
+    nums['spell_turns'] = {k: 0 for k in spell_priority}
+    # give back
+    return nums
+
+
+def spell_apply(spell, nums): 
+    # there's always damage, might be zero
+    nums['b_hp'] -= spell_effect[spell]['damage']
+    # check if there's healing
+    if 'heal' in spell_effect[spell]:
+        nums['m_hp'] += spell_effect[spell]['heal']
+    # check if there's recharge
+    if 'mana' in spell_effect[spell]:
+        nums['m_mana'] += spell_effect[spell]['mana']
+    # reduce the turns
+    nums['spell_turns'][spell] -= 1
+    # shield has finished
+    if spell == 'shield' and nums['spell_turns'][spell] == 0:
+        nums['m_armor'] = 0
+    # print the counter
+    # print(spell, "is being used; Its counter is now", nums['spell_turns'][spell])
+    # give back
+    return nums
+
+
+def spell_cast(nums, i): 
+    # we know what spells we are casting
+    sp = nums['spell_choices'][i]
+    # still check them before casting
+    if nums['m_mana'] < spell_effect[sp]['cost']:
+        # print('not enough mana to cast ', sp)
+        nums['msg'] = 'error'
+        return nums
+    elif nums['spell_turns'][sp] > 0:
+        # cannot cast a spell if it is already active
+        # print('cannot cast this spell, already active')
+        nums['msg'] = 'error'
+        return nums
+    else: 
+        # print(sp, 'has been cast')
+        nums['spell_turns'][sp] = spell_effect[sp]['turns']
+        nums['mana_spent'] += spell_effect[sp]['cost']
+        nums['m_mana'] -= spell_effect[sp]['cost']
+        if sp in ['missile', 'drain']:
+            nums = spell_apply(sp, nums)
+        elif sp == 'shield':
+            nums['m_armor'] = 7
+        return nums
+        
+
+def my_turn(nums, i): 
+    # game tracking
+    # print(f"-- Player turn {i} --")
+    # print("- Player has", nums['m_hp'],"hit points,", nums['m_mana'], "mana")
+    # print("- Boss has", nums['b_hp'], "hit points")
+    
+    # code for Part Two
+    nums['m_hp'] -= 1
+    # check for loss
+    if nums['m_hp'] <= 0: 
+        nums['msg'] = 'loss'
+        return nums
+    
+    # apply the effects
+    for s,c in nums['spell_turns'].items(): 
+        if c > 0:
+            nums = spell_apply(s, nums)
+            
+    # check for death - only the boss can die here
+    if nums['b_hp'] <= 0: 
+        nums['msg'] = 'win'
+        return nums
+    
+    # use a list to run through choices
+    nums = spell_cast(nums, i)
+    if nums['msg'] == 'error':
+        return nums
+    
+    # check for death - only the boss can die here
+    if nums['b_hp'] <= 0: 
+        nums['msg'] = 'win'
+        return nums
+    
+    # return normally
+    return nums
+
+
+def boss_turn(nums, i): 
+    # game tracking
+    # print(f"-- Boss turn {i} --")
+    # print("- Player has", nums['m_hp'],"hit points,", nums['m_mana'], "mana")
+    # print("- Boss has", nums['b_hp'], "hit points ")
+    
+    # apply the effect
+    for s,c in nums['spell_turns'].items(): 
+        if c > 0:
+            nums = spell_apply(s, nums)
+            
+    # check for death - only the boss can die here
+    if nums['b_hp'] <= 0: 
+        nums['msg'] = 'win'
+        return nums
+    
+    # boss attacks
+    # maintain armor in the big dict so this is simpler
+    this_damage = nums['b_d'] - nums['m_armor']
+    # print("Boss attacks for", this_damage, "damage.")
+    nums['m_hp'] -= this_damage
+    
+    # check for loss
+    if nums['m_hp'] <= 0: 
+        nums['msg'] = 'loss'
+        return nums
+    
+    # return and continue fighting
+    return nums
+
+
+```
+
+```{python}
+
+
+def run_the_real_game(sp_list): 
+    nums = create_nums(sp_list)
+    i = 0
+    while i < 10: 
+        # I start the game
+        nums = my_turn(nums, i)
+        if nums['msg'] == 'win':
+            return nums['mana_spent'], sp_list 
+        elif nums['msg'] == 'error':
+            return 9999, 'error'
+        elif nums['msg'] == 'loss': 
+            return 9999, 'loss'
+        
+        # the boss takes a turn
+        nums = boss_turn(nums, i)
+        if nums['msg'] == 'win':
+            return nums['mana_spent'], sp_list 
+        elif nums['msg'] == 'loss':
+            return 9999, 'loss'
+        # iterate
+        i += 1
+    
+    return 9999, 'too many turns'
+
+
+min_mana = 9999
+
+# run for real
+# for s in no_alt[:200000]: 
+for s in no_alt: 
+    this_mana, item = run_the_real_game(list(s))
+    if this_mana < min_mana: 
+        # print(item, this_mana)
+        min_mana = this_mana
+    else: 
+        # print(item)
+        pass
+     
+    
+min_mana
+# 1269
+# 1309
+```
+
+## --- Part Two ---
+
+We are now on hard mode. At the start of each player turn, you lose one hit point. What is the new minimum mana amount now?
+
+Change the code above.

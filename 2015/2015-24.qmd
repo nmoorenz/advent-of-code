@@ -5,20 +5,104 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 24: It Hangs in the Balance ---
+
+Santa needs to sort his packages into three groups, evenly distributing the weight, and ensuring the least amount of packages in the first group.
+
+What is the *quantum entanglement* of the first group of packages in the ideal configuration?
 
 ```{python}
 
 with open('data-2015-24.txt', 'r') as f:
     inp = f.read().splitlines()
 
+inp = [int(x) for x in inp]
+
+sum(inp)
+sum(inp) / 3
 ```
 
-Maybe write an explanation of the solution approach here
+It's nice that the total weight is divisable by 3.
+
+The minimum amount of packages is 5, let's find out if any of the combinations add exactly to 508.
+
+Nope! Let's try 6.
 
 ```{python}
-# here's another python cell for good luck
 
+# itertools gives us a nice combinations function. 
+import itertools
+import math
+
+combo5 = list(itertools.combinations(inp, 5))
+print("Number of combos with groups of 5: ", len(combo5))
+sum5 = [sum(x) for x in combo5]
+print("Does this work for us? " , 508 in sum5)
+
+combo6 = list(itertools.combinations(inp, 6))
+print("Number of combos with groups of 6: ", len(combo6))
+sum6 = [sum(x) for x in combo6]
+print("Does this work for us? " , 508 in sum6)
+
+valid = []
+
+for i,s in enumerate(sum6): 
+    if s == 508: 
+        valid.append(combo6[i])
+
+print("How many combos have the right weight?", len(valid))
+
+# valid
+
+prod6 = [math.prod(x) for x in valid]
+
+print("Minimum quantum entanglement: ", min(prod6))
+
+# 10439961859
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Wait, we need to do four groups.
+
+Now, what is the *quantum entanglement* of the first group of packages in the ideal configuration?
+
+```{python}
+
+sum(inp) / 4
+
+trgt = 381
+
+# looks like we can try using four packages to get to the target weight
+
+combo4 = list(itertools.combinations(inp, 4))
+len(combo4)
+sum4 = [sum(x) for x in combo4]
+trgt in sum4
+
+# it's not in 4 so let's try 5 again
+
+combo5 = list(itertools.combinations(inp, 5))
+len(combo5)
+sum5 = [sum(x) for x in combo5]
+trgt in sum5
+
+# yay, it's in 5! This feels like there will be more than one configuration of the other packages that I'll have to calculate as well
+
+valid = []
+
+for i,s in enumerate(sum5): 
+    if s == trgt: 
+        valid.append(combo5[i])
+
+len(valid)
+
+# valid
+
+prod5 = [math.prod(x) for x in valid]
+
+min(prod5)
+
+# there's only one grouping like this so it should be the answer
+# 72050269
+```

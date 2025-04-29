@@ -70,7 +70,7 @@ for r in rep:
 reps
 ```
 
-Now we need to put reps into mm
+Now we need to put reps into mm - create a new list of the molecule or its replacements.
 
 ```{python}
 
@@ -86,7 +86,7 @@ mmr
 
 ```
 
-Create a list of possible molecules
+Create a list of possible molecules by flattening the list of options
 
 ```{python}
 
@@ -101,7 +101,7 @@ num
 
 ```
 
-Actually, use mm and then if it's a list do the replacements from a list
+Actually, use mm and then if it's a list do the replacements from a list - get the unique combinations with `set()`
 
 ```{python}
 
@@ -195,4 +195,22 @@ for i,s in enumerate(bk):
                 continue
 
 
+```
+
+Actually,
+
+<https://www.reddit.com/r/adventofcode/comments/3xflz8/day_19_solutions/>
+
+NumSymbols - #Rn - #Ar - 2 \* #Y - 1
+
+```{python}
+
+len(mm)
+mm.count('Rn')
+mm.count('Ar')
+mm.count('Y')
+
+274 - 31 - 31 - 2*8 - 1
+
+# 195
 ```

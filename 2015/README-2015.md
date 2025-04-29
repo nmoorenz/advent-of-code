@@ -156,8 +156,8 @@ We're building a Christmas tree!
 1.  Find the distinct number of molecules when making replacements to a string of characters. 
 2.  Starting from scratch (or one electron, e) how many steps to get to the medicine molecule? 
 
--   
--  
+-   Create a list of lists for possible replacements and count them up
+-   Look up on the internet to find the solution. 
 
 ### Day 20
 
@@ -168,27 +168,21 @@ We're building a Christmas tree!
 -   We should actually look at factors, since the deliveries work more like that. Stack Overflow!
 -   Slightly modify the function for a limit of deliveries i.e. factors
 
-
-
 ### Day 21
 
-1.  
-2.  
+1.  What's the least amount of gold you can spend and beat the boss? 
+2.  What's the most amount of gold you can spend and still lose? 
 
--   
--   
-
-
+-   Create a dataframe of the possibilities of purchases, calculate if I win, then choose the smallest cost
+-   Use the same dataframe, but for losses, and the max amount
 
 ### Day 22
 
-1.  
-2.  
+1.  What's the least amount of mana you can spend and beat the boss? 
+2.  What's the least amount of mana you can spend while on hard mode, and beat the boss? 
 
--   
--   
-
-
+-   I tried to do this efficiently but turns out trying all the good options was fine. 
+-   Make a little change to part one code
 
 ### Day 23
 
