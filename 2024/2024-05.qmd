@@ -9,7 +9,7 @@ editor: visual
 
 Follow the rules for the printing order.
 
-Determine which updates are already in the correct order. What do you get if you add up the middle page number from those correctly-ordered updates?
+Determine which updates are already in the correct order. What do you get if you add up the middle page number from those correctly-ordered updates?
 
 ```{python}
 
@@ -62,7 +62,7 @@ summer
 
 For the incorrectly ordered updates maybe we can re-order them.
 
-Find the updates which are not in the correct order. What do you get if you add up the middle page numbers after correctly ordering just those updates?
+Find the updates which are not in the correct order. What do you get if you add up the middle page numbers after correctly ordering just those updates?
 
 ```{python}
 
