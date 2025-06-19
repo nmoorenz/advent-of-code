@@ -147,21 +147,78 @@ left
 right
 ```
 
-Oh.
+Oh. The orders are symmetric, or something? They all appear an equal amount of times on the left and right. I can't create a nice thing from the orders that covers all the updates.
+
+Some other statistics
+
+```{python}
+
+counters = {}
+
+for u in updates: 
+    u_len = len(u)
+    if u_len in counters.keys(): 
+        counters[u_len] += 1
+    else: 
+        counters[u_len] = 1
+
+counters
+```
+
+This is good, and maybe something I should have confirmed before, but all of them are odd lengths, which means they have a middle value. They are also 23 or fewer, which means we have less than half the numbers and no cycles of dependencies. Let's get the bad update lists
+
+```{python}
+
+bad_u = []
+
+for u in updates: 
+    for o in orders: 
+        if o[0] in u and o[1] in u: 
+            if u.index(o[0]) < u.index(o[1]): 
+                pass
+            else:
+                bad_u.append(u)
+                break
+ 
+# bad_u
+len(bad_u)
+len(updates)
+```
+
+111/203 are bad updates.
+
+I like the idea of looping through each of the bad update lists, and constructing a new list from scratch, starting with the first found order, and inserting the numbers in the correct place in the list. I think. This really assumes that these lists will be internally consistent.
 
 ```{python}
 
 summer = 0
 
-for u in updates: 
-    for i in range(len(u)-1): 
-        if [u[i], u[i+1]] not in orders: 
-            # swap
-            pass
-            for j in range(i-1,0,-1):
-                if [u[j], u[j+1]] not in orders: 
-                    # swap
-                    pass
-    # collect the middle value
-    summer += int(u[int(len(u)/2)])
+for u in bad_u:
+    # we are now operating on a single list u
+    # construct a good update page list
+    good_u = []
+    for x in u:
+        # find the correct place for each element to go
+        # this feels like a recursive function, almost
+        if len(good_u) == 0:
+            good_u.append(x)
+            # print('start')
+        else: 
+            found = False
+            for i in range(len(good_u)):
+                # go through the current good list 
+                # try to place the next piece, x
+                if [x, good_u[i]] in orders: 
+                    good_u = good_u[:i] + [x] + good_u[i:]
+                    found = True
+                    break
+            # good_u
+            if not found: 
+                good_u = good_u + [x]
+    # get the middle value after placing the pieces
+    summer += int(good_u[int(len(good_u)/2)])
+                
+summer      
+
+# 6732
 ```
