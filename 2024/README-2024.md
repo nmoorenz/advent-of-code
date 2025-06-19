@@ -9,7 +9,6 @@
 -   Getting the input in the right shape was easy
 -   Pre-calculate part two with collections.Counter rather than counting each time
 
-
 ### Day 2
 
 1.  Check to see if the reports are all increasing or decreasing
@@ -17,7 +16,6 @@
 
 -   Make a function and loop through the input
 -   Use the same function, but with another function to edit possible input
-
 
 ### Day 3
 
@@ -27,8 +25,6 @@
 -   Regex only on day 3. Find the mul() statements, then evaluate them
 -   Find the do() and don't() statements as well, then iterate
 
-
-
 ### Day 4
 
 1.  Do a word search for XMAS
@@ -37,17 +33,13 @@
 -   Iterate for X and then go for different directions
 -   Iterate for A and then go for different directions
 
-
-
 ### Day 5
 
-1.  
-2.  
+1.  Sum up the middle value of the updates that are in the correct order
+2.  Sort the bad updates into the correct order and sum the middle values
 
--   
--   
-
-
+-   Loop through the lists and if subsequent numbers are in the correct order, the whole list is in order
+-   For the bad lists, place the pieces in the correct order, then sum up. More difficult than it sounds
 
 ### Day 6
 
@@ -57,193 +49,192 @@
 -   
 -   
 
-
-
 ### Day 7
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 8
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 9
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 10
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 11
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 12
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 13
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 14
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 15
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 16
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 17
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 18
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 19
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 20
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 21
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 22
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 23
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 24
 
 1.  
+
 2.  
 
 -   
+
 -   
-
-
 
 ### Day 25
 
 1.  
+
 2.  
 
 -   
--   
 
+-   
