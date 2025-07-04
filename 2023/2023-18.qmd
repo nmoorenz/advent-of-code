@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 18: Lavaduct Lagoon ---
+
+We need to dig a lagoon to hold some lava, according to some up/down/left/right directions.
+
+The Elves are concerned the lagoon won't be large enough; if they follow their dig plan, *how many cubic meters of lava could it hold?*
 
 ```{python}
 
@@ -14,11 +18,173 @@ with open('data-2023-18.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Parse the input then fill in a numpy array to do the digging
 
 ```{python}
-# here's another python cell for good luck
+
+
+# tracking
+x = 0
+y = 0
+maxx = 0
+maxy = 0
+minx = 0
+miny = 0
+
+
+# moves for part 1
+p1 = [x.split() for x in inp]
+
+for p in p1:
+    # number of moves
+    n = int(p[1])
+    # directions
+    if p[0] == 'R': 
+        x += n
+    elif p[0] == 'L': 
+        x -= n
+    elif p[0] == 'D': 
+        y += n
+    elif p[0] == 'U': 
+        y -= n
+    # check on max
+    if x > maxx: 
+        maxx = x
+    if y > maxy: 
+        maxy = y
+    if x < minx: 
+        minx = x
+    if y < miny: 
+        miny = y
+      
+maxx, maxy, minx, miny
+
+maxx - minx, maxy - miny
 
 ```
 
-Paste part two here
+Let's use that for the array size
+
+```{python}
+
+import numpy as np
+import csv
+
+lava = np.zeros((500, 500), dtype=int)
+
+# tracking
+x = 250
+y = 250
+
+lava[x,y] = 1
+
+for p in p1:
+    # number of moves
+    n = int(p[1])
+    # directions
+    if p[0] == 'R': 
+        for s in range(n):
+            y += 1
+            lava[x,y] = 1
+    elif p[0] == 'L': 
+        for s in range(n):
+            y -= 1
+            lava[x,y] = 1
+    elif p[0] == 'D': 
+        for s in range(n):
+            x += 1
+            lava[x,y] = 1
+    elif p[0] == 'U': 
+        for s in range(n):
+            x -= 1
+            lava[x,y] = 1
+
+summer = 0
+for l in lava[195:201]: 
+    # print(''.join(str(l[0:500])))
+    # print(sum(l))
+    summer += sum(l)
+
+# summer
+
+np.savetxt('data-2023-18-out.csv', lava, delimiter=',', fmt='%d')
+
+```
+
+Doesn't have to be a separate cell but feels like a different step in the procedure: loop through and add ones into the array for filled in lava lake.
+
+```{python}
+
+for x, l in enumerate(lava): 
+    # keep track of if we are on or off, always starts off
+    dug = False
+    lock = False
+    for y, v in enumerate(l):
+        if dug == False: 
+            if lava[x,y] == 1 and lava[x,y+1] == 0:  
+                # we are starting a dig out between trenches
+                dug = True
+                lock = False
+            elif lava[x,y] == 1 and lava[x,y+1] == 1: 
+                # we are on the edge of a trench
+                dug = True
+                lock = True
+            elif v == 0: 
+                # we are off and want to stay off
+                pass
+        else: 
+            # dug == True
+            if lock == False: 
+                if lava[x,y] == 1 and lava[x,y+1] == 0: 
+                    # the end of the trench, turn off digging
+                    dug = False
+                elif lava[x,y] == 1 and lava[x,y+1] == 1: 
+                    # the end of the trench, turn off digging
+                    lock = True                  
+                else: 
+                    # current value is 1 or 0, within 
+                    lava[x,y] = 1
+            else: 
+                # lock = True, along the edge
+                if lava[x,y] == 1 and lava[x,y+1] == 0:
+                    # going into the space that needs to be dug
+                    lock = False
+                
+                
+summer = 0
+for l in lava[195:201]: 
+    # print(''.join(str(l[0:500])))
+    # print(sum(l))
+    summer += sum(l)
+
+summer  
+
+# 188696 too high  
+# manual colouring in a spreadsheet
+# 46338 too high
+# 46334 correct
+
+```
+
+## --- Part Two ---
+
+Oops, the instructions were wrong!
+
+Convert the hexadecimal color codes into the correct instructions; if the Elves follow this new dig plan, *how many cubic meters of lava could the lagoon hold?*
+
+```{python}
+
+# parse some hex digits
+ph = [x.split()[2] for x in inp]
+
+p2 = [x.replace('(', '').replace(')', '').replace('#', '') for x in ph]
+
+def get_direct(h): 
+    # The last hexadecimal digit encodes the direction to dig: 
+    # 0 means R, 1 means D, 2 means L, and 3 means U.
+    dirs = {'0': 'R', '1': 'D', '2': 'L', '3': 'U'}
+    return dirs[h[-1]]
+  
+pd = [[get_direct(x), int(x[:5], 16)] for x in p2]
+    
+```

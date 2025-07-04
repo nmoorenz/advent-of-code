@@ -5,19 +5,50 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 16: The Floor Will Be Lava ---
+
+Further into the facility, there is a beam of light and some more mirrors.
+
+The light isn't energizing enough tiles to produce lava; to debug the contraption, you need to start by analyzing the current situation. With the beam starting in the top-left heading right, *how many tiles end up being energized?*
 
 ```{python}
 
 with open('data-2023-16.txt', 'r') as f:
+# with open('data-2023-16-test.txt', 'r') as f:
     inp = f.read().splitlines()
+
+# for i in inp:
+#     print(len(i))
 
 ```
 
-Maybe write an explanation of the solution approach here
+Follow the lasers
 
 ```{python}
-# here's another python cell for good luck
+
+import numpy as np
+
+laser = np.array([list(i) for i in inp])
+
+# create a tracking array of the same size
+track = np.zeros((len(laser), len(laser[0])), dtype=int)
+
+# initial location and direction
+# start at the top-left from the left and heading right
+x = 0
+y = 0
+dx = 1
+dy = 0
+
+track[x,y] = 1
+
+# when we split, how do we manage that? 
+
+# need to manage changes of direction with angled mirrors i.e. \ and /
+# need to manage splits with perpendicular approaches 
+# dots and straight through have no effect but count those as energised
+
+
 
 ```
 

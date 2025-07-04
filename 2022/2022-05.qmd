@@ -5,20 +5,146 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 5: Supply Stacks ---
+
+We need to unload some crates and then move them around.
+
+*After the rearrangement procedure completes, what crate ends up on top of each stack?*
 
 ```{python}
+
+from pprint import pprint
+import numpy as np
+import re
+import copy
 
 with open('data-2022-05.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+This is quite different in terms of input data manipulation!
 
 ```{python}
-# here's another python cell for good luck
 
+# easy part
+mft = inp[10:]
+# mft = inp[5:]
+
+m1 = [int(re.match(r'move (\d+)', x)[1]) for x in mft]
+f1 = [re.match(r'.*from (\d+)', x)[1] for x in mft]
+t1 = [re.match(r'.*to (\d+)', x)[1] for x in mft]
+
+# this is fine
+st1 = inp[:9]
+# st1 = inp[:4]
+
+# here we go
+st2 = [list(s) for s in st1]
+
+st3 = np.array(st2)
+
+st4 = np.transpose(st3)
+
+st5 = np.fliplr(st4)
+
+fltr = st5[:,0] > ' '
+
+st6 = st5[fltr]
+
+st7 = {i[0]: list(i[1:]) for i in st6}
+
+st8 = {}
+
+for k,v in st7.items():
+    st8[k] = [w for w in v if w != ' ']
+
+st8
 ```
 
-Paste part two here
+I think we can do the movements now
+
+```{python}
+
+st = copy.deepcopy(st8)
+z = 0
+
+for m,f,t in zip(m1, f1, t1): 
+    z += 1
+    # st[f]
+    # st[t]
+    st[t] = st[t] + st[f][-m:]
+    st[f] = st[f][:-m]
+    # st[f]
+    # st[t]
+    # print()
+    # if z == 5: break
+
+ans = []
+
+for k,v in st.items():
+    ans.append(v[-1])
+
+''.join(ans)
+```
+
+oops, move more crates
+
+```{python}
+
+st = copy.deepcopy(st8)
+z = 0
+
+for m,f,t in zip(m1, f1, t1): 
+    z += 1
+    # st[f]
+    # st[t]
+    for i in range(m):
+        a = st[f].pop()
+        st[t].append(a)
+    # st[f]
+    # st[t]
+    # if z == 5: break
+
+ans = []
+
+for k,v in st.items():
+    ans.append(v[-1])
+
+''.join(ans)
+
+# FWSHSPJWM
+```
+
+## --- Part Two ---
+
+Actually, we move crates all at once rather than one at a time.
+
+Before the rearrangement process finishes, update your simulation so that the Elves know where they should stand to be ready to unload the final supplies. *After the rearrangement procedure completes, what crate ends up on top of each stack?*
+
+```{python}
+
+
+st = copy.deepcopy(st8)
+z = 0
+
+for m,f,t in zip(m1, f1, t1): 
+    z += 1
+    # st[f]
+    # st[t]
+    st[t] = st[t] + st[f][-m:]
+    st[f] = st[f][:-m]
+    # st[f]
+    # st[t]
+    # print()
+    # if z == 5: break
+
+ans = []
+
+for k,v in st.items():
+    ans.append(v[-1])
+
+''.join(ans)
+
+# PWPWHGFZS
+```

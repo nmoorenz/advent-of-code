@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 4: Camp Cleanup ---
+
+The elves need to do some cleaning, and have been assigned sections of the camp.
+
+*In how many assignment pairs does one range fully contain the other?*
 
 ```{python}
 
@@ -14,11 +18,64 @@ with open('data-2022-04.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+There is some preparation required
 
 ```{python}
-# here's another python cell for good luck
+
+task1 = [x.split(',') for x in inp]
+task2 = [x[0].split('-') + x[1].split('-') for x in task1]
+task3 = [list(map(int, x)) for x in task2]
 
 ```
 
-Paste part two here
+Now, do we have any overlapping ranges? Probably.
+
+```{python}
+
+def within(lst):
+    # first pair within second
+    if lst[0] >= lst[2] and lst[1] <= lst[3]:
+        return True
+    # second pair within first
+    elif lst[2] >= lst[0] and lst[3] <= lst[1]:
+        return True
+    else:
+        return False
+
+```
+
+Sweet, let's check the list
+
+```{python}
+
+num1 = [within(x) for x in task3]
+
+sum(num1)
+
+# 571
+```
+
+## --- Part Two ---
+
+Actually, we're just looking for any overlap, rather than one within the other.
+
+*In how many assignment pairs do the ranges overlap?*
+
+```{python}
+
+def overlap(lst):
+    return lst[1] < lst[2] or lst[3] < lst[0]
+
+```
+
+And use this on our list
+
+```{python}
+
+num2 = [overlap(x) for x in task3]  
+
+1000 - sum(num2)
+
+# 917
+
+```

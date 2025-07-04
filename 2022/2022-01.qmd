@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 1: Calorie Counting ---
+
+We are going on a journey to collect some magical *star* fruit for the reindeer. The elves are carrying some rations for the journey.
+
+Find the Elf carrying the most Calories. *How many total Calories is that Elf carrying?*
 
 ```{python}
 
@@ -14,11 +18,36 @@ with open('data-2022-01.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+This looks like a loop to me
 
 ```{python}
-# here's another python cell for good luck
 
+
+cal = [0]
+
+for i in inp:
+    if i == '':
+        cal.append(0)
+    else:
+        cal[-1] += int(i)
+
+max(cal)
+
+# 72511
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Find the top three Elves carrying the most Calories. *How many Calories are those Elves carrying in total?*
+
+```{python}
+
+cal.sort()
+
+cal[-3:]
+
+sum(cal[-3:])
+
+# 212117
+
+```

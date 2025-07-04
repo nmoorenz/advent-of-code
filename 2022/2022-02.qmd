@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 2: Rock Paper Scissors ---
+
+Let's try to win (but not be too suspicious about cheating from a strategy guide) for Paper Rock Scissors.
+
+*What would your total score be if everything goes exactly according to your strategy guide?*
 
 ```{python}
 
@@ -14,11 +18,100 @@ with open('data-2022-02.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+A dict of points to throw, and a function for winning
+
+`A` for Rock, `B` for Paper, and `C` for Scissors.
+
+`X` for Rock, `Y` for Paper, and `Z` for Scissors.
+
+1 for Rock, 2 for Paper, and 3 for Scissors.
+
+0 if you lost, 3 if the round was a draw, and 6 if you won.
 
 ```{python}
-# here's another python cell for good luck
+
+thr = {'X': 1, 'Y': 2, 'Z': 3}
+
+def roshambo(m, n): 
+    p = 0
+    if ((m == 'A' and n == 'X') or 
+        (m == 'B' and n == 'Y') or 
+        (m == 'C' and n == 'Z')):
+         # draw
+         p += thr[n]
+         p += 3
+    elif ((m == 'A' and n == 'Y') or 
+          (m == 'B' and n == 'Z') or 
+          (m == 'C' and n == 'X')):
+         # win
+         p += thr[n]
+         p += 6
+    elif ((m == 'A' and n == 'Z') or 
+          (m == 'B' and n == 'X') or 
+          (m == 'C' and n == 'Y')):
+         # loss
+         p += thr[n]
+         p += 0
+    else: 
+        raise('this is not good')
+    # give back
+    return p
 
 ```
 
-Paste part two here
+Split the input into pieces then loop through
+
+```{python}
+
+pairs = [q.split() for q in inp]
+
+scores = [roshambo(s[0], s[1]) for s in pairs]
+
+sum(scores)
+
+# 13005
+```
+
+## --- Part Two ---
+
+`X` means you need to lose, `Y` means you need to end the round in a draw, and `Z` means you need to win.
+
+Following the Elf's instructions for the second column, what would your total score be if everything goes exactly according to your strategy guide?
+
+Let's use the same-ish function.
+
+```{python}
+
+thr2 = {'A': 1, 'B': 2, 'C': 3}
+
+
+def roshambo2(m, n): 
+    p = 0
+    if n == 'X':
+         # loss
+         if m == 'A': p += thr2['C']
+         if m == 'B': p += thr2['A']
+         if m == 'C': p += thr2['B']
+         p += 0
+    elif n == 'Y':
+         # draw
+         p += thr2[m]
+         p += 3
+    elif n == 'Z':
+         # win
+         if m == 'A': p += thr2['B']
+         if m == 'B': p += thr2['C']
+         if m == 'C': p += thr2['A']
+         p += 6
+    else: 
+        raise('this is not good')
+    # give back
+    return p
+
+scores = [roshambo2(s[0], s[1]) for s in pairs]
+
+sum(scores)
+
+# 11373
+
+```

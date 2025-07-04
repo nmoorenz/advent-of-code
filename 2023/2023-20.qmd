@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 20: Pulse Propagation ---
+
+There are some complicated rules for signals and outputs and button presses.
+
+Consult your module configuration; determine the number of low pulses and high pulses that would be sent after pushing the button `1000` times, waiting for all pulses to be fully handled after each push of the button. *What do you get if you multiply the total number of low pulses sent by the total number of high pulses sent?*
 
 ```{python}
 

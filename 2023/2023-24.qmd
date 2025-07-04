@@ -5,20 +5,55 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 24: Never Tell Me The Odds ---
+
+What's happening with the hailstones on Snow Island?
+
+Considering only the X and Y axes, check all pairs of hailstones' future paths for intersections. *How many of these intersections occur within the test area?*
 
 ```{python}
+
+from itertools import combinations
 
 with open('data-2023-24.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+It feels like there must be a distinct mathematical thing we can do to determine each of these things quickly.
+
+There is definitely some text preparation we need to do to get the right form for solving.
 
 ```{python}
-# here's another python cell for good luck
 
+
+def create_hail(x): 
+    """Simpler for the list comprehension to use a function"""
+    pos, vel = x.split(' @ ')
+    pos = list(map(int, pos.split(', ')))
+    vel = list(map(int, vel.split(', ')))
+    return pos, vel
+  
+hail = [create_hail(x) for x in inp]
+
+mmin = 200000000000000 
+mmax = 400000000000000
+
+ii = 0
+
+for g,h in combinations(hail, 2):
+    # print(g,h)   
+    ii += 1
+    # are the velocities strictly parallel? 
+    if g[1][0] == h[1][0] and g[1][1] == h[1][1]: 
+        print(g, h)
+    # is the x diverging (less than)
+    if g[0][0] < h[0][0] and g[1][0] < h[1][0]:
+        print(g, h)
+    if ii > 100: break
+    
+
+ii
 ```
 
 Paste part two here

@@ -5,20 +5,200 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 13: Point of Incidence ---
+
+We are now on Lava Island, but there isn't any lava. There is lots of ash and rock, and some mirrors, which makes things confusing.
+
+Find the line of reflection in each of the patterns in your notes. *What number do you get after summarizing all of your notes?*
 
 ```{python}
+
+import numpy as np
 
 with open('data-2023-13.txt', 'r') as f:
-    inp = f.read().splitlines()
+    inp = f.read().split('\n\n')
 
 ```
 
-Maybe write an explanation of the solution approach here
+It's not enough to just match two consecutive rows or columns, we need to iterate outwards from each pair that matches. Two consecutive rows the same is a candidate for point of reflection, but not sufficient.
+
+Let's assume that three rows or columns matching is sufficient, or if we do not have enough to check, then that is the match.
 
 ```{python}
-# here's another python cell for good luck
+
+mirr0 = [j.split('\n') for j in inp]
+
+# loop through and collect
+mirr = [np.array([list(i) for i in m]) for m in mirr0]
+
+# len(mirr)
+
+# mirr[3]
+
+for m in mirr: 
+    fndr = 0
+    fndc = 0
+    found = False
+    for j in range(len(m)-1): 
+        if found: 
+            break
+        for p,q in zip([0,1,2,3], [1,2,3,4]):
+            if found: 
+                break
+            if j-p >= 0 and j+q < len(m):
+                if list(m[j-p]) == list(m[j+q]): 
+                    fndr += 1
+                    found = True
+                    # print(j, p, q, "mirror")
+                else: 
+                    # this should get us out if it does not match
+                    break
+            else: 
+                # we are out of bounds, and assuming that we have a match
+                # there is no way to disprove a match? 
+                fndr += 1
+                found = True
+                # print(j, p, q, "edge")
+                
+    for k in range(len(m[0])-1): 
+        for p,q in zip([0,1,2,3], [1,2,3,4]):
+            if k-p >= 0 and k+q < len(m[0]):
+                if list(m[:,k-p]) == list(m[:,k+q]): 
+                    found = True
+                    # keep looking
+                else: 
+                    # this should get us out if something does not match
+                    break
+            else: 
+                if found == True: 
+                    # we've found at least one match
+                    fndc += 1
+                    break
+        # we have gone through the list without a break
+        fndc += 1
+        break
+
+    # print(fndr, fndc)
 
 ```
 
-Paste part two here
+That's not really working, let's go back to what I started with which explicitly lists the row differences
+
+```{python}
+
+mirr0 = [j.split('\n') for j in inp]
+
+mirr = [np.array([list(i) for i in m]) for m in mirr0]
+
+for m in mirr: 
+    fndr = 0
+    fndc = 0
+    for j in range(len(m)-1): 
+        if list(m[j]) == list(m[j+1]): 
+            if j-1 >= 0 and j+2 < len(m):
+                if list(m[j-1]) == list(m[j+2]): 
+                    if j-2 >= 0 and j+3 < len(m):
+                        if list(m[j-2]) == list(m[j+3]):
+                            if j-3 >= 0 and j+4 < len(m):
+                                if list(m[j-3]) == list(m[j+4]):
+                                    if j-4 >= 0 and j+5 < len(m):
+                                        if list(m[j-4]) == list(m[j+5]):
+                                            fndr += 1
+                                    else: 
+                                        fndr += 1
+                            else: 
+                                fndr += 1
+                    else: 
+                        fndr += 1
+            else: 
+                fndr += 1
+
+    for k in range(len(m[0])-1): 
+        if list(m[:,k]) == list(m[:,k+1]): 
+            if k-1 >= 0 and k+2 < len(m[0]):
+                if list(m[:,k-1]) == list(m[:,k+2]): 
+                    if k-2 >= 0 and k+3 < len(m[0]):
+                        if list(m[:,k-2]) == list(m[:,k+3]):
+                            if k-3 >= 0 and k+4 < len(m[0]):
+                                if list(m[:,k-3]) == list(m[:,k+4]):
+                                    if k-4 >= 0 and k+5 < len(m[0]):
+                                        if list(m[:,k-4]) == list(m[:,k+5]):
+                                            fndc += 1
+                                    else: 
+                                        fndc += 1
+                            else: 
+                                fndc += 1
+                    else: 
+                        fndc += 1
+            else: 
+                fndc += 1  
+              
+                
+    # print(fndr, fndc)
+    if fndc == 2: 
+        print(m)
+    
+```
+
+Revelation: we should only set the mirror row / column when we reach the end. This may not be good for the second part but let's do that for now. There are too many tricky scenarios of *almost* symmetry!
+
+```{python}
+
+mirr0 = [j.split('\n') for j in inp]
+
+# loop through and collect
+mirr = [np.array([list(i) for i in m]) for m in mirr0]
+
+summer = 0
+
+for m in mirr: 
+    fndr = 0
+    fndc = 0
+    # found = False
+    # print(len(m))
+    for j in range(len(m)-1): 
+        p = 0
+        # print('--new row', j)
+        while p < 99: 
+            if j-p >= 0 and j+p+1 < len(m):
+                # print('checking', p)
+                if list(m[j-p]) == list(m[j+p+1]): 
+                    # print('some match', p)
+                    p += 1
+                else: 
+                    # this should get us out if it does not match
+                    # print('no match')
+                    break
+            else: 
+                # we are out of bounds, and assuming that we have a match
+                # print('found it')
+                fndr += 1
+                summer += 100 * (j+1)
+                break
+
+    for k in range(len(m[0])-1): 
+        p = 0
+        while p < 99: 
+            if k-p >= 0 and k+p+1 < len(m[0]):
+                if list(m[:,k-p]) == list(m[:,k+p+1]): 
+                    p += 1
+                else: 
+                    break
+            else: 
+                fndc += 1
+                summer += (k+1)
+                break
+  
+    # show the results            
+    # print(fndr, fndc)
+    
+ 
+summer   
+    
+```
+
+## --- Part Two ---
+
+There are smudges on the mirrors! On each mirror there is one smudge, that needs to change `.` to `#` or `#` to `.` and there is a new line of reflection.
+
+In each pattern, fix the smudge and find the different line of reflection. *What number do you get after summarizing the new reflection line in each pattern in your notes?*

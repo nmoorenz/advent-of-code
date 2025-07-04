@@ -8,8 +8,6 @@
 -   Regex is my first thought, but looking at the data, it looks like the second part is going to include the numbers that are spelled out, so let's try looping over strings. 
 -   Correct - I've played this game before. Maybe a function or two will help with looking for `one`, `two` etc? Yes. 
 
-
-
 ### Day 2
 
 1.  Choose some cubes out of a bag - count the games that have less than the minimum for each colour.
@@ -18,8 +16,6 @@
 -   I struggled through creating a nice data structure of a dict of lists of dicts, and then iterating over that, but it worked out in the end making part two quite simple. 
 -   I think I struggle most with these iterations because I forget how far deep I am in the structure. 
 
-
-
 ### Day 3
 
 1.  Find the sum of all the 'part numbers' in the schematic
@@ -27,8 +23,6 @@
 
 -   This felt like a lot of loops to look at the numbers and the cells surrounding the numbers
 -   That is, it felt like a lot until I got to part two. I feel like my approach was pretty solid though, and accounted for the weird possibilities of position of numbers around a `*` i.e. gear. 
-
-
 
 ### Day 4
 
@@ -39,8 +33,6 @@
 -   There are probably some list comprehension ways of doing this but a loop made sense. 
 -   Here I think I did need to record the results as I went along, and once I understood the scoring properly it was easy enough. 
 
-
-
 ### Day 5
 
 1.  With a series of mappings, go from seed number to location number
@@ -50,7 +42,6 @@
 -   Pretty happy with my `get_next()` function rather than writing a series of functions. 
 -   Part two has me stumped, I think I need to write some kind of search function? Update to come...
 -   I don't need to keep track of every number, just the boundaries, so I think a list of lists will do nicely. 
-
 
 ### Day 6
 
