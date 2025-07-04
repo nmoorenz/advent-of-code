@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 15: Lens Library ---
+
+A reindeer needs your help to process the Holiday ASCII String Helper algorithm.
+
+Run the HASH algorithm on each step in the initialization sequence. *What is the sum of the results?* (The initialization sequence is one long line; be careful when copy-pasting it.)
 
 ```{python}
 
@@ -17,8 +21,33 @@ with open('data-2023-15.txt', 'r') as f:
 Maybe write an explanation of the solution approach here
 
 ```{python}
-# here's another python cell for good luck
+
+mult = 17
+div = 256
+summer = 0
+
+
+for i in inp:
+    val = 0
+    for j in i: 
+        val += ord(j)
+        val *= mult
+        val = val % div
+    summer += val
+    
+summer
+
+# 510388
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+There is a second part to the instructions, of course.
+
+With the help of an over-enthusiastic reindeer in a hard hat, follow the initialization sequence. *What is the focusing power of the resulting lens configuration?*
+
+```{python}
+
+
+```

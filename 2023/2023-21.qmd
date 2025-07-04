@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 21: Step Counter ---
+
+The gardener elf wants to go for a walk.
+
+Starting from the garden plot marked `S` on your map, *how many garden plots could the Elf reach in exactly `64` steps?*
 
 ```{python}
 

@@ -5,20 +5,108 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 3: Rucksack Reorganization ---
+
+There are some items in rucksacks, awkwardly arranged in two compartments, but one string per rucksack.
+
+Find the item type that appears in both compartments of each rucksack. *What is the sum of the priorities of those item types?*
 
 ```{python}
+
+import pandas as pd
 
 with open('data-2022-03.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+`ord()` gives the ascii number, so we can calculate from there.
 
 ```{python}
-# here's another python cell for good luck
+
+lw = ord('a') - 1
+
+up = ord('A') - 1 - 26
+
+ord('b') - lw
+ord('e') - lw
+
+ord('D') - up
+ord('F') - up
 
 ```
 
-Paste part two here
+Create a function for finding 'priority'
+
+```{python}
+
+def rucks(hh):
+    if hh.isupper():
+        return ord(hh) - up
+    else: 
+        return ord(hh) - lw
+    
+```
+
+Let's try pandas for this
+
+```{python}
+
+ruck = pd.DataFrame(inp, columns=['inp'])
+
+ruck['len'] = ruck['inp'].str.len()
+
+ruck['h1'] = ruck.apply(lambda x: x.inp[:int(x.len/2)], axis=1)
+ruck['h2'] = ruck.apply(lambda x: x.inp[int(x.len/2):], axis=1)
+
+ruck['int'] = ruck.apply(lambda x: [i for i in x.h1 if i in x.h2][0], axis=1)
+
+ruck['score'] = ruck.apply(lambda x: rucks(x.int), axis=1 )
+
+sum(ruck['score'])
+
+# 8233
+```
+
+## --- Part Two ---
+
+Oh, wait, actually, elves are in groups of three with their rucksacks.
+
+Find the item type that corresponds to the badges of each three-Elf group. *What is the sum of the priorities of those item types?*
+
+```{python}
+
+
+tre = [[]]
+t = 0
+
+for i in inp:
+    t += 1
+    tre[-1].append(i)
+    if t == 3: 
+        tre.append([])
+        t = 0
+
+tre.pop()
+
+```
+
+I think we can convert the pandas stuff with an extra column
+
+```{python}
+
+h1 = [x[0] for x in tre]
+h2 = [x[1] for x in tre]
+h3 = [x[2] for x in tre]
+
+ruck2 = pd.DataFrame({'h1': h1, 'h2': h2, 'h3': h3})
+
+ruck2['int'] = ruck2.apply(lambda x: [i for i in x.h1 
+                           if (i in x.h2) and (i in x.h3) ][0], axis=1)
+
+ruck2['score'] = ruck2.apply(lambda x: rucks(x.int), axis=1 )
+
+sum(ruck2['score'])
+
+# 2821
+```

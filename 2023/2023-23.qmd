@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 23: A Long Walk ---
+
+Let's go for a walk around Snow Island!
+
+Find the longest hike you can take through the hiking trails listed on your map. *How many steps long is the longest hike?*
 
 ```{python}
 

@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 14: Parabolic Reflector Dish ---
+
+There are some rocks on a platform which some mirrors are sitting on, but the platform is a bit broken.
+
+Tilt the platform so that the rounded rocks all roll north. Afterward, *what is the total load on the north support beams?*
 
 ```{python}
 
@@ -17,8 +21,166 @@ with open('data-2023-14.txt', 'r') as f:
 Maybe write an explanation of the solution approach here
 
 ```{python}
-# here's another python cell for good luck
+
+import numpy as np
+
+rocks = np.array([list(i) for i in inp])
+
+for m in range(len(rocks)): 
+    for n in range(len(rocks[m,:])): 
+        # makes me feel better to explicitly mention these
+        if rocks[m,n] == '.' or rocks[m,n] == '#':
+            pass
+        # this is the main part of the thing
+        else: 
+            p = m
+            while True: 
+                # cannot move up from the top or into another rock 
+                if p == 0 or rocks[p-1,n] == 'O' or rocks[p-1,n] == '#':
+                    break
+                else: 
+                    rocks[p-1,n] = 'O'
+                    rocks[p,n] = '.'
+                    p -= 1
+
+# for m in rocks:
+#     print(''.join(m))
+
+summer = 0
+
+for m in range(len(rocks)):
+    # print(m)
+    # print(''.join(rocks[m]).count('O'))
+    summer += ''.join(rocks[m]).count('O') * (len(rocks)-m)
+  
+summer
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+We need to move the platform around to make sure it is not too broken.
+
+Run the spin cycle for `1000000000` cycles. Afterward, *what is the total load on the north support beams?*
+
+```{python}
+
+rocks = np.array([list(i) for i in inp])
+    
+def go_north(): 
+    for m in range(len(rocks)): 
+        for n in range(len(rocks[m,:])): 
+            # makes me feel better to explicitly mention these
+            if rocks[m,n] == '.' or rocks[m,n] == '#':
+                pass
+            # this is the main part of the thing
+            else: 
+                p = m
+                while True: 
+                    # cannot move up from the top or into another rock 
+                    if p == 0 or rocks[p-1,n] == 'O' or rocks[p-1,n] == '#':
+                        break
+                    else: 
+                        rocks[p-1,n] = 'O'
+                        rocks[p,n] = '.'
+                        p -= 1
+                  
+                        
+def go_south(): 
+    for m in range(len(rocks)-1, -1, -1): 
+        for n in range(len(rocks[m,:])): 
+            # makes me feel better to explicitly mention these
+            if rocks[m,n] == '.' or rocks[m,n] == '#':
+                pass
+            # this is the main part of the thing
+            else: 
+                p = m
+                while True: 
+                    if p == len(rocks)-1 or rocks[p+1,n] == 'O' or rocks[p+1,n] == '#':
+                        break
+                    else: 
+                        rocks[p+1,n] = 'O'
+                        rocks[p,n] = '.'
+                        p += 1    
+
+
+def go_west(): 
+    for m in range(len(rocks)): 
+        for n in range(len(rocks[m,:])): 
+            # makes me feel better to explicitly mention these
+            if rocks[m,n] == '.' or rocks[m,n] == '#':
+                pass
+            # this is the main part of the thing
+            else: 
+                p = n
+                while True: 
+                    if p == 0 or rocks[m,p-1] == 'O' or rocks[m,p-1] == '#':
+                        break
+                    else: 
+                        rocks[m,p-1] = 'O'
+                        rocks[m,p] = '.'
+                        p -= 1
+                        
+def go_east(): 
+    for m in range(len(rocks)): 
+        for n in range(len(rocks[m,:])-1, -1, -1): 
+            # makes me feel better to explicitly mention these
+            if rocks[m,n] == '.' or rocks[m,n] == '#':
+                pass
+            # this is the main part of the thing
+            else: 
+                p = n
+                while True: 
+                    if p == len(rocks)-1 or rocks[m,p+1] == 'O' or rocks[m,p+1] == '#':
+                        break
+                    else: 
+                        rocks[m,p+1] = 'O'
+                        rocks[m,p] = '.'
+                        p += 1                        
+
+
+# north, then west, then south, then east
+for c in range(1000): 
+# for c in range(1000000000):   
+    go_north()
+    # for m in rocks:
+    #     print(''.join(m))
+    # print()        
+    go_west()
+    # for m in rocks:
+    #     print(''.join(m))
+    # print()        
+    go_south()
+    # for m in rocks:
+    #     print(''.join(m))
+    # print()        
+    go_east()
+    # for m in rocks:
+    #     print(''.join(m))
+    # print()        
+    summer = 0
+    for m in range(len(rocks)):
+        summer += ''.join(rocks[m]).count('O') * (len(rocks)-m)
+    # summer
+
+# for m in rocks:
+#     print(''.join(m))
+
+
+# summer = 0
+# for m in range(len(rocks)):
+#     summer += ''.join(rocks[m]).count('O') * (100-m)
+# summer
+
+# manually inspect this output from 1000 iterations
+# repeating sequence of length 52, starting at position 87
+
+# 1000000000 % 52
+(1000000000-2) % 7
+(1000000000-86) % 52
+
+# 100183 too low 
+# 100184 too low
+# 100310
+
+```
