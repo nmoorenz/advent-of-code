@@ -1,0 +1,246 @@
+---
+title: "Advent of Code 2025 Day 2"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 2: Gift Shop ---
+
+A silly elf has produced some invalid IDs. Repeated sequences of digits make an ID invalid.
+
+*What do you get if you add up all of the invalid IDs?*
+
+```{python}
+
+with open('data-2025-02.txt', 'r') as f:
+    inp = f.read().splitlines()
+
+id = inp[0].split(',')
+
+idn = [[int(x.split('-')[0]), int(x.split('-')[1])] for x in id]
+
+```
+
+Is it possible to do this by hand?
+
+The numbers need to be an even number of digits - 131 cannot be an invalid number.
+
+There are some sequences that look like palindromes which makes me think that could be part two.
+
+9226492264, 9226592265, 9226692266 (3)
+
+\(0\)
+
+4242, 4343, 4444, up to 6363 (22)
+
+687687 up to 835835 (149)
+
+Ah, wait, I can work out how many there are, but I cannot work out the sum of all of these very easily.
+
+```{python}
+# test the lengths
+
+s = []
+for i in idn: 
+    s.append((len(str(i[0])), len(str(i[1]))))
+ 
+# set(s)
+
+t = list(set(s))
+t.sort(key=lambda x: x[0])
+t
+
+```
+
+Lengths look OK, none go from 3 to 5 digits, which means I can test for odds, which cannot be invalid.
+
+I need to check for odd/even and even/odd in a nice way.
+
+```{python}
+
+summer = 0
+
+for i in idn: 
+    if len(str(i[0])) % 2 == 1 and len(str(i[1])) % 2 == 1: 
+        # both are odd amount of digits, cannot be invalid
+        # print('odds')
+        pass
+    elif len(str(i[0])) in (8, 10): 
+        # only need to loop by the first half of the numbers
+        # and then see if any of those repeat
+        # print('large')
+        ia = str(i[0])
+        ib = str(i[1])
+        mn = ia[:len(ia)//2]
+        mx = ib[:len(ib)//2]
+        for m in range(int(mn), int(mx)+1):
+            if i[0] < int(str(m) + str(m)) < i[1]: 
+                # print(str(m) + str(m))
+                summer += int(str(m) + str(m))
+    else: 
+        # print('small')
+        # just use a regular loop
+        for m in range(i[0], i[1]+1):
+            if len(str(m)) % 2 == 0: 
+                # only check the even ones
+                ms = str(m)
+                if ms[:len(ms)//2] == ms[len(ms)//2:]: 
+                    summer += m
+                    
+summer
+
+```
+
+## --- Part Two ---
+
+The elf made other kinds of repeating digits, anything repeated at least twice. All sequences could have repeats, even if it is the same number repeated i.e. 111. Check every pair of digits, but only with factors, i.e. 1 into two digits; 1 into 3; 1 and 2 into 4; 1 into 5; 1, 2, 3 into 6; 1 into 7.
+
+Or, alternatively, 2 into half; 3 into 3 pieces; 4 into 4 and 2; 5 into 5, 6 into 6, 3, 2; 7 into 7 pieces.
+
+*What do you get if you add up all of the invalid IDs using these new rules?*
+
+```{python}
+
+summer = 0
+
+
+def all_same_num(f):
+    if len(set(str(f))) == 1:
+        # print(f)
+        return f
+    else: 
+        return 0
+    
+    
+def halves_num(f): 
+    fs = str(f)
+    if fs[:len(fs)//2] == fs[len(fs)//2:]: 
+        # print(f)
+        return f
+    else:
+        return 0
+
+
+def pairs_num(f):
+    # only used for 6
+    fs = str(f)
+    f1 = fs[:2]
+    if fs == (f1 * 3): 
+        # print(fs, f1)
+        return f
+    else: 
+        return 0
+    
+
+def all_same_range(mn, mx, k): 
+    ss = 0
+    a1 = int(str(mn)[0])
+    a2 = int(str(mx)[0])
+    for a in range(a1, a2+1):
+        if mn < int(str(a) * k) < mx:
+            print(int(str(a) * k))
+            ss += int(str(a) * k)
+    return ss
+
+    
+def halves_range(ma, mb): 
+    ss = 0
+    ia = str(ma)
+    ib = str(mb)
+    mn = ia[:len(ia)//2]
+    mx = ib[:len(ib)//2]
+    for m in range(int(mn), int(mx)+1):
+        if (ma < int(str(m) + str(m)) < mb) and \
+            not all_same_num(int(str(m) + str(m))): 
+            print(str(m) + str(m))
+            ss += int(str(m) + str(m))
+    return ss
+
+
+def pairs_range(ma, mb, k): 
+    # used for 8 and 10 length
+    ss = 0
+    ia = str(ma)
+    ib = str(mb)
+    mn = ia[:2]
+    mx = ib[:2]
+    for m in range(int(mn), int(mx)+1):
+        if (ma < int(str(m) * (k//2)) < mb) and \
+            not all_same_num(int(str(m) * (k//2))) and \
+            not halves_num(int(str(m) * (k//2))): 
+            print(str(m) * (k//2))
+            ss += int(str(m) * (k//2))
+    return ss
+
+
+def threes_range(ma, mb): 
+    # only used for 9
+    ss = 0
+    ia = str(ma)
+    ib = str(mb)
+    mn = ia[:3]
+    mx = ib[:3]
+    for m in range(int(mn), int(mx)+1):
+        if ma < int(str(m) * 3) < mb: 
+            print(str(m) * 3)
+            ss += int(str(m) * 3)
+    return ss
+        
+    
+for i in idn: 
+    k = len(str(i[0]))
+    if k in (3,5,7):
+        # odd numbers with all repetition 
+        # print('odd')
+        summer += all_same_range(i[0], i[1], k)
+    elif k in (1, 2): 
+        # short numbers
+        for j in range(i[0], i[1]+1): 
+            if len(str(i[0])) == 1: 
+                pass
+            else: 
+                summer += all_same_num(j)
+    elif k == 4: 
+        for j in range(i[0], i[1]+1):
+            g = len(str(j))
+            if g == 5: 
+                summer += all_same_num(j)
+            elif str(j)[0] == str(j)[1]: 
+                # check for all same
+                summer += all_same_num(j)
+            else: 
+                # check for halves
+                summer += halves_num(j)
+    elif k == 6:
+        for j in range(i[0], i[1]+1):
+            g = len(str(j))
+            if g == 7: 
+                summer += all_same_num(j)
+            elif str(j)[0] == str(j)[1]: 
+                # check for all same
+                summer += all_same_num(j)
+            else: 
+                # check for halves
+                summer += halves_num(j)      
+                # check pairs
+                summer += pairs_num(j)
+    elif k == 8:
+        summer += all_same_range(i[0], i[1], k)
+        summer += halves_range(i[0], i[1])
+        summer += pairs_range(i[0], i[1], k)
+    elif k == 9: 
+        summer += all_same_range(i[0], i[1], k)
+        summer += threes_range(i[0], i[1])
+    elif k == 10: 
+        summer += all_same_range(i[0], i[1], k)
+        summer += halves_range(i[0], i[1])
+        summer += pairs_range(i[0], i[1], k)        
+        
+                
+
+summer
+
+# 54340905136 too high
+# 45253714604 too low 
+```

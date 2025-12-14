@@ -1,0 +1,202 @@
+---
+title: "Advent of Code 2025 Day 9"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 9: Movie Theater ---
+
+There are some interesting tiles on a movie theater floor.
+
+Using two red tiles as opposite corners, what is the largest area of any rectangle you can make?
+
+```{python}
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+with open('data-2025-09.txt', 'r') as f:
+    inp = f.read().splitlines()
+
+tiles = [[int(x.split(',')[0]), int(x.split(',')[1])] for x in inp]
+
+
+```
+
+Calculate all the combinations and record the maximum
+
+```{python}
+
+maxim = 0
+
+for i in tiles: 
+    for j in tiles: 
+        area = (max(i[0], j[0]) - min(i[0], j[0]) + 1) * \
+               (max(i[1], j[1]) - min(i[1], j[1]) + 1)
+        if area > maxim: 
+            maxim = area
+            
+maxim
+
+```
+
+## --- Part Two ---
+
+The area can only have red or green tiles, i.e. contain other areas within it.
+
+Using two red tiles as opposite corners, *what is the largest area of any rectangle you can make using only red and green tiles?*
+
+I think we are going to have to create an array with these tiles, and then test things out. Can we be efficient with that? Maybe.
+
+```{python}
+
+recs = np.zeros((99999,99999), dtype='i1')
+
+for e, t in enumerate(tiles[:10]):
+    recs[t[0], t[1]] = 1
+    s = tiles[e-1]
+    if s[0] == t[0]: 
+        y = min(s[1], t[1])
+        z = max(s[1], t[1])
+        for k in range(y, z):
+            recs[t[0], k] = 1
+    else: 
+        y = min(s[0], t[0])
+        z = max(s[0], t[0])
+        for k in range(y, z):
+            recs[k, t[1]] = 1
+        
+# 97633,51388 check for lines
+
+recs[97630:97640, 51385:51392]
+
+```
+
+Prepare the inner parts
+
+```{python}
+
+
+# for c in range(99999):
+#     for d in range(99999):
+for c in range(97630, 97640):
+    for d in range(51385, 51392):        
+        if recs[c,d] == 1:
+            pass # already one
+        elif (sum(recs[0:c, d]) % 2) == 0: 
+            pass
+        elif (sum(recs[c:99999, d]) % 2) == 0: 
+            pass
+        elif (sum(recs[c, 0:d]) % 2) == 0: 
+            pass
+        elif (sum(recs[c, d:99999]) % 2) == 0: 
+            pass
+        else: 
+            recs[c,d] = 1
+
+recs[97630:97640, 51385:51392]
+
+```
+
+This isn't working.
+
+Hint from Reddit: compress the corrdinates. Let's write a thing to see what the gaps are and if we can reduce the size of the grid. Check all the differences.
+
+```{python}
+
+c1 = {}
+c2 = {}
+
+for e, t in enumerate(tiles):
+    s = tiles[e-1]
+    if s[0] == t[0]: 
+        # add to c2
+        cn = abs(s[1] - t[1])
+        if cn in c2.keys(): 
+            c2[cn] += 1
+        else: 
+            c2[cn] = 1
+    else: 
+        # add to c1
+        cn = abs(s[0] - t[0])
+        if cn in c1.keys(): 
+            c1[cn] += 1
+        else: 
+            c1[cn] = 1
+        
+c1
+c2
+```
+
+Okay, there's no consistency here that I can immediately see.
+
+```{python}
+
+
+x = [t[0] for t in tiles]
+y = [t[1] for t in tiles]
+
+# plt.scatter(x, y)
+# ax = plt.gca()
+# ax.set_xlim([90000, 100000])
+# ax.set_ylim([45000, 55000])
+# plt.show()
+
+xx = np.vstack([x[0:-1:1],x[1::1]])
+yy = np.vstack([y[0:-1:1],y[1::1]])
+plt.plot(xx,yy, '-o')
+# plt.axis('auto')
+ax = plt.gca()
+# ax.set_xlim([0, 10000])
+# ax.set_ylim([45000, 55000])
+ax.set_xlim([90000, 100000])
+ax.set_ylim([45000, 55000])
+plt.show()
+
+# line, = ax.plot(x, y, 'ro-')
+
+```
+
+Okay, so, there's a minimum limit for the y values, can we just put that in our loop for part one? Probably
+
+The weird jump in the data:
+
+94553,50158
+
+94553,48602
+
+We can have regions above or below the gap! Not just to the right hand side of it. Obviously.
+
+In fact, it's only going to be above or below, so we only need to test \< 48602 with each other and \> 50158 with each other.
+
+```{python}
+
+maxim = 0
+
+for i in tiles: 
+    for j in tiles: 
+        if i[1] <= 48602 and j[1] <= 48602: 
+            area = (max(i[0], j[0]) - min(i[0], j[0]) + 1) * \
+                   (max(i[1], j[1]) - min(i[1], j[1]) + 1)
+            if area > maxim: 
+                maxim = area
+        elif i[1] >= 50158 and j[1] >= 50158: 
+            area = (max(i[0], j[0]) - min(i[0], j[0]) + 1) * \
+                   (max(i[1], j[1]) - min(i[1], j[1]) + 1)
+            if area > maxim: 
+                maxim = area
+        else: 
+            # opposite sides of the divide
+            pass
+        
+maxim
+
+# 73143488 too low
+# 3078193230 too high
+```
+
+Attempt 3 (of this phase): there are individual ins and outs around the place.
+
+We could create a list of valid points by creating a new circle with simple up / down / left / right movements.

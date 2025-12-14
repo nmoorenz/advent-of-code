@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 10: Cathode-Ray Tube ---
+
+You have a cathode ray tube device and need to figure out the code being sent by the CPU.
+
+Find the signal strength during the 20th, 60th, 100th, 140th, 180th, and 220th cycles. *What is the sum of these six signal strengths?*
 
 ```{python}
 
@@ -14,11 +18,86 @@ with open('data-2022-10.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+So many loops in 2022
 
 ```{python}
-# here's another python cell for good luck
 
+reg = 1
+cyc = 0
+ss = 0
+cyc_le = [20, 60, 100, 140, 180, 220, ]
+
+def add_ss(ss, reg, c):
+    if c in cyc_le: 
+        ss += reg * c
+    return ss
+
+
+for i in inp:
+    if i == 'noop':
+        # no operation
+        cyc += 1
+        ss = add_ss(ss, reg, cyc)
+    else:
+        j,k = i.split(' ')
+        cyc += 1
+        ss = add_ss(ss, reg, cyc)
+        cyc += 1
+        ss = add_ss(ss, reg, cyc)
+        reg += int(k)
+
+ss
+# 17380
 ```
 
-Paste part two here
+## --- Part Two ---
+
+The signal is actually a screen.
+
+Render the image given by your program. *What eight capital letters appear on your CRT?*
+
+```{python}
+
+import numpy as np
+
+scr = np.full((6,40), '.', dtype='U1')
+scr[:] = '.'
+
+reg = 1
+cyc = 0
+
+def add_bit(s, r, c):
+    # print(r,c)
+    z = 0
+    while c - 40 > 0:
+        c -= 40
+        z += 1
+    if c in range(r-1, r+2):
+        # print(z,c)
+        scr[z,c] = '#'
+    return s
+
+
+for i in inp:
+    # print('sprite: ' + str(reg))
+    # print('cycle: ' + str(cyc))
+    if i == 'noop':
+        # no operation
+        scr = add_bit(scr, reg, cyc)
+        cyc += 1
+    else:
+        j,k = i.split(' ')
+        scr = add_bit(scr, reg, cyc)
+        cyc += 1
+        scr = add_bit(scr, reg, cyc)
+        cyc += 1
+        reg += int(k)
+    # [row.tobytes() for row in scr]
+
+for row in scr:
+    print(''.join(map(str, row)))
+    
+# [row.tobytes() for row in scr]
+
+# FGCUZREC
+```

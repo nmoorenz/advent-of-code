@@ -1,0 +1,94 @@
+---
+title: "Advent of Code 2025 Day 4"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 4: Printing Department ---
+
+There are lots of large paper rolls everywhere. We need to organise the forklifts to pick some up.
+
+Consider your complete diagram of the paper roll locations. How many rolls of paper can be accessed by a forklift?
+
+```{python}
+
+import numpy as np
+
+with open('data-2025-04.txt', 'r') as f:
+    inp = f.read().splitlines()
+
+lists = [list(i) for i in inp]
+
+roll = np.array(lists)
+```
+
+140 x 140 grid
+
+Numpy for an array, I guess
+
+```{python}
+
+summer = 0
+
+for i in range(140): 
+    for j in range(140):
+        if roll[i,j] == '@':
+            # make sure of our indices
+            a = 0 if i == 0 else 1
+            c = 0 if j == 0 else 1
+            b = 1 if i == 139 else 2
+            d = 1 if j == 139 else 2
+            # a little easier for our object 
+            assess = roll[i-a:i+b, j-c:j+d]
+            # assess
+            if np.count_nonzero(assess == '@') - 1 < 4: 
+                # remove the current roll
+                summer += 1
+                
+summer
+
+# 411 too low
+# 1569 
+
+```
+
+## --- Part Two ---
+
+The forklifts are going to remove the rolls of paper.
+
+Start with your original diagram. How many rolls of paper in total can be removed by the Elves and their forklifts?
+
+We need to alter the original array to remove rolls as we go along within a while loop.
+
+```{python}
+
+summer = 0
+roll = np.array(lists)
+iterations = 0
+
+while True: 
+    iterations += 1
+    if iterations > 50: break # safety
+    
+    for i in range(140): 
+        for j in range(140):
+            if roll[i,j] == '@':
+                # make sure of our indices
+                a = 0 if i == 0 else 1
+                c = 0 if j == 0 else 1
+                b = 1 if i == 139 else 2
+                d = 1 if j == 139 else 2
+                # a little easier for our object 
+                assess = roll[i-a:i+b, j-c:j+d]
+                # assess
+                if np.count_nonzero(assess == '@') - 1 < 4: 
+                    # remove the current roll
+                    roll[i,j] = '.'
+                    summer += 1
+                    
+    summer
+    
+# 9280 
+
+```

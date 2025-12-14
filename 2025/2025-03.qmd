@@ -1,0 +1,75 @@
+---
+title: "Advent of Code 2025 Day 3"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 3: Lobby ---
+
+Fix the escalator with some battery power.
+
+There are many batteries in front of you. Find the maximum joltage possible from each bank; what is the total output joltage?
+
+```{python}
+
+import re
+
+with open('data-2025-03.txt', 'r') as f:
+    inp = f.read().splitlines()
+
+```
+
+Can I just loop backwards from 99 and see what I can find? A little regex?
+
+Alternatively: Find the highest number in the sequence that's not at the end, and then find the highest number after that. Which is really just two loops instead of one.
+
+```{python}
+
+summer = 0
+
+for b in inp:
+    for i in range(99, 9, -1): 
+        # print(i)
+        j = str(i)[0]
+        k = str(i)[1]
+        patt = '[' + j + '].*[' + k + ']'
+        # print(patt)
+        if re.search(patt, b) is not None: 
+            summer += int(j+k)
+            break
+    
+# 17412 
+
+```
+
+## --- Part Two ---
+
+The battery's joltage is actually 12 digits, not two.
+
+*What is the new total output joltage?*
+
+This feels like the previous alternative is actually the right suggestion.
+
+Find the highest number in the first 89 characters (lines are 100 characters long).
+
+If the 89th character is a 9, and there are no 9s before that, then whatever comes after that is the largest number possible.
+
+Need to find the position of the maximum, and then the next maximum from that position until L-10, and then the next from L-9, etcetera.
+
+`max()` of a string works
+
+```{python}
+
+summer = 0
+
+for b in inp[:1]: 
+    curr = [] # current list of digits
+    pos = -1
+    for z in range(11, -1, -1): 
+        px = pos + 1
+        nxt = max(b[px:-z])
+        pos = b[px:].find(nxt) + px
+        print(nxt, pos, px)
+        
+```

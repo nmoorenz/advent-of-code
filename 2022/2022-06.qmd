@@ -5,20 +5,49 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 6: Tuning Trouble ---
+
+We are on our way!
+
+However, because he's heard you have [significant](https://adventofcode.com/2016/day/6) [experience](https://adventofcode.com/2016/day/25) [dealing](https://adventofcode.com/2019/day/7) [with](https://adventofcode.com/2019/day/9) [signal-based](https://adventofcode.com/2019/day/16) [systems](https://adventofcode.com/2021/day/25), he convinced the other Elves that it would be okay to give you their one malfunctioning device - surely you'll have no problem fixing it.
+
+*How many characters need to be processed before the first start-of-packet marker is detected?*
 
 ```{python}
 
 with open('data-2022-06.txt', 'r') as f:
-    inp = f.read().splitlines()
+    inp = f.read()
 
 ```
 
-Maybe write an explanation of the solution approach here
+Loop and find four distinct in a row
 
 ```{python}
-# here's another python cell for good luck
 
+len(inp)
+
+for i in range(3, len(inp)):
+    t = inp[i-3:i+1]
+    if sorted(list(t)) == sorted(list(set(t))):
+        print(i+1)
+        break
+
+# 1896
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Start-of-message markers are 14 unique characters.
+
+*How many characters need to be processed before the first start-of-message marker is detected?*
+
+```{python}
+
+for i in range(14, len(inp)):
+    t = inp[i-13:i+1]
+    if sorted(list(t)) == sorted(list(set(t))):
+        print(i+1)
+        break
+
+# 3452
+```

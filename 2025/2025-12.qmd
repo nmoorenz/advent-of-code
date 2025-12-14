@@ -1,0 +1,51 @@
+---
+title: "Advent of Code 2025 Day 12"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 12: Christmas Tree Farm ---
+
+We have some presents we need to fit under the tree. They have funny shapes though.
+
+Consider the regions beneath each tree and the presents the Elves would like to fit into each of them. How many of the regions can fit all of the presents listed?
+
+```{python}
+
+import math 
+
+with open('data-2025-12.txt', 'r') as f:
+    inp = f.read().splitlines()
+
+gift_size = [7, 7, 7, 7, 5, 6]
+
+regions = inp[30:]
+
+```
+
+Why don't we just inspect how much area there is? There are so many different iterations and rotations maybe it's just easier to see if there is space first.
+
+```{python}
+
+summer = 0
+
+for r in regions: 
+    size, times = r.split(':')
+    # size, times
+    area = int(size.split('x')[0]) * int(size.split('x')[1])
+    # area
+    times_n = times.lstrip().split(' ')
+    times_n = [int(x) for x in times_n]
+    # times_n
+    if area > math.sumprod(times_n, gift_size): 
+        summer += 1
+        
+summer
+    
+    
+```
+
+## --- Part Two ---
+
+Earn the other stars
