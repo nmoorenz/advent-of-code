@@ -5,20 +5,184 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 9: Rope Bridge ---
+
+For a rope, the tail has to follow the head as it moves around the grid.
+
+Simulate your complete hypothetical series of motions. *How many positions does the tail of the rope visit at least once?*
 
 ```{python}
 
+import numpy as np
+
 with open('data-2022-09.txt', 'r') as f:
+# with open('data-2022-09-test.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+Check the limits of the range.
 
 ```{python}
-# here's another python cell for good luck
 
+# add up all the directions but the actual extent will be smaller than this
+maxes = {'D': 0, 'U': 0, 'L': 0, 'R': 0}
+
+for i in inp:
+    d,n = i.split(' ')
+    maxes[d] += int(n)
+
+maxes
+
+# reset and try again just tracking the head
+maxes = {'D': 0, 'U': 0, 'L': 0, 'R': 0}
+
+pos = {'x': 0, 'y': 0}
+
+for i in inp:
+    d,n = i.split(' ')
+    if d == 'L':
+        pos['x'] -= int(n)
+        if pos['x'] < maxes[d]: maxes[d] = pos['x']
+    if d == 'R':
+        pos['x'] += int(n)
+        if pos['x'] > maxes[d]: maxes[d] = pos['x']
+    if d == 'U':
+        pos['y'] += int(n)
+        if pos['y'] > maxes[d]: maxes[d] = pos['y']
+    if d == 'D':
+        pos['y'] -= int(n)
+        if pos['y'] < maxes[d]: maxes[d] = pos['y']
+
+pos
+maxes
 ```
 
-Paste part two here
+Let's do 1000x1000 rather than 3000x3000
+
+```{python}
+
+# head range and tail range
+rH = np.zeros((1000,1000))
+rT = np.zeros((1000,1000))
+
+# location of head and tail
+xH = 500
+yH = 500
+xT = 500
+yT = 500
+
+# move the tail
+def move_tail(arr, xH, yH, xT, yT):
+    if xH - 1 <= xT <= xH + 1 and yH - 1 <= yT <= yH + 1:
+        # this is fine, tail is close enough
+        pass
+    else: 
+        if yH - yT == 2: 
+            yT += 1
+            xT = xH
+        elif yT - yH == 2:
+            yT -= 1
+            xT = xH
+        elif xH - xT == 2:
+            xT += 1
+            yT = yH
+        elif xT - xH == 2:
+            xT -= 1
+            yT = yH
+    arr[xT,yT] += 1
+    return arr, xT, yT
+
+
+for i in inp:
+    d,n = i.split(' ')
+    for m in range(int(n)):
+        if d == 'L':
+            xH -= 1
+        if d == 'R':
+            xH += 1
+        if d == 'U':
+            yH += 1
+        if d == 'D':
+            yH -= 1
+        rH[xH,yH] += 1
+        rT, xT, yT = move_tail(rT, xH, yH, xT, yT)
+
+int(np.sum(rT > 0))
+
+# 6486
+```
+
+## --- Part Two ---
+
+Simulate your complete series of motions on a larger rope with ten knots. *How many positions does the tail of the rope visit at least once?*
+
+```{python}
+
+# new arrays for tracking
+# tail = np.zeros((1000,1000))
+tail = []
+
+# separate positions for each rope piece
+posi = [[0,0] for _ in range(10)]
+
+# record tail position
+tail.append(posi[9])
+
+# this is pretty much the same as above 
+# but we need to use it to assess the movement of each rope piece
+def move_next(p, q):
+    xH = p[0]
+    yH = p[1]
+    xT = q[0]
+    yT = q[1]
+    if xH - 1 <= xT <= xH + 1 and yH - 1 <= yT <= yH + 1:
+        # this is fine, don't move
+        pass
+    else: 
+        if yH - yT == 2: 
+            yT += 1
+            xT = xH
+        elif yT - yH == 2:
+            yT -= 1
+            xT = xH
+        elif xH - xT == 2:
+            xT += 1
+            yT = yH
+        elif xT - xH == 2:
+            xT -= 1
+            yT = yH
+    return [xT, yT]
+
+
+# loop through the instructions
+for i in inp[:]:   
+    # create understandable instructions
+    d,n = i.split(' ')
+    # we need to move the head of the rope the right number of times
+    for _ in range(int(n)):
+        if d == 'L':
+            posi[0][0] -= 1
+        if d == 'R':
+            posi[0][0] += 1
+        if d == 'U':
+            posi[0][1] += 1
+        if d == 'D':
+            posi[0][1] -= 1
+        # we need to move the rest of the knots
+        # print()
+        # print(posi[0])
+        for k in range(1,10):
+            posi[k] = move_next(posi[k-1], posi[k])
+            # print(posi[k])
+            if k == 9 and posi[9] not in tail: 
+                tail.append(posi[9])
+
+            
+# np.sum(tail > 0)
+len(tail)
+posi
+# 2357 too low
+# 6551
+
+```

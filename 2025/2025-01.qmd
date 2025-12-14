@@ -1,0 +1,109 @@
+---
+title: "Advent of Code 2025 Day 1"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 1: Secret Entrance ---
+
+The elves have discovered project management, and have realised they need you to decorate the North Pole.
+
+To get in to the North Pole, you need to unlock the rotating dial.
+
+Analyze the rotations in your attached document. What's the actual password to open the door?
+
+```{python}
+
+with open('data-2025-01.txt', 'r') as f:
+    inp = f.read().splitlines()
+
+rot = [[x[0], int(x[1:])] for x in inp]
+```
+
+Follow the instructions, starting at 50, record things along the way.
+
+Inspect the input! There are larger numbers than 100, so need to calculate how much to change the number rather than just using 100.
+
+```{python}
+
+p = 50
+z = 0
+loc = []
+
+for r in rot: 
+    if r[0] == 'L': 
+        # turn left, subtract
+        p -= r[1]
+        if p < 0: 
+            p += (p // -100) * 100
+    else: 
+        # turn right, add
+        p += r[1]
+        if p > 99: 
+            p -= (p // 100) * 100
+    # record our movement
+    if p == 0: 
+        z += 1
+    loc.append(p)
+
+
+z
+
+# 261 too low
+# 1129 
+```
+
+## --- Part Two ---
+
+How many times does the dial pass zero?
+
+```{python}
+
+p = 50
+z = [0]
+loc = [50]
+
+
+for r in rot: 
+    num = 0
+    if r[0] == 'L': 
+        # turn left, subtract
+        p -= r[1]
+        if p == 0: 
+            num = 1
+        elif p % -100 == 0: 
+            num += (p // -100)
+            p += num * 100
+            num += 1
+        elif p < 0 and loc[-1] == 0:
+            num = 1  # below zero is weird
+            num += (p // -100)
+            p += num * 100
+            num -= 1
+        elif p < 0: 
+            num = 1  # below zero is weird
+            num += (p // -100)
+            p += num * 100
+    else: 
+        # turn right, add
+        p += r[1]
+        if p > 99: 
+            num = (p // 100)
+            p -= num * 100
+    # record our movement
+    z.append(z[-1] + num)
+    loc.append(p)
+    # r, p, z
+
+
+z[-1]
+
+# 6510 too low
+# 7466 too high
+# 7216 too high
+# 6689 nope
+# 6520
+# 6638 
+
+```

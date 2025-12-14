@@ -5,20 +5,85 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 7: No Space Left On Device ---
+
+Navigate around the communication device storage.
+
+Find all of the directories with a total size of at most 100000. *What is the sum of the total sizes of those directories?*
 
 ```{python}
+
+import re
+from pprint import pprint
 
 with open('data-2022-07.txt', 'r') as f:
     inp = f.read().splitlines()
-
+    
 ```
 
-Maybe write an explanation of the solution approach here
+Well, I guess we loop
 
 ```{python}
-# here's another python cell for good luck
+
+dd = {}
+i = 0
+
+def dirs(d):
+    global i
+    # print(i)
+    # special for the first item
+    try: 
+        inp[i]
+    except: 
+        raise(i)
+    if inp[i] == '$ cd /':
+        i += 1
+        d['home'] = dirs({})
+    while inp[i] != '$ cd ..':
+        # list of information
+        if inp[i] == '$ ls':
+            i += 1
+        elif inp[i][:3] == 'dir': 
+            d[inp[i][4:]] = {}
+            i += 1
+        # go into a directory, level deeper
+        elif inp[i][:4] == '$ cd':
+            k = inp[i][5:]
+            # print(k)
+            i += 1
+            if k == 'wvdlv':
+                print(d[k])
+            tmp = dirs({})
+            if k in d.keys():
+                d[k] = tmp
+            else: 
+                raise(k)
+            if k == 'wvdlv':
+                print(d[k])
+        else: 
+            dig = int(re.match(r'\d+', inp[i])[0])
+            fl = re.match(r'\d+ (.*)', inp[i])[1]
+            d[fl] = dig  
+            i += 1
+    # print(inp[i] + ' ..... returning')
+    # print(d)
+    try: 
+        inp[i]
+    except: 
+        raise(i)
+    if inp[i] == '$ cd ..':
+        i += 1
+    return d
+
+
+dd = dirs(dd)
 
 ```
 
-Paste part two here
+We need to loop through this to get the directories with maximum size
+
+```{python}
+
+mx = 100000
+
+```

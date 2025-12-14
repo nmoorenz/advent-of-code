@@ -31,7 +31,6 @@ for i in range(1, 26):
 
 # create the overall readme file with notes for each day and part
 readme = """
-
 ### Day {i}
 
 1.  

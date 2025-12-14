@@ -10,6 +10,9 @@ That file is included in .gitignore
 
 https://github.com/wimglenn/advent-of-code-wim/issues/1
 
+Google Chrome: 
+Right Click > Inspect > Network > Document > Cookies > session
+
 """
 
 import requests
@@ -17,7 +20,7 @@ import sys
 
 # used to authenticate with AoC
 with open('session-cookie.txt') as f: 
-    cook = f.read()
+    cookie = f.read()
 
 # required arguments
 year = sys.argv[1]
@@ -25,7 +28,7 @@ day = sys.argv[2]
 
 url = f'https://adventofcode.com/{year}/day/{day}/input'
 
-inp = requests.get(url, cookies={"session": cook})
+inp = requests.get(url, cookies={"session": cookie})
 
 # print(inp.text)
 dd = f'{int(day):02d}'

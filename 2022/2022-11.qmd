@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 11: Monkey in the Middle ---
+
+Monkeys are playing keep away and passing some items around. You're worried! Give them back, monkeys!
+
+Figure out which monkeys to chase by counting how many items they inspect over 20 rounds. *What is the level of monkey business after 20 rounds of stuff-slinging simian shenanigans?*
 
 ```{python}
 
@@ -14,11 +18,257 @@ with open('data-2022-11.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+This is reasonably manual, just gotta write those rules.
 
 ```{python}
-# here's another python cell for good luck
+
+m_items = {
+    0: [83, 97, 95, 67],
+    1: [71, 70, 79, 88, 56, 70],
+    2: [98, 51, 51, 63, 80, 85, 84, 95],
+    3: [77, 90, 82, 80, 79],
+    4: [68],
+    5: [60, 94],
+    6: [81, 51, 85],
+    7: [98, 81, 63, 65, 84, 71, 84],
+}
+
+m_inspect = {
+    0: 0,
+    1: 0,
+    2: 0, 
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+}
+
+
+def deal_with(m, i): 
+  if m == 0:
+  # Operation: new = old * 19
+      w = (i * 19) // 3
+  # Test: divisible by 17
+      if w % 17 == 0:
+  #   If true: throw to monkey 2
+          a = 2
+  #   If false: throw to monkey 7
+      else: 
+          a = 7
+  elif m == 1:
+  # Operation: new = old + 2
+      w = (i + 2) // 3
+  # Test: divisible by 19
+      if w % 19 == 0:
+  #   If true: throw to monkey 7
+          a = 7
+  #   If false: throw to monkey 0
+      else: 
+          a = 0
+  elif m == 2:
+  # Operation: new = old + 7
+      w = (i + 7) // 3
+  # Test: divisible by 7
+      if w % 7 == 0:
+  #   If true: throw to monkey 4
+          a = 4
+  #   If false: throw to monkey 3
+      else: 
+          a = 3
+  elif m == 3:
+  # Operation: new = old + 1
+      w = (i + 1) // 3
+  # Test: divisible by 11
+      if w % 11 == 0:
+  #   If true: throw to monkey 6  
+          a = 6
+  #   If false: throw to monkey 4
+      else: 
+          a = 4
+  elif m == 4:
+  # Operation: new = old * 5
+      w = (i * 5) // 3
+  # Test: divisible by 13
+      if w % 13 == 0:
+  #   If true: throw to monkey 6
+          a = 6
+  #   If false: throw to monkey 5
+      else: 
+          a = 5
+  elif m == 5:
+  # Operation: new = old + 5
+      w = (i + 5) // 3
+  # Test: divisible by 3
+      if w % 3 == 0:
+  #   If true: throw to monkey 1
+          a = 1
+  #   If false: throw to monkey 0
+      else: 
+          a = 0
+  elif m == 6:
+  # Operation: new = old * old
+      w = (i * i) // 3
+  # Test: divisible by 5
+      if w % 5 == 0:
+  #   If true: throw to monkey 5
+          a = 5
+  #   If false: throw to monkey 1
+      else: 
+          a = 1
+  elif m == 7:
+  # Operation: new = old + 3
+      w = (i + 3) // 3
+  # Test: divisible by 2
+      if w % 2 == 0:
+  #   If true: throw to monkey 2
+          a = 2
+  #   If false: throw to monkey 3
+      else: 
+          a = 3
+  # give back
+  return a, w
+    
+    
+for rounds in range(20): 
+    for monkey in range(8):
+        for item in m_items[monkey]:
+            m_inspect[monkey] += 1
+            a,b = deal_with(monkey,item)
+            m_items[a].append(b)
+        m_items[monkey] = []
+
+m_inspect
+
+list(sorted(m_inspect.values()))[-2] * list(sorted(m_inspect.values()))[-1]
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Worry levels are no longer divided by three after each item is inspected; you'll need to find another way to keep your worry levels manageable. Starting again from the initial state in your puzzle input, *what is the level of monkey business after 10000 rounds?*
+
+```{python}
+
+m_items = {
+    0: ['83', '97', '95', '67'],
+    1: ['71', '70', '79', '88', '56', '70'],
+    2: ['98', '51', '51', '63', '80', '85', '84', '95'],
+    3: ['77', '90', '82', '80', '79'],
+    4: ['68'],
+    5: ['60', '94'],
+    6: ['81', '51', '85'],
+    7: ['98', '81', '63', '65', '84', '71', '84'],
+}
+
+m_inspect = {
+    0: 0,
+    1: 0,
+    2: 0, 
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+}
+
+
+def deal_with2(m, i): 
+  if m == 0:
+  # Operation: new = old * 19
+      w = '(' + i + ')' + '*19'
+  # Test: divisible by 17
+      if eval(w) % 17 == 0:
+  #   If true: throw to monkey 2
+          a = 2
+  #   If false: throw to monkey 7
+      else: 
+          a = 7
+  elif m == 1:
+  # Operation: new = old + 2
+      w = i + '+2' 
+  # Test: divisible by 19
+      if eval(w) % 19 == 0:
+  #   If true: throw to monkey 7
+          a = 7
+  #   If false: throw to monkey 0
+      else: 
+          a = 0
+  elif m == 2:
+  # Operation: new = old + 7
+      w = i +  '+7'
+  # Test: divisible by 7
+      if eval(w) % 7 == 0:
+  #   If true: throw to monkey 4
+          a = 4
+  #   If false: throw to monkey 3
+      else: 
+          a = 3
+  elif m == 3:
+  # Operation: new = old + 1
+      w = i + '+1'
+  # Test: divisible by 11
+      if eval(w) % 11 == 0:
+  #   If true: throw to monkey 6  
+          a = 6
+  #   If false: throw to monkey 4
+      else: 
+          a = 4
+  elif m == 4:
+  # Operation: new = old * 5
+      w = '(' + i + ')' + '*5'
+  # Test: divisible by 13
+      if eval(w) % 13 == 0:
+  #   If true: throw to monkey 6
+          a = 6
+  #   If false: throw to monkey 5
+      else: 
+          a = 5
+  elif m == 5:
+  # Operation: new = old + 5
+      w = i + '+5'
+  # Test: divisible by 3
+      if eval(w) % 3 == 0:
+  #   If true: throw to monkey 1
+          a = 1
+  #   If false: throw to monkey 0
+      else: 
+          a = 0
+  elif m == 6:
+  # Operation: new = old * old
+      w = '(' + i + ')' + '*' + '(' + i + ')'
+  # Test: divisible by 5
+      if eval(w) % 5 == 0:
+  #   If true: throw to monkey 5
+          a = 5
+  #   If false: throw to monkey 1
+      else: 
+          a = 1
+  elif m == 7:
+  # Operation: new = old + 3
+      w = i + '+3'
+  # Test: divisible by 2
+      if eval(w) % 2 == 0:
+  #   If true: throw to monkey 2
+          a = 2
+  #   If false: throw to monkey 3
+      else: 
+          a = 3
+  # give back
+  return a, w
+    
+    
+for rounds in range(1000): 
+    for monkey in range(8):
+        for item in m_items[monkey]:
+            m_inspect[monkey] += 1
+            a,b = deal_with2(monkey,item)
+            m_items[a].append(b)
+        m_items[monkey] = []
+
+m_inspect
+
+# m_items[0]
+
+list(sorted(m_inspect.values()))[-2] * list(sorted(m_inspect.values()))[-1]
+```

@@ -44,53 +44,42 @@
 
 ### Day 6
 
-1.  
-2.  
+1.  Loop through the input, and find four characters in a row that do not repeat
+2.  Loop for fourteen unique characters
 
--   
--   
-
-
+-   A set is a unique 'list', and if these are the same, we find what we want
 
 ### Day 7
 
-1.  
+1.  Find the total size of 'small' directories by going through the directory structure
 2.  
 
 -   
 -   
-
-
 
 ### Day 8
 
-1.  
-2.  
+1.  Find the trees that are visible from outside the grid 
+2.  Find the tree with the best 'scenic score'
 
--   
--   
-
-
+-   Work through the logic carefully, it probably could be a little function and list comp
+-   A bit more complicated, so create a function to count trees and scores
 
 ### Day 9
 
-1.  
-2.  
+1.  Move around a grid with tail following head
+2.  Move around, but with a whole rope, ten units from head to tail
 
--   
--   
-
-
+-   Move the head, create a function to check if the tail goes along too, record the results
+-   Part two is much more difficult, with checking movement of all the pieces
 
 ### Day 10
 
-1.  
-2.  
+1.  Loop through some instructions and record where we get to at 20 steps
+2.  The instructions describe the pixels on a small screen, what does it say? 
 
--   
--   
-
-
+-   Reasonably simple loop recording some values along the way
+-   A little bit more complicated with the sprites and the cycles but ultimately OK
 
 ### Day 11
 
@@ -100,8 +89,6 @@
 -   
 -   
 
-
-
 ### Day 12
 
 1.  
@@ -109,8 +96,6 @@
 
 -   
 -   
-
-
 
 ### Day 13
 
@@ -120,8 +105,6 @@
 -   
 -   
 
-
-
 ### Day 14
 
 1.  
@@ -129,8 +112,6 @@
 
 -   
 -   
-
-
 
 ### Day 15
 
@@ -140,8 +121,6 @@
 -   
 -   
 
-
-
 ### Day 16
 
 1.  
@@ -149,8 +128,6 @@
 
 -   
 -   
-
-
 
 ### Day 17
 
@@ -160,8 +137,6 @@
 -   
 -   
 
-
-
 ### Day 18
 
 1.  
@@ -169,8 +144,6 @@
 
 -   
 -   
-
-
 
 ### Day 19
 
@@ -180,8 +153,6 @@
 -   
 -   
 
-
-
 ### Day 20
 
 1.  
@@ -189,8 +160,6 @@
 
 -   
 -   
-
-
 
 ### Day 21
 
@@ -200,8 +169,6 @@
 -   
 -   
 
-
-
 ### Day 22
 
 1.  
@@ -209,8 +176,6 @@
 
 -   
 -   
-
-
 
 ### Day 23
 
@@ -220,8 +185,6 @@
 -   
 -   
 
-
-
 ### Day 24
 
 1.  
@@ -230,8 +193,6 @@
 -   
 -   
 
-
-
 ### Day 25
 
 1.  
@@ -239,4 +200,3 @@
 
 -   
 -   
-
