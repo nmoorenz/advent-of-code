@@ -5,20 +5,268 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 11: Reactor ---
+
+There is a tangle of cables running through the server rack.
+
+*How many different paths lead from `you` to `out`?*
 
 ```{python}
+
+import networkx as nx 
 
 with open('data-2025-11.txt', 'r') as f:
     inp = f.read().splitlines()
 
+wires = [w.split(': ') for w in inp]
+wires = {w[0]: w[1].split() for w in wires}
+
+nodes = [n.split() for n in inp]
+nodes = [m.replace(':', '') for n in nodes for m in n]
+nodes = list(set(nodes))
+
 ```
 
-Maybe write an explanation of the solution approach here
+<https://stackoverflow.com/a/75964243>
 
 ```{python}
-# here's another python cell for good luck
+
+def findAllPaths(vertices, gList, source, destination, cutoff=None):
+    G = nx.DiGraph()
+    G.add_nodes_from(vertices)
+    for u in gList:
+        for v in gList[u]:
+            G.add_edge(u, v)
+    
+    return list(nx.all_simple_paths(G, 
+                                    source=source, 
+                                    target=destination, 
+                                    cutoff=cutoff))
+
+
+all_pp = findAllPaths(
+             vertices=nodes,
+             gList=wires,
+             source='you',
+             destination='out')
+  
+len(all_pp)          
+```
+
+## --- Part Two ---
+
+We have to go from the server node `svr` and visit `fft` and `dac`
+
+Find all of the paths that lead from `svr` to `out`. How many of those paths visit both `dac` and `fft`?
+
+```{python}
+#| eval: false
+
+all_pp = findAllPaths(
+             vertices=nodes,
+             gList=wires,
+             source='svr',
+             destination='out')
+
+countr = 0
+
+for a in all_pp: 
+    if 'fft' in a and 'dac' in a: 
+        countr += 1
+
+countr
+```
+
+This is taking too long, let us do some checks
+
+```{python}
+
+G = nx.DiGraph()
+G.add_nodes_from(nodes)
+for u in wires:
+    for v in wires[u]:
+        G.add_edge(u, v)    
+
+# check for valid paths
+source = 'svr'
+
+target = 'fft'
+nx.has_path(G, source, target)
+
+target = 'dac'
+nx.has_path(G, source, target)
+
+target = 'out'
+nx.has_path(G, source, target)
+
+source = 'dac'
+target = 'fft'
+nx.has_path(G, source, target)
+
+source = 'fft'
+target = 'dac'
+nx.has_path(G, source, target)
+
+# we must go through fft first! 
+
+# are there problems with this graph? No problems. 
+list(nx.selfloop_edges(G))
+list(nx.simple_cycles(G))
+
+# cutoff=10 goes kinda quick
+# cutoff=15 takes many minutes
+
+svr_fft = findAllPaths(
+             vertices=nodes,
+             gList=wires,
+             source='svr',
+             destination='fft', 
+             cutoff=11)
+
+# 11, 12, 13 have same: 2581
+
+fft_dac = findAllPaths(
+             vertices=nodes,
+             gList=wires,
+             source='fft',
+             destination='dac', 
+             cutoff=16)
+
+# 10, 11, 12 = zero
+# 13,14 = 141860
+# 15      2802700
+
+
+dac_out = findAllPaths(
+             vertices=nodes,
+             gList=wires,
+             source='dac',
+             destination='out', 
+             cutoff=10)
+
+# 10,11 = 17018
+
+len(svr_fft) * len(fft_dac) * len(dac_out)
+
+# 6230981751880 too low
+
+
 
 ```
 
-Paste part two here
+Check lengths
+
+```{python}
+
+# for a in all_pp:
+#     len(a)
+
+```
+
+Let me try some different code from different people
+
+<https://github.com/mgtezak/Advent_of_Code/blob/master/2025/11/p2.py>
+
+```{python}
+
+from functools import cache
+
+with open('data-2025-11.txt', 'r') as f:
+    inp = f.read()
+    
+def part2(puzzle_input):
+    connections = {}
+    for line in puzzle_input.splitlines():
+        input, outputs = line.split(": ")
+        connections[input] = outputs.split()
+    
+    @cache
+    def dfs(device, fft, dac):
+        if device == "out":
+            return 1 if fft and dac else 0
+        if (outputs := connections.get(device)) is None:
+            return 0
+        if device == "fft":
+            fft = True
+        elif device == "dac":
+            dac = True
+        return sum(dfs(out, fft, dac) for out in outputs)
+
+    return dfs('svr', False, False)
+
+part2(inp)
+
+# 506264456238938
+```
+
+<https://github.com/euporphium/pyaoc/blob/main/aoc/2025/solutions/day11_part2.py>
+
+```{python}
+
+from functools import lru_cache
+
+def solve(data: list[str]) -> int:
+    """
+    Recursively count all paths from 'svr' to 'out' that pass through both 'dac' and 'fft'.
+    Uses @lru_cache to memoize intermediate results based on the current node
+    and whether 'dac' and 'fft' have been visited so far.
+    """
+
+    graph = {}
+    for line in data:
+        key, right_side = line.split(": ")
+        graph[key] = right_side.split()
+
+    @lru_cache(maxsize=None)
+    def dfs(node: str, v_dac=False, v_fft=False) -> int:
+        if node == 'out' and v_dac and v_fft:
+            return 1
+        total = 0
+        for child in graph.get(node, []):
+            total += dfs(child, v_dac or node == 'dac', v_fft or node == 'fft')
+        return total
+
+    return dfs('svr')
+
+solve(inp)
+
+```
+
+[topaz](https://topaz.github.io/paste/#XQAAAQAEBAAAAAAAAAAzHIoib6ptmPAUgo2LUPPU+liMkqlgTzuvOgU1YY2MR6L1z1EsGAiR2HjPV0kYxjhiRRH2QsBNB1w3ZL2J2ZsR6djNlUpAUKgQql1muHh48eVhrbOqwUWkWhYyfEyFT9aWd18qs3EDfbIs+3jIpL8eZrRHz5xD6PjstLkkVeAg29VXxutaYevDlG80/qV5HDvHnkGA/OypwOcCu7yN/+ZanOZTWPy35bH8pYiBSGHH1EDMcL5rv1Su3djm7ifRwWePfSpzm/1A+XQu/Ii/RYSxg5kShM1PfWGsWH+0F5u8SFbm+MmUPEsWyvdgOkvDGVS9QF9fHMhQO8iGJVE4jxW4E+DXrIYL/6YL3Nn9BGhIh8OHRUDL1x8UeXWrYZbX/AqN9AE1qjhwM9rKKLvJyY/91ULwip9LJUOjkGi2JTo+OfGspe4a/t19pnPGsiXOMKlXntrpyaTNIRZlZU9hTl6CQovOzLZLdN/U3TXegWCJNvi64gPvlSo1HIXRlH01nAHIhEDiXTFONLf7sSNH/jobn1xsnkmNvJq/XrSEjwAH2KRSo5+WZqiCzv8O3G5EGPYJSOZLcPprQnQdsCDTF7KLTwOXZ7neOIQEGPVlo2ZojSsYdTqqd9vRO6xc11wWHAn9vcHZx8hHU6e//oaOQEs2/FJy7A==)
+
+```{python}
+
+from graphlib import TopologicalSorter
+import numpy as np
+
+def read_graph(fname):
+    with open(fname) as f:
+        lines = f.readlines()
+    starts, dests = list(zip(*[x.split(":") for x in lines]))
+    return dict(zip(starts, [set(x.strip().split(" ")) for x in dests]))
+
+def count_paths(graph, idx, idy):
+    ts = TopologicalSorter(graph)
+    toposort = list(ts.static_order())[::-1]
+    idx, idy = toposort.index(idx), toposort.index(idy)
+    counts = np.zeros((len(toposort,)))
+    for i in range(len(toposort)-1):
+        if i < idx:
+            continue
+        elif i == idx:
+            counts[i] = 1
+        for j in graph[toposort[i]]:
+            counts[toposort.index(j)] += counts[i]
+    return counts[idy]
+
+
+graph = read_graph("data-2025-11.txt")
+print(f"Part 1: {int(count_paths(graph, "you", "out"))}") 
+svr_fft = count_paths(graph, "svr", "fft")
+fft_dac = count_paths(graph, "fft", "dac")
+dac_out = count_paths(graph, "dac", "out")
+p2 = svr_fft * fft_dac * dac_out
+print(svr_fft, fft_dac, dac_out)
+print(f"Part 2: {int(p2)}")
+
+```

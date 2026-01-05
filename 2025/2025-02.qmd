@@ -103,31 +103,34 @@ Or, alternatively, 2 into half; 3 into 3 pieces; 4 into 4 and 2; 5 into 5, 6 int
 ```{python}
 
 summer = 0
+ppp = False
 
 
 def all_same_num(f):
+    # i.e. 111
     if len(set(str(f))) == 1:
-        # print(f)
+        if ppp: print(f)
         return f
     else: 
         return 0
     
     
 def halves_num(f): 
+    # i.e. 2323
     fs = str(f)
     if fs[:len(fs)//2] == fs[len(fs)//2:]: 
-        # print(f)
+        if ppp: print(f)
         return f
     else:
         return 0
 
 
 def pairs_num(f):
-    # only used for 6
+    # i.e. 454545
     fs = str(f)
     f1 = fs[:2]
-    if fs == (f1 * 3): 
-        # print(fs, f1)
+    if fs == (f1 * (len(fs)//2)): 
+        if ppp: print(fs)
         return f
     else: 
         return 0
@@ -138,22 +141,23 @@ def all_same_range(mn, mx, k):
     a1 = int(str(mn)[0])
     a2 = int(str(mx)[0])
     for a in range(a1, a2+1):
-        if mn < int(str(a) * k) < mx:
-            print(int(str(a) * k))
+        if mn <= int(str(a) * k) <= mx:
+            if ppp: print(int(str(a) * k))
             ss += int(str(a) * k)
     return ss
 
     
 def halves_range(ma, mb): 
+    # used for 8 and 10 length
     ss = 0
     ia = str(ma)
     ib = str(mb)
     mn = ia[:len(ia)//2]
     mx = ib[:len(ib)//2]
     for m in range(int(mn), int(mx)+1):
-        if (ma < int(str(m) + str(m)) < mb) and \
+        if (ma <= int(str(m) + str(m)) <= mb) and \
             not all_same_num(int(str(m) + str(m))): 
-            print(str(m) + str(m))
+            if ppp: print(str(m) + str(m))
             ss += int(str(m) + str(m))
     return ss
 
@@ -166,10 +170,10 @@ def pairs_range(ma, mb, k):
     mn = ia[:2]
     mx = ib[:2]
     for m in range(int(mn), int(mx)+1):
-        if (ma < int(str(m) * (k//2)) < mb) and \
+        if (ma <= int(str(m) * (k//2)) <= mb) and \
             not all_same_num(int(str(m) * (k//2))) and \
             not halves_num(int(str(m) * (k//2))): 
-            print(str(m) * (k//2))
+            if ppp: print(str(m) * (k//2))
             ss += int(str(m) * (k//2))
     return ss
 
@@ -182,8 +186,8 @@ def threes_range(ma, mb):
     mn = ia[:3]
     mx = ib[:3]
     for m in range(int(mn), int(mx)+1):
-        if ma < int(str(m) * 3) < mb: 
-            print(str(m) * 3)
+        if ma <= int(str(m) * 3) <= mb: 
+            if ppp: print(str(m) * 3)
             ss += int(str(m) * 3)
     return ss
         
@@ -197,7 +201,7 @@ for i in idn:
     elif k in (1, 2): 
         # short numbers
         for j in range(i[0], i[1]+1): 
-            if len(str(i[0])) == 1: 
+            if len(str(j)) == 1: 
                 pass
             else: 
                 summer += all_same_num(j)
@@ -217,9 +221,9 @@ for i in idn:
             g = len(str(j))
             if g == 7: 
                 summer += all_same_num(j)
-            elif str(j)[0] == str(j)[1]: 
+            elif all_same_num(j): 
                 # check for all same
-                summer += all_same_num(j)
+                summer += j
             else: 
                 # check for halves
                 summer += halves_num(j)      
@@ -243,4 +247,43 @@ summer
 
 # 54340905136 too high
 # 45253714604 too low 
+# 45253714615 too low
+# 45283684555
+```
+
+I added 11 and removed duplicates - some numbers can qualify for more than one category.
+
+I think brute force will be fine, the numbers are big but the ranges are not that bad. Loop without any reference to length.
+
+```{python}
+
+def threes_num(f):
+    # i.e. 456456456
+    fs = str(f)
+    f1 = fs[:3]
+    if fs == (f1 * 3): 
+        print(fs)
+        return f
+    else: 
+        return 0
+    
+summer = 0
+
+for i in idn: 
+    for j in range(i[0], i[1] + 1):
+        if len(str(j)) == 1: 
+            pass # cannot have single digits
+        elif all_same_num(j): 
+            summer += j
+        elif halves_num(j): 
+            summer += j
+        elif pairs_num(j): 
+            summer += j
+        elif threes_num(j): 
+            summer += j
+
+summer
+
+# 39021058338 lower than the other numbers that are too low
+# fixed it 
 ```

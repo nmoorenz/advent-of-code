@@ -44,7 +44,7 @@ maxim
 
 ## --- Part Two ---
 
-The area can only have red or green tiles, i.e. contain other areas within it.
+The area can only have red or green tiles, i.e. must contain other areas within it.
 
 Using two red tiles as opposite corners, *what is the largest area of any rectangle you can make using only red and green tiles?*
 
@@ -85,16 +85,16 @@ for c in range(97630, 97640):
     for d in range(51385, 51392):        
         if recs[c,d] == 1:
             pass # already one
-        elif (sum(recs[0:c, d]) % 2) == 0: 
-            pass
-        elif (sum(recs[c:99999, d]) % 2) == 0: 
-            pass
-        elif (sum(recs[c, 0:d]) % 2) == 0: 
-            pass
-        elif (sum(recs[c, d:99999]) % 2) == 0: 
-            pass
-        else: 
+        elif (sum(recs[0:c, d]) % 2) == 1: 
             recs[c,d] = 1
+        elif (sum(recs[c:99999, d]) % 2) == 1: 
+            recs[c,d] = 1
+        elif (sum(recs[c, 0:d]) % 2) == 1: 
+            recs[c,d] = 1
+        elif (sum(recs[c, d:99999]) % 2) == 1: 
+            recs[c,d] = 1
+        else: 
+            pass
 
 recs[97630:97640, 51385:51392]
 
@@ -102,7 +102,7 @@ recs[97630:97640, 51385:51392]
 
 This isn't working.
 
-Hint from Reddit: compress the corrdinates. Let's write a thing to see what the gaps are and if we can reduce the size of the grid. Check all the differences.
+Hint from Reddit: compress the coordinates. Let's write a thing to see what the gaps are and if we can reduce the size of the grid. Check all the differences.
 
 ```{python}
 
@@ -159,7 +159,7 @@ plt.show()
 
 ```
 
-Okay, so, there's a minimum limit for the y values, can we just put that in our loop for part one? Probably
+So, there's a minimum limit for the y values, can we just put that in our loop for part one? Probably
 
 The weird jump in the data:
 
@@ -200,3 +200,33 @@ maxim
 Attempt 3 (of this phase): there are individual ins and outs around the place.
 
 We could create a list of valid points by creating a new circle with simple up / down / left / right movements.
+
+I think we can test if any points are in the square, and that means the square is not complete, and not valid.
+
+```{python}
+
+maxim = 0
+
+def valid_square(x1, x2, y1, y2): 
+    for k in tiles[:10]: 
+        if (x1 < k[0] < x2) and (y1 < k[1] < y2):
+            # print(k, x1, x2, y1, y2)
+            return False
+        else: 
+            return True
+
+def calc_area(x1, x2, y1, y2): 
+    return (x2 - x1 + 1) * (y2 - y1 + 1)
+
+for i in tiles: 
+    for j in tiles: 
+        x1, x2 = min(i[0], j[0]), max(i[0], j[0])
+        y1, y2 = min(i[1], j[1]), max(i[1], j[1])
+        # make our checks 
+        if calc_area(x1, x2, y1, y2) > maxim: 
+            if valid_square(x1, x2, y1, y2): 
+                maxim = area
+            
+maxim
+
+```
