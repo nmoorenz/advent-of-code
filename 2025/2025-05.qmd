@@ -5,20 +5,107 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 5: Cafeteria ---
+
+Some ingredients are fresh and some are spoiled in the elf cafeteria.
+
+Process the database file from the new inventory management system. How many of the available ingredient IDs are fresh?
 
 ```{python}
 
 with open('data-2025-05.txt', 'r') as f:
     inp = f.read().splitlines()
 
+ranges = inp[:185]
+
+ranges = [[int(r.split('-')[0]), int(r.split('-')[1])] for r in ranges]
+
+ing = inp[186:]
+
+ing = [int(i) for i in ing]
+
 ```
 
-Maybe write an explanation of the solution approach here
+Loops
 
 ```{python}
-# here's another python cell for good luck
 
+count_me = 0
+
+for i in ing: 
+    for r in ranges: 
+        if r[0] <= i <= r[1]: 
+            count_me += 1
+            break 
+
+count_me
+
+# 888
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Look at the range of IDs to see how many ingredients could possible be fresh.
+
+Process the database file again. How many ingredient IDs are considered to be fresh according to the fresh ingredient ID ranges?
+
+Process sequentially after sorting the list. This should give us overlapping ranges. When there are no more overlapping ranges we can use minimum and maximum + 1 to get number of fresh ingredients.
+
+```{python}
+
+# not overlap, take this one
+t -- t 
+       n -- n
+
+# no special cases, just take the max of second element
+t -- t 
+n ---- n 
+
+# 
+t -- t 
+  n -- n
+
+
+# 
+t -- t
+  n-n
+
+# 
+t -- t
+  n--n 
+  
+  
+```
+
+```{python}
+
+# check if they are increasing
+for r in ranges: 
+    if r[0] > r[1]: 
+        print('bad')
+        
+# sort for ease of use        
+ranges.sort(key=lambda x: (x[0], x[1]))
+
+count_me = 0
+this = ranges[0]
+
+for s in range(len(ranges) - 1): 
+    next = ranges[s+1]
+    
+    # see if they overlap
+    if this[1] < next[0]: 
+        # they do not overlap, this range can be added
+        count_me += this[1] - this[0] + 1
+        this = next[:]
+    else: 
+        # they do overlap, we need some memory of ranges
+        this[1] = max(this[1], next[1])
+        
+count_me += this[1] - this[0] + 1
+
+count_me
+
+# 904625236266855 too high
+# 344378119285354
+```

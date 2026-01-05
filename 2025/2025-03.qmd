@@ -57,19 +57,38 @@ If the 89th character is a 9, and there are no 9s before that, then whatever com
 
 Need to find the position of the maximum, and then the next maximum from that position until L-10, and then the next from L-9, etcetera.
 
-`max()` of a string works
+`max()` of a string works, that's nice
 
 ```{python}
 
 summer = 0
 
-for b in inp[:1]: 
-    curr = [] # current list of digits
-    pos = -1
+for b in inp: 
+    # current list of digits, make this an integer later
+    curr = [] 
+    # search from this position until the end, update each time
+    pos = 0 
+    # work backwards to find the digits
+    # we can search up until this position
     for z in range(11, -1, -1): 
-        px = pos + 1
-        nxt = max(b[px:-z])
-        pos = b[px:].find(nxt) + px
-        print(nxt, pos, px)
+        # find the next number
+        if z == 0: 
+            nxt = max(b[pos:])
+        else: 
+            nxt = max(b[pos:-z])
+        # find the position of that number
+        pn = b[pos:].find(nxt) 
+        # update our search parameters
+        pos = pos + pn + 1
+        # checks
+        # print(nxt, pos, pn)
+        # append
+        curr += [nxt]
+    # add to our count
+    summer += int(''.join(curr))
         
+summer
+
+# 172681562473501 
+
 ```

@@ -41,9 +41,9 @@ for i in range(140):
             d = 1 if j == 139 else 2
             # a little easier for our object 
             assess = roll[i-a:i+b, j-c:j+d]
-            # assess
+            # assess, remove itself
             if np.count_nonzero(assess == '@') - 1 < 4: 
-                # remove the current roll
+                # pick up the current roll
                 summer += 1
                 
 summer

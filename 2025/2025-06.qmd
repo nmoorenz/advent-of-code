@@ -5,20 +5,84 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 6: Trash Compactor ---
+
+Can we help the cephalopod with their math homework?
+
+Solve the problems on the math worksheet. What is the grand total found by adding together all of the answers to the individual problems?
 
 ```{python}
+
+import math
 
 with open('data-2025-06.txt', 'r') as f:
     inp = f.read().splitlines()
 
+mth = [i.split() for i in inp]
+
+nums = [[int(j) for j in m] for m in mth[:4]]
+
+ops = mth[4]
+
 ```
 
-Maybe write an explanation of the solution approach here
+This seems reasonable simple, and in fact I did it in a google sheet on the train to start with.
 
 ```{python}
-# here's another python cell for good luck
 
+summer = 0
+
+for a,b,c,d,f in zip(nums[0], nums[1], nums[2], nums[3], ops): 
+    # a, b, c, d, f
+    if f == '+': 
+        summer += a + b + c + d
+    else: 
+        summer += a * b * c * d
+
+summer
+
+# 6417439773370
+    
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Actually, the problem is different. (Classic advent of code). The numbers are right to left in columns.
+
+Solve the problems on the math worksheet again. What is the grand total found by adding together all of the answers to the individual problems?
+
+```{python}
+
+mth = [list(i) for i in inp[:4]]
+
+ops = inp[4].split()
+
+summer = 0
+upto = -1
+zz = []
+
+for r in range(len(mth[0])-1, -2, -1):
+    # loop backwards and collect numbers as we go
+    this = mth[0][r] + mth[1][r] + mth[2][r] + mth[3][r]
+    if this == '    ' or r == -1:
+        # we have reached a gap, do the math
+        # zz
+        if ops[upto] == '+': 
+            summer += sum(zz)
+        else: 
+            summer += math.prod(zz)
+        zz = []
+        upto -= 1
+    else: 
+        # add this to the list
+        zz.append(int(this.strip()))
+
+
+summer
+
+# 11043422779703 too low
+# 11044319475191 manually working out with the last set
+# make sure we include the last set by going to -2 
+# then doing the math
+
+```

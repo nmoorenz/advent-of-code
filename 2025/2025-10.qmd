@@ -5,20 +5,222 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 10: Factory ---
+
+Press some buttons and turn on some lights. Ignore the joltage for now.
+
+Analyze each machine's indicator light diagram and button wiring schematics. What is the fewest button presses required to correctly configure the indicator lights on all of the machines?
 
 ```{python}
+
+import numpy as np 
+import random
 
 with open('data-2025-10.txt', 'r') as f:
     inp = f.read().splitlines()
 
+lights = [i.split() for i in inp]
+
+bins = []
+
+# https://stackoverflow.com/a/38311834
+replacements = {'.': 0, '#': 1}
+replacer = replacements.get
+
+def convert_butts(bb, k): 
+    bl = []
+    for b in bb: 
+        c = b[1:-1].split(',')
+        c = [int(z) for z in c]
+        d = [int(i in c) for i in range(k)]
+        bl.append(d)
+    return bl
+    
+    
+# preparation
+for l in lights[:]: 
+    # convert the lights to binary list
+    ind = list(l[0][1:-1])
+    ind = [replacer(n, n) for n in ind]
+    # convert the joltage to list of integers
+    jolt = l[-1][1:-1].split(',')
+    jolt = [int(j) for j in jolt]
+    # convert the button lists into binary lists
+    butt = l[1:-1]
+    butt = convert_butts(butt, len(ind))
+    bins.append([ind, butt, jolt])
+    
+    
+# bins
 ```
 
-Maybe write an explanation of the solution approach here
+That's quite a lot of preparation! But I think we are on the right path.
+
+I think we need to do some matrix multiplication, for the number of each button press, to equal the light indicators. Pushing a button more than once means wasted operations - turning the lights on then off again, which is pointless. Watch out for this in part two, I'm sure!
+
+Counting to 10 bits in binary is not ideal, but we will go with it.
+
+Is it actually multiplication? Could just be addition. It's more like a sumproduct?
 
 ```{python}
-# here's another python cell for good luck
+
+summer = 0
+
+for b in bins: 
+    # loop all the things
+    # create high number for initial comparison
+    num = 999
+    # length of lights
+    # b
+    # b[0]
+    j = len(b[0])
+    k = len(b[1])
+    # j,k
+    # loop our binary number of times for buttons
+    for m in range(2**k-1):
+        # m
+        s = list(bin(m))[2:]
+        s = [int(t) for t in s]
+        s = [0]*(k-len(s)) + s
+        # s
+        v = [0] * j
+        # # do the math
+        for t in range(k):
+            if s[t] == 1:
+                v = [sum(x) for x in zip(v,b[1][t])]
+        
+        # do a comparison to see if the lights are correct
+        # if they are correct, check if it's a good solution
+        # replace num
+        v = [w % 2 for w in v]
+        # v
+        if v == b[0]:
+            # v
+            # s
+            if sum(s) < num: 
+                num = sum(s)
+    
+    # once we have checked all the possibilities, update summer
+    summer += num
+
+
+summer
+```
+
+## --- Part Two ---
+
+Now we have to worry about the joltage requirements. We can press the buttons as many times as we like.
+
+Analyze each machine's joltage requirements and button wiring schematics. What is the fewest button presses required to correctly configure the joltage level counters on all of the machines?
+
+Keep doing a similar loop to the above and we will sooner or later find the right one. Is it always going to be the first combination we find? Let's try it and see.
+
+```{python}
+
+mx = 0
+
+for b in bins: 
+    # test the maximum of the joltage
+    if max(b[2]) > mx:
+        mx = max(b[2])
+        
+    # the differences in highest and lowest joltage for each row
+    # max(b[2]) - min(b[2])
+    
+    # the length of each button list
+    # if len(b[1]) >10:
+    #     b
+
+# mx
 
 ```
 
-Paste part two here
+We have to go through 305 times, at least, just in case the right combination doesn't come along in that time. Let's assume it does at first. We can figure the maximum for each loop. But we also have to find a way to efficiently try different numbers of button presses up to that maximum.
+
+There's also a minimum we have - the smallest number in the joltage. That helps us a little bit.
+
+Is there just one answer for each thing or could there be many? We could try an optimisation technique for linear programming, move around until we get a better answer. "If this number needs to go up then increase one of the lists that has that index in it". Or: "if this change decreases the difference between our current joltage and the required joltage then make the change". Enumerating the options for this is probably better than brute force.
+
+```{python}
+
+summer = 0
+
+for b in bins[:2]: 
+    # loop all the things
+    # create high number for initial comparison
+    num = 9999
+    # length of lights
+    # b
+    # b[0]
+    j = len(b[2])
+    k = len(b[1])
+    # j,k
+    # np array of buttons
+    bnp = np.array(b[1])
+    # minimum and maximum of target
+    mn = min(b[2])
+    mx = max(b[2])
+    # create initial button press list
+    press = np.array([random.randint(mn, mx) for _ in range(k)])
+    press
+    
+    bnp.T.dot(press)
+
+    # once we have checked all the possibilities, update summer
+    summer += num
+
+
+summer
+```
+
+Insight 1: There is likely to be at least one press of each button. We can't count on that because Advent of Code, but it's likely.
+
+Insight 2: The sum of the joltage numbers divided by the sum of the button numbers gives us the average number of presses for each button.
+
+There's going to be some weird scenarios where `[0,1,0], [0,0,1]` needs to equal `[0,3,47]`. Do I start at zero and make my way up? What movement gets us closer to the objective. Yeah, I think this takes me back to a linear program.
+
+<https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.milp.html>
+
+```{python}
+
+from scipy.optimize import LinearConstraint, milp
+
+obj = np.array([1,1,1,1,1])
+
+lhs = np.array(bins[0][1]).T
+
+rhs = bins[0][2]
+
+constraints = LinearConstraint(lhs, rhs, rhs)
+integrality = np.ones_like(obj)
+
+res = milp(c=obj, constraints=constraints, integrality=integrality)
+
+res.x
+
+sum(res.x)
+```
+
+Yeah fuck yeah
+
+```{python}
+
+summer = 0
+
+for b in bins: 
+    obj = np.array([1]*len(b[1]))
+    # np array of buttons
+    lhs = np.array(b[1]).T
+    # target joltage
+    rhs = b[2]
+    # problem specification and solution
+    constraints = LinearConstraint(lhs, rhs, rhs)
+    integrality = np.ones_like(obj)
+    res = milp(c=obj, constraints=constraints, integrality=integrality)
+    # add the result
+    summer += sum(res.x)
+
+
+int(summer)
+
+```

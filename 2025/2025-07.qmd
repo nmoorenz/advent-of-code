@@ -5,20 +5,111 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 7: Laboratories ---
+
+We have to make a teleporter work, by directing some lasers through Tachyon Manifolds.
+
+Analyze your manifold diagram. *How many times will the beam be split?*
 
 ```{python}
+
+import numpy as np
 
 with open('data-2025-07.txt', 'r') as f:
     inp = f.read().splitlines()
 
+lists = [list(i) for i in inp]
+
+tach = np.array(lists)
+
 ```
 
-Maybe write an explanation of the solution approach here
+The upper bound of this is the number of splitters i.e. \^ in the input. Not all of them will be hit by lasers.
 
 ```{python}
-# here's another python cell for good luck
+
+tach = np.array(lists)
+
+summer = 0
+
+for v in range(len(tach)): 
+    for w in range(len(tach[v])): 
+        if tach[v,w] == 'S': 
+            # v,w
+            tach[v+1,w] = '|'
+        elif v == 0: 
+            # we can only find S on row 0, skip this
+            # there can't be any lasers and we can't test the row above
+            pass
+        elif tach[v,w] == '.' and tach[v-1,w] == '.': 
+            # no beams, don't do anything
+            pass
+        elif tach[v,w] == '^' and tach[v-1,w] == '.': 
+            # no beams meeting this splitter, skip
+            pass
+        elif tach[v,w] == '.' and tach[v-1,w] == '|': 
+            # extend the beam downwards
+            tach[v,w] = '|'
+        elif tach[v,w] == '^' and tach[v-1,w] == '|': 
+            # split the beam
+            summer += 1
+            tach[v,w-1] = '|'
+            tach[v,w+1] = '|'
+        elif tach[v,w] == '.' and tach[v-1,w] == '^': 
+            # covering off possibilities, do nothing here
+            pass
+        elif tach[v,w] == '|' and tach[v-1,w] == '.': 
+            # covering off possibilities, do nothing here
+            pass
+        elif tach[v,w] == '|' and tach[v-1,w] == '|': 
+            # covering off possibilities, do nothing here
+            pass
+        else: 
+            # this is just for S, | when we go through tach[1]
+            print('what are the other options?')
+            tach[v-1,w], tach[v,w]
+
+summer
+
+# 1675
+```
+
+## --- Part Two ---
+
+Apply the many-worlds interpretation of quantum tachyon splitting to your manifold diagram. In total, how many different timelines would a single tachyon particle end up on?
+
+If I do the same loop, but I don't count instances where there is already a beam, does that get me the right answer?
+
+Ah - instead of counting each split as one, each split is now two possible paths, but it's not always strictly double? Could it be as simple as 2n-1? n\*\*2? No, that's too low.
+
+Looking through a bunch of examples on reddit I still don't fully get it but this one was the most helpful.
+
+<https://www.reddit.com/r/adventofcode/comments/1pg9w66/comment/nsv7z78/>
+
+There are a bunch of others in the thread of course.
+
+```{python}
+
+curr = [0]*len(inp[0])
+
+curr[inp[0].index('S')] = 1
+
+p1, p2 = 0, 1
+for i in inp[1:]:
+    for col in range(len(curr)):
+       if curr[col] > 0 and i[col] == '^':
+          p1 += 1
+          p2 += curr[col]
+          curr[col-1] += curr[col]
+          curr[col+1] += curr[col]
+          curr[col] = 0
+
+print(p1, p2)
 
 ```
 
-Paste part two here
+I also quite like this object oriented approach with classes and functions
+
+<https://github.com/RD-Dev-29/advent_of_code_25/blob/main/code_files/day7.py>
+
+This is a slightly different but common approach, create a dictionary and track the timelines.
