@@ -15,6 +15,7 @@ Using two red tiles as opposite corners, what is the largest area of any rectang
 
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 
 with open('data-2025-09.txt', 'r') as f:
@@ -48,7 +49,9 @@ The area can only have red or green tiles, i.e. must contain other areas within 
 
 Using two red tiles as opposite corners, *what is the largest area of any rectangle you can make using only red and green tiles?*
 
-I think we are going to have to create an array with these tiles, and then test things out. Can we be efficient with that? Maybe.
+I think we are going to have to create an array with these tiles, and then test things out. Can we be efficient with that? Maybe. `dtype='i1'` seems to be the smallest numpy array type.
+
+Create a rectangle, and if the sum of all the cells inside equals the number of cells, then we have a valid rectangle.
 
 ```{python}
 
@@ -100,7 +103,7 @@ recs[97630:97640, 51385:51392]
 
 ```
 
-This isn't working.
+This isn't working, there should be ones and zeros?
 
 Hint from Reddit: compress the coordinates. Let's write a thing to see what the gaps are and if we can reduce the size of the grid. Check all the differences.
 
@@ -108,8 +111,20 @@ Hint from Reddit: compress the coordinates. Let's write a thing to see what the 
 
 c1 = {}
 c2 = {}
+t0 = {}
+t1 = {}
 
 for e, t in enumerate(tiles):
+    # look at the tiles first
+    if t[0] in t0.keys(): 
+        t0[t[0]] += 1
+    else: 
+        t0[t[0]] = 1
+    if t[1] in t1.keys(): 
+        t1[t[1]] += 1
+    else: 
+        t1[t[1]] = 1
+    # compare this and the last 
     s = tiles[e-1]
     if s[0] == t[0]: 
         # add to c2
@@ -126,11 +141,13 @@ for e, t in enumerate(tiles):
         else: 
             c1[cn] = 1
         
-c1
-c2
+# c1
+# c2
+# t0
+# t1
 ```
 
-Okay, there's no consistency here that I can immediately see.
+Okay, there's no consistency here that I can immediately see. I could just do the ins and outs by interval of one but let's check other things.
 
 ```{python}
 
@@ -138,14 +155,20 @@ Okay, there's no consistency here that I can immediately see.
 x = [t[0] for t in tiles]
 y = [t[1] for t in tiles]
 
-# plt.scatter(x, y)
-# ax = plt.gca()
-# ax.set_xlim([90000, 100000])
-# ax.set_ylim([45000, 55000])
-# plt.show()
+plt.scatter(x, y)
+ax = plt.gca()
+plt.axis('auto')
+plt.show()
+
+
+```
+
+```{python}
+
 
 xx = np.vstack([x[0:-1:1],x[1::1]])
 yy = np.vstack([y[0:-1:1],y[1::1]])
+
 plt.plot(xx,yy, '-o')
 # plt.axis('auto')
 ax = plt.gca()
@@ -155,7 +178,6 @@ ax.set_xlim([90000, 100000])
 ax.set_ylim([45000, 55000])
 plt.show()
 
-# line, = ax.plot(x, y, 'ro-')
 
 ```
 
@@ -167,7 +189,7 @@ The weird jump in the data:
 
 94553,48602
 
-We can have regions above or below the gap! Not just to the right hand side of it. Obviously.
+We can have regions above or below the gap! Not above and below, and not to the right hand side of it. Obviously.
 
 In fact, it's only going to be above or below, so we only need to test \< 48602 with each other and \> 50158 with each other.
 
@@ -197,36 +219,122 @@ maxim
 # 3078193230 too high
 ```
 
-Attempt 3 (of this phase): there are individual ins and outs around the place.
+Attempt 3: there are individual ins and outs around the place.
 
-We could create a list of valid points by creating a new circle with simple up / down / left / right movements.
+We could create a list of valid points by creating a new circle with simple up / down / left / right movements. Nah.
 
 I think we can test if any points are in the square, and that means the square is not complete, and not valid.
+
+<https://www.reddit.com/r/adventofcode/comments/1ptp0pw/2025_day_9_part_2_help/>
+
+<https://www.reddit.com/r/adventofcode/comments/1pkvkvs/2025_day_9_part_2_need_a_hint_for_part_2/>
+
+This suggests I'm on the right track but could make the code below a bit better.
 
 ```{python}
 
 maxim = 0
 
-def valid_square(x1, x2, y1, y2): 
-    for k in tiles[:10]: 
-        if (x1 < k[0] < x2) and (y1 < k[1] < y2):
-            # print(k, x1, x2, y1, y2)
+above = 50158
+below = 48602
+
+printer = False
+
+# max 496
+sample_num = 496
+
+# max = 496**2 = 246016
+rounds = 100000
+
+
+def above_or_below(i1, j1): 
+    if i1 <= below and j1 <= below: 
+        return 'below'
+    elif i1 >= above and j1 >= above: 
+        return 'above'
+    else: 
+        return None
+    
+
+def calc_area(i, j): 
+    x1, x2 = min(i[0], j[0]), max(i[0], j[0])
+    y1, y2 = min(i[1], j[1]), max(i[1], j[1])
+    if printer: print(x1, x2, y1, y2)
+    a = (x2 - x1 + 1) * (y2 - y1 + 1)
+    return a, [x1, x2, y1, y2]
+
+
+def check_sample(ab): 
+    samples = random.sample(tiles, sample_num)
+    if ab == 'above': 
+        goodsample = [x for x in samples if x[1] > above]
+    else:
+        goodsample = [x for x in samples if x[1] < below]
+    # return
+    return goodsample
+    
+    
+def valid_square(xy, ab): 
+    # choose some random points to validate
+    samples = check_sample(ab)
+    # loop through if they are the same side
+    for k in samples: 
+        if printer: print(k, xy)
+        # check if inside the square
+        if (xy[0] < k[0] < xy[1]) and (xy[2] < k[1] < xy[3]):
+            if printer: print('False')
             return False
-        else: 
-            return True
+    # if we make it through then 
+    return True
 
-def calc_area(x1, x2, y1, y2): 
-    return (x2 - x1 + 1) * (y2 - y1 + 1)
 
+# 
+# for k in range(rounds):
+#     if printer: print('round: ', str(k))
+#     # choose elements
+#     i = random.choice(tiles)
+#     j = random.choice(tiles)
+#     # weirdly get the same thing, skip this
+#     if i == j: 
+#         if printer: print('same!')
+#         continue
+#     # we only want to check same side of the gap
+#     ab = above_or_below(i[1], j[1])
+#     if printer: print(ab)
+#     if ab: 
+#         aa, xy = calc_area(i,j)
+#         if printer: print(aa)
+#         # if we have a larger area than before
+#         if aa > maxim: 
+#             # if we have a valid square
+#             if valid_square(xy, ab): 
+#                 maxim = aa
+                
 for i in tiles: 
     for j in tiles: 
-        x1, x2 = min(i[0], j[0]), max(i[0], j[0])
-        y1, y2 = min(i[1], j[1]), max(i[1], j[1])
-        # make our checks 
-        if calc_area(x1, x2, y1, y2) > maxim: 
-            if valid_square(x1, x2, y1, y2): 
-                maxim = area
-            
+        if i == j: 
+            if printer: print('same!')
+            continue
+        # we only want to check same side of the gap
+        ab = above_or_below(i[1], j[1])
+        if printer: print(ab)
+        if ab: 
+            aa, xy = calc_area(i,j)
+            if printer: print(aa)
+            # if we have a larger area than before
+            if aa > maxim: 
+                # if we have a valid square
+                if valid_square(xy, ab): 
+                    # print(aa)
+                    maxim = aa        
+         
 maxim
+
+# 1366028560
+# 1153416880
+# 1366028560
+# 1054417572
+# 1366028560
+# 1562459680
 
 ```
