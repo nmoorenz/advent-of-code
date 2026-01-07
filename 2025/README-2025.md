@@ -8,10 +8,10 @@
 6 ★ ★\
 7 ★ ★\
 8 ★ ★\
-9 ★\
+9 ★ ★\
 10 ★ ★\
 11 ★ ★\
-12 ★
+12 ★ ★\
 
 ### Day 1
 
@@ -28,7 +28,7 @@
 
 -   Simple enough to split a number in half and check if it is repeated. I tried to be efficient for 8 and 10 digit numbers, but brute force for smaller ranges.
 -   Part two can be any type of repeat, and I really thought I had it sorted while trying to be efficient.
--   Turns out that brute force helps for checking things and found two bugs. 
+-   Turns out that brute force helps for checking things and found two bugs.
 
 ### Day 3
 
@@ -70,7 +70,7 @@
 
 -   Loop the array and make sure we count and split the beams as we go
 -   First read through: huh?
--   Read some examples from Reddit and find a good example to copy. 
+-   Read some examples from Reddit and find a good example to copy.
 
 ### Day 8
 
@@ -83,11 +83,12 @@
 ### Day 9
 
 1.  Find the largest rectangle between any two points
-2.  Find the largest rectangle between any two points that only contains other points within it. 
+2.  Find the largest rectangle between any two points that only contains other points within it.
 
 -   Calculate all the areas and get the largest
 -   Attempt 1: of course there are complications with the calculations
--   
+-   Attempt 2: draw some charts and figure out what's wrong
+-   Attempt 3: be more careful with restricting what I'm testing for improved speed
 
 ### Day 10
 
@@ -104,7 +105,7 @@
 
 -   Found a new-to-me library `networkx`
 -   Attempt 1: figured out the order of the intermediate nodes, which makes things seemingly more solvable, but didn't get right answer.
--   Attempt 2: take some code from reddit. I was on the right track, just needed to try some longer paths, much more calculation time. 
+-   Attempt 2: take some code from reddit. I was on the right track, just needed to try some longer paths, much more calculation time.
 
 ### Day 12
 
@@ -112,3 +113,5 @@
 2.  Earn the stars from the other days.
 
 -   There are quite a lot of shapes, so there are going to be lots of good permutations, just check the area!
+-   People are mad about this one online
+-   The easter egg (I had forgotten about these!) from the puzzle creator says: *I need to throw in a puzzle like this occasionally to keep everyone on their toes, right?*
