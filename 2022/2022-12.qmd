@@ -5,20 +5,88 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 12: Hill Climbing Algorithm ---
+
+You have a heightmap of your surrounding area, and need to get from start S to end E. You can only go one step higher i.e. a to b, b to c etc
+
+*What is the fewest steps required to move from your current position to the location that should get the best signal?*
 
 ```{python}
+
+import networkx as nx
+import numpy as np
+import itertools
 
 with open('data-2022-12.txt', 'r') as f:
     inp = f.read().splitlines()
 
+map_list = [list(i) for i in inp]
+
+# map array
+mp = np.array(map_list)
+
 ```
 
-Maybe write an explanation of the solution approach here
+Right?
+
+<https://networkx.org/documentation/stable/reference/algorithms/shortest_paths.html>
+
+Then loop through and add edges of possible movement. 41\*70 = 2870 nodes, should be fine.
 
 ```{python}
-# here's another python cell for good luck
 
+G = nx.DiGraph()
+
+def updownleftright(i,j): 
+    if i == 0: 
+        ud = [[1,0]]
+    elif i == 40: 
+        ud = [[-1,0]]
+    else: 
+        ud = [[1,0], [-1,0]]
+    if j == 0: 
+        lr = [[0,1]]
+    elif j == 69: 
+        lr = [[0,-1]]
+    else: 
+        lr = [[0,-1],[0,1]]
+    return ud + lr
+
+
+for i in range(len(mp)): 
+    for j in range(len(mp[0])): 
+        # print(mp[i,j])
+        if mp[i,j] == 'S': 
+            starter = str(i) + '-' + str(j)
+            # I know I can only go up, down, left
+            # add edges
+            G.add_edge(starter, str(i-1) + '-' + str(j), weight=1)
+            G.add_edge(starter, str(i+1) + '-' + str(j), weight=1)
+            G.add_edge(starter, str(i) + '-' + str(j+1), weight=1)
+        # elif mp[i,j] == 'E': 
+            # I can't have any links / don't want any links going out of end
+        else: 
+            # test the movements of surrounding cells
+            ways = updownleftright(i,j)
+            for m in ways: 
+                if mp[i+m[0],j+m[1]] <= mp[i,j]: 
+                    G.add_edge(str(i) + '-' + str(j), 
+                               str(i+m[0]) + '-' + str(j+m[1]),
+                               weight=1)
+                else: 
+                    G.add_edge(str(i) + '-' + str(j), 
+                               str(i+m[0]) + '-' + str(j+m[1]),
+                               weight=9999)
+
+S = np.transpose(np.nonzero(mp == 'S'))[0].tolist()
+E = np.transpose(np.nonzero(mp == 'E'))[0].tolist()
+
+S_E = nx.shortest_path(G,
+                       source='-'.join(map(str,S)),
+                       target='-'.join(map(str,E)),
+                       weight="weight")
+
+len(S_E)
 ```
 
 Paste part two here

@@ -18,7 +18,7 @@ with open('data-2023-05.txt', 'r') as f:
 
 ```
 
-Redoing this one in an attempt to keep the input off github. Need to parse the input into list of lists. Using line numbers is fine: as long as I get those numbers correct. Ugh. 
+Redoing this one in an attempt to keep the input off github. Need to parse the input into list of lists. Using line numbers is fine: as long as I get those numbers correct. Ugh.
 
 ```{python}
 
@@ -137,7 +137,7 @@ We only need to assess the ranges, since we know that anything in between is wit
 
 Problem: our ranges could expand, which means that if we start with passing one pair into the function, and we return two pairs of mappings, then we need to somehow loop through that list as we go through the different mappings. This means we should just pass the whole list through to the function in the first place, working with the different mapping lists as we go.
 
-2024 update: we need to sort by the second element of the mapping lists, because we are relying on the order of the ranges. Or, another update, why don't we just convert these into more logical and useful expressions? 
+2024 update: we need to sort by the second element of the mapping lists, because we are relying on the order of the ranges. Or, another update, why don't we just convert these into more logical and useful expressions?
 
 ```{python}
 # seed_to_soil
@@ -170,7 +170,6 @@ light_to_temperature.sort(key = lambda x: x[0])
 temperature_to_humidity.sort(key = lambda x: x[0])
 humidity_to_location.sort(key = lambda x: x[0])
 ```
-
 
 ```{python}
 

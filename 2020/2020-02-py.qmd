@@ -1,0 +1,77 @@
+---
+title: "Advent of Code 2020 Day 2"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 2: Password Philosophy ---
+
+The North Pole Toboggan Rental Shop needs help with validating some passwords.
+
+*How many passwords are valid* according to their policies?
+
+```{python}
+
+with open('data-2020-02.txt', 'r') as f:
+    inp = f.read().splitlines()
+
+```
+
+Create a nice list for things
+
+```{python}
+
+# split with spaces
+# split lo and hi
+# integers!
+# don't want the colon
+def get_things(line):
+  nums, lett, pw = line.split()
+  lo, hi = nums.split("-")
+  lo = int(lo)
+  hi = int(hi)
+  lett = lett.strip(":")
+  return lo, hi, lett, pw
+
+# list comprehend that business
+my_lines = [get_things(d) for d in inp]
+
+```
+
+Now do the calculations and counting
+
+```{python}
+
+# count how many things and check
+def count_letters(lo, hi, lett, pw):
+  cnt = pw.count(lett)
+  return (lo <= cnt and cnt <= hi)
+  
+# do the check and sum
+count_a = [count_letters(*line) for line in my_lines]
+sum(count_a)
+
+```
+
+## --- Part Two ---
+
+The password rules are actually different!
+
+*How many passwords are valid* according to the new interpretation of the policies?
+
+```{python}
+
+# see if the position contains the letter
+# but only one of the positions
+def letter_pos(lo, hi, lett, pw): 
+  mt_lo = pw[lo-1] == lett
+  mt_hi = pw[hi-1] == lett
+  return (mt_lo ^ mt_hi)
+
+# do the check
+count_pos = [letter_pos(*line) for line in my_lines]
+sum(count_pos)
+
+
+```

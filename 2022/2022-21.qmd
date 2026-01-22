@@ -5,20 +5,285 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 21: Monkey Math ---
+
+The monkeys have some instructions for some math and you have to figure out what the monkey labelled `root` is going to say.
+
+However, your actual situation involves considerably more monkeys. *What number will the monkey named `root` yell?*
 
 ```{python}
+
+import re
 
 with open('data-2022-21.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+I think `eval()` will come in handy here
 
 ```{python}
-# here's another python cell for good luck
+
+# inp[0]
+
+calcs = {x.split(': ')[0]: x.split(': ')[1] for x in inp}
+
+# calcs['root']
+
+# check the length of our inputs
+lens = {1: 0, 2: 0, 4: 0, 11: 0}
+
+for k,v in calcs.items(): 
+    lens[len(v)] += 1
+
+# lens
+
+# hey, this one is weird, might it come up later? 
+for k,v in calcs.items():
+    if len(str(v)) == 4:
+        print(k, v)
+
+# this could be done earlier but let's do it explicitly
+for k,v in calcs.items():
+    if len(v) in [1,2,4]:
+          calcs[k] = int(v)
+
+
+i = 0
+while i < 50: 
+    i += 1
+    j = 0
+    for k,v in calcs.items():
+        if len(str(v)) == 11: 
+            a,b,c = re.split(r' * ', v)
+            # print(a,c)
+            # if i == 10: 
+            #     print(a,c)
+            #     print(calcs[a], calcs[c])
+            if isinstance(calcs[a], int) and isinstance(calcs[c], int):
+                j += 1
+                # protect this with int otherwise returns doubles
+                calcs[k] = int(eval(str(calcs[a]) + b + str(calcs[c])))
+                # print(calcs[k])
+    # print(j)
+
+
+calcs['root']
+# calcs['pgtp']
+# calcs['vrvh']
+```
+
+## --- Part Two ---
+
+Actually, `root` is an equality check, and `humn` is you. You have to say a number.
+
+*What number do you yell to pass `root`'s equality test?*
+
+This is very large and impossible to comprehend as a manual calculation. From below, we can see that the solution comes via reducing pgtp, but we have to trace that back 70 more steps.
+
+Note: there are 1363 numbers and 1363 calculations.
+
+```{python}
+
+import copy
+
+calcs = {x.split(': ')[0]: x.split(': ')[1] for x in inp}
+
+looking = 'humn'
+stored = []
+found = ''
+
+while True: 
+    for k,v in calcs.items():
+        if len(str(v)) == 11: 
+            a,b,c = re.split(r' * ', v)
+            if a == looking or c == looking:
+                # print(k)
+                found = k
+    stored.append(looking)
+    looking = copy.deepcopy(found)
+    found = ''
+    if 'root' in looking:
+        break
+
+len(stored)
 
 ```
 
-Paste part two here
+Why don't we try some random numbers and see what the outcomes are?
+
+Old code
+
+```{python}
+
+calcs = {x.split(': ')[0]: x.split(': ')[1] for x in inp}
+
+for k,v in calcs.items():
+    if len(v) in [1,2,4]:
+          calcs[k] = int(v)
+          
+# calcs['humn'] = 499
+
+for z in range(10**6, 10**9, 10**6):
+    calc2 = copy.deepcopy(calcs)
+    calc2['humn'] = z
+    i = 0
+    while i < 50: 
+        i += 1
+        for k,v in calc2.items():
+            if len(str(v)) == 11: 
+                a,b,c = re.split(r' * ', v)
+                if isinstance(calc2[a], int) and isinstance(calc2[c], int):
+                    # protect this with int otherwise returns doubles
+                    calc2[k] = int(eval(str(calc2[a]) + b + str(calc2[c])))
+                    # if k in stored: 
+                        # print(eval(str(calc2[a]) + b + str(calc2[c])))
+                        # print(calc2[k])
+    # z
+    calc2['pgtp']
+
+# calc2['pgtp']
+# calc2['vrvh']
+```
+
+```{python}
+
+# keep this because running part one messes with calcs
+calcs = {x.split(': ')[0]: x.split(': ')[1] for x in inp}
+
+for k,v in calcs.items():
+    if len(v) in [1,2,4]:
+          calcs[k] = int(v)
+          
+          
+# make this a function
+# coming back to this, we can make it better
+# start to populate a new dictionary
+# if the key exists, use the value
+# otherwise add it to the dict
+
+def evaluate_calcs(calcs): 
+    sums = {}
+    i = 0
+    while i < 50: 
+        # safety
+        i += 1
+        for k,v in calcs.items():
+            if k in sums.keys(): 
+                # the value is already in our answer dict
+                pass
+            elif isinstance(v, int): 
+                # the value can easily be added to our answer dict
+                sums[k] = v
+            elif len(str(v)) == 11: 
+                # we need to check if we can make the calculation
+                a,b,c = re.split(r' * ', v)
+                if a in sums.keys() and c in sums.keys():
+                    # protect this with int otherwise returns doubles
+                    sums[k] = int(eval(str(sums[a]) + b + str(sums[c])))
+    # return
+    return sums['pgtp'], sums['vrvh']
+
+
+evaluate_calcs(calcs)
+# 291425799367130
+
+calcs['humn'] = 1000
+evaluate_calcs(calcs)
+
+calcs['humn'] = 10000
+evaluate_calcs(calcs)
+
+calcs['humn'] = 100000
+evaluate_calcs(calcs)
+
+calcs['humn'] = 10**6
+evaluate_calcs(calcs)
+
+calcs['humn'] = 10**7
+evaluate_calcs(calcs)
+
+calcs['humn'] = 10**8
+evaluate_calcs(calcs)
+
+calcs['humn'] = 10**9
+evaluate_calcs(calcs)
+
+calcs['humn'] = 10**10
+evaluate_calcs(calcs)
+
+calcs['humn'] = 10**11
+evaluate_calcs(calcs)
+
+calcs['humn'] = 10**12
+evaluate_calcs(calcs)
+
+calcs['humn'] = 10**13
+evaluate_calcs(calcs)
+
+calcs['humn'] = 10**14
+evaluate_calcs(calcs)
+
+# somewhere between 10**12 and 10**13
+
+for h in range(10**12, 10**13, 10**12): 
+    calcs['humn'] = h
+    p, v = evaluate_calcs(calcs)
+    print(f"{h:,d}", f"{p:,d}", f"{v:,d}")
+    
+
+for h in range(3*10**12, 4*10**12, 10**11): 
+    calcs['humn'] = h
+    p, v = evaluate_calcs(calcs)
+    print(f"{h:,d}", f"{p:,d}", f"{v:,d}")
+        
+# I'm sure I could do this better but not too worried. 
+
+for h in range(32*10**11, 33*10**11, 10**10): 
+    calcs['humn'] = h
+    p, v = evaluate_calcs(calcs)
+    print(f"{h:,d}", f"{p:,d}", f"{v:,d}")
+        
+
+for h in range(321*10**10, 322*10**10, 10**9): 
+    calcs['humn'] = h
+    p, v = evaluate_calcs(calcs)
+    print(f"{h:,d}", f"{p:,d}", f"{v:,d}")
+        
+
+for h in range(3219*10**9, 3220*10**9, 10**8): 
+    calcs['humn'] = h
+    p, v = evaluate_calcs(calcs)
+    print(f"{h:,d}", f"{p:,d}", f"{v:,d}")
+        
+
+for h in range(32195*10**8, 32196*10**8, 10**6): 
+    calcs['humn'] = h
+    p, v = evaluate_calcs(calcs)
+    print(h, f"{p:,d}", f"{v:,d}")
+
+# gimme these plain so I can loop  
+# 3219579000000 90,565,420,748,535 90,565,407,195,785
+# 3219580000000 90,565,386,491,010 90,565,407,195,785
+
+for h in range(3219579000000, 3219580000000, 10000): 
+    calcs['humn'] = h
+    p, v = evaluate_calcs(calcs)
+    if abs(p-v) < 1000000: 
+        print(h, f"{p:,d}", f"{v:,d}")
+
+for h in range(3219579390000, 3219579400000, 100): 
+    calcs['humn'] = h
+    p, v = evaluate_calcs(calcs)
+    if abs(p-v) < 10000: 
+        print(h, f"{p:,d}", f"{v:,d}")
+
+
+for h in range(3219579395600, 3219579395616, 1): 
+    calcs['humn'] = h
+    p, v = evaluate_calcs(calcs)
+    if abs(p-v) < 10: 
+        print(h, f"{p:,d}", f"{v:,d}")
+                           
+# 3219579395609
+```

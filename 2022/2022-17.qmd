@@ -5,20 +5,68 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 17: Pyroclastic Flow ---
+
+Some rocks are falling down in the cave and are getting pushed around by jets of hot gas.
+
+*How many units tall will the tower of rocks be after 2022 rocks have stopped falling?*
 
 ```{python}
 
 with open('data-2022-17.txt', 'r') as f:
     inp = f.read().splitlines()
 
+len(inp[0])
+
+gas = inp[0] * 3
+
 ```
 
-Maybe write an explanation of the solution approach here
+Tetris, so. if we get to the end of the input we loop back to the beginning but we're probably OK, maybe use it three times? 2022 rocks, each moving down three blocks, but maybe more than that if there are gaps.
 
 ```{python}
-# here's another python cell for good luck
 
+rocks = '''
+####
+
+.#.
+###
+.#.
+
+..#
+..#
+###
+
+#
+#
+#
+#
+
+##
+##
+'''
+```
+
+Loop the rocks
+
+```{python}
+
+# looper for gas
+g = 0
+
+# looper for rocks
+r = 0
+
+for i in range(2022): 
+    # rock appears
+    
+    # do a loop for rock fall until it stops
+    
+        # gas moves first
+        
+        # move down one space, if it can
+    
+    
 ```
 
 Paste part two here

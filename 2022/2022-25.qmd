@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 25: Full of Hot Air ---
+
+You have to figure out the fuel requirements for some hot air balloons. There is some funky base-5 math going on
+
+The Elves are starting to get cold. *What SNAFU number do you supply to Bob's console?*
 
 ```{python}
 
@@ -14,11 +18,64 @@ with open('data-2022-25.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Weird base five arithmetic, but not really a different base because there are negatives.
 
 ```{python}
-# here's another python cell for good luck
+
+d5 = {'2': 2, 
+      '1': 1, 
+      '0': 0, 
+      '-': -1, 
+      '=': -2,
+      }
+
+max(inp, key=len)
+
+len(max(inp, key=len))
+
+nums = []
+
+for i in inp:
+    s = 0
+    for e,j in enumerate(reversed(i)): 
+        # print(j, e)
+        s += d5[j] * (5 ** e)
+    nums.append(s)
+ 
+sum(nums)
 
 ```
 
-Paste part two here
+Now to reverse engineer the special encoded number
+
+```{python}
+
+z = sum(nums)
+y = ''
+# z / (5 ** 19)
+# z - 2 * 5**19
+
+d5 = {2: '2', 
+      1: '1', 
+      0: '0', 
+      -1: '-', 
+      -2: '=',
+      }
+
+for x in range(19, -1, -1):
+    # print(x)
+    # print(z)
+    w = 5 ** x
+    v = z / w
+    # print(v)
+    if abs(v) > 0.5:
+        u = round(v)
+        y += d5[u]
+        z -= u * 5 ** x
+    else: 
+        y += str(0)
+    print(y)
+
+y
+
+```

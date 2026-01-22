@@ -13,3 +13,18 @@ This is primarily an RStudio Project, but can also be opened in VSCode, or whate
 For more on the mixture of code and prose, see [quarto.org](quarto.org)
 
 For more on this weird annual mix of code and somewhat pointless problem solving, see [adventofcode.com](adventofcode.com)
+
+```         
+[2025] 24* / 24*
+[2024] 24* / 50*
+[2023] 27* / 50*
+[2022] 26* / 50*
+[2021] 27* / 50*
+[2020] 50* / 50*
+[2019]  2* / 50*
+[2018]          
+[2017]          
+[2016]          
+[2015] 50* / 50*
+Total stars: 228*
+```

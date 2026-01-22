@@ -5,20 +5,37 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 16: Proboscidea Volcanium ---
+
+You're in a volcano! You have limited time to get the elephants (?) out of there. To help, you can release some pressure in some valves.
+
+Work out the steps to release the most pressure in 30 minutes. *What is the most pressure you can release?*
 
 ```{python}
+
+import re
 
 with open('data-2022-16.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+There sure does seem to be a lot of input manipulation in these questions.
 
 ```{python}
-# here's another python cell for good luck
 
+v = r'Valve ([A-Z]{2})'
+fr = r'.* rate=(\d+)'
+tun = r'.* (valves|valve) (.*)$'
+
+valves = {re.match(v, i)[1]: 
+          [int(re.match(fr, i)[1]), 
+          re.match(tun, i)[2].split(', ')]
+          for i in inp}
+
+valves
 ```
 
-Paste part two here
+We don't want to spend time opening valves that have no flow rate, but they might be able to get us to valves that do have good flow.
+
+Start at AA; None of the valves that come next have any flow, but some of them also lead back to AA, which is not helpful. Care needs to be taken when searching to not make loops. Don't go back to where we have already been.
