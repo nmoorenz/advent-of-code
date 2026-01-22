@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 13: Distress Signal ---
+
+You receive a signal you weren't expecting, a distress signal. But the packets of the signal are all jumbled.
+
+Determine which pairs of packets are already in the right order. *What is the sum of the indices of those pairs?*
 
 ```{python}
 
@@ -14,11 +18,43 @@ with open('data-2022-13.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+We need to organise these into pairs, with a record of the indices.
 
 ```{python}
-# here's another python cell for good luck
 
+pairs = []
+lines = 0
+
+for e,i in enumerate(inp): 
+    if (e) % 3 == 0: 
+        # print(inp[e],inp[e+1])
+        pairs.append([eval(inp[e]),eval(inp[e+1])])
+    
+    
 ```
 
-Paste part two here
+Loop through to see if we have good pairs
+
+```{python}
+
+
+ind = 0
+
+def assess(a,b):
+    if isinstance(a, list) and isinstance(b, list):
+        good = assess(a,b)
+    else: 
+        if a < b:
+            good = True
+    return good
+
+
+for e,p in enumerate(pairs):
+    # loop through the elements
+    # some kind of recursion?
+    for x,y in zip(p[0],p[1]):
+        good = assess(x,y)
+        if good:
+            ind += e
+            
+```

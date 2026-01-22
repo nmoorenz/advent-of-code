@@ -1,0 +1,71 @@
+---
+title: "Advent of Code 2020 Day 3"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 3: Toboggan Trajectory ---
+
+The toboggan you hire does not have much (any) steering.
+
+Starting at the top-left corner of your map and following a slope of right 3 and down 1, *how many trees would you encounter?*
+
+```{r}
+
+library(tidyverse)
+
+inputfile <- here::here("2020", "data-2020-03.txt")
+trees_slim <- read.delim(inputfile, header = FALSE)
+
+```
+
+Write a function for movement
+
+```{r}
+
+move_tobog <- function(rght, dwn, course) {
+  x_pos = 1
+  y_pos = 1
+  course_len = length(course[[1]])
+  width = str_count(course[[1]][1])
+  trees = 0
+  while (y_pos <= course_len) {
+    # check for tree
+    if (str_sub(course[[1]][[y_pos]], x_pos, x_pos) == "#") {
+      trees = trees + 1
+    }
+    # move the toboggan
+    x_pos <- (x_pos + rght) %% width
+    y_pos <- y_pos + dwn
+  }
+  return(trees)
+}
+
+# part one is right 3 down 1, part two is others
+paths <- tibble::tibble(
+  right = c(3, 1, 5, 7, 1), 
+  down = c(1, 1, 1, 1, 2)
+)
+
+```
+
+## --- Part Two ---
+
+Can we find the best way to get down?
+
+*What do you get if you multiply together the number of trees encountered on each of the listed slopes?*
+
+```{r}
+
+
+# the old map doing work
+paths_hits <- paths %>% 
+  mutate(
+    trees_hit = map2_dbl(right, down, move_tobog, trees_slim)
+  )
+
+# part two answer
+reduce(paths_hits$trees_hit, `*`)
+
+```

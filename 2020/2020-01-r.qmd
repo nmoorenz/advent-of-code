@@ -1,0 +1,70 @@
+---
+title: "Advent of Code 2020 Day 1"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 1: Report Repair ---
+
+The elves give you an expense report and need you to fix things up.
+
+Of course, your expense report is much larger. *Find the two entries that sum to `2020`; what do you get if you multiply them together?*
+
+```{r}
+
+library(tidyverse)
+
+input_file <- here::here("2020", "data-2020-01.txt")
+my_input <- readLines(input_file) %>% as.numeric()
+
+```
+
+Let's have a look at the data
+
+```{r}
+# for plotting
+df = as.data.frame(my_input)
+
+# have a look
+ggplot(df) + 
+  geom_histogram(aes(my_input))
+```
+
+```{r}
+
+# there is probably some value in sorting the list
+# lower values are likely to be included rather than two around 1000
+sorted_list = sort(my_input)
+
+# double loop
+for (x in seq_along(sorted_list)) {
+  for (y in seq_along(sorted_list)) {
+    if (sorted_list[[x]] + sorted_list[[y]] == 2020) {
+      print(sorted_list[[x]] * sorted_list[[y]])
+    }
+  }
+}
+
+```
+
+## --- Part Two ---
+
+Actually, find three numbers that sum to 2020.
+
+In your expense report, *what is the product of the three entries that sum to `2020`?*
+
+```{r}
+
+# triple loop
+for (x in seq_along(sorted_list)) {
+  for (y in seq_along(sorted_list)) {
+    for (z in seq_along(sorted_list)) {
+      if (sorted_list[[x]] + sorted_list[[y]] + sorted_list[[z]] == 2020) {
+        print(sorted_list[[x]] * sorted_list[[y]] * sorted_list[[z]])
+      }
+    }
+  }
+}
+
+```

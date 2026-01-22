@@ -1,5 +1,5 @@
 ---
-title: "Advent of Code 2020 Day 3"
+title: "Advent of Code 2020 Day 16"
 author: "Nathan Moore"
 format: html
 editor: visual
@@ -9,7 +9,7 @@ Write the Puzzle explanation here
 
 ```{python}
 
-with open('data-2020-03.txt', 'r') as f:
+with open('data-2020-16.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```

@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 20: Grove Positioning System ---
+
+We're going to the grove where the star fruit grows, but we need to figure out where that is.
+
+Mix your encrypted file exactly once. *What is the sum of the three numbers that form the grove coordinates?*
 
 ```{python}
 
@@ -14,11 +18,64 @@ with open('data-2022-20.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+We need to keep track of the original order, and the list of numbers being mixed.
 
 ```{python}
-# here's another python cell for good luck
 
+orig = [int(x) for x in inp]
+mix = [int(x) for x in inp]
+
+# print(mix)
+
+for o in orig: 
+    # find the current position of this one in mix
+    old_pos = mix.index(o)
+    # print(o, old_pos)
+    # work out the new index
+    new_pos = old_pos + o
+    if new_pos > len(orig): 
+        new_pos = new_pos - len(orig) + 1
+    if new_pos == 0: 
+        new_pos = len(orig)
+    # move
+    mix.insert(new_pos, mix.pop(old_pos))
+    # print to check
+    # print(mix)
+    
+    
+    
 ```
 
-Paste part two here
+Work out position 1000, 2000, 3000 after the value 0.
+
+```{python}
+
+# answer counter
+sums = 0
+
+# location of zero
+zz = mix.index(0)
+# zz
+
+# length of array for convenience
+ll = len(mix)
+
+# need each of these permissions
+for ii in [1000, 2000, 3000]: 
+    # don't need to loop, just find the position assuming we have looped around
+    rr = ii % ll
+    # can't be bigger than the array, take the length off
+    # because we start from position 0
+    rr += zz
+    if rr > ll: 
+        rr -= len(mix)
+    # print and record
+    # mix[rr]
+    sums += mix[rr]
+
+sums
+
+# -9675 incorrect
+# 3598 too low
+
+```

@@ -5,20 +5,226 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 22: Monkey Map ---
+
+There's a weird map, and a Grove Positioning System, and you need to figure out the password for the force field, because, of course.
+
+Follow the path given in the monkeys' notes. *What is the final password?*
 
 ```{python}
+
+import re
+import numpy as np
 
 with open('data-2022-22.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+Data ~~preparation~~ inspection first
 
 ```{python}
-# here's another python cell for good luck
 
+inp[0]
+inp[1]
+inp[-1]
+inp[-2]
+inp[-3]
+
+list(inp[0])
 ```
 
-Paste part two here
+Let's prepare the instructions
+
+```{python}
+
+instr = re.split(r'(\d+)', inp[-1])
+
+instr = instr[1:-1]
+
+for i in range(0, len(instr), 2):
+    instr[i] = int(instr[i])
+
+instr[:20]
+```
+
+Let's prepare the grid
+
+```{python}
+
+# inp[0]
+# inp[1]
+
+# for i in inp[:-2]:
+#     len(i)
+
+gg = [i.ljust(150) for i in inp[:-2]]
+
+# for i in gg:
+#     len(i)
+
+# split doesn't work for spliiting with spaces
+gg[0].split()
+
+# re.findall() works
+re.findall('.', gg[0])
+
+grid = np.array([re.findall('.', i) for i in gg])
+
+grid
+
+''.join(grid[0,:])
+''.join(grid[75,:])
+''.join(grid[125,:])
+''.join(grid[175,:])
+
+# this is our start space
+grid[0,49]
+grid[0,50]
+
+np.shape(grid)
+```
+
+I think this will work fine. If a position is a space, keep going through until we find a `.` or a `#` . We also need to deal with wrapping around to the far side of the board.
+
+I usually think about `x,y` coordinates but for index of array then we need to use something different. `+x` is second element, `-y` is increasing the first element. Let's use `i,j` instead.
+
+```{python}
+
+
+i = 0
+j = 50
+
+m = '>'
+
+L = {'>': '^', 
+     '^': '<', 
+     '<': 'v', 
+     'v': '>'}
+R = {'>': 'v', 
+     'v': '<', 
+     '<': '^', 
+     '^': '>'}
+
+facing = {'>': 0, 
+          'v': 1, 
+          '<': 2, 
+          '^': 3}
+
+
+def rotator(m, z): 
+    if z == 'L': 
+        m = L[m]
+    else: 
+        # z == 'R'
+        m = R[m]
+    return m
+
+
+def normal_movement(m):
+    if m == '>':
+        _i = 0
+        _j = +1
+    elif m == '<':
+        _i = 0
+        _j = -1
+    elif m == 'v': 
+        _i = +1
+        _j = 0
+    elif m == '^': 
+        _i = -1
+        _j = 0
+    return _i, _j
+
+
+def limits(m, i, j, _i, _j):
+    b = False
+    w = False
+    if m == '>':
+        if j == 149:
+            j = -1
+            i, j = skip_spaces2(m, i, j, _i, _j)
+    elif m == '<':
+        if j == 0:
+            j = 150
+            i, j = skip_spaces2(m, i, j, _i, _j)
+    elif m == 'v': 
+        if i == 199:
+            i = -1
+            i, j = skip_spaces2(m, i, j, _i, _j)
+    elif m == '^': 
+        if i == 0: 
+            i = 200
+            i, j = skip_spaces2(m, i, j, _i, _j)
+    return i, j, b
+
+
+def skip_spaces(m, i, j, _i, _j):
+    if m == '>':
+        j = -1
+        i, j = skip_spaces2(m, i, j, _i, _j)
+    elif m == '<':
+        j = 150
+        i, j = skip_spaces2(m, i, j, _i, _j)
+    elif m == 'v': 
+        i = -1
+        i, j = skip_spaces2(m, i, j, _i, _j)
+    elif m == '^': 
+        i = 200
+        i, j = skip_spaces2(m, i, j, _i, _j)
+    return i, j
+
+
+def skip_spaces2(m, i, j, _i, _j):
+    a = i
+    b = j
+    while True:
+        if grid[a+_i,b+_j] == ' ':
+            a += _i
+            b += _j
+        elif grid[a+_i,b+_j] == '#':
+            return i, j
+        elif grid[a+_i,b+_j] == '.': 
+            return a, b
+
+
+def mover(m, i, j, k):
+    # normal movement directions
+    _i, _j = normal_movement(m)
+    # take as many steps as we can
+    for s in range(k):
+        # check if we've reached the limit of the array / board
+        i, j, b = limits(m, i, j, _i, _j)
+        if b:
+            # we would wrap around into a wall
+            break
+        # if we are moving normally then check for a wall
+        elif grid[i+_i, j+_j] == '#':
+            break
+        # if we run into a space, then iterate through that
+        elif grid[i+_i, j+_j] == ' ':
+            i, j = skip_spaces(m, i, j, _i, _j)
+        # we're safe to move a square and iterate the direction
+        i += _i
+        j += _j
+        print(i, j)
+    return i, j
+
+
+# if name == main
+for k in instr:
+    if isinstance(k, int):
+        print(k)
+        # movement
+        i, j = mover(m, i, j, k)
+    else: 
+        # change direction
+        m = rotator(m, k)
+        print(m)
+
+
+1000 * (i+1) + 4 * (j+1) + facing[m]
+
+# 115134 too high
+
+```

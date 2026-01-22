@@ -5,19 +5,70 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 23: Unstable Diffusion ---
+
+We have to help the elves spread out to plant some trees.
+
+Simulate the Elves' process and find the smallest rectangle that contains the Elves after 10 rounds. *How many empty ground tiles does that rectangle contain?*
 
 ```{python}
+
+import numpy as np
 
 with open('data-2022-23.txt', 'r') as f:
     inp = f.read().splitlines()
 
+len(inp)
+len(inp[0])
+
+elf = np.full((105,105), '.', dtype='U')
+
+ee = [list(x) for x in inp]
+
+for y in range(15,90): 
+    elf[y, 15:90] = ee[y-15]
+
+np.savetxt('data-2022-23-elves.txt', elf, fmt='%s', delimiter='')
+
 ```
 
-Maybe write an explanation of the solution approach here
+We can set up an array to make sure we can expand - at most we can expand ten steps outwards in the first ten rounds, but suspect we will have to expand until there's no more moves in step two.
 
 ```{python}
-# here's another python cell for good luck
+
+moves = ['N', 'S', 'W', 'E', ]
+move_check = {
+    'N': [], 
+    'S': [],
+    'W': [],
+    'E': [], 
+    }
+
+def do_we_move(i,j):
+    ss = sum(elf[i-1:i+1,j-1:j+1] == '#') - 1
+    if ss == 0: 
+        return None
+    else: 
+        # decide where to move
+        for m in moves: 
+            for n in move_check[m]:
+                print(n)
+                return i,j
+            
+            
+# main loop 
+for r in range(10): 
+    # loop through the elves
+    for i in range(len(elf)): 
+        for j in range(len(elf[0])): 
+            if elf[i,j] == '#': 
+                # decide if we should move
+                mover = do_we_move(i,j)
+    # check for any clashes
+    
+    # make the moves
+    
+                
 
 ```
 

@@ -1,0 +1,60 @@
+---
+title: "Advent of Code 2020 Day 3"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 3: Toboggan Trajectory ---
+
+The toboggan you hire does not have much (any) steering.
+
+Starting at the top-left corner of your map and following a slope of right 3 and down 1, *how many trees would you encounter?*
+
+```{python}
+
+with open('data-2020-03.txt', 'r') as f:
+    course = f.read().splitlines()
+
+```
+
+Write a function
+
+```{python}
+  
+# function for riding the toboggan
+def move_tobog(rght, dwn, course):
+  x_pos = 0
+  y_pos = 0
+  trees = 0
+  course_len = len(course)
+  course_wid = len(course[0])
+  while y_pos < course_len:
+    if course[y_pos][x_pos] == "#":
+      trees += 1
+    x_pos = (x_pos + rght) % course_wid
+    y_pos = y_pos + dwn
+  return trees
+ 
+trees_1 = move_tobog(3, 1, course)
+
+```
+
+## --- Part Two ---
+
+Can we find the best way to get down?
+
+*What do you get if you multiply together the number of trees encountered on each of the listed slopes?*
+
+```{python}
+
+# gather the different number of trees for the course movements
+trees_2 = move_tobog(1, 1, course)
+trees_3 = move_tobog(5, 1, course)
+trees_4 = move_tobog(7, 1, course)
+trees_5 = move_tobog(1, 2, course)
+
+# part two answer
+trees_1 * trees_2 * trees_3 * trees_4 * trees_5
+
+```

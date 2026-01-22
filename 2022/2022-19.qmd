@@ -5,7 +5,9 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 19: Not Enough Minerals ---
+
+Determine the quality level of each blueprint using the largest number of geodes it could produce in 24 minutes. *What do you get if you add up the quality level of all of the blueprints in your list?*
 
 ```{python}
 
@@ -14,11 +16,50 @@ with open('data-2022-19.txt', 'r') as f:
 
 ```
 
-Maybe write an explanation of the solution approach here
+Borrow this code from day 15 to get the information
 
 ```{python}
-# here's another python cell for good luck
 
+# Blueprint 1
+b = r'Blueprint (\d+).*'
+blueprint = [int(re.match(b, i)[1]) for i in inp] 
+blueprint 
+
+# ore robot costs 3 ore
+c = r'.*ore robot costs (\d+).*'
+ore = [int(re.match(c, i)[1])  for i in inp]
+ore 
+
+# clay robot costs 3 ore
+d = r'.*clay robot costs (\d+).*'
+clay = [int(re.match(d, i)[1])  for i in inp]
+clay
+
+# obsidian robot costs 3 ore and 20 clay
+e = r'.*obsidian robot costs (\d+) ore and (\d+).*'
+obs = [[int(re.match(e, i)[1]), int(re.match(e, i)[2])]  for i in inp]
+obs
+
+# geode robot costs 2 ore and 12 obsidian
+f = r'.*geode robot costs (\d+) ore and (\d+).*'
+geo = [[int(re.match(f, i)[1]), int(re.match(f, i)[2])]  for i in inp]
+geo 
+
+robots = [[x[0], x[1], x[2], x[3], x[4]] 
+               for x in zip(blueprint, ore, clay, obs, geo)]
+               
 ```
 
-Paste part two here
+Loop through these with the rules.
+
+We start with one ore collecting robot. Assumption: we don't want to build any more ore collecting robots, because obsidian robots rely on clay and geode robots rely on obsidian. A good check will be if we have enough clay but not enough ore or if we have enough obsidian but not enough ore. Luckily we have a hierarchy of robots (this is bound to be a difficulty in part two).
+
+```{python}
+
+bank = {'oe': 0, 'cl': 0, 'ob': 0, 'ge': 0}
+
+for r in robots: 
+    for m in range(24): 
+        pass
+    
+```

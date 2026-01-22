@@ -5,19 +5,32 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 15: Beacon Exclusion Zone ---
+
+You deploy some sensors to try to detect the distress signal beacon.
+
+Consult the report from the sensors you just deployed. *In the row where `y=2,000,000`, how many positions cannot contain a beacon?*
 
 ```{python}
+
+import re
 
 with open('data-2022-15.txt', 'r') as f:
     inp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+The locations are way bigger in the actual input than the example! I'm not sure if an array is the way to go but we'll try anyway.
 
 ```{python}
-# here's another python cell for good luck
+
+m = r'Sensor at x=(\d+), y=(\d+)'
+
+sensor = [[int(re.match(m, i)[1]), int(re.match(m, i)[2])]  for i in inp]
+
+n = r'.* x=(-?\d+), y=(-?\d+)$'
+
+beacon = [[int(re.match(n, i)[1]), int(re.match(n, i)[2])]  for i in inp]
 
 ```
 

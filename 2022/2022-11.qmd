@@ -258,7 +258,7 @@ def deal_with2(m, i):
   return a, w
     
     
-for rounds in range(1000): 
+for rounds in range(100): 
     for monkey in range(8):
         for item in m_items[monkey]:
             m_inspect[monkey] += 1

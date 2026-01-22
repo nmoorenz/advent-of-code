@@ -1,0 +1,85 @@
+---
+title: "Advent of Code 2020 Day 1"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+## --- Day 1: Report Repair ---
+
+The elves give you an expense report and need you to fix things up.
+
+Of course, your expense report is much larger. *Find the two entries that sum to `2020`; what do you get if you multiply them together?*
+
+```{python}
+
+import itertools
+
+with open('data-2020-01.txt', 'r') as f:
+    inp = f.read().splitlines()
+
+```
+
+Loop through
+
+```{python}
+
+# want integer not strings
+my_input = [int(i) for i in inp]
+
+# probably a good idea
+my_input.sort()
+
+# for loops
+for x in my_input:
+  for y in my_input:
+    if x + y == 2020:
+      print(x * y)
+      
+```
+
+## --- Part Two ---
+
+Actually, find three numbers that sum to 2020.
+
+In your expense report, *what is the product of the three entries that sum to `2020`?*
+
+```{python}
+
+# itertools
+for x, y in itertools.product(my_input, my_input):
+  if x + y == 2020:
+    print(x * y)
+    break
+
+# generator
+for x, y in ((xx, yy) for xx in my_input for yy in my_input):
+  if x + y == 2020:
+    print(x * y)
+    break
+
+# triple threat
+for x, y, z in itertools.product(my_input, my_input, my_input):
+  if x + y + z == 2020:
+    print(x * y * z)
+    break
+
+```
+
+Code stolen from Python from R slack, courtesy of Zach Ingbretsen
+
+```{python}
+
+def find_sum_combs(inputs, total=2020, n=2):
+    for comb in itertools.combinations(inputs, n):
+        if sum(comb) == total:
+            return comb
+            
+
+x, y = find_sum_combs(my_input)
+print(x*y)
+
+x, y, z = find_sum_combs(my_input, n=3)
+print(x*y*z)
+
+```

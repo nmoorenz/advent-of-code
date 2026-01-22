@@ -5,20 +5,190 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 14: Regolith Reservoir ---
+
+The distress signal leads you behind a waterfall and into a cave, where there is a large amount of falling sand.
+
+Using your scan, simulate the falling sand. *How many units of sand come to rest before sand starts flowing into the abyss below?*
 
 ```{python}
+
+import numpy as np
 
 with open('data-2022-14.txt', 'r') as f:
     inp = f.read().splitlines()
 
+rk = [x.split(' -> ') for x in inp]
+
+rk = [[list(map(int, k.split(','))) for k in r] for r in rk]
+
 ```
 
-Maybe write an explanation of the solution approach here
+1.  Get the input in a good way
+2.  Create a grid of 'rocks'
+3.  Drop the sand
 
 ```{python}
-# here's another python cell for good luck
+
+# find the minimum and maximum of our rocks
+
+mx1 = 0
+mn1 = 999
+mx2 = 0
+mn2 = 999
+
+for r in rk:
+    for k in r:
+        if k[0] > mx1:
+            mx1 = k[0]
+        if k[0] < mn1:
+            mn1 = k[0]
+        if k[1] > mx2:
+            mx2 = k[1]
+        if k[1] < mn2:
+            mn2 = k[1]
+
+# mn1
+# mx1
+# mn2
+# mx2
+
+# let's try that again in a nicer way 
+
+xx = [k[0] for r in rk for k in r]
+yy = [k[1] for r in rk for k in r]
+
+max(xx)
+min(xx)
+max(yy)
+min(yy)
 
 ```
 
-Paste part two here
+Let's bring in numpy, kinda like usual
+
+```{python}
+
+cave = np.full((200, 600), '.', dtype='U')
+
+for r in rk:
+    for d in range(len(r)-1):
+        e,f = r[d]
+        g,h = r[d+1]
+        if e == g:
+            for i in range(min(f,h), max(f,h)+1):
+                cave[i,e] = '#'
+        else: 
+            for i in range(min(e,g), max(e,g)+1):
+                cave[f,i] = '#'
+
+
+np.savetxt('data-2022-14-rocks.txt', cave, fmt='%s', delimiter='')
+
+```
+
+Let's drop some sand
+
+```{python}
+
+counter = 0
+
+while counter < 2000:
+    j = 500
+    counter += 1
+    for i in range(200):
+        if i == 199: 
+            # we're going out the bottom! 
+            counter -= 1
+            raise
+        elif cave[i+1,j] == '.':
+            # we can keep dropping this piece of sand
+            pass
+        elif cave[i+1,j-1] == '.':
+            # move the sand left
+            j -= 1
+        elif cave[i+1,j+1] == '.':
+            # move the sand right
+            j += 1
+        else: 
+            # record our position
+            cave[i,j] = 'o'
+            break
+        
+ 
+
+np.savetxt('data-2022-14-rocks.txt', cave, fmt='%s', delimiter='')
+
+
+```
+
+## --- Part Two ---
+
+There is a floor in the cave, of course, at the bottom of the picture.
+
+Using your scan, simulate the falling sand until the source of the sand becomes blocked. How many units of sand come to rest?
+
+```{python}
+
+# estimate of 900 wide
+# we can only go as wide as we are high
+# so actually from 500 +- 163
+cave = np.full((200, 900), '.', dtype='U')
+
+for r in rk:
+    for d in range(len(r)-1):
+        e,f = r[d]
+        g,h = r[d+1]
+        if e == g:
+            for i in range(min(f,h), max(f,h)+1):
+                cave[i,e] = '#'
+        else: 
+            for i in range(min(e,g), max(e,g)+1):
+                cave[f,i] = '#'
+
+# max is 161, floor at 163
+for f in range(900):
+    cave[163,f] = '#'
+
+
+# np.savetxt('data-2022-14-rocks.txt', cave, fmt='%s', delimiter='')
+
+```
+
+The stopping condition is slightly different, but there will be much more sand.
+
+It might even be possible to work out exactly how much sand without running the algorithm. The area of the triangle with 500,0 at the top and bounded by 162 at the bottom. Let's run anyway.
+
+Addendum: there are some places the sand can't get to, so this won't work.
+
+```{python}
+
+counter = 0
+
+while counter < 26000:
+    j = 500
+    counter += 1
+    for i in range(200):
+        if cave[i+1,j] == '.':
+            # we can keep dropping this piece of sand
+            pass
+        elif cave[i+1,j-1] == '.':
+            # move the sand left
+            j -= 1
+        elif cave[i+1,j+1] == '.':
+            # move the sand right
+            j += 1
+        else: 
+            # record our position
+            cave[i,j] = 'o'
+            if i == 0: 
+                raise
+            else: 
+                break
+        
+
+
+np.savetxt('data-2022-14-rocks.txt', cave, fmt='%s', delimiter='')
+
+# 24659
+```
