@@ -5,20 +5,42 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 5: Binary Boarding ---
+
+You dropped your boarding pass, and now have to find your seat.
+
+As a sanity check, look through your list of boarding passes. What is the highest seat ID on a boarding pass?
 
 ```{python}
 
 with open('data-2020-05.txt', 'r') as f:
-    inp = f.read().splitlines()
+    bp = f.read().splitlines()
 
 ```
 
-Maybe write an explanation of the solution approach here
+This is weird data but a short solution
 
 ```{python}
-# here's another python cell for good luck
+
+# row and col binary via replacement
+row = [x[:7].replace("B", "1").replace("F", "0") for x in bp]
+col = [x[7:].replace("L", "0").replace("R", "1") for x in bp]
+
+# id as a combo of row and col            
+id = [int(r, 2) * 8 + int(c, 2) for r, c in zip(row, col)]
+
+#part a
+max(id)
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+You have to find your seat number, quick!
+
+*What is the ID of your seat?*
+
+```{python}
+# part b
+set(range(min(id), max(id))) - set(id)
+```

@@ -5,20 +5,59 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 6: Custom Customs ---
+
+Customs forms are being handed out on the flight and you need to work out who answers yes to how many questions.
+
+For each group, count the number of questions to which anyone answered "yes". What is the sum of those counts?
 
 ```{python}
 
 with open('data-2020-06.txt', 'r') as f:
-    inp = f.read().splitlines()
+    qq = f.read()
+
+# split groups
+qq_split = qq.split("\n\n")
 
 ```
 
-Maybe write an explanation of the solution approach here
+`set()` gives unique letters
 
 ```{python}
-# here's another python cell for good luck
+
+# replace \n with nothing, since we're interested in group as a whole
+# set provides us with unique items
+# len gives us how many answers
+part_one = [len(set(x.replace("\n", ""))) for x in qq_split]
+
+# part one answer
+sum(part_one)
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+We don't have to work out *any* person answered yes, we have to count *all* who answered yes.
+
+For each group, count the number of questions to which *everyone* answered "yes". *What is the sum of those counts?*
+
+```{python}
+
+qq_groups = [x.replace("\n", " ") for x in qq_split]
+
+# how many people are there in each group? 
+qq_num = [x.count(" ")+1 for x in qq_groups]
+
+# https://stackoverflow.com/questions/1155617/count-the-number-occurrences-of-a-character-in-a-string
+from collections import Counter
+
+# do the count
+counter = [Counter(x) for x in qq_groups]
+
+# now we need to combine these with the number of groups
+# count_num = [value == nn for cc, nn in zip(counter, qq_num) for value in cc.values()]
+count_num = [list(cc.values()).count(nn) for cc, nn in zip(counter, qq_num)]
+
+sum(count_num)
+
+```

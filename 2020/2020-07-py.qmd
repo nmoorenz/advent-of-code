@@ -5,20 +5,39 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 7: Handy Haversacks ---
+
+Aviation rules are being enforced about bags and bags inside bags etcetera.
+
+*How many bag colors can eventually contain at least one `shiny gold` bag?* (The list of rules is quite long; make sure you get all of it.)
 
 ```{python}
 
 with open('data-2020-07.txt', 'r') as f:
-    inp = f.read().splitlines()
+    bags = f.read().splitlines()
+
+
+# my main bag  
+my_bag = "shiny gold"
 
 ```
 
 Maybe write an explanation of the solution approach here
 
 ```{python}
-# here's another python cell for good luck
+
+# function for splitting 
+def bags_split(rr):
+  first, other = rr.split(' bags contain ')
+  other_bags = other.split(',')
+  return first, other_bags
+
+# list of the bags information
+bags_list = [bags_split(bb) for bb in bags]
+
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+*How many individual bags are required inside your single `shiny gold` bag?*
