@@ -30,39 +30,42 @@ We're going on a holiday!
 
 ### Day 4
 
-1.  
-2.  
+1. Passport checking - which records have the required fields? 
+2. Passport checks are now stricter: do the fields have the right content? 
 
--   
--   
-
+* Welcome to the regex portion of proceedings
+* The formatting of the input was awkward but ultimately straightforward to parse
+* Maybe we want one function (python), maybe we want many functions (R)
+* I think I prefer `parse_integer()` to `int(re.search('\\d+', itm).group(0))`
 
 ### Day 5
 
-1.  
-2.  
+1. The boarding passes are in binary?! What is the highest seat number? 
+2. Which seat number is missing? 
 
--   
--   
+* Pretty pleased with myself to recognise this as binary, which makes the code kinda simple
+* `strtoi()` has a `base` argument which makes converting to binary very simple
+* Having a look again, `str_replace_all()` works within mutate
+* python list comprehensions are so great
+* `int()` in python also has a base argument! 
 
 
 ### Day 6
 
-1.  
-2.  
+1. Sum the count of the letters for the passengers on the plane
+2. Sum the count of the common letters for each group
 
--   
--   
-
+* Looking back at this I'm not sure why I made part two so difficult
+* List comprehensions work great for this one too in python
+* `count()` with an argument is nice
 
 ### Day 7
 
-1.  
-2.  
+1. How many bags can hold a shiny gold bag?
+2. How many bags can fit inside a shiny gold bag? 
 
--   
--   
-
+* This was the last to be completed
+* The recursion and branching was difficult to work with
 
 ### Day 8
 

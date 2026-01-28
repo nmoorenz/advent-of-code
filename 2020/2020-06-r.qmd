@@ -5,20 +5,121 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 6: Custom Customs ---
 
-```{python}
+Customs forms are being handed out on the flight and you need to work out who answers yes to how many questions.
 
-with open('data-2020-06.txt', 'r') as f:
-    inp = f.read().splitlines()
+For each group, count the number of questions to which anyone answered "yes". What is the sum of those counts?
+
+```{r}
+
+library(tidyverse)
+
+# read all at once
+answers <- read_file("data-2020-06.txt")
 
 ```
 
-Maybe write an explanation of the solution approach here
+Unique letters, by group
 
-```{python}
-# here's another python cell for good luck
+```{r}
+
+# split into elements with double end line
+answer_groups <- str_split(answers, "\r\n\r\n")
+# names
+names(answer_groups) <- c("ans")
+# combo each piece
+answer_join <- str_remove_all(answer_groups$ans, "\r\n")
+
+# count letters
+counters <- function(lett) {
+  sum(str_count(lett, letters) > 0)
+}
+
+
+# apply
+count_answers <- map(answer_join, counters)
+# reduce
+Reduce(`+`, count_answers)
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+We don't have to work out *any* person answered yes, we have to count *all* who answered yes.
+
+For each group, count the number of questions to which *everyone* answered "yes". *What is the sum of those counts?*
+
+```{r}
+
+count_groups <- function(lett, num) {
+  sum(str_count(lett, letters) == num)
+}
+
+# part two
+answer_split <- str_split(answer_groups$ans, "\r\n")
+
+ans_tbl_rev <- tibble(
+                      long_str = answer_join, 
+                      ans_piece = answer_split
+                     ) %>% 
+              mutate(grp_len = lengths(ans_piece), 
+                     grp_cnt = map2_dbl(long_str, grp_len, count_groups))
+  
+Reduce(`+`, ans_tbl_rev$grp_cnt)
+
+```
+
+Tibble calculations
+
+```{r}
+ans_tbl <- tibble(ans = answer_split) %>% 
+  mutate(grp = row_number()) %>% 
+  unnest_longer(ans) %>% 
+  mutate(cnt = map(ans, str_count, letters)) %>% 
+  nest(data = c("ans", "cnt"))
+
+ans_tbl$num <- 0
+
+for (n in seq_len(nrow(ans_tbl))) {
+  tt = ans_tbl$data[[n]]$cnt
+  x = tt[[1]]
+  if (length(tt) > 1) {
+    for (m in seq(2, length(tt))) {
+      y = tt[[m]]
+      x = bitwAnd(x, y)
+    }  
+  }
+  ans_tbl$num[[n]] = sum(x)
+}
+
+# part two answer
+sum(ans_tbl$num)
+```
+
+Another strategy for part two
+
+```{r}
+# part two type 2
+split_ans <- function(aa) {
+  ans_collect = NULL
+  for (i in seq_len(length(aa))) {
+    ans_each = str_split(aa[[i]], pattern = "")
+    # print(ans_each[[1]])
+    if (i == 1) {
+      ans_collect = ans_each[[1]]
+    } else {
+      ans_collect = intersect(ans_collect, ans_each[[1]])
+    }
+  }
+  
+  return(glue::glue_collapse(ans_collect))
+}
+
+ans_tbl <- tibble(ans = answer_split) %>% 
+  mutate(ans_v = map(ans, split_ans), 
+         cnt = map(ans_v, counters))
+
+
+Reduce(`+`, ans_tbl$cnt)
+```
