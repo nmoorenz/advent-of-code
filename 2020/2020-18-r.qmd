@@ -7,18 +7,177 @@ editor: visual
 
 Write the Puzzle explanation here
 
-```{python}
+```{r}
 
-with open('data-2020-18.txt', 'r') as f:
-    inp = f.read().splitlines()
+library(tidyverse)
+
+my_file <- here::here("2020", "data-2020-18.txt")
+equations <- read.delim(my_file, header = FALSE)
+
+do_op <- function(so_far, op, x){
+  if (op == "") {
+    so_far = so_far + as.numeric(x)
+  } else if (op == 'add') {
+    so_far = so_far + as.numeric(x)
+  } else if (op == 'mlt') {
+    so_far = so_far * as.numeric(x)
+  }
+  return(so_far)
+}
 
 ```
 
 Maybe write an explanation of the solution approach here
 
-```{python}
-# here's another python cell for good luck
+```{r}
+
+eval_equation <- function(eq) {
+  # inititate total
+  so_far = 0
+  op = ""
+  while (e < nchar(eq)) {
+    e <<- e + 1
+    x = substr(eq, e, e)
+    
+    # print(e)
+    # print(x)
+    
+    if (x == " ") {
+      # skip
+      
+    } else if (x == "(") {
+      # recursion
+      # print('recursion')
+      rec = eval_equation(eq)
+      so_far = do_op(so_far, op, rec)
+      
+    } else if (x == ")") {
+      # close the recursion
+      # return inside total
+      # print('return')
+      return(so_far)
+      
+    } else if (x == "+") {
+      # add
+      # print('add')
+      op = 'add'
+      
+    } else if (x == "*") {
+      # multiply
+      # print('multiply')
+      op = 'mlt'
+      
+    } else {
+      # trusting that this is a number
+      # print(x)
+      so_far = do_op(so_far, op, x)
+    }
+    # print(so_far)
+    # print('---')
+  }
+  return(so_far)
+}
 
 ```
 
-Paste part two here
+next bit
+
+```{r}
+
+tester = "8 * (9 + 5 + 5 * 6 + 8 * 3) * 5 * 7 * 4 + 9"
+e <<- 0
+eval_equation(tester)
+
+# need a wrapper function to reset e <<- 0
+calc_line <- function(eq) {
+  e <<- 0
+  eval_equation(eq)
+}
+
+equated <- equations %>% 
+  mutate(line_sum = map_dbl(V1, calc_line))
+
+# part one
+as.character(sum(equated$line))
+
+```
+
+part two
+
+```{r}
+
+`/` <- function(a, b) {
+  a + b
+}
+
+`-` <- function(a, b) {
+  a * b
+}
+
+replace_symbol <- function(strng) {
+  # swap precendence
+  strng = str_replace_all(strng, "\\*", "-")
+  strng = str_replace_all(strng, "\\+", "/")
+  return(strng)
+}
+
+# test on individual function
+tester <- "1 + 2 * 3 + 4 * 5 + 6"
+test2 <- replace_symbol(tester)
+eval(parse(text = test2))
+
+# change the thing we want to calculate
+equate_part_two <- equations %>% 
+  mutate(line_2 = replace_symbol(V1), 
+         eq_2 = map_dbl(line_2, ~ eval(parse(text = .))))
+
+# part two
+as.character(sum(equate_part_two$eq_2))
+
+```
+
+examples
+
+1 + 2 \* 3 + 4 \* 5 + 6 = 71
+
+1 + (2 \* 3) + (4 \* (5 + 6)) = 51
+
+Here are a few more examples:
+
+2 \* 3 + (4 \* 5) becomes 26.
+
+5 + (8 \* 3 + 9 + 3 \* 4 \* 3) becomes 437.
+
+5 \* 9 \* (7 \* 3 \* 3 + 9 \* 3 + (8 + 6 \* 4)) becomes 12240.
+
+((2 + 4 \* 9) \* (6 + 9 \* 8 + 6) + 6) + 2 + 4 \* 2 becomes 13632.
+
+part one again
+
+make equal precedence by just replacing one of operators
+
+```{r}
+
+`-` <- function(a, b) {
+  a * b
+}
+
+replace_symbol <- function(strng) {
+  # equal precendence
+  strng = str_replace_all(strng, "\\*", "-")
+  return(strng)
+}
+
+# test on individual function
+tester <- "1 + 2 * 3 + 4 * 5 + 6"
+test1 <- replace_symbol(tester)
+eval(parse(text = test1))
+
+# change the thing we want to calculate
+equate_part_one <- equations %>% 
+  mutate(line_1 = replace_symbol(V1), 
+         eq_1 = map_dbl(line_1, ~ eval(parse(text = .))))
+
+# part one
+as.character(sum(equate_part_one$eq_1))
+```

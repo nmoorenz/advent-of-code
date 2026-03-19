@@ -5,20 +5,77 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 9: Encoding Error ---
 
-```{python}
+The data appears to be encrypted with the eXchange-Masking Addition System (XMAS) which, conveniently for you, is an old cypher with an important weakness.
 
-with open('data-2020-09.txt', 'r') as f:
-    inp = f.read().splitlines()
+The first step of attacking the weakness in the XMAS data is to find the first number in the list (after the preamble) which is *not* the sum of two of the 25 numbers before it. *What is the first number that does not have this property?*
+
+```{r}
+
+# read the things
+code <- read.delim("data-2020-09.txt", header = FALSE)
+
+# setup
+tgt_num <- 26
+len <- nrow(code)
 
 ```
 
-Maybe write an explanation of the solution approach here
+Loop to see what doesn't work
 
-```{python}
-# here's another python cell for good luck
+```{r}
+
+for (x in tgt_num:len) {
+  found = FALSE
+  tgt_sum = code$V1[[x]]
+  for (j in (x-25):(x-2)) {
+    for (k in (x-24):(x-1)) {
+      if (code$V1[[j]] + code$V1[[k]] == tgt_sum) {
+        found = TRUE
+      }
+      if (found) break
+    }
+    if (found) break
+  }
+  if (!found) {
+    print(tgt_sum)
+    print(x)
+    break
+  }
+}
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+There is a contiguous sequence of numbers that add up to the missing number. Find them!
+
+*What is the encryption weakness in your XMAS-encrypted list of numbers?*
+
+```{r}
+
+
+tgt <- 90433990
+tgt_loc <- 560
+
+found <- FALSE
+# part two
+for (qq in 3:50) { 
+  for (x in 1:tgt_loc) {
+    chk_sum = sum(code$V1[x:(x+qq)])
+    if (chk_sum == tgt) {
+      chk_vect = code$V1[x:(x+qq)]
+      part_two = sum(min(chk_vect), max(chk_vect))
+      print(x)
+      print(qq)
+      print(paste("part two answer:", part_two))
+      found = TRUE
+    }
+    if (found) break
+  }
+  if (found) break
+}
+
+
+```
