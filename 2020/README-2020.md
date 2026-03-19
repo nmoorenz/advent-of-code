@@ -69,47 +69,49 @@ We're going on a holiday!
 
 ### Day 8
 
-1.  
-2.  
+1. Run a sequence of operations for a handheld game console until we find an infinite loop
+2. Find the corrupt record to prevent an infinite loop
 
--   
--   
-
+* This was the point at which I decided to only do R solutions rather than R and py
+* Create a function and track where we have already visited; stop when we find a loop
+* Part two is likely inefficient, go through and change nop and jmp
+- TODO: Part one doesn't work
 
 ### Day 9
 
-1.  
-2.  
+1. Find the first invalid number, where a valid number is the sum of any pair of the previous 25 numbers
+2. Find a contiguous list of numbers that add to the invalid number in part one
 
--   
--   
-
+* For loops play a big part here, I'm not sure if there's any way around that
+* Both parts run really fast so don't worry
+- TODO: Part two doesn't work
 
 ### Day 10
 
-1.  
-2.  
+1. An interesting contrivance to chain together adapters to charge a phone - what are the differences in jolts?  
+2. How many different combinations could that chain of adapters use?
 
--   
--   
-
+* https://docs.google.com/spreadsheets/d/15ep7mgmblF_96tlXdfiRHSBhKfQF9tVVCTnBopATRAs/edit?usp=sharing
+* Pretty sure this was on the bus home after work
+* It feels like there was a trick to be discovered, and somehow it was uncovered by me
+* TODO: transfer google sheet into code
 
 ### Day 11
 
-1.  
-2.  
+1.  People don't like sitting next to each other, how many seats end up occupied? 
+2.  People don't like seeing other people, how many seats end up occupied? 
 
+-   Write some functions to add people to seats and remove people from seats
 -   
--   
-
+-   TODO: The functions don't seem to work as written
 
 ### Day 12
 
-1.  
-2.  
+1.  Follow the instructions for the movement of the ship, where do you end up? 
+2.  The instructions are different and difficult, where do you end up? 
 
--   
--   
+-   Work through the instructions and make sure we write things down correctly. 
+-   Write a function to deal with the rotation, and loop through like before
 
 
 ### Day 13
