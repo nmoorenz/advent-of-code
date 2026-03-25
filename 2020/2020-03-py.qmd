@@ -34,9 +34,12 @@ def move_tobog(rght, dwn, course):
       trees += 1
     x_pos = (x_pos + rght) % course_wid
     y_pos = y_pos + dwn
+    # print(x_pos, y_pos)
   return trees
- 
+  
 trees_1 = move_tobog(3, 1, course)
+
+trees_1
 
 ```
 

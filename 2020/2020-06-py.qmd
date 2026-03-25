@@ -45,7 +45,7 @@ For each group, count the number of questions to which *everyone* answered "yes"
 
 qq_groups = [x.replace("\n", " ") for x in qq_split]
 
-# how many people are there in each group? 
+# how many people are there in each group
 qq_num = [x.count(" ")+1 for x in qq_groups]
 
 # https://stackoverflow.com/questions/1155617/count-the-number-occurrences-of-a-character-in-a-string

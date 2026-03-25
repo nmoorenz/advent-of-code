@@ -27,6 +27,7 @@ We're going on a holiday!
 
 * We don't need to replicate and create a huge matrix or dataframe, using modulo is much simpler
 * This might be my favourite code from the advent 
+* Slightly different logic for python and R with the modulo
 
 ### Day 4
 
