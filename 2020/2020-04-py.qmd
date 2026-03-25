@@ -24,7 +24,7 @@ pp_split = [x.replace("\n", " ") for x in pp_split]
 
 ```
 
-Maybe write an explanation of the solution approach here
+Count how many fields there are in each set, and then how many have 7 (the correct number).
 
 ```{python}
 
@@ -43,7 +43,7 @@ for p in pp_split:
   
 # sum those up for part one
 cnt = sum([y == 7 for y in yes])
-
+cnt
 ```
 
 ## --- Part Two ---
@@ -133,4 +133,5 @@ for p in pp_split:
 # part two answer
 cnt = sum([y for y in yes])
 
+cnt
 ```

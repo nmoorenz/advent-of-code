@@ -22,6 +22,8 @@ trees_slim <- read.delim(inputfile, header = FALSE)
 
 Write a function for movement
 
+Note: this is different math from python, where zero index lets us reset easily if we go too wide, here we only reset for explicitly larger than the width of the field.
+
 ```{r}
 
 move_tobog <- function(rght, dwn, course) {
@@ -36,17 +38,19 @@ move_tobog <- function(rght, dwn, course) {
       trees = trees + 1
     }
     # move the toboggan
-    x_pos <- (x_pos + rght) %% width
+    # x_pos <- (x_pos + rght) %% width
+    if (x_pos + rght > width) { 
+        x_pos <- (x_pos + rght) %% width
+    } else {
+        x_pos <- x_pos + rght        
+    }
     y_pos <- y_pos + dwn
+    # print(cat(x_pos, y_pos))
   }
   return(trees)
 }
 
-# part one is right 3 down 1, part two is others
-paths <- tibble::tibble(
-  right = c(3, 1, 5, 7, 1), 
-  down = c(1, 1, 1, 1, 2)
-)
+move_tobog(3, 1, trees_slim)
 
 ```
 
@@ -58,6 +62,11 @@ Can we find the best way to get down?
 
 ```{r}
 
+# part one is right 3 down 1, part two is others
+paths <- tibble::tibble(
+  right = c(3, 1, 5, 7, 1), 
+  down = c(1, 1, 1, 1, 2)
+)
 
 # the old map doing work
 paths_hits <- paths %>% 
@@ -69,5 +78,3 @@ paths_hits <- paths %>%
 reduce(paths_hits$trees_hit, `*`)
 
 ```
-
-!! INCORRECT !!
