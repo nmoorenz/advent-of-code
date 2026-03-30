@@ -56,8 +56,8 @@ There is a contiguous sequence of numbers that add up to the missing number. Fin
 ```{r}
 
 
-tgt <- 90433990
-tgt_loc <- 560
+tgt <- 1639024365
+tgt_loc <- 654
 
 found <- FALSE
 # part two
