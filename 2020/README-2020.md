@@ -75,8 +75,7 @@ We're going on a holiday!
 
 * This was the point at which I decided to only do R solutions rather than R and py
 * Create a function and track where we have already visited; stop when we find a loop
-* Part two is likely inefficient, go through and change nop and jmp
-- TODO: Part one doesn't work
+* Part two is likely inefficient, but it works, go through and change nop and jmp
 
 ### Day 9
 
@@ -85,7 +84,6 @@ We're going on a holiday!
 
 * For loops play a big part here, I'm not sure if there's any way around that
 * Both parts run really fast so don't worry
-- TODO: Part two doesn't work
 
 ### Day 10
 

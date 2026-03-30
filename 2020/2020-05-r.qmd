@@ -52,7 +52,7 @@ bp_bin <- bp %>%
 max_id <- max(bp_bin$id)  
 min_id <- min(bp_bin$id)
 
-
+max_id
 ```
 
 ## --- Part Two ---

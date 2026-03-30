@@ -27,6 +27,46 @@ Create a function for processing and see how it goes
 ```{r}
 
 run_game <- function(game) {
+  x = 1
+  acc = 0
+
+  while(game$has_run[[x]] == FALSE) {
+    if (game$inst[[x]] == "acc") {
+      acc = acc + game$num[[x]]
+      game$has_run[[x]] = TRUE
+      x = x + 1
+    } else if (game$inst[[x]] == "nop") {
+      game$has_run[[x]] = TRUE
+      x = x + 1
+    } else {
+      game$has_run[[x]] = TRUE
+      x = x + game$num[[x]]
+    }
+  }
+  return(acc)
+}
+
+```
+
+Use the function, runs until we find `has_run` is True i.e. we've already been here.
+
+```{r}
+
+run_game(game)
+
+```
+
+## --- Part Two ---
+
+Exactly one instruction is corrupt, either a `jmp` or `nop`, `acc` are all ok.
+
+Fix the program so that it terminates normally by changing exactly one `jmp` (to `nop`) or `nop` (to `jmp`). *What is the value of the accumulator after the program terminates?*
+
+Different function for part two
+
+```{r}
+
+run_game2 <- function(game) {
   game$has_run = FALSE
   x = 1
   acc = 0
@@ -54,9 +94,11 @@ run_game <- function(game) {
 
 ```
 
-Figure things out
+Figure things out. Length of instructions is 654, and there are lots of instructions that get that high (`max_pos` in the df below), so it's difficult to calculate.
 
 ```{r}
+
+max_x = length(game$inst)
 
 # maybe it is the last jmp to nop, but we never get that high
 # it was great to record where we've been
@@ -71,15 +113,11 @@ arrange(game, desc(max_pos))
 # so now we've got divergence and we could keep going but nah
 # it seems like we could go backwards but that takes much design
 
-val <- run_game(game)
+# val <- run_game(game)
 
 ```
 
-## --- Part Two ---
-
-Exactly one instruction is corrupt, either a `jmp` or `nop`, `acc` are all ok.
-
-Fix the program so that it terminates normally by changing exactly one `jmp` (to `nop`) or `nop` (to `jmp`). *What is the value of the accumulator after the program terminates?*
+Go through the possible changes and find something that works for us
 
 ```{r}
 
@@ -93,7 +131,7 @@ for (z in seq_along(game$inst)) {
   } else {
     next
   }
-  val = run_game(game)
+  val = run_game2(game)
   if (is.null(val)) {
     game$inst[[z]] = revert
   } else {
