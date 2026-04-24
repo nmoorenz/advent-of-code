@@ -152,35 +152,35 @@ count_visible <- function(st_vis, x, y) {
 Use these functions
 
 ```{r}
-
-# tracking for easier testing
-seat_set <- matrix(FALSE, nrow = xx, ncol = yy)
-
-# manually test the functions
-seats1 <- fill_seats(seat_map)
-seats2 <- empty_seats(seats1, 4)
-seats3 <- fill_seats(seats2)
-seats4 <- empty_seats(seats3, 4)
-
-seat_set <- matrix(FALSE, nrow = xx, ncol = yy)
-change_count <- 1
-loop_seats <- seat_map
-
-while (change_count > 0) {
-  print(change_count)
-  loop_seats <- fill_seats(loop_seats)
-  loop_seats <- empty_seats(loop_seats, 4)
-}
-
-seats_fill <- 0
-
-for (x in seq_len(xx)) {
-  for (y in seq_len(yy)) { 
-    if (loop_seats[x,y] == "#") {
-      seats_fill = seats_fill + 1
-    }
-  }
-}
+# 
+# # tracking for easier testing
+# seat_set <- matrix(FALSE, nrow = xx, ncol = yy)
+# 
+# # manually test the functions
+# seats1 <- fill_seats(seat_map)
+# seats2 <- empty_seats(seats1, 4)
+# seats3 <- fill_seats(seats2)
+# seats4 <- empty_seats(seats3, 4)
+# 
+# seat_set <- matrix(FALSE, nrow = xx, ncol = yy)
+# change_count <- 1
+# loop_seats <- seat_map
+# 
+# while (change_count > 0) {
+#   print(change_count)
+#   loop_seats <- fill_seats(loop_seats)
+#   loop_seats <- empty_seats(loop_seats, 4)
+# }
+# 
+# seats_fill <- 0
+# 
+# for (x in seq_len(xx)) {
+#   for (y in seq_len(yy)) { 
+#     if (loop_seats[x,y] == "#") {
+#       seats_fill = seats_fill + 1
+#     }
+#   }
+# }
 
 ```
 
@@ -191,34 +191,34 @@ New problem with different parameters - what can you see, rather than who is nex
 Given the new visibility method and the rule change for occupied seats becoming empty, once equilibrium is reached, *how many seats end up occupied?*
 
 ```{r}
-
-# tracking for easier testing
-seat_set <- matrix(FALSE, nrow = xx, ncol = yy)
-
-# manually test the functions
-seats1 <- fill_seats(seat_map)
-seats2 <- empty_seats(seats1, 5)
-seats3 <- fill_seats(seats2)
-seats4 <- empty_seats(seats3, 5)
-
-seat_set <- matrix(FALSE, nrow = xx, ncol = yy)
-change_count <- 1
-loop_seats <- seat_map
-
-while (change_count > 0) {
-  print(change_count)
-  loop_seats <- fill_seats(loop_seats)
-  loop_seats <- empty_seats(loop_seats, 5)
-}
-
-seats_fill <- 0
-
-for (x in seq_len(xx)) {
-  for (y in seq_len(yy)) { 
-    if (loop_seats[x,y] == "#") {
-      seats_fill = seats_fill + 1
-    }
-  }
-}
+# 
+# # tracking for easier testing
+# seat_set <- matrix(FALSE, nrow = xx, ncol = yy)
+# 
+# # manually test the functions
+# seats1 <- fill_seats(seat_map)
+# seats2 <- empty_seats(seats1, 5)
+# seats3 <- fill_seats(seats2)
+# seats4 <- empty_seats(seats3, 5)
+# 
+# seat_set <- matrix(FALSE, nrow = xx, ncol = yy)
+# change_count <- 1
+# loop_seats <- seat_map
+# 
+# while (change_count > 0) {
+#   print(change_count)
+#   loop_seats <- fill_seats(loop_seats)
+#   loop_seats <- empty_seats(loop_seats, 5)
+# }
+# 
+# seats_fill <- 0
+# 
+# for (x in seq_len(xx)) {
+#   for (y in seq_len(yy)) { 
+#     if (loop_seats[x,y] == "#") {
+#       seats_fill = seats_fill + 1
+#     }
+#   }
+# }
 
 ```

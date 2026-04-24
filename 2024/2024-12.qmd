@@ -63,17 +63,17 @@ Boundaries are done, now we have to pick out the groups. I think, pick off the b
 
 ```{python}
 
-def check_empty()
+def check_empty():
     # see if we have anything left from the original array
     pass
 
-def gather_garden()
+def gather_garden():
     # loop around the place to see what's included in the garden
-    
+    pass
 
 while True: 
     # pick a place to start searching
-    
+    break
     # count the boundaries
     
     # count the area

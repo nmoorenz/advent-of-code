@@ -1,0 +1,137 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Advent of Code 2024 Day 23\"\n",
+        "author: \"Nathan Moore\"\n",
+        "format: html\n",
+        "editor: visual\n",
+        "---\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "## --- Day 23: LAN Party ---\n",
+        "\n",
+        "Find all the sets of three inter-connected computers. How many contain at least one computer with a name that starts with `t`?\n"
+      ],
+      "id": "33f4ce1b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "with open('data-2024-23.txt', 'r') as f:\n",
+        "    inp = f.read().splitlines()\n",
+        "\n",
+        "comps = [i.split('-') for i in inp]"
+      ],
+      "id": "4a9e15be",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "I think just create some ordered lists?\n"
+      ],
+      "id": "8bb12f46"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# here's another python cell for good luck\n",
+        "\n",
+        "links = []\n",
+        "\n",
+        "links.append(comps[0])\n",
+        "\n",
+        "for c in comps[1:]: \n",
+        "    # print(c)\n",
+        "    for l in links: \n",
+        "        # print(l)\n",
+        "        if c[0] in l: \n",
+        "            # add it to something\n",
+        "            if c[1] not in l: \n",
+        "                l.append(c[1])\n",
+        "        elif c[1] in l:\n",
+        "            if c[0] not in l: \n",
+        "                l.append(c[0])\n",
+        "        else: \n",
+        "            links.append(c)\n",
+        "            break\n",
+        "    # print('---links ', links)\n",
+        "\n",
+        "\n",
+        "# lens = [len(l) for l in links]\n",
+        "# \n",
+        "# for j,k in zip(lens,links): \n",
+        "#     if j != 2: \n",
+        "#         print(k)\n",
+        "\n",
+        "# for a in links[0]:\n",
+        "#     if a in links[1]: \n",
+        "#         print('uh-oh')\n"
+      ],
+      "id": "7c7afb61",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "There are many uh-oh because there are loops of many and computers show up in many links.\n",
+        "\n",
+        "I think sets of three are just going to show up three times in the whole thing.\n"
+      ],
+      "id": "00758167"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "counts = []\n",
+        "\n",
+        "for c in comps: \n",
+        "    a,b = c\n",
+        "    ax = 0\n",
+        "    bx = 0\n",
+        "    for d in comps: \n",
+        "        if c != d: \n",
+        "            if a in d: \n",
+        "                ax += 1\n",
+        "            if b in d: \n",
+        "                bx += 1\n",
+        "    if ax == 12: \n",
+        "        print(a)\n",
+        "    if bx == 4: \n",
+        "        print(b)\n",
+        "    if ax not in counts: \n",
+        "        counts.append(ax)\n",
+        "    if bx not in counts: \n",
+        "        counts.append(bx)\n",
+        "        \n",
+        "# len(counts)"
+      ],
+      "id": "fd3f362c",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\NathanMoore\\AppData\\Roaming\\Python\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

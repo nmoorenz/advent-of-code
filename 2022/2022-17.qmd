@@ -59,7 +59,7 @@ r = 0
 
 for i in range(2022): 
     # rock appears
-    
+    pass
     # do a loop for rock fall until it stops
     
         # gas moves first

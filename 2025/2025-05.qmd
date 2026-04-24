@@ -52,28 +52,28 @@ Process the database file again. How many ingredient IDs are considered to be fr
 Process sequentially after sorting the list. This should give us overlapping ranges. When there are no more overlapping ranges we can use minimum and maximum + 1 to get number of fresh ingredients.
 
 ```{python}
-
-# not overlap, take this one
-t -- t 
-       n -- n
-
-# no special cases, just take the max of second element
-t -- t 
-n ---- n 
-
 # 
-t -- t 
-  n -- n
-
-
+# # not overlap, take this one
+# t -- t 
+#        n -- n
 # 
-t -- t
-  n-n
-
+# # no special cases, just take the max of second element
+# t -- t 
+# n ---- n 
 # 
-t -- t
-  n--n 
-  
+# # 
+# t -- t 
+#   n -- n
+# 
+# 
+# # 
+# t -- t
+#   n-n
+# 
+# # 
+# t -- t
+#   n--n 
+#   
   
 ```
 

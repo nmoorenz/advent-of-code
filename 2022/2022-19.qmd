@@ -11,6 +11,8 @@ Determine the quality level of each blueprint using the largest number of geodes
 
 ```{python}
 
+import re
+
 with open('data-2022-19.txt', 'r') as f:
     inp = f.read().splitlines()
 

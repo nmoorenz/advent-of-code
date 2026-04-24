@@ -1,0 +1,225 @@
+---
+title: "Advent of Code 2020"
+---
+
+## Solutions for 2020
+
+We're going on a holiday! 
+
+[Day 1 py](2020-01-py.qmd)
+[Day 1 r](2020-01-r.qmd)
+
+1. Find two entries that sum to 2020
+2. Three entries that sum to 2020
+
+* This could be more efficient in R but I don't know how to break out of a double loop.     
+* While searching for loop options in python I found three different ways to write the answer.    
+
+[Day 2 py](2020-02-py.qmd)
+[Day 2 r](2020-02-r.qmd)
+
+1. How many valid passwords? Number of letters is given
+2. How many valid, but the position of the letters is given 
+
+* At first `str_split()` and `unnest_wider()` seemed like the way to go but `separate()` is much better.
+* `pmap()` really takes care of business after defining a check function
+* Lists can take care of many things in python, especially with the asterisk operator
+* Multiple returns from functions are great
+
+[Day 3 py](2020-03-py.qmd)
+[Day 3 r](2020-03-r.qmd)
+
+1. Trees grow weirdly; how many do you hit when riding on your toboggan? Right 3, down 1
+2. There are different ways of getting down - multiply them all
+
+* We don't need to replicate and create a huge matrix or dataframe, using modulo is much simpler
+* This might be my favourite code from the advent 
+* Slightly different logic for python and R with the modulo
+
+[Day 4 py](2020-04-py.qmd)
+[Day 4 r](2020-04-r.qmd)
+
+1. Passport checking - which records have the required fields? 
+2. Passport checks are now stricter: do the fields have the right content? 
+
+* Welcome to the regex portion of proceedings
+* The formatting of the input was awkward but ultimately straightforward to parse
+* Maybe we want one function (python), maybe we want many functions (R)
+* I think I prefer `parse_integer()` to `int(re.search('\\d+', itm).group(0))`
+
+[Day 5 py](2020-05-py.qmd)
+[Day 5 r](2020-05-r.qmd)
+
+1. The boarding passes are in binary?! What is the highest seat number? 
+2. Which seat number is missing? 
+
+* Pretty pleased with myself to recognise this as binary, which makes the code kinda simple
+* `strtoi()` has a `base` argument which makes converting to binary very simple
+* Having a look again, `str_replace_all()` works within mutate
+* python list comprehensions are so great
+* `int()` in python also has a base argument! 
+
+[Day 6 py](2020-06-py.qmd)
+[Day 6 r](2020-06-r.qmd)
+
+1. Sum the count of the letters for the passengers on the plane
+2. Sum the count of the common letters for each group
+
+* Looking back at this I'm not sure why I made part two so difficult
+* List comprehensions work great for this one too in python
+* `count()` with an argument is nice
+
+[Day 7](2020-07-r.qmd)
+
+1. How many bags can hold a shiny gold bag?
+2. How many bags can fit inside a shiny gold bag? 
+
+* This was the last to be completed
+* The recursion and branching was difficult to work with
+
+[Day 8](2020-08-r.qmd)
+
+1. Run a sequence of operations for a handheld game console until we find an infinite loop
+2. Find the corrupt record to prevent an infinite loop
+
+* This was the point at which I decided to only do R solutions rather than R and py
+* Create a function and track where we have already visited; stop when we find a loop
+* Part two is likely inefficient, but it works, go through and change nop and jmp
+
+[Day 9](2020-09-r.qmd)
+
+1. Find the first invalid number, where a valid number is the sum of any pair of the previous 25 numbers
+2. Find a contiguous list of numbers that add to the invalid number in part one
+
+* For loops play a big part here, I'm not sure if there's any way around that
+* Both parts run really fast so don't worry
+
+[Day 10](2020-10-r.qmd)
+
+1. An interesting contrivance to chain together adapters to charge a phone - what are the differences in jolts?  
+2. How many different combinations could that chain of adapters use?
+
+* This was on the bus home after work in a google sheet
+* It feels like there was a trick to be discovered, and somehow it was uncovered by me
+* I am not totally sure about the code converted from the sheet but it works
+
+[Day 11](2020-11-r.qmd)
+
+1.  People don't like sitting next to each other, how many seats end up occupied? 
+2.  People don't like seeing other people, how many seats end up occupied? 
+
+-   Write some functions to add people to seats and remove people from seats
+-   
+-   TODO: The functions don't seem to work as written
+
+[Day 12](2020-12-r.qmd)
+
+1.  Follow the instructions for the movement of the ship, where do you end up? 
+2.  The instructions are different and difficult, where do you end up? 
+
+-   Work through the instructions and make sure we write things down correctly. 
+-   Write a function to deal with the rotation, and loop through like before
+
+[Day 13](2020-13-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 14](2020-14-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 15](2020-15-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 16](2020-16-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 17](2020-17-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 18](2020-18-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 19](2020-19-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 20](2020-20-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 21](2020-21-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 22](2020-22-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 23](2020-23-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 24](2020-24-r.qmd)
+
+1.  
+2.  
+
+-   
+-   
+
+[Day 25](2020-25-r.qmd)
+
+1.  
+2.  
+
+-   
+-   

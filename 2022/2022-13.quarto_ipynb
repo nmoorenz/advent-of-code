@@ -1,0 +1,106 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Advent of Code 2022 Day 13\"\n",
+        "author: \"Nathan Moore\"\n",
+        "format: html\n",
+        "editor: visual\n",
+        "---\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "## --- Day 13: Distress Signal ---\n",
+        "\n",
+        "You receive a signal you weren't expecting, a distress signal. But the packets of the signal are all jumbled.\n",
+        "\n",
+        "Determine which pairs of packets are already in the right order. *What is the sum of the indices of those pairs?*\n"
+      ],
+      "id": "c369cf5d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "with open('data-2022-13.txt', 'r') as f:\n",
+        "    inp = f.read().splitlines()"
+      ],
+      "id": "b75330e5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "We need to organise these into pairs, with a record of the indices.\n"
+      ],
+      "id": "92ebc93a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pairs = []\n",
+        "lines = 0\n",
+        "\n",
+        "for e,i in enumerate(inp): \n",
+        "    if (e) % 3 == 0: \n",
+        "        # print(inp[e],inp[e+1])\n",
+        "        pairs.append([eval(inp[e]),eval(inp[e+1])])\n"
+      ],
+      "id": "31b79463",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Loop through to see if we have good pairs\n"
+      ],
+      "id": "9198d5d2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "ind = 0\n",
+        "\n",
+        "def assess(a,b):\n",
+        "    if isinstance(a, list) and isinstance(b, list):\n",
+        "        good = assess(a,b)\n",
+        "    else: \n",
+        "        if a < b:\n",
+        "            good = True\n",
+        "    return good\n",
+        "\n",
+        "\n",
+        "for e,p in enumerate(pairs):\n",
+        "    # loop through the elements\n",
+        "    # some kind of recursion?\n",
+        "    for x,y in zip(p[0],p[1]):\n",
+        "        good = assess(x,y)\n",
+        "        if good:\n",
+        "            ind += e\n"
+      ],
+      "id": "50b126fe",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\NathanMoore\\AppData\\Roaming\\Python\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
