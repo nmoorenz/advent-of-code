@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.55">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nathan Moore">
+
+<title>Advent of Code 2020 Day 8 – Advent of Code</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Advent of Code</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../2025/index.html"> 
+<span class="menu-text">2025</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../2024/index.html"> 
+<span class="menu-text">2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../2023/index.html"> 
+<span class="menu-text">2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../2022/index.html"> 
+<span class="menu-text">2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../2021/index.html"> 
+<span class="menu-text">2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../2020/index.html"> 
+<span class="menu-text">2020</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../2015/index.html"> 
+<span class="menu-text">2015</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Advent of Code 2020 Day 8</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nathan Moore </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="day-8-handheld-halting" class="level2">
+<h2 class="anchored" data-anchor-id="day-8-handheld-halting">— Day 8: Handheld Halting —</h2>
+<p>You have to try to fix the game console of the kid sitting next to you on the flight.</p>
+<p>Run your copy of the boot code. Immediately before any instruction is executed a second time, <em>what value is in the accumulator?</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.2.0     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>game <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">"data-2020-08.txt"</span>, <span class="at">header =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(V1, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"inst"</span>, <span class="st">"num"</span>), <span class="at">sep =</span> <span class="st">" "</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">has_run =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">num =</span> <span class="fu">parse_number</span>(num))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Create a function for processing and see how it goes</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>run_game <span class="ot">&lt;-</span> <span class="cf">function</span>(game) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  acc <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span>(game<span class="sc">$</span>has_run[[x]] <span class="sc">==</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (game<span class="sc">$</span>inst[[x]] <span class="sc">==</span> <span class="st">"acc"</span>) {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      acc <span class="ot">=</span> acc <span class="sc">+</span> game<span class="sc">$</span>num[[x]]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      game<span class="sc">$</span>has_run[[x]] <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      x <span class="ot">=</span> x <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (game<span class="sc">$</span>inst[[x]] <span class="sc">==</span> <span class="st">"nop"</span>) {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      game<span class="sc">$</span>has_run[[x]] <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      x <span class="ot">=</span> x <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      game<span class="sc">$</span>has_run[[x]] <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      x <span class="ot">=</span> x <span class="sc">+</span> game<span class="sc">$</span>num[[x]]</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(acc)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use the function, runs until we find <code>has_run</code> is True i.e.&nbsp;we’ve already been here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_game</span>(game)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1814</code></pre>
+</div>
+</div>
+</section>
+<section id="part-two" class="level2">
+<h2 class="anchored" data-anchor-id="part-two">— Part Two —</h2>
+<p>Exactly one instruction is corrupt, either a <code>jmp</code> or <code>nop</code>, <code>acc</code> are all ok.</p>
+<p>Fix the program so that it terminates normally by changing exactly one <code>jmp</code> (to <code>nop</code>) or <code>nop</code> (to <code>jmp</code>). <em>What is the value of the accumulator after the program terminates?</em></p>
+<p>Different function for part two</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>run_game2 <span class="ot">&lt;-</span> <span class="cf">function</span>(game) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  game<span class="sc">$</span>has_run <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  acc <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  max_x <span class="ot">=</span> <span class="fu">length</span>(game<span class="sc">$</span>inst)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span>(game<span class="sc">$</span>has_run[[x]] <span class="sc">==</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (game<span class="sc">$</span>inst[[x]] <span class="sc">==</span> <span class="st">"acc"</span>) {</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      acc <span class="ot">=</span> acc <span class="sc">+</span> game<span class="sc">$</span>num[[x]]</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      game<span class="sc">$</span>has_run[[x]] <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      x <span class="ot">=</span> x <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (game<span class="sc">$</span>inst[[x]] <span class="sc">==</span> <span class="st">"nop"</span>) {</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      game<span class="sc">$</span>has_run[[x]] <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      x <span class="ot">=</span> x <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>      game<span class="sc">$</span>has_run[[x]] <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>      x <span class="ot">=</span> x <span class="sc">+</span> game<span class="sc">$</span>num[[x]]</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (x <span class="sc">&gt;</span> max_x) {</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>      game_final <span class="ot">&lt;&lt;-</span> game</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(acc)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    } </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Figure things out. Length of instructions is 654, and there are lots of instructions that get that high (<code>max_pos</code> in the df below), so it’s difficult to calculate.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>max_x <span class="ot">=</span> <span class="fu">length</span>(game<span class="sc">$</span>inst)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># maybe it is the last jmp to nop, but we never get that high</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># it was great to record where we've been</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># what are the possibilities for finishing? </span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>game <span class="ot">&lt;-</span> game <span class="sc">%&gt;%</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">max_pos =</span> num <span class="sc">+</span> <span class="fu">row_number</span>())</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># check out that data</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(game, <span class="fu">desc</span>(max_pos))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    inst  num has_run max_pos
+1    acc   33   FALSE     685
+2    acc   45   FALSE     674
+3    acc   38   FALSE     672
+4    acc   29   FALSE     669
+5    acc   24   FALSE     669
+6    acc   29   FALSE     667
+7    acc   19   FALSE     667
+8    acc   36   FALSE     664
+9    acc   35   FALSE     662
+10   jmp    1   FALSE     655
+11   acc    1   FALSE     654
+12   acc    1   FALSE     652
+13   jmp  432   FALSE     650
+14   acc   42   FALSE     650
+15   jmp    1   FALSE     648
+16   acc   12   FALSE     647
+17   acc   27   FALSE     646
+18   acc   -2   FALSE     644
+19   acc   45   FALSE     643
+20   jmp  266   FALSE     642
+21   jmp  166   FALSE     642
+22   jmp   45   FALSE     642
+23   acc   19   FALSE     642
+24   acc   -2   FALSE     640
+25   acc   -3   FALSE     640
+26   acc   47   FALSE     634
+27   jmp  589   FALSE     633
+28   acc   14   FALSE     632
+29   acc   -7   FALSE     632
+30   acc   29   FALSE     631
+31   nop  121   FALSE     627
+32   jmp   79   FALSE     627
+33   acc   38   FALSE     627
+34   acc   -8   FALSE     623
+35   acc   12   FALSE     621
+36   acc   35   FALSE     620
+37   jmp  602   FALSE     618
+38   acc   41   FALSE     618
+39   jmp  430   FALSE     614
+40   jmp  412   FALSE     614
+41   jmp  392   FALSE     614
+42   nop  201   FALSE     614
+43   acc    0   FALSE     614
+44   nop  482   FALSE     612
+45   jmp  385   FALSE     612
+46   nop  338   FALSE     612
+47   jmp  221   FALSE     612
+48   nop   75   FALSE     612
+49   acc   46   FALSE     612
+50   acc   39   FALSE     612
+51   acc   28   FALSE     612
+52   jmp    1   FALSE     611
+53   jmp  303   FALSE     606
+54   jmp  162   FALSE     606
+55   acc   45   FALSE     606
+56   acc   39   FALSE     606
+57   acc   23   FALSE     606
+58   acc   33   FALSE     604
+59   acc   37   FALSE     600
+60   acc   41   FALSE     599
+61   acc   20   FALSE     599
+62   jmp  318   FALSE     598
+63   nop  226   FALSE     598
+64   nop  223   FALSE     598
+65   acc   38   FALSE     595
+66   acc   33   FALSE     595
+67   acc  -11   FALSE     593
+68   acc   37   FALSE     592
+69   jmp  551   FALSE     591
+70   jmp  341   FALSE     591
+71   jmp   71   FALSE     591
+72   jmp  -58   FALSE     591
+73   acc    9   FALSE     589
+74   acc  -14   FALSE     589
+75   acc  -18   FALSE     589
+76   acc   40   FALSE     586
+77   acc   26   FALSE     586
+78   acc  -15   FALSE     585
+79   jmp  544   FALSE     583
+80   nop  441   FALSE     583
+81   jmp  411   FALSE     583
+82   acc   43   FALSE     583
+83   acc  -16   FALSE     583
+84   acc   32   FALSE     581
+85   jmp  363   FALSE     575
+86   jmp  186   FALSE     575
+87   acc  -18   FALSE     575
+88   jmp    1   FALSE     573
+89   acc   50   FALSE     572
+90   jmp    1   FALSE     571
+91   acc   20   FALSE     570
+92   jmp  -75   FALSE     569
+93   acc   31   FALSE     566
+94   acc   -9   FALSE     566
+95   jmp  448   FALSE     560
+96   jmp  436   FALSE     560
+97   nop  260   FALSE     560
+98   acc   19   FALSE     560
+99   acc   16   FALSE     560
+100  nop  -31   FALSE     560
+101  acc   32   FALSE     558
+102  acc   50   FALSE     555
+103  jmp  548   FALSE     554
+104  nop  516   FALSE     554
+105  jmp  244   FALSE     554
+106  nop  -66   FALSE     554
+107  acc    6   FALSE     551
+108  nop  233   FALSE     548
+109  jmp  184   FALSE     548
+110  jmp   57   FALSE     548
+111  acc   10   FALSE     544
+112  acc   -7   FALSE     544
+113  acc   26   FALSE     543
+114  acc   29   FALSE     541
+115  acc    2   FALSE     541
+116  acc   -2   FALSE     540
+117  jmp  445   FALSE     539
+118  nop   62   FALSE     539
+119  jmp   28   FALSE     539
+120  acc   18   FALSE     539
+121  jmp  -43   FALSE     539
+122  acc   48   FALSE     538
+123  acc    8   FALSE     537
+124  jmp  501   FALSE     533
+125  nop  260   FALSE     533
+126  jmp  164   FALSE     533
+127  nop  327   FALSE     531
+128  jmp  324   FALSE     531
+129  jmp  119   FALSE     531
+130  jmp  115   FALSE     531
+131  jmp  -86   FALSE     531
+132  acc   -7   FALSE     526
+133  nop  407   FALSE     524
+134  jmp  -44   FALSE     524
+135  jmp  -88   FALSE     524
+136  jmp  466   FALSE     520
+137  nop  179   FALSE     520
+138  jmp   93   FALSE     520
+139  acc   25   FALSE     520
+140  acc    0   FALSE     518
+141  acc   -7   FALSE     518
+142  acc   32   FALSE     515
+143  acc   11   FALSE     514
+144  acc    0   FALSE     513
+145  nop  319   FALSE     512
+146  jmp  271   FALSE     512
+147  jmp   73   FALSE     512
+148  jmp   -7   FALSE     512
+149  acc   33   FALSE     506
+150  acc   40   FALSE     505
+151  acc   -4   FALSE     505
+152  jmp  457   FALSE     503
+153  nop  111   FALSE     503
+154  jmp   23   FALSE     503
+155  jmp  -11   FALSE     503
+156  acc    9   FALSE     501
+157  jmp  163   FALSE     498
+158  acc   42   FALSE     498
+159  acc  -19   FALSE     497
+160  acc    3   FALSE     496
+161  acc   -6   FALSE     495
+162  acc   34   FALSE     492
+163  nop   13   FALSE     492
+164  acc    7   FALSE     492
+165  jmp  -94   FALSE     492
+166  acc   40   FALSE     491
+167  acc   -9   FALSE     490
+168  acc   48   FALSE     488
+169  acc   44   FALSE     487
+170  acc   -2   FALSE     487
+171  acc   30   FALSE     484
+172  jmp  481   FALSE     483
+173  jmp  449   FALSE     483
+174  jmp  273   FALSE     483
+175  jmp  251   FALSE     483
+176  acc    8   FALSE     483
+177  acc   -3   FALSE     483
+178  acc   34   FALSE     482
+179  acc   11   FALSE     481
+180  nop  -71   FALSE     481
+181  acc   10   FALSE     479
+182  jmp    1   FALSE     479
+183  acc   -9   FALSE     479
+184  acc   43   FALSE     477
+185  jmp  346   FALSE     472
+186  acc    0   FALSE     472
+187  jmp  305   FALSE     467
+188  jmp   -4   FALSE     467
+189  acc   -8   FALSE     466
+190  jmp  404   FALSE     462
+191  jmp  180   FALSE     462
+192  jmp  149   FALSE     462
+193  jmp  134   FALSE     462
+194  nop  -32   FALSE     462
+195  acc   20   FALSE     461
+196  acc   40   FALSE     460
+197  acc   18   FALSE     460
+198  acc   -4   FALSE     460
+199  acc   -7   FALSE     460
+200  acc   35   FALSE     458
+201  nop  342   FALSE     456
+202  jmp   73   FALSE     456
+203  acc   38   FALSE     456
+204  acc   -5   FALSE     454
+205  jmp  297   FALSE     453
+206  acc   49   FALSE     453
+207  acc   45   FALSE     451
+208  jmp  344   FALSE     447
+209  jmp  304   FALSE     447
+210  acc   11   FALSE     447
+211  acc  -16   FALSE     446
+212  acc   -2   FALSE     445
+213  acc   40   FALSE     442
+214  acc   14   FALSE     442
+215  jmp  355   FALSE     440
+216  jmp  299   FALSE     440
+217  jmp   93   FALSE     440
+218  jmp   83   FALSE     440
+219  acc   46   FALSE     440
+220  acc    2   FALSE     440
+221  jmp -201   FALSE     440
+222  acc   16   FALSE     438
+223  acc   -7   FALSE     438
+224  nop  416   FALSE     433
+225  jmp  363   FALSE     433
+226  acc   23   FALSE     433
+227  nop -162   FALSE     433
+228  acc   27   FALSE     432
+229  acc  -17   FALSE     432
+230  acc   -6   FALSE     429
+231  jmp   81   FALSE     425
+232  nop  -83   FALSE     425
+233  acc   23   FALSE     421
+234  acc   -1   FALSE     420
+235  acc  -12   FALSE     418
+236  jmp -113   FALSE     417
+237  acc  -10   FALSE     416
+238  acc    5   FALSE     414
+239  acc  -19   FALSE     414
+240  acc   47   FALSE     410
+241  acc   45   FALSE     410
+242  acc    1   FALSE     409
+243  jmp  232   FALSE     408
+244  nop  208   FALSE     408
+245  jmp   55   FALSE     408
+246  acc   -9   FALSE     408
+247  acc  -18   FALSE     407
+248  acc    3   FALSE     404
+249  acc   -7   FALSE     404
+250  acc   30   FALSE     401
+251  nop  209   FALSE     400
+252  acc   45   FALSE     400
+253  jmp -169   FALSE     400
+254  acc    2   FALSE     398
+255  acc   20   FALSE     393
+256  jmp  244   FALSE     392
+257  jmp  -76   FALSE     392
+258  jmp -202   FALSE     392
+259  acc   46   FALSE     391
+260  acc    4   FALSE     390
+261  jmp  194   FALSE     389
+262  nop -187   FALSE     389
+263  acc   28   FALSE     388
+264  acc    2   FALSE     386
+265  acc   -1   FALSE     386
+266  acc   -7   FALSE     386
+267  nop  283   FALSE     381
+268  jmp  274   FALSE     381
+269  jmp  119   FALSE     381
+270  acc   15   FALSE     381
+271  acc   -7   FALSE     378
+272  jmp  282   FALSE     377
+273  jmp  250   FALSE     377
+274  jmp  244   FALSE     377
+275  nop  241   FALSE     377
+276  jmp   53   FALSE     377
+277  jmp   47   FALSE     377
+278  acc    0   FALSE     377
+279  acc   37   FALSE     376
+280  acc   17   FALSE     376
+281  acc  -14   FALSE     376
+282  acc   15   FALSE     373
+283  acc    6   FALSE     373
+284  acc    1   FALSE     371
+285  acc   -8   FALSE     371
+286  jmp  210   FALSE     370
+287  jmp  116   FALSE     370
+288  acc   27   FALSE     370
+289  nop   16   FALSE     370
+290  acc   21   FALSE     367
+291  acc   10   FALSE     366
+292  acc   -3   FALSE     365
+293  nop  270   FALSE     362
+294  jmp  266   FALSE     362
+295  jmp  123   FALSE     362
+296  nop   67   FALSE     362
+297  acc   47   FALSE     359
+298  jmp  140   FALSE     354
+299  jmp  -26   FALSE     354
+300  jmp  -70   FALSE     354
+301  acc   43   FALSE     352
+302  jmp -183   FALSE     348
+303  acc   20   FALSE     347
+304  acc   42   FALSE     346
+305  acc   47   FALSE     344
+306  nop   20   FALSE     343
+307  nop  -19   FALSE     343
+308  nop -278   FALSE     343
+309  acc   38   FALSE     339
+310  acc   -9   FALSE     339
+311  acc    8   FALSE     337
+312  nop  272   FALSE     336
+313  jmp  259   FALSE     336
+314  acc   -3   FALSE     334
+315  acc   43   FALSE     333
+316  acc  -19   FALSE     333
+317  jmp -106   FALSE     331
+318  nop -167   FALSE     331
+319  acc   14   FALSE     330
+320  acc  -11   FALSE     329
+321  jmp  110   FALSE     327
+322  acc   28   FALSE     327
+323  jmp  -61   FALSE     327
+324  jmp -279   FALSE     327
+325  acc   47   FALSE     326
+326  jmp -129   FALSE     323
+327  jmp -231   FALSE     323
+328  acc   37   FALSE     320
+329  acc   13   FALSE     320
+330  acc  -14   FALSE     319
+331  acc  -15   FALSE     319
+332  jmp -177   FALSE     319
+333  jmp -219   FALSE     319
+334  nop -305   FALSE     319
+335  jmp -313   FALSE     319
+336  acc  -15   FALSE     316
+337  jmp    1   FALSE     315
+338  acc   36   FALSE     314
+339  nop  -22   FALSE     314
+340  jmp -167   FALSE     314
+341  acc   43   FALSE     311
+342  acc   -1   FALSE     307
+343  acc  -12   FALSE     307
+344  jmp  168   FALSE     306
+345  jmp  114   FALSE     306
+346  acc   45   FALSE     306
+347  jmp   31   FALSE     306
+348  acc   35   FALSE     305
+349  acc    9   FALSE     305
+350  acc   49   FALSE     304
+351  acc   -2   FALSE     304
+352  jmp  240   FALSE     303
+353  acc   41   FALSE     299
+354  acc   23   FALSE     299
+355  acc   45   FALSE     297
+356  acc  -15   FALSE     296
+357  jmp  -37   FALSE     295
+358  acc   35   FALSE     294
+359  acc   46   FALSE     292
+360  acc   10   FALSE     291
+361  jmp    1   FALSE     290
+362  nop  247   FALSE     289
+363  jmp  170   FALSE     289
+364  nop  128   FALSE     289
+365  nop  118   FALSE     289
+366  jmp   -5   FALSE     289
+367  jmp -234   FALSE     289
+368  acc   25   FALSE     288
+369  acc   17   FALSE     286
+370  jmp  226   FALSE     283
+371  jmp   57   FALSE     283
+372  jmp   40   FALSE     283
+373  jmp   -5   FALSE     283
+374  acc  -10   FALSE     283
+375  jmp -354   FALSE     283
+376  acc   33   FALSE     281
+377  acc   14   FALSE     281
+378  acc   -6   FALSE     279
+379  acc   40   FALSE     278
+380  jmp   20   FALSE     276
+381  jmp   12   FALSE     276
+382  nop -106   FALSE     276
+383  jmp -231   FALSE     276
+384  nop -289   FALSE     276
+385  acc    8   FALSE     273
+386  jmp  243   FALSE     272
+387  jmp   38   FALSE     272
+388  jmp -181   FALSE     272
+389  nop -185   FALSE     272
+390  acc   35   FALSE     271
+391  acc  -13   FALSE     271
+392  jmp   97   FALSE     265
+393  nop  -64   FALSE     261
+394  jmp -142   FALSE     261
+395  acc   19   FALSE     259
+396  jmp  250   FALSE     257
+397  acc   28   FALSE     257
+398  nop  -29   FALSE     257
+399  jmp  -34   FALSE     257
+400  nop -253   FALSE     257
+401  acc   25   FALSE     255
+402  jmp  -15   FALSE     251
+403  acc    1   FALSE     250
+404  acc   23   FALSE     247
+405  acc    0   FALSE     245
+406  jmp  195   FALSE     244
+407  acc   28   FALSE     244
+408  jmp -202   FALSE     244
+409  nop -348   FALSE     244
+410  nop  122   FALSE     240
+411  jmp   51   FALSE     240
+412  acc   34   FALSE     240
+413  jmp -121   FALSE     240
+414  jmp -159   FALSE     240
+415  acc   42   FALSE     239
+416  acc  -12   FALSE     239
+417  acc   -7   FALSE     237
+418  acc   10   FALSE     235
+419  acc   -7   FALSE     235
+420  acc   -3   FALSE     234
+421  jmp  134   FALSE     233
+422  acc   46   FALSE     233
+423  acc    5   FALSE     233
+424  nop   -2   FALSE     233
+425  jmp -294   FALSE     233
+426  acc   50   FALSE     232
+427  acc    0   FALSE     231
+428  acc   35   FALSE     229
+429  acc   21   FALSE     229
+430  jmp  159   FALSE     227
+431  nop  149   FALSE     227
+432  jmp  138   FALSE     227
+433  nop  -94   FALSE     227
+434  acc   16   FALSE     225
+435  acc    4   FALSE     224
+436  jmp  -34   FALSE     223
+437  nop -373   FALSE     223
+438  acc    1   FALSE     222
+439  acc   35   FALSE     221
+440  acc    6   FALSE     221
+441  nop -131   FALSE     218
+442  nop -197   FALSE     218
+443  jmp -397   FALSE     218
+444  nop -432   FALSE     218
+445  acc    4   FALSE     217
+446  acc  -17   FALSE     216
+447  acc   42   FALSE     215
+448  jmp  131   FALSE     213
+449  nop  -64   FALSE     213
+450  nop -216   FALSE     213
+451  acc   47   FALSE     212
+452  jmp -110   FALSE     208
+453  jmp -211   FALSE     208
+454  nop -223   FALSE     208
+455  acc   13   FALSE     203
+456  acc   47   FALSE     202
+457  acc    6   FALSE     202
+458  jmp    1   FALSE     200
+459  jmp   20   FALSE     199
+460  nop  -20   FALSE     199
+461  nop -215   FALSE     199
+462  jmp -333   FALSE     199
+463  acc  -14   FALSE     197
+464  acc   49   FALSE     194
+465  acc   45   FALSE     194
+466  jmp -214   FALSE     193
+467  jmp -270   FALSE     193
+468  acc   29   FALSE     192
+469  acc   34   FALSE     191
+470  acc   33   FALSE     191
+471  acc  -12   FALSE     191
+472  acc   35   FALSE     189
+473  acc    1   FALSE     189
+474  acc  -13   FALSE     188
+475  nop   41   FALSE     185
+476  nop -212   FALSE     185
+477  jmp -275   FALSE     185
+478  nop -440   FALSE     185
+479  jmp -441   FALSE     185
+480  acc   14   FALSE     184
+481  acc    3   FALSE     184
+482  jmp    1   FALSE     184
+483  acc   17   FALSE     181
+484  jmp    1   FALSE     178
+485  nop  -27   FALSE     178
+486  jmp -173   FALSE     178
+487  nop -438   FALSE     178
+488  acc   45   FALSE     177
+489  jmp  -98   FALSE     173
+490  nop -177   FALSE     173
+491  acc   -6   FALSE     172
+492  acc   34   FALSE     171
+493  jmp  143   FALSE     167
+494  acc   28   FALSE     167
+495  jmp   14   FALSE     167
+496  acc  -18   FALSE     167
+497  jmp -299   FALSE     167
+498  acc   -8   FALSE     166
+499  acc  -15   FALSE     165
+500  acc   29   FALSE     163
+501  acc   -7   FALSE     162
+502  jmp -159   FALSE     161
+503  jmp -450   FALSE     161
+504  jmp    1   FALSE     160
+505  acc  -15   FALSE     160
+506  acc   43   FALSE     159
+507  acc   23   FALSE     158
+508  jmp  133   FALSE     154
+509  acc   34   FALSE     154
+510  acc    7   FALSE     154
+511  jmp  -44   FALSE     154
+512  jmp -410   FALSE     154
+513  acc   50   FALSE     151
+514  acc   21   FALSE     150
+515  jmp  102   FALSE     149
+516  jmp   76   FALSE     149
+517  jmp -193   FALSE     149
+518  acc   42   FALSE     147
+519  acc   17   FALSE     145
+520  acc   33   FALSE     142
+521  acc   -9   FALSE     142
+522  jmp  -24   FALSE     142
+523  nop -258   FALSE     142
+524  jmp -345   FALSE     142
+525  jmp -360   FALSE     142
+526  nop -373   FALSE     142
+527  acc   27   FALSE     135
+528  acc   11   FALSE     134
+529  acc   -6   FALSE     134
+530  acc  -18   FALSE     134
+531  jmp -188   FALSE     134
+532  jmp -444   FALSE     134
+533  acc   30   FALSE     132
+534  acc   21   FALSE     132
+535  acc   47   FALSE     130
+536  acc   42   FALSE     129
+537  acc   25   FALSE     129
+538  acc  -18   FALSE     128
+539  jmp -132   FALSE     128
+540  jmp -210   FALSE     128
+541  jmp -369   FALSE     128
+542  jmp -446   FALSE     128
+543  acc   30   FALSE     127
+544  jmp -253   FALSE     125
+545  nop -399   FALSE     125
+546  jmp -505   FALSE     125
+547  nop -511   FALSE     125
+548  acc   -1   FALSE     124
+549  acc    1   FALSE     123
+550  jmp    1   FALSE     122
+551  acc   29   FALSE     119
+552  jmp   28   FALSE     116
+553  nop -517   FALSE     116
+554  acc   31   FALSE     112
+555  acc   41   FALSE     108
+556  nop -145   FALSE     108
+557  jmp -179   FALSE     108
+558  jmp -505   FALSE     108
+559  acc   41   FALSE     106
+560  acc   -7   FALSE     106
+561  acc   33   FALSE     104
+562  acc   47   FALSE     102
+563  acc   18   FALSE     102
+564  nop   59   FALSE     100
+565  jmp   20   FALSE     100
+566  jmp -443   FALSE     100
+567  acc    6   FALSE      99
+568  acc   37   FALSE      98
+569  acc    7   FALSE      98
+570  acc   -8   FALSE      98
+571  nop   85   FALSE      96
+572  jmp   84   FALSE      96
+573  jmp -209   FALSE      96
+574  jmp -509   FALSE      96
+575  acc   26   FALSE      95
+576  acc    9   FALSE      95
+577  acc  -18   FALSE      92
+578  nop   87   FALSE      90
+579  jmp -182   FALSE      90
+580  jmp -342   FALSE      90
+581  acc   41   FALSE      86
+582  jmp -161   FALSE      86
+583  jmp -461   FALSE      86
+584  acc  -16   FALSE      84
+585  nop  -86   FALSE      81
+586  nop -403   FALSE      81
+587  nop -500   FALSE      81
+588  acc   30   FALSE      80
+589  jmp    1   FALSE      80
+590  acc   45   FALSE      78
+591  jmp    1   FALSE      77
+592  acc   50   FALSE      76
+593  nop -218   FALSE      74
+594  nop -514   FALSE      74
+595  jmp -548   FALSE      74
+596  acc   21   FALSE      73
+597  acc   13   FALSE      73
+598  jmp    1   FALSE      73
+599  acc   22   FALSE      70
+600  acc   -6   FALSE      69
+601  jmp -532   FALSE      69
+602  acc   46   FALSE      65
+603  acc    4   FALSE      60
+604  acc  -15   FALSE      59
+605  jmp -164   FALSE      59
+606  acc   20   FALSE      57
+607  acc   43   FALSE      56
+608  acc   -6   FALSE      56
+609  jmp  -95   FALSE      55
+610  nop -326   FALSE      55
+611  jmp -400   FALSE      55
+612  jmp -406   FALSE      55
+613  jmp -498   FALSE      55
+614  acc  -12   FALSE      54
+615  acc   33   FALSE      53
+616  nop   -3   FALSE      50
+617  jmp  -65   FALSE      50
+618  jmp -345   FALSE      50
+619  jmp -509   FALSE      50
+620  acc   34   FALSE      48
+621  jmp -453   FALSE      47
+622  nop -457   FALSE      47
+623  nop -481   FALSE      47
+624  acc   -1   FALSE      42
+625  acc   11   FALSE      41
+626  jmp  -90   FALSE      41
+627  acc  -19   FALSE      40
+628  acc   19   FALSE      37
+629  acc    0   FALSE      35
+630  jmp -339   FALSE      35
+631  jmp -501   FALSE      35
+632  jmp -287   FALSE      30
+633  jmp -296   FALSE      30
+634  nop -526   FALSE      30
+635  acc   28   FALSE      29
+636  acc   19   FALSE      28
+637  acc    5   FALSE      28
+638  acc    0   FALSE      27
+639  acc   21   FALSE      26
+640  acc  -10   FALSE      26
+641  acc   -6   FALSE      22
+642  jmp -276   FALSE      22
+643  jmp -280   FALSE      22
+644  acc   -3   FALSE      19
+645  acc  -18   FALSE      13
+646  jmp  -38   FALSE      13
+647  jmp -469   FALSE      13
+648  jmp -577   FALSE      13
+649  acc   -5   FALSE      10
+650  acc   -3   FALSE       7
+651  nop  -18   FALSE       7
+652  jmp -443   FALSE       7
+653  acc   -9   FALSE      -1
+654  acc  -10   FALSE      -6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># there's a jmp at 638-170=468</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># how do we get there? </span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># there are two jumps that equal 467</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># so now we've got divergence and we could keep going but nah</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># it seems like we could go backwards but that takes much design</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># val &lt;- run_game(game)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Go through the possible changes and find something that works for us</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (z <span class="cf">in</span> <span class="fu">seq_along</span>(game<span class="sc">$</span>inst)) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (game<span class="sc">$</span>inst[[z]] <span class="sc">==</span> <span class="st">"jmp"</span>) {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    game<span class="sc">$</span>inst[[z]] <span class="ot">=</span> <span class="st">"nop"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    revert <span class="ot">=</span> <span class="st">"jmp"</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (game<span class="sc">$</span>inst[[z]] <span class="sc">==</span> <span class="st">"nop"</span>) { </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    game<span class="sc">$</span>inst[[z]] <span class="ot">=</span> <span class="st">"jmp"</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    revert <span class="ot">=</span> <span class="st">"nop"</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">next</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  val <span class="ot">=</span> <span class="fu">run_game2</span>(game)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(val)) {</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    game<span class="sc">$</span>inst[[z]] <span class="ot">=</span> revert</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(z)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 266</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1056</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

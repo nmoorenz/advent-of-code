@@ -141,7 +141,7 @@ for x in range(100):
         pic[r['px'], r['py']] = 8
     # export the array
     # export=open(f'day14/pic{x}.jpg', 'wb')
-    np.savetxt(f'day14/pic{x}.txt', pic, delimiter='', fmt='%0.f')
+    np.savetxt(f'out-day14/pic{x}.txt', pic, delimiter='', fmt='%0.f')
 
     
 

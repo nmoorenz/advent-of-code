@@ -1,0 +1,117 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Advent of Code 2022 Day 23\"\n",
+        "author: \"Nathan Moore\"\n",
+        "format: html\n",
+        "editor: visual\n",
+        "---\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "## --- Day 23: Unstable Diffusion ---\n",
+        "\n",
+        "We have to help the elves spread out to plant some trees.\n",
+        "\n",
+        "Simulate the Elves' process and find the smallest rectangle that contains the Elves after 10 rounds. *How many empty ground tiles does that rectangle contain?*\n"
+      ],
+      "id": "007314a4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "with open('data-2022-23.txt', 'r') as f:\n",
+        "    inp = f.read().splitlines()\n",
+        "\n",
+        "len(inp)\n",
+        "len(inp[0])\n",
+        "\n",
+        "elf = np.full((105,105), '.', dtype='U')\n",
+        "\n",
+        "ee = [list(x) for x in inp]\n",
+        "\n",
+        "for y in range(15,90): \n",
+        "    elf[y, 15:90] = ee[y-15]\n",
+        "\n",
+        "np.savetxt('data-2022-23-elves.txt', elf, fmt='%s', delimiter='')"
+      ],
+      "id": "a533a39f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "We can set up an array to make sure we can expand - at most we can expand ten steps outwards in the first ten rounds, but suspect we will have to expand until there's no more moves in step two.\n"
+      ],
+      "id": "b2472b35"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "moves = ['N', 'S', 'W', 'E', ]\n",
+        "move_check = {\n",
+        "    'N': [], \n",
+        "    'S': [],\n",
+        "    'W': [],\n",
+        "    'E': [], \n",
+        "    }\n",
+        "\n",
+        "def do_we_move(i,j):\n",
+        "    ss = sum(elf[i-1:i+1,j-1:j+1] == '#') - 1\n",
+        "    if ss == 0: \n",
+        "        return None\n",
+        "    else: \n",
+        "        # decide where to move\n",
+        "        for m in moves: \n",
+        "            for n in move_check[m]:\n",
+        "                print(n)\n",
+        "                return i,j\n",
+        "            \n",
+        "            \n",
+        "# main loop \n",
+        "for r in range(10): \n",
+        "    # loop through the elves\n",
+        "    for i in range(len(elf)): \n",
+        "        for j in range(len(elf[0])): \n",
+        "            if elf[i,j] == '#': \n",
+        "                # decide if we should move\n",
+        "                mover = do_we_move(i,j)\n",
+        "    # check for any clashes\n",
+        "    \n",
+        "    # make the moves\n"
+      ],
+      "id": "cae09501",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Paste part two here"
+      ],
+      "id": "2e5cdaa3"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\NathanMoore\\AppData\\Roaming\\Python\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

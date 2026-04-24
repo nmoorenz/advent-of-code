@@ -115,7 +115,7 @@ from copy import deepcopy
 
 lens = {}
 
-for z in range(100000000): 
+for z in range(100000): 
     # set our initial values
     A = deepcopy(z)
     B = 0

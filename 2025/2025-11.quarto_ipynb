@@ -1,0 +1,372 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Advent of Code 2025 Day 11\"\n",
+        "author: \"Nathan Moore\"\n",
+        "format: html\n",
+        "editor: visual\n",
+        "---\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "## --- Day 11: Reactor ---\n",
+        "\n",
+        "There is a tangle of cables running through the server rack.\n",
+        "\n",
+        "*How many different paths lead from `you` to `out`?*\n"
+      ],
+      "id": "99e40bbf"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import networkx as nx \n",
+        "\n",
+        "with open('data-2025-11.txt', 'r') as f:\n",
+        "    inp = f.read().splitlines()\n",
+        "\n",
+        "wires = [w.split(': ') for w in inp]\n",
+        "wires = {w[0]: w[1].split() for w in wires}\n",
+        "\n",
+        "nodes = [n.split() for n in inp]\n",
+        "nodes = [m.replace(':', '') for n in nodes for m in n]\n",
+        "nodes = list(set(nodes))"
+      ],
+      "id": "d1a72fe9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "<https://stackoverflow.com/a/75964243>\n"
+      ],
+      "id": "a8842e36"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def findAllPaths(vertices, gList, source, destination, cutoff=None):\n",
+        "    G = nx.DiGraph()\n",
+        "    G.add_nodes_from(vertices)\n",
+        "    for u in gList:\n",
+        "        for v in gList[u]:\n",
+        "            G.add_edge(u, v)\n",
+        "    \n",
+        "    return list(nx.all_simple_paths(G, \n",
+        "                                    source=source, \n",
+        "                                    target=destination, \n",
+        "                                    cutoff=cutoff))\n",
+        "\n",
+        "\n",
+        "all_pp = findAllPaths(\n",
+        "             vertices=nodes,\n",
+        "             gList=wires,\n",
+        "             source='you',\n",
+        "             destination='out')\n",
+        "  \n",
+        "len(all_pp)          "
+      ],
+      "id": "05cbda11",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## --- Part Two ---\n",
+        "\n",
+        "We have to go from the server node `svr` and visit `fft` and `dac`\n",
+        "\n",
+        "Find all of the paths that lead from `svr` to `out`. How many of those paths visit both `dac` and `fft`?\n"
+      ],
+      "id": "c646dac8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| eval: false\n",
+        "\n",
+        "all_pp = findAllPaths(\n",
+        "             vertices=nodes,\n",
+        "             gList=wires,\n",
+        "             source='svr',\n",
+        "             destination='out')\n",
+        "\n",
+        "countr = 0\n",
+        "\n",
+        "for a in all_pp: \n",
+        "    if 'fft' in a and 'dac' in a: \n",
+        "        countr += 1\n",
+        "\n",
+        "countr"
+      ],
+      "id": "e0fafea1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This is taking too long, let us do some checks\n"
+      ],
+      "id": "1c3f01c5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "G = nx.DiGraph()\n",
+        "G.add_nodes_from(nodes)\n",
+        "for u in wires:\n",
+        "    for v in wires[u]:\n",
+        "        G.add_edge(u, v)    \n",
+        "\n",
+        "# check for valid paths\n",
+        "source = 'svr'\n",
+        "\n",
+        "target = 'fft'\n",
+        "nx.has_path(G, source, target)\n",
+        "\n",
+        "target = 'dac'\n",
+        "nx.has_path(G, source, target)\n",
+        "\n",
+        "target = 'out'\n",
+        "nx.has_path(G, source, target)\n",
+        "\n",
+        "source = 'dac'\n",
+        "target = 'fft'\n",
+        "nx.has_path(G, source, target)\n",
+        "\n",
+        "source = 'fft'\n",
+        "target = 'dac'\n",
+        "nx.has_path(G, source, target)\n",
+        "\n",
+        "# we must go through fft first! \n",
+        "\n",
+        "# are there problems with this graph? No problems. \n",
+        "list(nx.selfloop_edges(G))\n",
+        "list(nx.simple_cycles(G))\n",
+        "\n",
+        "# cutoff=10 goes kinda quick\n",
+        "# cutoff=15 takes many minutes\n",
+        "\n",
+        "svr_fft = findAllPaths(\n",
+        "             vertices=nodes,\n",
+        "             gList=wires,\n",
+        "             source='svr',\n",
+        "             destination='fft', \n",
+        "             cutoff=11)\n",
+        "\n",
+        "# 11, 12, 13 have same: 2581\n",
+        "\n",
+        "fft_dac = findAllPaths(\n",
+        "             vertices=nodes,\n",
+        "             gList=wires,\n",
+        "             source='fft',\n",
+        "             destination='dac', \n",
+        "             cutoff=16)\n",
+        "\n",
+        "# 10, 11, 12 = zero\n",
+        "# 13,14 = 141860\n",
+        "# 15      2802700\n",
+        "\n",
+        "\n",
+        "dac_out = findAllPaths(\n",
+        "             vertices=nodes,\n",
+        "             gList=wires,\n",
+        "             source='dac',\n",
+        "             destination='out', \n",
+        "             cutoff=10)\n",
+        "\n",
+        "# 10,11 = 17018\n",
+        "\n",
+        "len(svr_fft) * len(fft_dac) * len(dac_out)\n",
+        "\n",
+        "# 6230981751880 too low\n"
+      ],
+      "id": "4dffadfe",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Check lengths\n"
+      ],
+      "id": "49856d77"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# for a in all_pp:\n",
+        "#     len(a)"
+      ],
+      "id": "138650e9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Let me try some different code from different people\n",
+        "\n",
+        "<https://github.com/mgtezak/Advent_of_Code/blob/master/2025/11/p2.py>\n"
+      ],
+      "id": "d9b94f30"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from functools import cache\n",
+        "\n",
+        "with open('data-2025-11.txt', 'r') as f:\n",
+        "    inp = f.read()\n",
+        "    \n",
+        "def part2(puzzle_input):\n",
+        "    connections = {}\n",
+        "    for line in puzzle_input.splitlines():\n",
+        "        input, outputs = line.split(\": \")\n",
+        "        connections[input] = outputs.split()\n",
+        "    \n",
+        "    @cache\n",
+        "    def dfs(device, fft, dac):\n",
+        "        if device == \"out\":\n",
+        "            return 1 if fft and dac else 0\n",
+        "        if (outputs := connections.get(device)) is None:\n",
+        "            return 0\n",
+        "        if device == \"fft\":\n",
+        "            fft = True\n",
+        "        elif device == \"dac\":\n",
+        "            dac = True\n",
+        "        return sum(dfs(out, fft, dac) for out in outputs)\n",
+        "\n",
+        "    return dfs('svr', False, False)\n",
+        "\n",
+        "part2(inp)\n",
+        "\n",
+        "# 506264456238938"
+      ],
+      "id": "ca8249bd",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "<https://github.com/euporphium/pyaoc/blob/main/aoc/2025/solutions/day11_part2.py>\n"
+      ],
+      "id": "aa90243d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from functools import lru_cache\n",
+        "\n",
+        "def solve(data: list[str]) -> int:\n",
+        "    \"\"\"\n",
+        "    Recursively count all paths from 'svr' to 'out' that pass through both 'dac' and 'fft'.\n",
+        "    Uses @lru_cache to memoize intermediate results based on the current node\n",
+        "    and whether 'dac' and 'fft' have been visited so far.\n",
+        "    \"\"\"\n",
+        "\n",
+        "    graph = {}\n",
+        "    for line in data:\n",
+        "        key, right_side = line.split(\": \")\n",
+        "        graph[key] = right_side.split()\n",
+        "\n",
+        "    @lru_cache(maxsize=None)\n",
+        "    def dfs(node: str, v_dac=False, v_fft=False) -> int:\n",
+        "        if node == 'out' and v_dac and v_fft:\n",
+        "            return 1\n",
+        "        total = 0\n",
+        "        for child in graph.get(node, []):\n",
+        "            total += dfs(child, v_dac or node == 'dac', v_fft or node == 'fft')\n",
+        "        return total\n",
+        "\n",
+        "    return dfs('svr')\n",
+        "\n",
+        "solve(inp)"
+      ],
+      "id": "80ed5d56",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "[topaz](https://topaz.github.io/paste/#XQAAAQAEBAAAAAAAAAAzHIoib6ptmPAUgo2LUPPU+liMkqlgTzuvOgU1YY2MR6L1z1EsGAiR2HjPV0kYxjhiRRH2QsBNB1w3ZL2J2ZsR6djNlUpAUKgQql1muHh48eVhrbOqwUWkWhYyfEyFT9aWd18qs3EDfbIs+3jIpL8eZrRHz5xD6PjstLkkVeAg29VXxutaYevDlG80/qV5HDvHnkGA/OypwOcCu7yN/+ZanOZTWPy35bH8pYiBSGHH1EDMcL5rv1Su3djm7ifRwWePfSpzm/1A+XQu/Ii/RYSxg5kShM1PfWGsWH+0F5u8SFbm+MmUPEsWyvdgOkvDGVS9QF9fHMhQO8iGJVE4jxW4E+DXrIYL/6YL3Nn9BGhIh8OHRUDL1x8UeXWrYZbX/AqN9AE1qjhwM9rKKLvJyY/91ULwip9LJUOjkGi2JTo+OfGspe4a/t19pnPGsiXOMKlXntrpyaTNIRZlZU9hTl6CQovOzLZLdN/U3TXegWCJNvi64gPvlSo1HIXRlH01nAHIhEDiXTFONLf7sSNH/jobn1xsnkmNvJq/XrSEjwAH2KRSo5+WZqiCzv8O3G5EGPYJSOZLcPprQnQdsCDTF7KLTwOXZ7neOIQEGPVlo2ZojSsYdTqqd9vRO6xc11wWHAn9vcHZx8hHU6e//oaOQEs2/FJy7A==)\n"
+      ],
+      "id": "4dd70d77"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from graphlib import TopologicalSorter\n",
+        "import numpy as np\n",
+        "\n",
+        "def read_graph(fname):\n",
+        "    with open(fname) as f:\n",
+        "        lines = f.readlines()\n",
+        "    starts, dests = list(zip(*[x.split(\":\") for x in lines]))\n",
+        "    return dict(zip(starts, [set(x.strip().split(\" \")) for x in dests]))\n",
+        "\n",
+        "def count_paths(graph, idx, idy):\n",
+        "    ts = TopologicalSorter(graph)\n",
+        "    toposort = list(ts.static_order())[::-1]\n",
+        "    idx, idy = toposort.index(idx), toposort.index(idy)\n",
+        "    counts = np.zeros((len(toposort,)))\n",
+        "    for i in range(len(toposort)-1):\n",
+        "        if i < idx:\n",
+        "            continue\n",
+        "        elif i == idx:\n",
+        "            counts[i] = 1\n",
+        "        for j in graph[toposort[i]]:\n",
+        "            counts[toposort.index(j)] += counts[i]\n",
+        "    return counts[idy]\n",
+        "\n",
+        "\n",
+        "graph = read_graph(\"data-2025-11.txt\")\n",
+        "print(f\"Part 1: {int(count_paths(graph, \"you\", \"out\"))}\") \n",
+        "svr_fft = count_paths(graph, \"svr\", \"fft\")\n",
+        "fft_dac = count_paths(graph, \"fft\", \"dac\")\n",
+        "dac_out = count_paths(graph, \"dac\", \"out\")\n",
+        "p2 = svr_fft * fft_dac * dac_out\n",
+        "print(svr_fft, fft_dac, dac_out)\n",
+        "print(f\"Part 2: {int(p2)}\")"
+      ],
+      "id": "1be8ab38",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\NathanMoore\\AppData\\Roaming\\Python\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

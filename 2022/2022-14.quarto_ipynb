@@ -1,0 +1,270 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Advent of Code 2022 Day 14\"\n",
+        "author: \"Nathan Moore\"\n",
+        "format: html\n",
+        "editor: visual\n",
+        "---\n",
+        "\n",
+        "\n",
+        "## --- Day 14: Regolith Reservoir ---\n",
+        "\n",
+        "The distress signal leads you behind a waterfall and into a cave, where there is a large amount of falling sand.\n",
+        "\n",
+        "Using your scan, simulate the falling sand. *How many units of sand come to rest before sand starts flowing into the abyss below?*\n"
+      ],
+      "id": "06f89e5f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "with open('data-2022-14.txt', 'r') as f:\n",
+        "    inp = f.read().splitlines()\n",
+        "\n",
+        "rk = [x.split(' -> ') for x in inp]\n",
+        "\n",
+        "rk = [[list(map(int, k.split(','))) for k in r] for r in rk]"
+      ],
+      "id": "8146e5aa",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "1.  Get the input in a good way\n",
+        "2.  Create a grid of 'rocks'\n",
+        "3.  Drop the sand\n"
+      ],
+      "id": "8d1d643c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# find the minimum and maximum of our rocks\n",
+        "\n",
+        "mx1 = 0\n",
+        "mn1 = 999\n",
+        "mx2 = 0\n",
+        "mn2 = 999\n",
+        "\n",
+        "for r in rk:\n",
+        "    for k in r:\n",
+        "        if k[0] > mx1:\n",
+        "            mx1 = k[0]\n",
+        "        if k[0] < mn1:\n",
+        "            mn1 = k[0]\n",
+        "        if k[1] > mx2:\n",
+        "            mx2 = k[1]\n",
+        "        if k[1] < mn2:\n",
+        "            mn2 = k[1]\n",
+        "\n",
+        "# mn1\n",
+        "# mx1\n",
+        "# mn2\n",
+        "# mx2\n",
+        "\n",
+        "# let's try that again in a nicer way \n",
+        "\n",
+        "xx = [k[0] for r in rk for k in r]\n",
+        "yy = [k[1] for r in rk for k in r]\n",
+        "\n",
+        "max(xx)\n",
+        "min(xx)\n",
+        "max(yy)\n",
+        "min(yy)"
+      ],
+      "id": "45e7b2e8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Let's bring in numpy, kinda like usual\n"
+      ],
+      "id": "736632e9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "cave = np.full((200, 600), '.', dtype='U')\n",
+        "\n",
+        "for r in rk:\n",
+        "    for d in range(len(r)-1):\n",
+        "        e,f = r[d]\n",
+        "        g,h = r[d+1]\n",
+        "        if e == g:\n",
+        "            for i in range(min(f,h), max(f,h)+1):\n",
+        "                cave[i,e] = '#'\n",
+        "        else: \n",
+        "            for i in range(min(e,g), max(e,g)+1):\n",
+        "                cave[f,i] = '#'\n",
+        "\n",
+        "\n",
+        "np.savetxt('data-2022-14-rocks.txt', cave, fmt='%s', delimiter='')"
+      ],
+      "id": "70508481",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Let's drop some sand\n"
+      ],
+      "id": "c6d51a4f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "counter = 0\n",
+        "\n",
+        "while counter < 2000:\n",
+        "    j = 500\n",
+        "    counter += 1\n",
+        "    for i in range(200):\n",
+        "        if i == 199: \n",
+        "            # we're going out the bottom! \n",
+        "            counter -= 1\n",
+        "            raise\n",
+        "        elif cave[i+1,j] == '.':\n",
+        "            # we can keep dropping this piece of sand\n",
+        "            pass\n",
+        "        elif cave[i+1,j-1] == '.':\n",
+        "            # move the sand left\n",
+        "            j -= 1\n",
+        "        elif cave[i+1,j+1] == '.':\n",
+        "            # move the sand right\n",
+        "            j += 1\n",
+        "        else: \n",
+        "            # record our position\n",
+        "            cave[i,j] = 'o'\n",
+        "            break\n",
+        "        \n",
+        " \n",
+        "\n",
+        "np.savetxt('data-2022-14-rocks.txt', cave, fmt='%s', delimiter='')\n"
+      ],
+      "id": "db8b1ad8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## --- Part Two ---\n",
+        "\n",
+        "There is a floor in the cave, of course, at the bottom of the picture.\n",
+        "\n",
+        "Using your scan, simulate the falling sand until the source of the sand becomes blocked. How many units of sand come to rest?\n"
+      ],
+      "id": "90d8df56"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# estimate of 900 wide\n",
+        "# we can only go as wide as we are high\n",
+        "# so actually from 500 +- 163\n",
+        "cave = np.full((200, 900), '.', dtype='U')\n",
+        "\n",
+        "for r in rk:\n",
+        "    for d in range(len(r)-1):\n",
+        "        e,f = r[d]\n",
+        "        g,h = r[d+1]\n",
+        "        if e == g:\n",
+        "            for i in range(min(f,h), max(f,h)+1):\n",
+        "                cave[i,e] = '#'\n",
+        "        else: \n",
+        "            for i in range(min(e,g), max(e,g)+1):\n",
+        "                cave[f,i] = '#'\n",
+        "\n",
+        "# max is 161, floor at 163\n",
+        "for f in range(900):\n",
+        "    cave[163,f] = '#'\n",
+        "\n",
+        "\n",
+        "# np.savetxt('data-2022-14-rocks.txt', cave, fmt='%s', delimiter='')"
+      ],
+      "id": "19f8d7f6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "The stopping condition is slightly different, but there will be much more sand.\n",
+        "\n",
+        "It might even be possible to work out exactly how much sand without running the algorithm. The area of the triangle with 500,0 at the top and bounded by 162 at the bottom. Let's run anyway.\n",
+        "\n",
+        "Addendum: there are some places the sand can't get to, so this won't work.\n"
+      ],
+      "id": "f30633a6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "counter = 0\n",
+        "\n",
+        "while counter < 26000:\n",
+        "    j = 500\n",
+        "    counter += 1\n",
+        "    for i in range(200):\n",
+        "        if cave[i+1,j] == '.':\n",
+        "            # we can keep dropping this piece of sand\n",
+        "            pass\n",
+        "        elif cave[i+1,j-1] == '.':\n",
+        "            # move the sand left\n",
+        "            j -= 1\n",
+        "        elif cave[i+1,j+1] == '.':\n",
+        "            # move the sand right\n",
+        "            j += 1\n",
+        "        else: \n",
+        "            # record our position\n",
+        "            cave[i,j] = 'o'\n",
+        "            if i == 0: \n",
+        "                raise\n",
+        "            else: \n",
+        "                break\n",
+        "        \n",
+        "\n",
+        "\n",
+        "np.savetxt('data-2022-14-rocks.txt', cave, fmt='%s', delimiter='')\n",
+        "\n",
+        "# 24659"
+      ],
+      "id": "4b1fd4a1",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\NathanMoore\\AppData\\Roaming\\Python\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

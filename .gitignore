@@ -4,3 +4,6 @@ data*
 day*.txt
 session-cookie.txt
 out*
+.positai
+
+/.quarto/
