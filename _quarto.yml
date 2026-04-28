@@ -25,4 +25,6 @@ website:
     tools: 
       - icon: github
         href: https://github.com/nmoorenz/advent-of-code
-format: html
+format: 
+    html:
+        theme: lux
