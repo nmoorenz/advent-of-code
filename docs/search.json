@@ -2721,5 +2721,12 @@
     "title": "Advent of Code 2025 Day 12",
     "section": "— Part Two —",
     "text": "— Part Two —\nEarn the other stars"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Advent of Code",
+    "section": "",
+    "text": "Advent of Code: attempting to demonstrate some coding knowledge.\nA new public repository for Advent of Code solutions that doesn’t share the original question text.\nThis is primarily an RStudio Project, but can also be opened in VSCode, or whatever else.\n\nUse create-files.py in combination with template.txt to create the Quarto documents and input data files for each day in a year.\nUse get-input.py or get-all-input.py to get input for puzzles.\nUse generate_index.py to create a new index for the AoC site.\n\nFor more on the mixture of code and prose, see quarto.org\nFor more on this weird annual mix of code and somewhat pointless problem solving, see adventofcode.com\n[2025] 24* / 24*\n[2024] 24* / 50*\n[2023] 27* / 50*\n[2022] 27* / 50*\n[2021] 27* / 50*\n[2020] 50* / 50*\n[2019]  2* / 50*\n[2018]          \n[2017]          \n[2016]          \n[2015] 50* / 50*\nTotal stars: 231*"
   }
 ]
