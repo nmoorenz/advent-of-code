@@ -5,7 +5,9 @@ project:
 format: 
     html:
         theme: lux
-        
+execute: 
+  freeze: auto
+  
 website:
   title: "Advent of Code"
   page-navigation: true
