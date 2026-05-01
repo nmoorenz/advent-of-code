@@ -4,6 +4,8 @@ title: "Advent of Code 2024"
 
 ## Solutions for 2024
 
+Language: Python
+
 [Day 1](2024-01.qmd)
 
 1.  Parse the input and find the difference and add them up

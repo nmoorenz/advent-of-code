@@ -4,6 +4,8 @@ title: "Advent of Code 2025"
 
 ## Solutions for 2025
 
+Language: Python
+
 [Day 1](2025-01.qmd)
 
 1.  How many times does the dial point at zero?

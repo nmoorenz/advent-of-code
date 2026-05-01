@@ -4,6 +4,8 @@ title: "Advent of Code 2015"
 
 ## Solutions for 2015
 
+Language: Python
+
 [Day 1](2015-01.qmd)
 
 1.  Find the floor that Santa ends up on

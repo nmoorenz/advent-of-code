@@ -4,6 +4,8 @@ title: Advent of Code 2021
 
 ## Solutions for 2021
 
+Language: R
+
 [Day 1](2021-01.qmd)
 
 1.  

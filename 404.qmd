@@ -1,0 +1,9 @@
+---
+title: Page Not Found
+---
+
+Oops! I have not completed this puzzle yet, or maybe the code is broken and the page has not been rendered. 
+
+Check back soon and I might have made some better efforts. 
+
+Go back [home](index.qmd)

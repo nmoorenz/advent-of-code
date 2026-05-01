@@ -2,29 +2,41 @@ project:
   type: website
   output-dir: docs
 
+format: 
+    html:
+        theme: lux
+        
 website:
   title: "Advent of Code"
+  page-navigation: true
   navbar:
     left:
       - text: "Home"
         href: index.qmd
-      - text: "2025"
-        href: 2025/index-2025.qmd
-      - text: "2024"
-        href: 2024/index-2024.qmd
-      - text: "2023"
-        href: 2023/index-2023.qmd
-      - text: "2022"
-        href: 2022/index-2022.qmd
-      - text: "2021"
-        href: 2021/index-2021.qmd
-      - text: "2020"
-        href: 2020/index-2020.qmd
-      - text: "2015"
-        href: 2015/index-2015.qmd
     tools: 
       - icon: github
         href: https://github.com/nmoorenz/advent-of-code
-format: 
-    html:
-        theme: lux
+      - icon: star-fill
+        href: https://www.adventofcode.com
+      - icon: house-fill
+        href: https://www.nmoore.nz
+        
+  sidebar: 
+    collapse-level: 1
+    contents: 
+      - section: 2015/index-2015.qmd
+        contents: "2015/*"
+      - section: 2020/index-2020.qmd
+        contents: "2020/*"
+      - section: 2021/index-2021.qmd
+        contents: "2021/*"
+      - section: 2022/index-2022.qmd
+        contents: "2022/*"
+      - section: 2023/index-2023.qmd
+        contents: "2023/*"
+      - section: 2024/index-2024.qmd
+        contents: "2024/*"
+      - section: 2025/index-2025.qmd
+        contents: "2025/*"  
+
+

@@ -4,6 +4,8 @@ title: "Advent of Code 2023"
 
 ## Solutions for 2023
 
+Language: Python
+
 [Day 1](2023-01.qmd)
 
 1.  Find the first and last digit in a string, combine them, sum them. 

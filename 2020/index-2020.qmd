@@ -4,7 +4,7 @@ title: "Advent of Code 2020"
 
 ## Solutions for 2020
 
-We're going on a holiday! 
+We're going on a holiday! This year is a mixture of Python and R, for the first 6 days, and then R after that. 
 
 [Day 1 py](2020-01-py.qmd)
 [Day 1 r](2020-01-r.qmd)
