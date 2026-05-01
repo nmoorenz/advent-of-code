@@ -1,5 +1,5 @@
 ---
-title: "Advent of Code 2023 Day 14"
+title: "2023 Day 14"
 author: "Nathan Moore"
 format: html
 editor: visual

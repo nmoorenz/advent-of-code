@@ -8,7 +8,7 @@
 
 <meta name="author" content="Nathan Moore">
 
-<title>Advent of Code 2024 Day 6 – Advent of Code</title>
+<title>2024 Day 6 – Advent of Code</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,6 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../2024/2024-07.html" rel="next">
+<link href="../2024/2024-05.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -105,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-sidebar floating nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -123,56 +125,1056 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index-home.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../2025/index-2025.html"> 
-<span class="menu-text">2025</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../2024/index-2024.html"> 
-<span class="menu-text">2024</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../2023/index-2023.html"> 
-<span class="menu-text">2023</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../2022/index-2022.html"> 
-<span class="menu-text">2022</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../2021/index-2021.html"> 
-<span class="menu-text">2021</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../2020/index-2020.html"> 
-<span class="menu-text">2020</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../2015/index-2015.html"> 
-<span class="menu-text">2015</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools tools-wide">
     <a href="https://github.com/nmoorenz/advent-of-code" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://www.adventofcode.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-star-fill"></i></a>
+    <a href="https://www.nmoore.nz" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-house-fill"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../2024/index-2024.html">Advent of Code 2024</a></li><li class="breadcrumb-item"><a href="../2024/2024-06.html">2024 Day 6</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../2015/index-2015.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">2015</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 9</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 10</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 13</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 14</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 15</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 17</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-18.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 18</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 19</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-20.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 20</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 21</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-22.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 22</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-23.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 23</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-24.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 24</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2015/2015-25.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2015 Day 25</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../2020/index-2020.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2020</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">2020</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-01-py.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 1 - Py</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-01-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 1 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-02-py.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 2 - Py</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-02-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 2 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-03-py.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 3 - Py</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-03-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 3 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-04-py.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 4 - Py</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-04-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 4 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-05-py.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 5 - Py</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-05-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 5 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-06-py.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 6 - Py</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-06-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 6 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-07-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 7 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-08-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 8 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-09-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 9 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-10-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 10 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-11-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 11 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-13-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 13 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-14-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 14 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-15-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 15 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-16-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 16 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-17-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 17 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-18-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 18 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-19-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 19 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-21-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 21 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-22-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 22 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-23-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 23 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-25-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 25 - R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../2021/index-2021.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2021</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">2021</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 9</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 10</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 13</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 14</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 15</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 17</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-18.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 18</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 19</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-20.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 20</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 21</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-22.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 22</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-23.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 23</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-24.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 24</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2021/2021-25.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2021 Day 25</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../2022/index-2022.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2022</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">2022</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 9</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 10</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 15</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 17</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-18.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 18</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 19</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-20.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 20</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-22.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 22</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-24.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 24</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2022/2022-25.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2022 Day 25</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../2023/index-2023.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2023</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 9</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 10</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 13</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 14</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 15</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 17</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-18.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 18</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 19</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-20.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 20</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 21</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-22.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 22</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-23.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 23</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-24.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 24</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/2023-25.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023 Day 25</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2023/index-2023.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2023</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../2024/index-2024.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2024</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-06.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">2024 Day 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 9</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 10</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 13</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 14</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 16</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 17</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-18.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 18</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 19</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-20.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 20</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 21</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-22.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 22</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-24.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 24</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/2024-25.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024 Day 25</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2024/index-2024.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2024</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../2025/index-2025.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+ <span class="menu-text">2025/*</span>
+  </li>
+          <li class="sidebar-item">
+ <span class="menu-text">!2025/index*</span>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../2024/index-2024.html">Advent of Code 2024</a></li><li class="breadcrumb-item"><a href="../2024/2024-06.html">2024 Day 6</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Advent of Code 2024 Day 6</h1>
+<h1 class="title">2024 Day 6</h1>
 </div>
 
 
@@ -199,7 +1201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="day-6-guard-gallivant">— Day 6: Guard Gallivant —</h2>
 <p>There’s a security guard and we want to track where they are walking.</p>
 <p>Predict the path of the guard.&nbsp;<strong>How many distinct positions will the guard visit before leaving the mapped area?</strong></p>
-<div id="2e0f6ff5" class="cell" data-execution_count="1">
+<div id="c347bafd" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
@@ -220,7 +1222,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Iteration, I guess. Make sure we keep track of the direction the guard is walking.</p>
-<div id="c5c63c50" class="cell" data-execution_count="2">
+<div id="3756bf43" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make some functions to move and check </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> move_me(<span class="bu">dir</span>, a, b):</span>
@@ -312,7 +1314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We should be able to place an object to make the guard walk in a loop.</p>
 <p>You need to get the guard stuck in a loop by adding a single new obstruction.&nbsp;<strong>How many different positions could you choose for this obstruction?</strong></p>
 <p>The obstructions could only be on the path that the guard walks on, otherwise it has no effect. Maximum possibilities is 4663. That is not too large to iterate, test each one. How do we test for a loop? It isn’t just the starting position, since the loop could begin after and not include the start. If the guard does not go off the map then it must be a loop.</p>
-<div id="5b2e37ea" class="cell" data-execution_count="3">
+<div id="82d51ccc" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reuse the same setup but record the locations of the path</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># then use that list to place obstructions</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -362,7 +1364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Convert the list of positions into a set of positions, since we don’t want to consider the same location twice, and we can’t use the starting position.</p>
 <p>I am also going to create a function for the walking of the guard since that makes the most sense.</p>
-<div id="ac520ade" class="cell" data-execution_count="4">
+<div id="fd658671" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_for_loop(obs):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># variables for starting    </span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">dir</span> <span class="op">=</span> <span class="st">'up'</span></span>
@@ -391,7 +1393,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can do our assessment</p>
-<div id="c4f20a46" class="cell" data-execution_count="5">
+<div id="a3e8dbcd" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>loops <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> g <span class="kw">in</span> guard_path[:]:</span>
@@ -836,6 +1838,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../2024/2024-05.html" class="pagination-link" aria-label="2024 Day 5">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2024 Day 5</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../2024/2024-07.html" class="pagination-link" aria-label="2024 Day 7">
+        <span class="nav-page-text">2024 Day 7</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

@@ -1,5 +1,5 @@
 ---
-title: "Advent of Code 2015 Day 3"
+title: "2015 Day 3"
 author: "Nathan Moore"
 format: html
 editor: visual

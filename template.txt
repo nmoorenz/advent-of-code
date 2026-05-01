@@ -1,5 +1,5 @@
 ---
-title: "Advent of Code {year} Day {x}"
+title: "{year} Day {x}"
 author: "Nathan Moore"
 format: html
 editor: visual
