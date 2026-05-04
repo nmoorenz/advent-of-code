@@ -1,0 +1,12 @@
+{
+  "hash": "0040001e230a8b8830be891a4003deec",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2022 Day 25\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 25: Full of Hot Air ---\n\nYou have to figure out the fuel requirements for some hot air balloons. There is some funky base-5 math going on\n\nThe Elves are starting to get cold. *What SNAFU number do you supply to Bob's console?*\n\n::: {#20cea01e .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2022-25.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nWeird base five arithmetic, but not really a different base because there are negatives.\n\n::: {#35add7ac .cell execution_count=2}\n``` {.python .cell-code}\nd5 = {'2': 2, \n      '1': 1, \n      '0': 0, \n      '-': -1, \n      '=': -2,\n      }\n\nmax(inp, key=len)\n\nlen(max(inp, key=len))\n\nnums = []\n\nfor i in inp:\n    s = 0\n    for e,j in enumerate(reversed(i)): \n        # print(j, e)\n        s += d5[j] * (5 ** e)\n    nums.append(s)\n \nsum(nums)\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n34279402189875\n```\n:::\n:::\n\n\nNow to reverse engineer the special encoded number\n\n::: {#41e92c4d .cell execution_count=3}\n``` {.python .cell-code}\nz = sum(nums)\ny = ''\n# z / (5 ** 19)\n# z - 2 * 5**19\n\nd5 = {2: '2', \n      1: '1', \n      0: '0', \n      -1: '-', \n      -2: '=',\n      }\n\nfor x in range(19, -1, -1):\n    # print(x)\n    # print(z)\n    w = 5 ** x\n    v = z / w\n    # print(v)\n    if abs(v) > 0.5:\n        u = round(v)\n        y += d5[u]\n        z -= u * 5 ** x\n    else: \n        y += str(0)\n    print(y)\n\ny\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n2\n2-\n2-0\n2-00\n2-00=\n2-00=1\n2-00=12\n2-00=12=\n2-00=12=2\n2-00=12=21\n2-00=12=21-\n2-00=12=21-0\n2-00=12=21-0=\n2-00=12=21-0=0\n2-00=12=21-0=01\n2-00=12=21-0=01-\n2-00=12=21-0=01--\n2-00=12=21-0=01--0\n2-00=12=21-0=01--00\n2-00=12=21-0=01--000\n```\n:::\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n'2-00=12=21-0=01--000'\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2022-25_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

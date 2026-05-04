@@ -1,0 +1,12 @@
+{
+  "hash": "045b21c4ad802a174e0dd6c149419e3f",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2023 Day 23\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 23: A Long Walk ---\n\nLet's go for a walk around Snow Island!\n\nFind the longest hike you can take through the hiking trails listed on your map. *How many steps long is the longest hike?*\n\n::: {#fe47e304 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2023-23.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nMaybe write an explanation of the solution approach here\n\n::: {#e53ff634 .cell execution_count=2}\n``` {.python .cell-code}\n# here's another python cell for good luck\n```\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2023-23_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

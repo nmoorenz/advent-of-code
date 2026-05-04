@@ -1,0 +1,12 @@
+{
+  "hash": "6f966bfe1056e4c99faa83ce3983eaae",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2024 Day 25\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 25: Code Chronicle ---\n\nThere are some locks and some keys.\n\nAnalyze your lock and key schematics. How many unique lock/key pairs fit together without overlapping in any column?\n\n::: {#b42166b9 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2024-25.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nGet a list of the keys and of the locks, and organise them into lists of heights.\n\n::: {#8791854c .cell execution_count=2}\n``` {.python .cell-code}\nkeys = []\nlocks = []\nprog = 0\n\nfor i in inp: \n    if prog == 0: \n        # start of the sequence\n        prog += 1\n        if i == '.....':\n            # key\n            key,lock = True,False\n            this = [i]\n            # print('set key')\n        else:\n            # lock\n            lock,key = True,False\n            this = [i]\n            # print('set lock')\n    elif i == '': \n        prog = 0\n        if key: \n            keys.append(this)\n            # print('append key')\n        elif lock:\n            locks.append(this)\n            # print('append lock')\n    else: \n        prog += 1\n        this.append(i)\n        # print('progress')\n        \n# added a blank line at the end of the input to get all locks and keys\n\n```\n:::\n\n\nCreate a function that returns the columns rather than the rows\n\n::: {#59a632df .cell execution_count=3}\n``` {.python .cell-code}\ndef make_things(x):\n    a = [0,0,0,0,0]\n    for b in x[1:]: \n        # print(b)\n        for c,d in enumerate(b):\n            if d == '#':\n                a[c] += 1\n    return a\n            \ndef make_keys(x):\n    return make_things(list(reversed(x)))\n\ndef make_locks(x):\n    return make_things(x)\n\n\nkeysN = [make_keys(q) for q in keys]\nlocksN = [make_locks(q) for q in locks]\n\n```\n:::\n\n\nOK, good.\n\n::: {#99fd41e1 .cell execution_count=4}\n``` {.python .cell-code}\ncounter = 0\n\nfor k in keysN:\n    for l in locksN:\n        add = True\n        for v,w in zip(k,l):\n            if v+w > 5:\n                add = False\n        if add: \n            counter += 1\n\n\ncounter\n# 3127\n```\n\n::: {.cell-output .cell-output-display execution_count=4}\n```\n3127\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2024-25_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

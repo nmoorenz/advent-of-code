@@ -1,0 +1,12 @@
+{
+  "hash": "1f4af110a3f1bf15c3862b95cda7525a",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2024 Day 3\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 3: Mull It Over ---\n\nWe need to multiply some numbers from corrupted computer memory.\n\nScan the corrupted memory for uncorrupted `mul` instructions. What do you get if you add up all of the results of the multiplications?\n\n::: {#5725b994 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2024-03.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nRegex, amirite?\n\n::: {#56fac4f0 .cell execution_count=2}\n``` {.python .cell-code}\nimport re\n\npatt = r'mul\\([0-9]+,[0-9]+\\)'\n\nmul_out = []\n\nfor i in inp: \n    mul_out += re.findall(patt, i)\n    \n# mul_out\n\ndef get_digi(z): \n    a,b = z.split(',')\n    c,d = a.split('(')\n    e = b[:-1]\n    return int(d) * int(e)\n\n\ndigi = [get_digi(x) for x in mul_out]\n\n# digi\n\nsum(digi)\n\n# 174561379\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n174561379\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nThere are some `do()` and some `don't()` instructions which turn on and turn off the `mul()` instructions.\n\nHandle the new instructions; what do you get if you add up all of the results of just the enabled multiplications?\n\n::: {#c8eb1c9c .cell execution_count=3}\n``` {.python .cell-code}\npatt = r'mul\\([0-9]+,[0-9]+\\)|do\\(\\)|don\\'t\\(\\)'\n\nnew_out = []\n\nfor i in inp: \n    new_out += re.findall(patt, i)\n    \n# new_out\n\nnice_out = []\n\ndo_dont = True\n\nfor n in new_out:\n    if n == 'do()': \n        do_dont = True\n    elif n == \"don't()\": \n        do_dont = False\n    else: \n        if do_dont: \n            nice_out.append(n)\n\nlen(mul_out)\nlen(new_out)\nlen(nice_out)\n# nice_out\n\ndigi = [get_digi(x) for x in nice_out]\n\n# digi\n\nsum(digi)\n\n# 106921067\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n106921067\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2024-03_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

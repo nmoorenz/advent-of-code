@@ -1,0 +1,12 @@
+{
+  "hash": "ed138df8e9e01382b418dd0c54c1dd4d",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2020 Day 2 - Py\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 2: Password Philosophy ---\n\nThe North Pole Toboggan Rental Shop needs help with validating some passwords.\n\n*How many passwords are valid* according to their policies?\n\n::: {#a41fa4a6 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2020-02.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nCreate a nice list for things\n\n::: {#99eba585 .cell execution_count=2}\n``` {.python .cell-code}\n# split with spaces\n# split lo and hi\n# integers!\n# don't want the colon\ndef get_things(line):\n  nums, lett, pw = line.split()\n  lo, hi = nums.split(\"-\")\n  lo = int(lo)\n  hi = int(hi)\n  lett = lett.strip(\":\")\n  return lo, hi, lett, pw\n\n# list comprehend that business\nmy_lines = [get_things(d) for d in inp]\n```\n:::\n\n\nNow do the calculations and counting\n\n::: {#e4c673e3 .cell execution_count=3}\n``` {.python .cell-code}\n# count how many things and check\ndef count_letters(lo, hi, lett, pw):\n  cnt = pw.count(lett)\n  return (lo <= cnt and cnt <= hi)\n  \n# do the check and sum\ncount_a = [count_letters(*line) for line in my_lines]\nsum(count_a)\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n500\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nThe password rules are actually different!\n\n*How many passwords are valid* according to the new interpretation of the policies?\n\n::: {#6e5200b6 .cell execution_count=4}\n``` {.python .cell-code}\n# see if the position contains the letter\n# but only one of the positions\ndef letter_pos(lo, hi, lett, pw): \n  mt_lo = pw[lo-1] == lett\n  mt_hi = pw[hi-1] == lett\n  return (mt_lo ^ mt_hi)\n\n# do the check\ncount_pos = [letter_pos(*line) for line in my_lines]\nsum(count_pos)\n\n```\n\n::: {.cell-output .cell-output-display execution_count=4}\n```\n313\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2020-02-py_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

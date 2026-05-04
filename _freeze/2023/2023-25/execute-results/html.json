@@ -1,0 +1,12 @@
+{
+  "hash": "7576c598e71412a7170a4aeb75f5e77b",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2023 Day 25\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 25: Snowverload ---\n\nFind the three wires you need to disconnect in order to divide the components into two separate groups. *What do you get if you multiply the sizes of these two groups together?*\n\n::: {#63163bbd .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2023-25.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nMaybe write an explanation of the solution approach here\n\n::: {#e8e85a04 .cell execution_count=2}\n``` {.python .cell-code}\n# here's another python cell for good luck\n```\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2023-25_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

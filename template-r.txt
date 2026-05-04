@@ -1,0 +1,26 @@
+---
+title: "{year} Day {x}"
+author: "Nathan Moore"
+format: html
+editor: visual
+---
+
+Write the Puzzle explanation here
+
+```{r}
+
+library(tidyverse)
+
+my_file <- here::here("{year}", "data-{year}-{x:02d}.txt")
+cards <- readLines(my_file)
+
+```
+
+Maybe write an explanation of the solution approach here
+
+```{r}
+# here's another R cell for good luck
+
+```
+
+Paste part two here

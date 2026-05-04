@@ -1,0 +1,12 @@
+{
+  "hash": "e2d51f40ba8df53d742d75a746c71ed9",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2022 Day 19\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 19: Not Enough Minerals ---\n\nDetermine the quality level of each blueprint using the largest number of geodes it could produce in 24 minutes. *What do you get if you add up the quality level of all of the blueprints in your list?*\n\n::: {#5bddd37a .cell execution_count=1}\n``` {.python .cell-code}\nimport re\n\nwith open('data-2022-19.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nBorrow this code from day 15 to get the information\n\n::: {#1c44d49f .cell execution_count=2}\n``` {.python .cell-code}\n# Blueprint 1\nb = r'Blueprint (\\d+).*'\nblueprint = [int(re.match(b, i)[1]) for i in inp] \nblueprint \n\n# ore robot costs 3 ore\nc = r'.*ore robot costs (\\d+).*'\nore = [int(re.match(c, i)[1])  for i in inp]\nore \n\n# clay robot costs 3 ore\nd = r'.*clay robot costs (\\d+).*'\nclay = [int(re.match(d, i)[1])  for i in inp]\nclay\n\n# obsidian robot costs 3 ore and 20 clay\ne = r'.*obsidian robot costs (\\d+) ore and (\\d+).*'\nobs = [[int(re.match(e, i)[1]), int(re.match(e, i)[2])]  for i in inp]\nobs\n\n# geode robot costs 2 ore and 12 obsidian\nf = r'.*geode robot costs (\\d+) ore and (\\d+).*'\ngeo = [[int(re.match(f, i)[1]), int(re.match(f, i)[2])]  for i in inp]\ngeo \n\nrobots = [[x[0], x[1], x[2], x[3], x[4]] \n               for x in zip(blueprint, ore, clay, obs, geo)]\n\n```\n:::\n\n\nLoop through these with the rules.\n\nWe start with one ore collecting robot. Assumption: we don't want to build any more ore collecting robots, because obsidian robots rely on clay and geode robots rely on obsidian. A good check will be if we have enough clay but not enough ore or if we have enough obsidian but not enough ore. Luckily we have a hierarchy of robots (this is bound to be a difficulty in part two).\n\n::: {#27b5dc40 .cell execution_count=3}\n``` {.python .cell-code}\nbank = {'oe': 0, 'cl': 0, 'ob': 0, 'ge': 0}\n\nfor r in robots: \n    for m in range(24): \n        pass\n\n```\n:::\n\n\n",
+    "supporting": [
+      "2022-19_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

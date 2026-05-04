@@ -1,0 +1,12 @@
+{
+  "hash": "24574c431af96a9afe9016117b076db2",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2023 Day 15\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 15: Lens Library ---\n\nA reindeer needs your help to process the Holiday ASCII String Helper algorithm.\n\nRun the HASH algorithm on each step in the initialization sequence. *What is the sum of the results?* (The initialization sequence is one long line; be careful when copy-pasting it.)\n\n::: {#522ac4ff .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2023-15.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nMaybe write an explanation of the solution approach here\n\n::: {#8769b696 .cell execution_count=2}\n``` {.python .cell-code}\nmult = 17\ndiv = 256\nsummer = 0\n\n\nfor i in inp:\n    val = 0\n    for j in i: \n        val += ord(j)\n        val *= mult\n        val = val % div\n    summer += val\n    \nsummer\n\n# 510388\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n8\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nThere is a second part to the instructions, of course.\n\nWith the help of an over-enthusiastic reindeer in a hard hat, follow the initialization sequence. *What is the focusing power of the resulting lens configuration?*\n\n",
+    "supporting": [
+      "2023-15_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

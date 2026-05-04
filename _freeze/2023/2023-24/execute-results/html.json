@@ -1,0 +1,12 @@
+{
+  "hash": "4648c6b31d8c9e3e1dfd2f179699157d",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2023 Day 24\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 24: Never Tell Me The Odds ---\n\nWhat's happening with the hailstones on Snow Island?\n\nConsidering only the X and Y axes, check all pairs of hailstones' future paths for intersections. *How many of these intersections occur within the test area?*\n\n::: {#a6edb1a7 .cell execution_count=1}\n``` {.python .cell-code}\nfrom itertools import combinations\n\nwith open('data-2023-24.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nIt feels like there must be a distinct mathematical thing we can do to determine each of these things quickly.\n\nThere is definitely some text preparation we need to do to get the right form for solving.\n\n::: {#91ba15be .cell execution_count=2}\n``` {.python .cell-code}\ndef create_hail(x): \n    \"\"\"Simpler for the list comprehension to use a function\"\"\"\n    pos, vel = x.split(' @ ')\n    pos = list(map(int, pos.split(', ')))\n    vel = list(map(int, vel.split(', ')))\n    return pos, vel\n  \nhail = [create_hail(x) for x in inp]\n\nmmin = 200000000000000 \nmmax = 400000000000000\n\nii = 0\n\nfor g,h in combinations(hail, 2):\n    # print(g,h)   \n    ii += 1\n    # are the velocities strictly parallel? \n    if g[1][0] == h[1][0] and g[1][1] == h[1][1]: \n        print(g, h)\n    # is the x diverging (less than)\n    if g[0][0] < h[0][0] and g[1][0] < h[1][0]:\n        print(g, h)\n    if ii > 100: break\n    \n\nii\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n([380596900441035, 475034410013298, 238677466991589], [-141, -244, 154]) ([396760321169379, 438525413736576, 170928320978248], [-129, -150, 253])\n```\n:::\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n101\n```\n:::\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2023-24_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

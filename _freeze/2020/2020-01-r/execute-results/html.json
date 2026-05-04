@@ -1,0 +1,17 @@
+{
+  "hash": "67e8b511d7d2476e697b5f9e2cd0b0a9",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"2020 Day 1 - R\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 1: Report Repair ---\n\nThe elves give you an expense report and need you to fix things up.\n\nOf course, your expense report is much larger. *Find the two entries that sum to `2020`; what do you get if you multiply them together?*\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors\n```\n\n\n:::\n\n```{.r .cell-code}\ninput_file <- here::here(\"2020\", \"data-2020-01.txt\")\nmy_input <- readLines(input_file) %>% as.numeric()\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nWarning in readLines(input_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2020/data-2020-01.txt'\n```\n\n\n:::\n:::\n\n\n\n\nLet's have a look at the data\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# for plotting\ndf = as.data.frame(my_input)\n\n# have a look\nggplot(df) + \n  geom_histogram(aes(my_input))\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\n`stat_bin()` using `bins = 30`. Pick better value `binwidth`.\n```\n\n\n:::\n\n::: {.cell-output-display}\n![](2020-01-r_files/figure-html/unnamed-chunk-2-1.png){width=672}\n:::\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\n# there is probably some value in sorting the list\n# lower values are likely to be included rather than two around 1000\nsorted_list = sort(my_input)\n\n# double loop\nfor (x in seq_along(sorted_list)) {\n  for (y in seq_along(sorted_list)) {\n    if (sorted_list[[x]] + sorted_list[[y]] == 2020) {\n      print(sorted_list[[x]] * sorted_list[[y]])\n    }\n  }\n}\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 1005459\n[1] 1005459\n```\n\n\n:::\n:::\n\n\n\n\n## --- Part Two ---\n\nActually, find three numbers that sum to 2020.\n\nIn your expense report, *what is the product of the three entries that sum to `2020`?*\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# triple loop\nfor (x in seq_along(sorted_list)) {\n  for (y in seq_along(sorted_list)) {\n    for (z in seq_along(sorted_list)) {\n      if (sorted_list[[x]] + sorted_list[[y]] + sorted_list[[z]] == 2020) {\n        print(sorted_list[[x]] * sorted_list[[y]] * sorted_list[[z]])\n      }\n    }\n  }\n}\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 92643264\n[1] 92643264\n[1] 92643264\n[1] 92643264\n[1] 92643264\n[1] 92643264\n```\n\n\n:::\n:::\n",
+    "supporting": [
+      "2020-01-r_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

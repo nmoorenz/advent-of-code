@@ -1,0 +1,12 @@
+{
+  "hash": "8a806456277fe69226d3cde0a0b8de1b",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2024 Day 18\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 18: RAM Run ---\n\nYou are inside a computer, with bytes falling down.\n\nSimulate the first kilobyte (`1024` bytes) falling onto your memory space. Afterward, what is the minimum number of steps needed to reach the exit?\n\n::: {#66fa568f .cell execution_count=1}\n``` {.python .cell-code}\nimport numpy as np\n\nwith open('data-2024-18.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nbytes = [[int(x.split(',')[0]), int(x.split(',')[1])] for x in inp]\n```\n:::\n\n\nCreate a grid, fill that grid with first bunch of corruption.\n\n::: {#d86795a2 .cell execution_count=2}\n``` {.python .cell-code}\np1_bytes = bytes[:1024]\n\nram = np.full((71,71), '.')\n\nfor p in p1_bytes: \n    ram[p[0],p[1]] = '#'\n    \n\nnp.savetxt('ram_bytes.txt', ram, delimiter='', fmt='%s')\n```\n:::\n\n\nHow do I now solve for shortest path?\n\n",
+    "supporting": [
+      "2024-18_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

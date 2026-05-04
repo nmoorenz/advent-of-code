@@ -1,0 +1,12 @@
+{
+  "hash": "755606485eaf2bd49e9792097180e62f",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2024 Day 21\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 21: Keypad Conundrum ---\n\nIn summary, there are the following keypads:\n\n-   One directional keypad that *you* are using.\n\n-   Two directional keypads that *robots* are using.\n\n-   One numeric keypad (on a door) that a *robot* is using.\n\nFind the fewest number of button presses you'll need to perform in order to cause the robot in front of the door to type each code. What is the sum of the complexities of the five codes on your list?\n\n```         \n+---+---+---+ \n| 7 | 8 | 9 | \n+---+---+---+ \n| 4 | 5 | 6 | \n+---+---+---+ \n| 1 | 2 | 3 | \n+---+---+---+\n    | 0 | A |     \n    +---+---+\n```\n\nKeypad above and direction pad below\n\n```         \n    +---+---+     \n    | ^ | A | \n+---+---+---+ \n| < | v | > | \n+---+---+---+\n```\n\n::: {#6d3cb097 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2024-21.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nNot quite sure how to code this one. \nManual seems like it would take a long time. \n\n",
+    "supporting": [
+      "2024-21_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

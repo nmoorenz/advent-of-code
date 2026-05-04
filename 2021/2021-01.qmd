@@ -5,20 +5,57 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 1: Sonar Sweep ---
 
-```{python}
+You're on a submarine trying to recover the keys for Santa's sleigh.
 
-with open('data-2021-01.txt', 'r') as f:
-    inp = f.read().splitlines()
+Use the sonar readouts to check the depth of the ocean.
+
+*How many measurements are larger than the previous measurement?*
+
+```{r}
+
+library(tidyverse)
+
+my_file <- here::here("2021", "data-2021-01.txt")
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+`diff` function gives us what we need
 
-```{python}
-# here's another python cell for good luck
+```{r}
 
+f01a <- function(x) {
+
+  x <- as.numeric(x)
+  x_lag <- diff(x) > 0
+  p1 <- sum(x_lag)
+
+}
+
+p1 <- f01a(x)
+
+p1
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Actually,
+
+Consider sums of a three-measurement sliding window. *How many sums are larger than the previous sum?*
+
+`diff` function has a `lag` argument!
+
+```{r}
+
+f01b <- function(x) {
+  x <- as.numeric(x)
+  x_lag <- diff(x, lag = 3) > 0
+  p1 <- sum(x_lag)
+}
+
+p2 <- f01b(x)
+
+p2
+```

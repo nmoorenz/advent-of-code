@@ -1,0 +1,12 @@
+{
+  "hash": "8dbf90a593051c16691ae4506f649cbc",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2023 Day 19\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 19: Aplenty ---\n\nWe need to sort out some parts with x, m, a, s designations. Christmas, get it?\n\nSort through all of the parts you've been given; *what do you get if you add together all of the rating numbers for all of the parts that ultimately get accepted?*\n\n::: {#924f1a12 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2023-19.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nMaybe write an explanation of the solution approach here\n\n::: {#d54685b5 .cell execution_count=2}\n``` {.python .cell-code}\n# here's another python cell for good luck\n```\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2023-19_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

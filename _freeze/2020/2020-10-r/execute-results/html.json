@@ -1,0 +1,15 @@
+{
+  "hash": "b8fa22dcbbd43160d7faa42810adf431",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"2020 Day 10 - R\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 10: Adapter Array ---\n\nJolts, and stuff?\n\nFind a chain that uses all of your adapters to connect the charging outlet to your device's built-in adapter and count the joltage differences between the charging outlet, the adapters, and your device. What is the number of 1-jolt differences multiplied by the number of 3-jolt differences?\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# read the things\njolts <- readLines(\"data-2020-10.txt\")\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nWarning in readLines(\"data-2020-10.txt\"): incomplete final line found on\n'data-2020-10.txt'\n```\n\n\n:::\n\n```{.r .cell-code}\njolts = c(0, sort(as.numeric(jolts)))\n\njolts = c(jolts, max(jolts)+3)\n```\n:::\n\n\n\n\nSort and then add up the differences\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nones = 0\nthrees = 0\n\nfor (j in 2:length(jolts)) {\n    diff = jolts[j] - jolts[j-1]\n    if (diff == 1) {\n        ones = ones + 1\n    } else {\n        if (diff == 3) {\n            threes = threes + 1\n        }\n    }\n}\n\nones * threes\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 2244\n```\n\n\n:::\n:::\n\n\n\n\n## --- Part Two ---\n\nWe need to join all of these together.\n\n*What is the total number of distinct ways you can arrange the adapters to connect the charging outlet to your device?*\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# to connect 0 to 1, is 1 way (and 1 for 0 because I did this manually)\nways = 1\nways_1 = 1\nways_2 = 1\nways_3 = 0\n\n# to connect 1 to 2, or 0 to 2, is 2 ways\nways = 2\nways_1 = 1\nways_2 = 1\nways_3 = 1\n\n# now do the rest for 3 etc\nfor (j in 4:length(jolts)) {\n    # print(c(jolts[j], jolts[j-1], jolts[j-2], jolts[j-3]))\n    # print(c(ways, ways_1, ways_2, ways_3))\n    if ((jolts[j] - jolts[j-3]) <= 3) {\n        ways = ways + ways_3\n    }\n    if ((jolts[j] - jolts[j-2]) <= 3) {\n        ways = ways + ways_2\n    }    \n    # if ((jolts[j] - jolts[j-1]) <= 3) {\n    #     ways = ways + ways_1\n    # }\n    ways_3 = ways_2\n    ways_2 = ways_1\n    ways_1 = ways\n    # print(ways)\n}\n\nprint(ways, digits=16)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 3947645370368\n```\n\n\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

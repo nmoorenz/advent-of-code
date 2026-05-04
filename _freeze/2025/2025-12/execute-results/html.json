@@ -1,0 +1,12 @@
+{
+  "hash": "2c43de5b43af3c8ffbdc03bbf9372809",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2025 Day 12\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 12: Christmas Tree Farm ---\n\nWe have some presents we need to fit under the tree. They have funny shapes though.\n\nConsider the regions beneath each tree and the presents the Elves would like to fit into each of them. How many of the regions can fit all of the presents listed?\n\n::: {#6a316689 .cell execution_count=1}\n``` {.python .cell-code}\nimport math \n\nwith open('data-2025-12.txt', 'r') as f:\n    inp = f.read().splitlines()\n\ngift_size = [7, 7, 7, 7, 5, 6]\n\nregions = inp[30:]\n```\n:::\n\n\nWhy don't we just inspect how much area there is? There are so many different iterations and rotations maybe it's just easier to see if there is space first.\n\n::: {#41878331 .cell execution_count=2}\n``` {.python .cell-code}\nsummer = 0\n\nfor r in regions: \n    size, times = r.split(':')\n    # size, times\n    area = int(size.split('x')[0]) * int(size.split('x')[1])\n    # area\n    times_n = times.lstrip().split(' ')\n    times_n = [int(x) for x in times_n]\n    # times_n\n    if area > math.sumprod(times_n, gift_size): \n        summer += 1\n        \nsummer\n\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n524\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nEarn the other stars\n\n",
+    "supporting": [
+      "2025-12_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "hash": "4b296f4348a3997d5cbc4fce49560a0f",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2023 Day 21\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 21: Step Counter ---\n\nThe gardener elf wants to go for a walk.\n\nStarting from the garden plot marked `S` on your map, *how many garden plots could the Elf reach in exactly `64` steps?*\n\n::: {#224a312f .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2023-21.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nMaybe write an explanation of the solution approach here\n\n::: {#6d55643e .cell execution_count=2}\n``` {.python .cell-code}\n# here's another python cell for good luck\n```\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2023-21_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

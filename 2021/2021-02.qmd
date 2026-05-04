@@ -5,20 +5,51 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 2: Dive! ---
 
-```{python}
+We have to figure out where the submarine is going.
 
-with open('data-2021-02.txt', 'r') as f:
-    inp = f.read().splitlines()
+Calculate the horizontal position and depth you would have after following the planned course. *What do you get if you multiply your final horizontal position by your final depth?*
+
+```{r}
+
+library(tidyverse)
+
+my_file <- here::here("2021", "data-2021-02.txt")
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+up and down mean different things, but we can handle that.
 
-```{python}
-# here's another python cell for good luck
+```{r}
 
+f02a <- function(x) {
+  # create a helper object to provide instructions
+  effect <- tribble(
+    ~direction, ~x, ~depth,
+    "forward", 1, 0,
+    "down", 0, 1,
+    "up", 0, -1
+  )
+
+  # create direction and value in their own columns
+  instruct <- tibble(inpt = x) %>%
+    separate(inpt, c("direction", "val"), convert = TRUE)
+
+  # join and calculate change at each step
+  delta_sub <- inner_join(instruct, effect, by = c("direction")) %>%
+    mutate(x_delta = val * x,
+           depth_delta = val * depth)
+
+  # part one answer is sum of final x and depth position
+  sum(delta_sub$x_delta) * sum(delta_sub$depth_delta)
+
+}
+
+p1 <- f02a(x)
+
+p1
 ```
 
 Paste part two here

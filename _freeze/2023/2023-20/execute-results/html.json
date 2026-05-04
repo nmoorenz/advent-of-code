@@ -1,0 +1,12 @@
+{
+  "hash": "bd76000e674f7366a75af6f81408a1c0",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2023 Day 20\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 20: Pulse Propagation ---\n\nThere are some complicated rules for signals and outputs and button presses.\n\nConsult your module configuration; determine the number of low pulses and high pulses that would be sent after pushing the button `1000` times, waiting for all pulses to be fully handled after each push of the button. *What do you get if you multiply the total number of low pulses sent by the total number of high pulses sent?*\n\n::: {#d461552d .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2023-20.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nMaybe write an explanation of the solution approach here\n\n::: {#1d1bae7a .cell execution_count=2}\n``` {.python .cell-code}\n# here's another python cell for good luck\n```\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2023-20_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

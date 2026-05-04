@@ -434,6 +434,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2020/2020-12-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2020 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2020/2020-13-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 13 - R</span></a>
   </div>
@@ -490,6 +496,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../2020/2020-23-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 23 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-24-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 24 - R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1197,6 +1209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2025/2025-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2025 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2025/2025-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2025 Day 12</span></a>
   </div>
@@ -1246,7 +1264,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="day-19-medicine-for-rudolph" class="level2">
 <h2 class="anchored" data-anchor-id="day-19-medicine-for-rudolph">— Day 19: Medicine for Rudolph —</h2>
 <p>Your puzzle input describes all of the possible replacements and, at the bottom, the medicine molecule for which you need to calibrate the machine. <em>How many distinct molecules can be created</em> after all the different ways you can do one replacement on the medicine molecule?</p>
-<div id="cb336641" class="cell" data-execution_count="1">
+<div id="d1305660" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> copy</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> product</span>
@@ -1258,7 +1276,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>rep <span class="op">=</span> inp[:<span class="op">-</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Split the molecule into its parts, which means knowing what replacements are possible.</p>
-<div id="9ad05d75" class="cell" data-execution_count="2">
+<div id="b825f65d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mm <span class="op">=</span> []</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> re.<span class="bu">compile</span>(<span class="vs">r'[A-Z][a-z]'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1552,7 +1570,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Let’s organise the replacements into lists, then we can insert those lists into the big list, and then we can use itertools <code>combinations()</code> or similar to expand those lists and count how many there are.</p>
-<div id="cad3ec27" class="cell" data-execution_count="3">
+<div id="aeb26d4a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>froms <span class="op">=</span> [x.split(<span class="st">' =&gt; '</span>)[<span class="dv">0</span>] <span class="cf">for</span> x <span class="kw">in</span> rep]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tos <span class="op">=</span> [x.split(<span class="st">' =&gt; '</span>)[<span class="dv">1</span>] <span class="cf">for</span> x <span class="kw">in</span> rep]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1573,7 +1591,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>reps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>{'Si': True, 'Th': True, 'N': False, 'F': True, 'Mg': True, 'Ti': True, 'B': True, 'O': False, 'H': False, 'Al': True, 'Ca': True, 'e': False, 'P': True}
+<pre><code>{'F': True, 'B': True, 'Al': True, 'e': False, 'Ca': True, 'Mg': True, 'H': False, 'N': False, 'Th': True, 'Ti': True, 'P': True, 'O': False, 'Si': True}
 </code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -1602,7 +1620,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Now we need to put reps into mm - create a new list of the molecule or its replacements.</p>
-<div id="229a407f" class="cell" data-execution_count="4">
+<div id="579e614c" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mmr <span class="op">=</span> []</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> m <span class="kw">in</span> mm:</span>
@@ -1890,7 +1908,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Create a list of possible molecules by flattening the list of options</p>
-<div id="a0baef48" class="cell" data-execution_count="5">
+<div id="4855f3f0" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mmrl <span class="op">=</span> [x <span class="cf">for</span> x <span class="kw">in</span> mmr <span class="cf">if</span> <span class="bu">isinstance</span>(x, <span class="bu">list</span>)]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>num <span class="op">=</span> <span class="dv">0</span></span>
@@ -1904,7 +1922,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Actually, use mm and then if it’s a list do the replacements from a list - get the unique combinations with <code>set()</code></p>
-<div id="745cbb22" class="cell" data-execution_count="6">
+<div id="9359fef5" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>new_m <span class="op">=</span> []</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> e,m <span class="kw">in</span> <span class="bu">enumerate</span>(mm):</span>
@@ -1925,14 +1943,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-two" class="level2">
 <h2 class="anchored" data-anchor-id="part-two">— Part Two —</h2>
 <p>How long will it take to make the medicine? Given the available <em>replacements</em> and the <em>medicine molecule</em> in your puzzle input, what is the <em>fewest number of steps</em> to go from <code>e</code> to the medicine molecule?</p>
-<div id="a0cd4223" class="cell" data-execution_count="7">
+<div id="7bd00178" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># molecule string</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>mol</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>'CRnCaSiRnBSiRnFArTiBPTiTiBFArPBCaSiThSiRnTiBPBPMgArCaSiRnTiMgArCaSiThCaSiRnFArRnSiRnFArTiTiBFArCaCaSiRnSiThCaCaSiRnMgArFYSiRnFYCaFArSiThCaSiThPBPTiMgArCaPRnSiAlArPBCaCaSiRnFYSiThCaRnFArArCaCaSiRnPBSiRnFArMgYCaCaCaCaSiThCaCaSiAlArCaCaSiRnPBSiAlArBCaCaCaCaSiThCaPBSiThPBPBCaSiRnFYFArSiThCaSiRnFArBCaCaSiRnFYFArSiThCaPBSiThCaSiRnPMgArRnFArPTiBCaPRnFArCaCaCaCaSiRnCaCaSiRnFYFArFArBCaSiThFArThSiThSiRnTiRnPMgArFArCaSiThCaPBCaSiRnBFArCaCaPRnCaCaPMgArSiRnFYFArCaSiThRnPBPMgAr'</code></pre>
 </div>
 </div>
-<div id="f3adf06d" class="cell" data-execution_count="8">
+<div id="0ca81ba8" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># replacement list of lists</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>reps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
@@ -1961,7 +1979,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Which of these replacements are in the molecule and do any of them overlap? It looks like some of them overlap, especially when involved with Ca.</p>
-<div id="0da992ff" class="cell" data-execution_count="9">
+<div id="347677b0" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k,v <span class="kw">in</span> reps.items():</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> s <span class="kw">in</span> v: </span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> s <span class="kw">in</span> mol: </span>
@@ -1991,7 +2009,7 @@ TiTi: 2</code></pre>
 </div>
 </div>
 <p>If I just go ahead and loop through and try to do some replacements I’m worried that I’m going to end up in some state that is not solvable, i.e.&nbsp;can’t make any more reduction replacements. I’m assuming I need to start at the current molecule and work backwards to get to e. This seems inefficient in computation and in number of replacements but I think I have to try it and see.</p>
-<div id="bbbc1314" class="cell" data-execution_count="10">
+<div id="5b5ee0b3" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get another version of mol that I can operate backwards on</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>bk <span class="op">=</span> inp[<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>rr <span class="op">=</span> <span class="dv">0</span></span>
@@ -2024,7 +2042,7 @@ BP
 </div>
 </div>
 <p>Let’s try going through and restarting at the start each time we find a replacement. Other strategies: sort by longest replacements, and use those first.</p>
-<div id="8a396507" class="cell" data-execution_count="11">
+<div id="5e8b494d" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get another version of mol that I can operate backwards on</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>bk <span class="op">=</span> inp[<span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># print(bk)</span></span>
@@ -2051,7 +2069,7 @@ BP
 <p>Actually,</p>
 <p><a href="https://www.reddit.com/r/adventofcode/comments/3xflz8/day_19_solutions/" class="uri">https://www.reddit.com/r/adventofcode/comments/3xflz8/day_19_solutions/</a></p>
 <p>NumSymbols - #Rn - #Ar - 2 * #Y - 1</p>
-<div id="e13e1e97" class="cell" data-execution_count="12">
+<div id="5c2e56ee" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(mm)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>mm.count(<span class="st">'Rn'</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>mm.count(<span class="st">'Ar'</span>)</span>

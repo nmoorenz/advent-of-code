@@ -1,0 +1,12 @@
+{
+  "hash": "51cb7a56736a048df1a219f1dd5c423c",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2020 Day 6 - Py\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 6: Custom Customs ---\n\nCustoms forms are being handed out on the flight and you need to work out who answers yes to how many questions.\n\nFor each group, count the number of questions to which anyone answered \"yes\". What is the sum of those counts?\n\n::: {#2b8c1163 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2020-06.txt', 'r') as f:\n    qq = f.read()\n\n# split groups\nqq_split = qq.split(\"\\n\\n\")\n```\n:::\n\n\n`set()` gives unique letters\n\n::: {#fc7d6858 .cell execution_count=2}\n``` {.python .cell-code}\n# replace \\n with nothing, since we're interested in group as a whole\n# set provides us with unique items\n# len gives us how many answers\npart_one = [len(set(x.replace(\"\\n\", \"\"))) for x in qq_split]\n\n# part one answer\nsum(part_one)\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n6504\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nWe don't have to work out *any* person answered yes, we have to count *all* who answered yes.\n\nFor each group, count the number of questions to which *everyone* answered \"yes\". *What is the sum of those counts?*\n\n::: {#10439541 .cell execution_count=3}\n``` {.python .cell-code}\nqq_groups = [x.replace(\"\\n\", \" \") for x in qq_split]\n\n# how many people are there in each group\nqq_num = [x.count(\" \")+1 for x in qq_groups]\n\n# https://stackoverflow.com/questions/1155617/count-the-number-occurrences-of-a-character-in-a-string\nfrom collections import Counter\n\n# do the count\ncounter = [Counter(x) for x in qq_groups]\n\n# now we need to combine these with the number of groups\n# count_num = [value == nn for cc, nn in zip(counter, qq_num) for value in cc.values()]\ncount_num = [list(cc.values()).count(nn) for cc, nn in zip(counter, qq_num)]\n\nsum(count_num)\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n3351\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2020-06-py_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
