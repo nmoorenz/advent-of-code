@@ -1,12 +1,17 @@
 {
-  "hash": "3eb488767ff692f71f3c4a9a26c43cf7",
+  "hash": "e44945608a5c4313becf32cab38436f4",
   "result": {
-    "engine": "jupyter",
-    "markdown": "---\ntitle: \"2021 Day 1\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\nWrite the Puzzle explanation here\n\n::: {#72734da0 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2021-01.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nMaybe write an explanation of the solution approach here\n\n::: {#51f4257a .cell execution_count=2}\n``` {.python .cell-code}\n# here's another python cell for good luck\n```\n:::\n\n\nPaste part two here\n\n",
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"2021 Day 1\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 1: Sonar Sweep ---\n\nYou're on a submarine trying to recover the keys for Santa's sleigh.\n\nUse the sonar readouts to check the depth of the ocean.\n\n*How many measurements are larger than the previous measurement?*\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors\n```\n\n\n:::\n\n```{.r .cell-code}\nmy_file <- here::here(\"2021\", \"data-2021-01.txt\")\nx <- readLines(my_file)\n```\n:::\n\n\n\n\n`diff` function gives us what we need\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nf01a <- function(x) {\n\n  x <- as.numeric(x)\n  x_lag <- diff(x) > 0\n  p1 <- sum(x_lag)\n\n}\n\np1 <- f01a(x)\n\np1\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 1752\n```\n\n\n:::\n:::\n\n\n\n\n## --- Part Two ---\n\nActually,\n\nConsider sums of a three-measurement sliding window. *How many sums are larger than the previous sum?*\n\n`diff` function has a `lag` argument!\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nf01b <- function(x) {\n  x <- as.numeric(x)\n  x_lag <- diff(x, lag = 3) > 0\n  p1 <- sum(x_lag)\n}\n\np2 <- f01b(x)\n\np2\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 1781\n```\n\n\n:::\n:::\n",
     "supporting": [
       "2021-01_files"
     ],
-    "filters": [],
-    "includes": {}
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
   }
 }

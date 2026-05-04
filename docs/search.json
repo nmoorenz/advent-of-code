@@ -1339,7 +1339,7 @@
     "href": "2021/2021-25.html",
     "title": "2021 Day 25",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-25.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-25.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-25.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1351,7 +1351,7 @@
     "href": "2021/2021-23.html",
     "title": "2021 Day 23",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-23.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-23.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-23.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1363,7 +1363,7 @@
     "href": "2021/2021-21.html",
     "title": "2021 Day 21",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-21.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-21.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-21.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1375,7 +1375,7 @@
     "href": "2021/2021-19.html",
     "title": "2021 Day 19",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-19.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-19.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-19.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1387,7 +1387,7 @@
     "href": "2021/2021-17.html",
     "title": "2021 Day 17",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-17.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-17.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-17.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1399,7 +1399,7 @@
     "href": "2021/2021-15.html",
     "title": "2021 Day 15",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-15.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-15.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-15.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1411,7 +1411,7 @@
     "href": "2021/2021-13.html",
     "title": "2021 Day 13",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-13.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-13.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-13.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1423,7 +1423,7 @@
     "href": "2021/2021-11.html",
     "title": "2021 Day 11",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-11.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-11.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-11.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1435,7 +1435,7 @@
     "href": "2021/2021-09.html",
     "title": "2021 Day 9",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-09.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-09.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-09.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1447,7 +1447,7 @@
     "href": "2021/2021-07.html",
     "title": "2021 Day 7",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-07.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-07.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-07.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1459,7 +1459,7 @@
     "href": "2021/2021-05.html",
     "title": "2021 Day 5",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-05.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-05.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-05.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1471,7 +1471,7 @@
     "href": "2021/2021-03.html",
     "title": "2021 Day 3",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-03.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-03.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-03.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1483,7 +1483,31 @@
     "href": "2021/2021-01.html",
     "title": "2021 Day 1",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-01.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "You’re on a submarine trying to recover the keys for Santa’s sleigh.\nUse the sonar readouts to check the depth of the ocean.\nHow many measurements are larger than the previous measurement?\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-01.txt\")\nx &lt;- readLines(my_file)\n\ndiff function gives us what we need\n\nf01a &lt;- function(x) {\n\n  x &lt;- as.numeric(x)\n  x_lag &lt;- diff(x) &gt; 0\n  p1 &lt;- sum(x_lag)\n\n}\n\np1 &lt;- f01a(x)\n\np1\n\n[1] 1752",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 1"
+    ]
+  },
+  {
+    "objectID": "2021/2021-01.html#day-1-sonar-sweep",
+    "href": "2021/2021-01.html#day-1-sonar-sweep",
+    "title": "2021 Day 1",
+    "section": "",
+    "text": "You’re on a submarine trying to recover the keys for Santa’s sleigh.\nUse the sonar readouts to check the depth of the ocean.\nHow many measurements are larger than the previous measurement?\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-01.txt\")\nx &lt;- readLines(my_file)\n\ndiff function gives us what we need\n\nf01a &lt;- function(x) {\n\n  x &lt;- as.numeric(x)\n  x_lag &lt;- diff(x) &gt; 0\n  p1 &lt;- sum(x_lag)\n\n}\n\np1 &lt;- f01a(x)\n\np1\n\n[1] 1752",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 1"
+    ]
+  },
+  {
+    "objectID": "2021/2021-01.html#part-two",
+    "href": "2021/2021-01.html#part-two",
+    "title": "2021 Day 1",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nActually,\nConsider sums of a three-measurement sliding window. How many sums are larger than the previous sum?\ndiff function has a lag argument!\n\nf01b &lt;- function(x) {\n  x &lt;- as.numeric(x)\n  x_lag &lt;- diff(x, lag = 3) &gt; 0\n  p1 &lt;- sum(x_lag)\n}\n\np2 &lt;- f01b(x)\n\np2\n\n[1] 1781",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3255,7 +3279,19 @@
     "href": "2021/2021-02.html",
     "title": "2021 Day 2",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-02.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "We have to figure out where the submarine is going.\nCalculate the horizontal position and depth you would have after following the planned course. What do you get if you multiply your final horizontal position by your final depth?\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-02.txt\")\nx &lt;- readLines(my_file)\n\nup and down mean different things, but we can handle that.\n\nf02a &lt;- function(x) {\n  # create a helper object to provide instructions\n  effect &lt;- tribble(\n    ~direction, ~x, ~depth,\n    \"forward\", 1, 0,\n    \"down\", 0, 1,\n    \"up\", 0, -1\n  )\n\n  # create direction and value in their own columns\n  instruct &lt;- tibble(inpt = x) %&gt;%\n    separate(inpt, c(\"direction\", \"val\"), convert = TRUE)\n\n  # join and calculate change at each step\n  delta_sub &lt;- inner_join(instruct, effect, by = c(\"direction\")) %&gt;%\n    mutate(x_delta = val * x,\n           depth_delta = val * depth)\n\n  # part one answer is sum of final x and depth position\n  sum(delta_sub$x_delta) * sum(delta_sub$depth_delta)\n\n}\n\np1 &lt;- f02a(x)\n\np1\n\n[1] 1451208\n\n\nPaste part two here",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 2"
+    ]
+  },
+  {
+    "objectID": "2021/2021-02.html#day-2-dive",
+    "href": "2021/2021-02.html#day-2-dive",
+    "title": "2021 Day 2",
+    "section": "",
+    "text": "We have to figure out where the submarine is going.\nCalculate the horizontal position and depth you would have after following the planned course. What do you get if you multiply your final horizontal position by your final depth?\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-02.txt\")\nx &lt;- readLines(my_file)\n\nup and down mean different things, but we can handle that.\n\nf02a &lt;- function(x) {\n  # create a helper object to provide instructions\n  effect &lt;- tribble(\n    ~direction, ~x, ~depth,\n    \"forward\", 1, 0,\n    \"down\", 0, 1,\n    \"up\", 0, -1\n  )\n\n  # create direction and value in their own columns\n  instruct &lt;- tibble(inpt = x) %&gt;%\n    separate(inpt, c(\"direction\", \"val\"), convert = TRUE)\n\n  # join and calculate change at each step\n  delta_sub &lt;- inner_join(instruct, effect, by = c(\"direction\")) %&gt;%\n    mutate(x_delta = val * x,\n           depth_delta = val * depth)\n\n  # part one answer is sum of final x and depth position\n  sum(delta_sub$x_delta) * sum(delta_sub$depth_delta)\n\n}\n\np1 &lt;- f02a(x)\n\np1\n\n[1] 1451208\n\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3267,7 +3303,7 @@
     "href": "2021/2021-04.html",
     "title": "2021 Day 4",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-04.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-04.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-04.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3279,7 +3315,7 @@
     "href": "2021/2021-06.html",
     "title": "2021 Day 6",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-06.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-06.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-06.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3291,7 +3327,7 @@
     "href": "2021/2021-08.html",
     "title": "2021 Day 8",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-08.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-08.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-08.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3303,7 +3339,7 @@
     "href": "2021/2021-10.html",
     "title": "2021 Day 10",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-10.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-10.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-10.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3315,7 +3351,7 @@
     "href": "2021/2021-12.html",
     "title": "2021 Day 12",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-12.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-12.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-12.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3327,7 +3363,7 @@
     "href": "2021/2021-14.html",
     "title": "2021 Day 14",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-14.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-14.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-14.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3339,7 +3375,7 @@
     "href": "2021/2021-16.html",
     "title": "2021 Day 16",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-16.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-16.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-16.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3351,7 +3387,7 @@
     "href": "2021/2021-18.html",
     "title": "2021 Day 18",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-18.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-18.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-18.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3363,7 +3399,7 @@
     "href": "2021/2021-20.html",
     "title": "2021 Day 20",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-20.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-20.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-20.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3375,7 +3411,7 @@
     "href": "2021/2021-22.html",
     "title": "2021 Day 22",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-22.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-22.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-22.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3387,7 +3423,7 @@
     "href": "2021/2021-24.html",
     "title": "2021 Day 24",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nwith open('data-2021-24.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nMaybe write an explanation of the solution approach here\n\n# here's another python cell for good luck\n\nPaste part two here",
+    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-24.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-24.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3399,7 +3435,7 @@
     "href": "2021/index-2021.html",
     "title": "Advent of Code 2021",
     "section": "",
-    "text": "Language: R\nDay 1\n\n\n\n\n\n\n\n\nDay 2\n\n\n\n\n\n\n\n\nDay 3\n\n\n\n\n\n\n\n\nDay 4\n\n\n\n\n\n\n\n\nDay 5\n\n\n\n\n\n\n\n\nDay 6\n\n\n\n\n\n\n\n\nDay 7\n\n\n\n\n\n\n\n\nDay 8\n\n\n\n\n\n\n\n\nDay 9\n\n\n\n\n\n\n\n\nDay 10\n\n\n\n\n\n\n\n\nDay 11\n\n\n\n\n\n\n\n\nDay 12\n\n\n\n\n\n\n\n\nDay 13\n\n\n\n\n\n\n\n\nDay 14\n\n\n\n\n\n\n\n\nDay 15\n\n\n\n\n\n\n\n\nDay 16\n\n\n\n\n\n\n\n\nDay 17\n\n\n\n\n\n\n\n\nDay 18\n\n\n\n\n\n\n\n\nDay 19\n\n\n\n\n\n\n\n\nDay 20\n\n\n\n\n\n\n\n\nDay 21\n\n\n\n\n\n\n\n\nDay 22\n\n\n\n\n\n\n\n\nDay 23\n\n\n\n\n\n\n\n\nDay 24\n\n\n\n\n\n\n\n\nDay 25",
+    "text": "Day 1\n\n\n\n\n\n\n\n\nDay 2\n\n\n\n\n\n\n\n\nDay 3\n\n\n\n\n\n\n\n\nDay 4\n\n\n\n\n\n\n\n\nDay 5\n\n\n\n\n\n\n\n\nDay 6\n\n\n\n\n\n\n\n\nDay 7\n\n\n\n\n\n\n\n\nDay 8\n\n\n\n\n\n\n\n\nDay 9\n\n\n\n\n\n\n\n\nDay 10\n\n\n\n\n\n\n\n\nDay 11\n\n\n\n\n\n\n\n\nDay 12\n\n\n\n\n\n\n\n\nDay 13\n\n\n\n\n\n\n\n\nDay 14\n\n\n\n\n\n\n\n\nDay 15\n\n\n\n\n\n\n\n\nDay 16\n\n\n\n\n\n\n\n\nDay 17\n\n\n\n\n\n\n\n\nDay 18\n\n\n\n\n\n\n\n\nDay 19\n\n\n\n\n\n\n\n\nDay 20\n\n\n\n\n\n\n\n\nDay 21\n\n\n\n\n\n\n\n\nDay 22\n\n\n\n\n\n\n\n\nDay 23\n\n\n\n\n\n\n\n\nDay 24\n\n\n\n\n\n\n\n\nDay 25",
     "crumbs": [
       "Home",
       "Advent of Code 2021"
@@ -3410,7 +3446,7 @@
     "href": "2021/index-2021.html#solutions-for-2021",
     "title": "Advent of Code 2021",
     "section": "",
-    "text": "Language: R\nDay 1\n\n\n\n\n\n\n\n\nDay 2\n\n\n\n\n\n\n\n\nDay 3\n\n\n\n\n\n\n\n\nDay 4\n\n\n\n\n\n\n\n\nDay 5\n\n\n\n\n\n\n\n\nDay 6\n\n\n\n\n\n\n\n\nDay 7\n\n\n\n\n\n\n\n\nDay 8\n\n\n\n\n\n\n\n\nDay 9\n\n\n\n\n\n\n\n\nDay 10\n\n\n\n\n\n\n\n\nDay 11\n\n\n\n\n\n\n\n\nDay 12\n\n\n\n\n\n\n\n\nDay 13\n\n\n\n\n\n\n\n\nDay 14\n\n\n\n\n\n\n\n\nDay 15\n\n\n\n\n\n\n\n\nDay 16\n\n\n\n\n\n\n\n\nDay 17\n\n\n\n\n\n\n\n\nDay 18\n\n\n\n\n\n\n\n\nDay 19\n\n\n\n\n\n\n\n\nDay 20\n\n\n\n\n\n\n\n\nDay 21\n\n\n\n\n\n\n\n\nDay 22\n\n\n\n\n\n\n\n\nDay 23\n\n\n\n\n\n\n\n\nDay 24\n\n\n\n\n\n\n\n\nDay 25",
+    "text": "Day 1\n\n\n\n\n\n\n\n\nDay 2\n\n\n\n\n\n\n\n\nDay 3\n\n\n\n\n\n\n\n\nDay 4\n\n\n\n\n\n\n\n\nDay 5\n\n\n\n\n\n\n\n\nDay 6\n\n\n\n\n\n\n\n\nDay 7\n\n\n\n\n\n\n\n\nDay 8\n\n\n\n\n\n\n\n\nDay 9\n\n\n\n\n\n\n\n\nDay 10\n\n\n\n\n\n\n\n\nDay 11\n\n\n\n\n\n\n\n\nDay 12\n\n\n\n\n\n\n\n\nDay 13\n\n\n\n\n\n\n\n\nDay 14\n\n\n\n\n\n\n\n\nDay 15\n\n\n\n\n\n\n\n\nDay 16\n\n\n\n\n\n\n\n\nDay 17\n\n\n\n\n\n\n\n\nDay 18\n\n\n\n\n\n\n\n\nDay 19\n\n\n\n\n\n\n\n\nDay 20\n\n\n\n\n\n\n\n\nDay 21\n\n\n\n\n\n\n\n\nDay 22\n\n\n\n\n\n\n\n\nDay 23\n\n\n\n\n\n\n\n\nDay 24\n\n\n\n\n\n\n\n\nDay 25",
     "crumbs": [
       "Home",
       "Advent of Code 2021"
