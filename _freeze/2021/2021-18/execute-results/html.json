@@ -1,12 +1,17 @@
 {
-  "hash": "65e4ec8c24f8d627e05462b688615fd6",
+  "hash": "fbef597d9f8a9d9ba885647d959a11c8",
   "result": {
-    "engine": "jupyter",
-    "markdown": "---\ntitle: \"2021 Day 18\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\nWrite the Puzzle explanation here\n\n::: {#04d59e6b .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2021-18.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nMaybe write an explanation of the solution approach here\n\n::: {#7d418df6 .cell execution_count=2}\n``` {.python .cell-code}\n# here's another python cell for good luck\n```\n:::\n\n\nPaste part two here\n\n",
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"2021 Day 18\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\nWrite the Puzzle explanation here\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors\n```\n\n\n:::\n\n```{.r .cell-code}\nmy_file <- here::here(\"2021\", \"data-2021-18.txt\")\ncards <- readLines(my_file)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-18.txt'\n```\n\n\n:::\n:::\n\n\n\n\nMaybe write an explanation of the solution approach here\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# here's another R cell for good luck\n```\n:::\n\n\n\n\nPaste part two here\n",
     "supporting": [
       "2021-18_files"
     ],
-    "filters": [],
-    "includes": {}
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
   }
 }
