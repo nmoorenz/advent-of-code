@@ -434,6 +434,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2020/2020-12-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2020 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2020/2020-13-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 13 - R</span></a>
   </div>
@@ -490,6 +496,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../2020/2020-23-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 23 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-24-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 24 - R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1197,6 +1209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2025/2025-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2025 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2025/2025-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2025 Day 12</span></a>
   </div>
@@ -1247,7 +1265,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="day-9-all-in-a-single-night">— Day 9: All in a Single Night —</h2>
 <p>Santa has some new locations to visit, and we need to find the shortest path.</p>
 <p>What is the distance of the shortest route?</p>
-<div id="cc01f0ac" class="cell" data-execution_count="1">
+<div id="c5ee08df" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> python_tsp.exact <span class="im">import</span> solve_tsp_dynamic_programming</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1255,7 +1273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    distances <span class="op">=</span> f.read().splitlines()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Create lists which we might be able to iterate over</p>
-<div id="b95c997b" class="cell" data-execution_count="2">
+<div id="792579a9" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dist_list <span class="op">=</span> [x.split(<span class="st">' '</span>) <span class="cf">for</span> x <span class="kw">in</span> distances]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>dist_arr <span class="op">=</span> np.zeros((<span class="dv">8</span>,<span class="dv">8</span>))</span>
@@ -1270,7 +1288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>That looks good, now let’s use the solver</p>
 <p>https://github.com/fillipe-gsm/python-tsp</p>
-<div id="bfc6409b" class="cell" data-execution_count="3">
+<div id="536bfaa2" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dist_arr[:, <span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>permutation, distance <span class="op">=</span> solve_tsp_dynamic_programming(dist_arr)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>permutation</span>
@@ -1285,7 +1303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-two" class="level2">
 <h2 class="anchored" data-anchor-id="part-two">— Part Two —</h2>
 <p>What is the distance of the longest route?</p>
-<div id="dcef3564" class="cell" data-execution_count="4">
+<div id="beab072a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># """Module with a brute force TSP solver"""</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> permutations</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Any, List, Optional, Tuple</span>
@@ -1319,7 +1337,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best_permutation, best_distance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Steal the code from python-tsp</p>
-<div id="a2918b46" class="cell" data-execution_count="5">
+<div id="c40d1e91" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>permutation, distance <span class="op">=</span> solve_tsp_brute_force(dist_arr)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>permutation</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>distance</span>

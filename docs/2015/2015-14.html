@@ -434,6 +434,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2020/2020-12-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2020 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2020/2020-13-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 13 - R</span></a>
   </div>
@@ -490,6 +496,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../2020/2020-23-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 23 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-24-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 24 - R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1197,6 +1209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2025/2025-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2025 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2025/2025-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2025 Day 12</span></a>
   </div>
@@ -1247,12 +1265,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="day-14-reindeer-olympics">— Day 14: Reindeer Olympics —</h2>
 <p>Reindeer race!</p>
 <p>Given the descriptions of each reindeer (in your puzzle input), after exactly <code>2503</code> seconds, <em>what distance has the winning reindeer traveled</em>?</p>
-<div id="44c349c0" class="cell" data-execution_count="1">
+<div id="6242588e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'data-2015-14.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    inp <span class="op">=</span> f.read().splitlines()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s get that info into a list of lists</p>
-<div id="9e85c6da" class="cell" data-execution_count="2">
+<div id="45d9d42a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rein_list <span class="op">=</span> [x.split(<span class="st">' '</span>) <span class="cf">for</span> x <span class="kw">in</span> inp]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>rein_info <span class="op">=</span> [[x[<span class="dv">0</span>], <span class="bu">int</span>(x[<span class="dv">3</span>]), <span class="bu">int</span>(x[<span class="dv">6</span>]), <span class="bu">int</span>(x[<span class="dv">13</span>])] <span class="cf">for</span> x <span class="kw">in</span> rein_list]</span>
@@ -1260,7 +1278,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>tm <span class="op">=</span> <span class="dv">2503</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we race!</p>
-<div id="4ae35c64" class="cell" data-execution_count="3">
+<div id="21963eb6" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>max_dist <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> rein_info:</span>
@@ -1288,7 +1306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="part-two">— Part Two —</h2>
 <p>Actually, Santa awards a point to each reindeer when they are in the lead.</p>
 <p>Again given the descriptions of each reindeer (in your puzzle input), after exactly <code>2503</code> seconds, <em>how many points does the winning reindeer have</em>?</p>
-<div id="e6621e21" class="cell" data-execution_count="4">
+<div id="139d6f50" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># keep a list of the distances travelled</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dist_list <span class="op">=</span> []</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1319,7 +1337,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    dist_list.append(dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s compare who is in the lead at each time step</p>
-<div id="6e615e76" class="cell" data-execution_count="5">
+<div id="01d2fd37" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dist_dict <span class="op">=</span> {}</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>points_dict <span class="op">=</span> {}</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>

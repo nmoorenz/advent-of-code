@@ -434,6 +434,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2020/2020-12-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2020 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2020/2020-13-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 13 - R</span></a>
   </div>
@@ -490,6 +496,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../2020/2020-23-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 23 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-24-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 24 - R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1197,6 +1209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2025/2025-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2025 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2025/2025-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2025 Day 12</span></a>
   </div>
@@ -1247,12 +1265,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="day-1-not-quite-lisp">— Day 1: Not Quite Lisp —</h2>
 <p>Santa is delivering presents in a large apartment building, but the lifts are a bit screwy.</p>
 <p>To <em>what floor</em> do the instructions take Santa?</p>
-<div id="489d73c1" class="cell" data-execution_count="1">
+<div id="8e414214" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'data-2015-01.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    paren <span class="op">=</span> f.read()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Simple enough, count the ups and downs.</p>
-<div id="fca64219" class="cell" data-execution_count="2">
+<div id="fd5b5805" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>paren.count(<span class="st">'('</span>) <span class="op">-</span> paren.count(<span class="st">')'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 137</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1264,7 +1282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-two" class="level2">
 <h2 class="anchored" data-anchor-id="part-two">— Part Two —</h2>
 <p>What is the <em>position</em> of the character that causes Santa to first enter the basement?</p>
-<div id="cc09eb76" class="cell" data-execution_count="3">
+<div id="3933b18b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>santa <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="bu">list</span>(paren)</span>

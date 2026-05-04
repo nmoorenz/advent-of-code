@@ -1,0 +1,12 @@
+{
+  "hash": "06154bb778c87797f737487bd91daa81",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2023 Day 17\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 17: Clumsy Crucible ---\n\nWe need to carry lava in a crucible through a city.\n\nDirecting the crucible from the lava pool to the machine parts factory, but not moving more than three consecutive blocks in the same direction, *what is the least heat loss it can incur?*\n\n::: {#16e7a75f .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2023-17.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nThis seems like a simple optimisation problem but the restriction makes it weird.\n\nFrom a manual inspection of the input we should generally avoid the middle of the city, there are lots of 8 and 9 in the middle.\n\nShould I plot a random course and try to improve it? A greedy path for one or two steps then look around more?\n\n::: {#7ee7628a .cell execution_count=2}\n``` {.python .cell-code}\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nblocks = np.array([list(map(int, i)) for i in inp])\n\nplt.imshow(blocks, cmap='hot', interpolation='nearest')\nplt.show()\n```\n\n::: {.cell-output .cell-output-display}\n![](2023-17_files/figure-html/cell-3-output-1.png){}\n:::\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2023-17_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

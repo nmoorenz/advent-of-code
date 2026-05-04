@@ -1,0 +1,12 @@
+{
+  "hash": "780c6e27de6ca07c40be804a8742655c",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2024 Day 12\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 12: Garden Groups ---\n\nWe have a gardening map where the plants grow all over the place.\n\n*What is the total price of fencing all regions on your map?*\n\n::: {#a786bc6c .cell execution_count=1}\n``` {.python .cell-code}\nimport numpy as np\n\nwith open('data-2024-12.txt', 'r') as f:\n    inp = f.read().splitlines()\n\ngrid = [list(x) for x in inp]\n\nfences = np.array(grid)\n\nfence_space = np.empty([281, 281], dtype=str)\nfence_space[:] = ' '\n\nfor i in range(140):\n    for j in range(140):\n        fence_space[i*2+1,j*2+1] = fences[i,j]\n```\n:::\n\n\nLoop through and mark all the boundaries.\n\n::: {#485d34e6 .cell execution_count=2}\n``` {.python .cell-code}\n# outside boundaries for good luck\nfor k in range(1, 281):\n    fence_space[0,k] = '-'\n    fence_space[280,k] = '-'\n    fence_space[k,0] = '|'\n    fence_space[k,280] = '|'\n\n\n\nfor i in range(1, 280, 2):\n    for j in range(2, 279, 2):\n        if fence_space[i,j-1] != fence_space[i,j+1]: \n            fence_space[i,j] = '|'\n            \n\nfor i in range(2, 279, 2):\n    for j in range(1, 280, 2):\n        if fence_space[i-1,j] != fence_space[i+1,j]: \n            fence_space[i,j] = '-'\n\n```\n:::\n\n\nBoundaries are done, now we have to pick out the groups. I think, pick off the bits and search around for how many are in the group.\n\n::: {#3234a523 .cell execution_count=3}\n``` {.python .cell-code}\ndef check_empty():\n    # see if we have anything left from the original array\n    pass\n\ndef gather_garden():\n    # loop around the place to see what's included in the garden\n    pass\n\nwhile True: \n    # pick a place to start searching\n    break\n    # count the boundaries\n    \n    # count the area\n    \n    # remove the area from consideration\n\n```\n:::\n\n\nWell, do I need to create an elaborate array of spacings? Can I just pick out the garden and work the boundary afterwards? I would still be using the same gather function.\n\nThere is no overlap between the fences, I'm not counting unique fence parts, but I do need to maintain the shape of the gardens.\n\n",
+    "supporting": [
+      "2024-12_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

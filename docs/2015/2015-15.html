@@ -434,6 +434,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2020/2020-12-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2020 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2020/2020-13-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 13 - R</span></a>
   </div>
@@ -490,6 +496,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../2020/2020-23-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 23 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-24-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 24 - R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1197,6 +1209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2025/2025-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2025 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2025/2025-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2025 Day 12</span></a>
   </div>
@@ -1247,12 +1265,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="day-15-science-for-hungry-people">— Day 15: Science for Hungry People —</h2>
 <p>Let’s make some cookies!</p>
 <p>Given the ingredients in your kitchen and their properties, what is the <em>total score</em> of the highest-scoring cookie you can make?</p>
-<div id="9fd40f75" class="cell" data-execution_count="1">
+<div id="eeed2502" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'data-2015-15.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    inp <span class="op">=</span> f.read().splitlines()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>split()</code> this into dictionaries</p>
-<div id="92b7db0e" class="cell" data-execution_count="2">
+<div id="e77ae850" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lists to start</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ingr <span class="op">=</span> [x.split(<span class="st">':'</span>) <span class="cf">for</span> x <span class="kw">in</span> inp]</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1279,7 +1297,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>That may have been too much, but there it is.</p>
 <p>Now we need to know how much of each thing to include in our cookies.</p>
 <p>How many ways are there to have four ingredients that add to 100?</p>
-<div id="30961482" class="cell" data-execution_count="3">
+<div id="fcc36935" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>counter <span class="op">=</span> []</span>
@@ -1298,7 +1316,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Takes a bit of time but that’s fine, I think?</p>
 <p>Sweet! Hopefully, we want to make delicious cookies.</p>
-<div id="0c3d3ea3" class="cell" data-execution_count="4">
+<div id="cc43505a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ings <span class="op">=</span> <span class="bu">list</span>(ing.keys())</span>
@@ -1328,7 +1346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="part-two">— Part Two —</h2>
 <p>But wait, there’s a change!</p>
 <p>Given the ingredients in your kitchen and their properties, what is the <em>total score</em> of the highest-scoring cookie you can make with a calorie total of <code>500</code>?</p>
-<div id="b8f59777" class="cell" data-execution_count="5">
+<div id="00a3b86b" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> <span class="st">'calories'</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>

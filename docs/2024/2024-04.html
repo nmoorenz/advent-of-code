@@ -434,6 +434,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2020/2020-12-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2020 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2020/2020-13-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 13 - R</span></a>
   </div>
@@ -490,6 +496,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../2020/2020-23-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 23 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-24-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 24 - R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1197,6 +1209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2025/2025-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2025 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2025/2025-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2025 Day 12</span></a>
   </div>
@@ -1247,7 +1265,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="day-4-ceres-search">— Day 4: Ceres Search —</h2>
 <p>We are doing a word search for <code>XMAS</code></p>
 <p>Take a look at the little Elf’s word search.&nbsp;How many times does&nbsp;<code>XMAS</code>&nbsp;appear?</p>
-<div id="f758ab1d" class="cell" data-execution_count="1">
+<div id="bf062a15" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'data-2024-04.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
@@ -1264,7 +1282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># grid[1:10]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Words have to start with X, then we have to search in possible directions.</p>
-<div id="644fb826" class="cell" data-execution_count="2">
+<div id="b5b8d0e1" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x_count <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(inp)): </span>
@@ -1322,7 +1340,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="part-two">— Part Two —</h2>
 <p>oh, actually, we are looking for <code>X-MAS</code> i.e.&nbsp;two MAS in a X shape.</p>
 <p>Flip the word search from the instructions back over to the word search side and try again.&nbsp;How many times does an&nbsp;<code>X-MAS</code>&nbsp;appear?</p>
-<div id="7ab2d63f" class="cell" data-execution_count="3">
+<div id="13f3253f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x_count <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="bu">len</span>(inp)<span class="op">-</span><span class="dv">1</span>): </span>

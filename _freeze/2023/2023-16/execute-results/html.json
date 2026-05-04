@@ -1,0 +1,12 @@
+{
+  "hash": "4d87f4b78460a7769bb12c3144021945",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2023 Day 16\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 16: The Floor Will Be Lava ---\n\nFurther into the facility, there is a beam of light and some more mirrors.\n\nThe light isn't energizing enough tiles to produce lava; to debug the contraption, you need to start by analyzing the current situation. With the beam starting in the top-left heading right, *how many tiles end up being energized?*\n\n::: {#15a7514b .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2023-16.txt', 'r') as f:\n# with open('data-2023-16-test.txt', 'r') as f:\n    inp = f.read().splitlines()\n\n# for i in inp:\n#     print(len(i))\n```\n:::\n\n\nFollow the lasers\n\n::: {#c7ce8721 .cell execution_count=2}\n``` {.python .cell-code}\nimport numpy as np\n\nlaser = np.array([list(i) for i in inp])\n\n# create a tracking array of the same size\ntrack = np.zeros((len(laser), len(laser[0])), dtype=int)\n\n# initial location and direction\n# start at the top-left from the left and heading right\nx = 0\ny = 0\ndx = 1\ndy = 0\n\ntrack[x,y] = 1\n\n# when we split, how do we manage that? \n\n# need to manage changes of direction with angled mirrors i.e. \\ and /\n# need to manage splits with perpendicular approaches \n# dots and straight through have no effect but count those as energised\n\n```\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2023-16_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

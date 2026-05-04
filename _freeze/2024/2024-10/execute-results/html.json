@@ -1,0 +1,12 @@
+{
+  "hash": "c155e937909e1a7563eebabf4852f5fe",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2024 Day 10\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 10: Hoof It ---\n\nA reindeer has a map of a hiking trail.\n\nThe reindeer gleefully carries over a protractor and adds it to the pile. What is the sum of the scores of all trailheads on your topographic map?\n\n::: {#338134cc .cell execution_count=1}\n``` {.python .cell-code}\nimport numpy as np\n\nwith open('data-2024-10.txt', 'r') as f:\n    inp = f.read().splitlines()\n\ntrail = [list(map(int,x)) for x in inp]\n\ntrail = np.array(trail)\n```\n:::\n\n\nFind the zeros and do a search through all the different paths.\n\n::: {#66d82e9a .cell execution_count=2}\n``` {.python .cell-code}\ncounter = 0\nq = 59\n\nzero = np.where(trail == '0')\n\nzero = [[a,b] for a,b in zip(zero[0],zero[1])]\n\n# zero\n\ndef get_d(z):\n    dd = [[-1,0],[0,-1],[1,0],[0,1]]\n    if z[0] == 0: \n        dd.remove([-1,0])\n    elif z[0] == q:\n        dd.remove([1,0])\n    elif z[1] == 0:\n        dd.remove([0,-1])\n    elif z[1] == q:\n        dd.remove([0,1])\n    else: \n        pass # leave all\n    return dd\n\n\ndef find_paths(z): \n    dd = get_d(z)\n    paths = 0\n    for d in dd: \n        if trail[z[0]+d[0]][z[1]+d[1]] == trail[z[0]][z[1]] + 1:\n            pass # continue\n        else: \n            print(z)\n    return 0\n    \n    \nfor z in zero:\n    counter += find_paths(z)\n     \n            \ncounter\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n0\n```\n:::\n:::\n\n\nMore thinking required here\n\n",
+    "supporting": [
+      "2024-10_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

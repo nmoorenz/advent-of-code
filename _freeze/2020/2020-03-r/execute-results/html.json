@@ -1,0 +1,15 @@
+{
+  "hash": "41b7449d2f215ce572157eae7d74157f",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"2020 Day 3 - R\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 3: Toboggan Trajectory ---\n\nThe toboggan you hire does not have much (any) steering.\n\nStarting at the top-left corner of your map and following a slope of right 3 and down 1, *how many trees would you encounter?*\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors\n```\n\n\n:::\n\n```{.r .cell-code}\ninputfile <- here::here(\"2020\", \"data-2020-03.txt\")\ntrees_slim <- read.delim(inputfile, header = FALSE)\n```\n:::\n\n\n\n\nWrite a function for movement\n\nNote: this is different math from python, where zero index lets us reset easily if we go too wide, here we only reset for explicitly larger than the width of the field.\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nmove_tobog <- function(rght, dwn, course) {\n  x_pos = 1\n  y_pos = 1\n  course_len = length(course[[1]])\n  width = str_count(course[[1]][1])\n  trees = 0\n  while (y_pos <= course_len) {\n    # check for tree\n    if (str_sub(course[[1]][[y_pos]], x_pos, x_pos) == \"#\") {\n      trees = trees + 1\n    }\n    # move the toboggan\n    # x_pos <- (x_pos + rght) %% width\n    if (x_pos + rght > width) { \n        x_pos <- (x_pos + rght) %% width\n    } else {\n        x_pos <- x_pos + rght        \n    }\n    y_pos <- y_pos + dwn\n    # print(cat(x_pos, y_pos))\n  }\n  return(trees)\n}\n\nmove_tobog(3, 1, trees_slim)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 270\n```\n\n\n:::\n:::\n\n\n\n\n## --- Part Two ---\n\nCan we find the best way to get down?\n\n*What do you get if you multiply together the number of trees encountered on each of the listed slopes?*\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# part one is right 3 down 1, part two is others\npaths <- tibble::tibble(\n  right = c(3, 1, 5, 7, 1), \n  down = c(1, 1, 1, 1, 2)\n)\n\n# the old map doing work\npaths_hits <- paths %>% \n  mutate(\n    trees_hit = map2_dbl(right, down, move_tobog, trees_slim)\n  )\n\n# part two answer\nreduce(paths_hits$trees_hit, `*`)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 2122848000\n```\n\n\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

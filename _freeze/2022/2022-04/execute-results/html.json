@@ -1,0 +1,12 @@
+{
+  "hash": "8666c7946ff33cb0384d214caea13009",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2022 Day 4\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 4: Camp Cleanup ---\n\nThe elves need to do some cleaning, and have been assigned sections of the camp.\n\n*In how many assignment pairs does one range fully contain the other?*\n\n::: {#664ec125 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2022-04.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nThere is some preparation required\n\n::: {#391cc213 .cell execution_count=2}\n``` {.python .cell-code}\ntask1 = [x.split(',') for x in inp]\ntask2 = [x[0].split('-') + x[1].split('-') for x in task1]\ntask3 = [list(map(int, x)) for x in task2]\n```\n:::\n\n\nNow, do we have any overlapping ranges? Probably.\n\n::: {#c882734f .cell execution_count=3}\n``` {.python .cell-code}\ndef within(lst):\n    # first pair within second\n    if lst[0] >= lst[2] and lst[1] <= lst[3]:\n        return True\n    # second pair within first\n    elif lst[2] >= lst[0] and lst[3] <= lst[1]:\n        return True\n    else:\n        return False\n```\n:::\n\n\nSweet, let's check the list\n\n::: {#0ee49b96 .cell execution_count=4}\n``` {.python .cell-code}\nnum1 = [within(x) for x in task3]\n\nsum(num1)\n\n# 571\n```\n\n::: {.cell-output .cell-output-display execution_count=4}\n```\n571\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nActually, we're just looking for any overlap, rather than one within the other.\n\n*In how many assignment pairs do the ranges overlap?*\n\n::: {#3c2d9001 .cell execution_count=5}\n``` {.python .cell-code}\ndef overlap(lst):\n    return lst[1] < lst[2] or lst[3] < lst[0]\n```\n:::\n\n\nAnd use this on our list\n\n::: {#716dd6d6 .cell execution_count=6}\n``` {.python .cell-code}\nnum2 = [overlap(x) for x in task3]  \n\n1000 - sum(num2)\n\n# 917\n```\n\n::: {.cell-output .cell-output-display execution_count=6}\n```\n917\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2022-04_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "hash": "ae187349dd9683563de423bab280088a",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2022 Day 6\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 6: Tuning Trouble ---\n\nWe are on our way!\n\nHowever, because he's heard you have [significant](https://adventofcode.com/2016/day/6) [experience](https://adventofcode.com/2016/day/25) [dealing](https://adventofcode.com/2019/day/7) [with](https://adventofcode.com/2019/day/9) [signal-based](https://adventofcode.com/2019/day/16) [systems](https://adventofcode.com/2021/day/25), he convinced the other Elves that it would be okay to give you their one malfunctioning device - surely you'll have no problem fixing it.\n\n*How many characters need to be processed before the first start-of-packet marker is detected?*\n\n::: {#44be9086 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2022-06.txt', 'r') as f:\n    inp = f.read()\n```\n:::\n\n\nLoop and find four distinct in a row\n\n::: {#6289871d .cell execution_count=2}\n``` {.python .cell-code}\nlen(inp)\n\nfor i in range(3, len(inp)):\n    t = inp[i-3:i+1]\n    if sorted(list(t)) == sorted(list(set(t))):\n        print(i+1)\n        break\n\n# 1896\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n1896\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nStart-of-message markers are 14 unique characters.\n\n*How many characters need to be processed before the first start-of-message marker is detected?*\n\n::: {#9e028b54 .cell execution_count=3}\n``` {.python .cell-code}\nfor i in range(14, len(inp)):\n    t = inp[i-13:i+1]\n    if sorted(list(t)) == sorted(list(set(t))):\n        print(i+1)\n        break\n\n# 3452\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n3452\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2022-06_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

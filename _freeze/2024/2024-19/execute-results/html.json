@@ -1,0 +1,12 @@
+{
+  "hash": "da0d35018df93000a99eeb90e8744e32",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2024 Day 19\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 19: Linen Layout ---\n\nThere are some towels and some designs with lots of colours.\n\nTo get into the onsen as soon as possible, consult your list of towel patterns and desired designs carefully. How many designs are possible?\n\n::: {#64f8de38 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2024-19.txt', 'r') as f:\n    inp = f.read().splitlines()\n\ntowels = inp[0]\ntowels = towels.split(', ')\ntowels.sort()\n\npatterns = inp[2:]\n```\n:::\n\n\nThere are multiple possibilities for towels into patterns so we need to assess each one, I think. Feels like recording each one and looping multiple times.\n\nLoop through patterns, and see if towels can fit in each pattern. If more than one then we expand our possible patterns. These could happen at different rates. Because we create an expansion then lists and lists isn't a good idea, we need one list to enter into.\n\n::: {#e3a1105a .cell execution_count=2}\n``` {.python .cell-code}\ncounter = 0\n\nfor pp in patterns[:1]:     # outer loop for input\n    poss = [pp]\n    \n    for p in poss:          # loop through current possibilities\n        temp = []\n        for t in towels:    # get into our actual check\n            if p[0:len(t)] == t:\n                print(t)\n                temp.append(p[len(t):])  # expand our possibilities\n        # once we have gone through one of the possibilities\n\n```\n\n::: {.cell-output .cell-output-stdout}\n```\nu\nuw\n```\n:::\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2024-19_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

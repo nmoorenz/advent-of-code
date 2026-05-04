@@ -434,6 +434,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2020/2020-12-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2020 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2020/2020-13-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 13 - R</span></a>
   </div>
@@ -490,6 +496,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../2020/2020-23-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 23 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-24-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 24 - R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1197,6 +1209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2025/2025-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2025 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2025/2025-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2025 Day 12</span></a>
   </div>
@@ -1247,7 +1265,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="day-6-probably-a-fire-hazard">— Day 6: Probably a Fire Hazard —</h2>
 <p>Santa has given you some instructions for how to turn on and turn off a grid of lights.</p>
 <p>After following the instructions, <em>how many lights are lit</em>?</p>
-<div id="1553946a" class="cell" data-execution_count="1">
+<div id="fa0cdb9c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1255,7 +1273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    instructions <span class="op">=</span> f.read().splitlines()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Prepare the instructions</p>
-<div id="5bd19cc2" class="cell" data-execution_count="2">
+<div id="b5becad0" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ins <span class="op">=</span> [[<span class="dv">0</span>] <span class="op">*</span> <span class="dv">5</span> <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(instructions))]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>reg1 <span class="op">=</span> <span class="vs">r'^(.+?)\d'</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>reg2 <span class="op">=</span> <span class="vs">r' (\d.*?),'</span></span>
@@ -1269,11 +1287,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    ins[i][<span class="dv">4</span>] <span class="op">=</span> <span class="bu">int</span>(re.findall(reg3, instructions[i])[<span class="dv">1</span>].strip()) <span class="co"># y2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Create the grid of lights</p>
-<div id="7e39f824" class="cell" data-execution_count="3">
+<div id="56eea8ec" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lights <span class="op">=</span> np.full((<span class="dv">1000</span>, <span class="dv">1000</span>), <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Apply the instructions</p>
-<div id="937bdcfd" class="cell" data-execution_count="4">
+<div id="1b8e1657" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> ins:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i[<span class="dv">0</span>] <span class="op">==</span> <span class="st">'turn on'</span>:</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        lights[i[<span class="dv">1</span>]:i[<span class="dv">3</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">2</span>]:i[<span class="dv">4</span>]<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> <span class="va">True</span></span>
@@ -1285,7 +1303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                lights[x, y] <span class="op">=</span> <span class="kw">not</span> lights[x, y]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>How many lights are on?</p>
-<div id="e26af97c" class="cell" data-execution_count="5">
+<div id="12fb17ec" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>lights.<span class="bu">sum</span>()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 377891</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1298,12 +1316,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="part-two">— Part Two —</h2>
 <p>The instructions are more complicated, increasing and decreasing brightness.</p>
 <p>What is the <em>total brightness</em> of all lights combined after following Santa’s instructions?</p>
-<div id="0e56c829" class="cell" data-execution_count="6">
+<div id="6cc5a4a9" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This time we are tracking brightness so start with zeros</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lights <span class="op">=</span> np.full((<span class="dv">1000</span>, <span class="dv">1000</span>), <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Modify our instructions</p>
-<div id="0abc3489" class="cell" data-execution_count="7">
+<div id="803ac8e4" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> ins:</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i[<span class="dv">0</span>] <span class="op">==</span> <span class="st">'turn on'</span>:</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        lights[i[<span class="dv">1</span>]:i[<span class="dv">3</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">2</span>]:i[<span class="dv">4</span>]<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> lights[i[<span class="dv">1</span>]:i[<span class="dv">3</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">2</span>]:i[<span class="dv">4</span>]<span class="op">+</span><span class="dv">1</span>] <span class="op">+</span> <span class="dv">1</span></span>
@@ -1314,7 +1332,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        lights[i[<span class="dv">1</span>]:i[<span class="dv">3</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">2</span>]:i[<span class="dv">4</span>]<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> lights[i[<span class="dv">1</span>]:i[<span class="dv">3</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">2</span>]:i[<span class="dv">4</span>]<span class="op">+</span><span class="dv">1</span>] <span class="op">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Sum of the brightness</p>
-<div id="51be615d" class="cell" data-execution_count="8">
+<div id="62eed2e1" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lights.<span class="bu">sum</span>()</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 14110788</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

@@ -1,0 +1,15 @@
+{
+  "hash": "6d5fbd0d0efc6a9ec2e4180fa3163946",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"2015 Day 4\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 4: The Ideal Stocking Stuffer ---\n\nSanta is mining some AdventCoins.\n\nTo mine AdventCoins, you must find Santa the lowest positive number (no leading zeroes: `1`, `2`, `3`, ...) that produces such a hash.\n\n\n\n\n::: {.cell}\n\n```{.python .cell-code}\nimport hashlib\n\nwith open('data-2015-04.txt', 'r') as f:\n    inp = f.read()\n\ni = 0\nchck = ''\n\nwhile chck[:5] != '00000':\n    i += 1\n    chck = hashlib.md5((inp + str(i)).encode('utf-8')).hexdigest()\n\nprint(i)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n346386\n```\n\n\n:::\n\n```{.python .cell-code}\nprint(chck)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n0000045c5e2b3911eb937d9d8c574f09\n```\n\n\n:::\n\n```{.python .cell-code}\n\n# 346386\n```\n:::\n\n\n\n\nLet's try this in R as well!\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(openssl)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nLinking to: OpenSSL 3.6.0 1 Oct 2025\n```\n\n\n:::\n\n```{.r .cell-code}\ni = 0\ninp = readLines('data-2015-04.txt')\nchck = ''\n\nwhile (substr(chck, 1, 5) != '00000') {\n    i = i + 1\n    chck = md5(paste0(inp, as.character(i)))\n}\n\nprint(i)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 346386\n```\n\n\n:::\n\n```{.r .cell-code}\nprint(chck)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"0000045c5e2b3911eb937d9d8c574f09\"\n```\n\n\n:::\n:::\n\n\n\n\n## --- Part Two ---\n\nNow find one that starts with *six zeroes*.\n\n\n\n\n::: {.cell}\n\n```{.python .cell-code}\ni = 0\nchck = ''\n\nwhile chck[:6] != '000000':\n    i += 1\n    chck = hashlib.md5((inp + str(i)).encode('utf-8')).hexdigest()\n\nprint(i)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n9958218\n```\n\n\n:::\n\n```{.python .cell-code}\nprint(chck)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n00000094434e1914548b3a1af245fb27\n```\n\n\n:::\n\n```{.python .cell-code}\n\n# 9958218\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "hash": "2e1a82ef99a085d0cdfb33b8a6c54283",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2020 Day 5 - Py\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 5: Binary Boarding ---\n\nYou dropped your boarding pass, and now have to find your seat.\n\nAs a sanity check, look through your list of boarding passes. What is the highest seat ID on a boarding pass?\n\n::: {#56124e3c .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2020-05.txt', 'r') as f:\n    bp = f.read().splitlines()\n```\n:::\n\n\nThis is weird data but a short solution\n\n::: {#e0c50481 .cell execution_count=2}\n``` {.python .cell-code}\n# row and col binary via replacement\nrow = [x[:7].replace(\"B\", \"1\").replace(\"F\", \"0\") for x in bp]\ncol = [x[7:].replace(\"L\", \"0\").replace(\"R\", \"1\") for x in bp]\n\n# id as a combo of row and col            \nid = [int(r, 2) * 8 + int(c, 2) for r, c in zip(row, col)]\n\n#part a\nmax(id)\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n970\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nYou have to find your seat number, quick!\n\n*What is the ID of your seat?*\n\n::: {#941995d5 .cell execution_count=3}\n``` {.python .cell-code}\n# part b\nset(range(min(id), max(id))) - set(id)\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n{587}\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2020-05-py_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

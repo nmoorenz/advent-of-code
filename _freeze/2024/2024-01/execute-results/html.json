@@ -1,0 +1,12 @@
+{
+  "hash": "37152a9073230796c68de7e8160b0126",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2024 Day 1\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 1: Historian Hysteria ---\n\nHelp the senior historians find the chief historian.\n\nThere are lists of locations to check.\n\nYour actual left and right lists contain many location IDs. What is the total distance between your lists?\n\n::: {#69897215 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2024-01.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nThis seems simple with sorting lists\n\n::: {#069267ae .cell execution_count=2}\n``` {.python .cell-code}\nL = []\nR = []\n\nfor i in inp: \n    x,y = i.split()\n    L.append(int(x))\n    R.append(int(y))\n\nL.sort()\nR.sort()\n\nsumm = 0\n\nfor l,r in zip(L, R): \n    summ += abs(l-r)\n    \nsumm\n\n# 2367773\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n2367773\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nSome numbers appear in both lists.\n\nOnce again consider your left and right lists. What is their similarity score?\n\n::: {#170627ae .cell execution_count=3}\n``` {.python .cell-code}\nfrom collections import Counter\n\nsumm = 0\n\nr_count = Counter(R)\n\nfor l in L:\n    if l in r_count:\n        summ += l * r_count[l]\n\nsumm\n\n# 21271939\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n21271939\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2024-01_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

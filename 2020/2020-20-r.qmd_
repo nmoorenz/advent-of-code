@@ -226,15 +226,15 @@ for (rr in seq_len(12)) {
   # start with the top left square
   if (rr == 1) {
     # choose these beforehand
-    first_col_tile = 1063
+    first_col_tile = 1019
 
     # get the proper info
     tile_info = list(match_num = first_col_tile, 
                      match_edges_id = "rig", 
                      match_tile = tile_piece %>% 
                        filter(tile_num == first_col_tile) %>% 
-                       pull(tile_m) %>% 
-                       .[[1]])
+                       pull(tile_m)) # %>% 
+                      # .[[1]])
     
     # for some reason need to make cell a list first
     # probably a better way of doing this

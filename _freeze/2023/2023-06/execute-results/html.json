@@ -1,0 +1,12 @@
+{
+  "hash": "06f04198b814701b39746a5852d9e9de",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2023 Day 6\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 6: Wait For It ---\n\nDetermine the number of ways you could beat the record in each race.\n\n*What do you get if you multiply these numbers together?*\n\n::: {#78f70af1 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2023-06.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nTime = inp[0].split()[1:]\nDistance = inp[1].split()[1:]\n\nTime = [int(x) for x in Time]\nDistance = [int(x) for x in Distance]\n```\n:::\n\n\nThis seems straightforward - solved on google sheets to start with.\n\n::: {#fecb9c36 .cell execution_count=2}\n``` {.python .cell-code}\n# this is our answer, multiplied together\nmult = 1\n\nfor d,t in zip(Distance, Time):\n    # count of choices that make it past the distance\n    cnt = 0\n    # pretty sure it's not going to matter that we don't use the last one\n    for x in range(t):\n        z = (t - x) * x\n        if z > d:\n            cnt += 1\n    # once we've gone through, multiply\n    mult *= cnt\n    \nmult\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n2374848\n```\n:::\n:::\n\n\nPart one: 2374848\n\n## --- Part Two ---\n\nActually there was only one race\n\n*How many ways can you beat the record in this one much longer race?*\n\n::: {#3df43abe .cell execution_count=3}\n``` {.python .cell-code}\nTime = int(''.join(inp[0].split()[1:]))\nDistance = int(''.join(inp[1].split()[1:]))\n\n# count of choices that make it past the distance\ncnt = 0\n\n# pretty sure it's not going to matter that we don't use the last one\nfor x in range(0, Time, 1):\n    z = (Time - x) * x\n    if z > Distance:\n        cnt += 1\n        \ncnt\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n39132886\n```\n:::\n:::\n\n\nPart two: 39132886\n\n",
+    "supporting": [
+      "2023-06_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

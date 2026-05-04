@@ -1,0 +1,12 @@
+{
+  "hash": "b2fc4eb452611198a24e179e04e913d1",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2024 Day 16\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 16: Reindeer Maze ---\n\nFind the path from the start to the end, except that turns cost you 1000 points.\n\nAnalyze your map carefully. What is the lowest score a Reindeer could possibly get?\n\n::: {#74b76ccb .cell execution_count=1}\n``` {.python .cell-code}\nimport numpy as np\n\nwith open('data-2024-16.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nmaze_list = [list(x) for x in inp]\n\nmaze = np.array(maze_list)\n```\n:::\n\n\nTry to go through the maze, but need to find a weird way of doing so.\n\n::: {#6724c92e .cell execution_count=2}\n``` {.python .cell-code}\n# here's another python cell for good luck\n```\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2024-16_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

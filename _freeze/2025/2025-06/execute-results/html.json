@@ -1,0 +1,12 @@
+{
+  "hash": "7ead0f893f110873091ffd4e781ce7ac",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2025 Day 6\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 6: Trash Compactor ---\n\nCan we help the cephalopod with their math homework?\n\nSolve the problems on the math worksheet. What is the grand total found by adding together all of the answers to the individual problems?\n\n::: {#8071f9a5 .cell execution_count=1}\n``` {.python .cell-code}\nimport math\n\nwith open('data-2025-06.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nmth = [i.split() for i in inp]\n\nnums = [[int(j) for j in m] for m in mth[:4]]\n\nops = mth[4]\n```\n:::\n\n\nThis seems reasonable simple, and in fact I did it in a google sheet on the train to start with.\n\n::: {#5a15c954 .cell execution_count=2}\n``` {.python .cell-code}\nsummer = 0\n\nfor a,b,c,d,f in zip(nums[0], nums[1], nums[2], nums[3], ops): \n    # a, b, c, d, f\n    if f == '+': \n        summer += a + b + c + d\n    else: \n        summer += a * b * c * d\n\nsummer\n\n# 6417439773370\n\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n6417439773370\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nActually, the problem is different. (Classic advent of code). The numbers are right to left in columns.\n\nSolve the problems on the math worksheet again. What is the grand total found by adding together all of the answers to the individual problems?\n\n::: {#42ccf3c3 .cell execution_count=3}\n``` {.python .cell-code}\nmth = [list(i) for i in inp[:4]]\n\nops = inp[4].split()\n\nsummer = 0\nupto = -1\nzz = []\n\nfor r in range(len(mth[0])-1, -2, -1):\n    # loop backwards and collect numbers as we go\n    this = mth[0][r] + mth[1][r] + mth[2][r] + mth[3][r]\n    if this == '    ' or r == -1:\n        # we have reached a gap, do the math\n        # zz\n        if ops[upto] == '+': \n            summer += sum(zz)\n        else: \n            summer += math.prod(zz)\n        zz = []\n        upto -= 1\n    else: \n        # add this to the list\n        zz.append(int(this.strip()))\n\n\nsummer\n\n# 11043422779703 too low\n# 11044319475191 manually working out with the last set\n# make sure we include the last set by going to -2 \n# then doing the math\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n11044319475191\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2025-06_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

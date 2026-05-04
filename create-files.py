@@ -20,7 +20,7 @@ if not os.path.exists(year):
     os.makedirs(year)
     
 # read in the template
-with open(f'template.txt', 'r') as f:
+with open(f'template-r.txt', 'r') as f:
     qmd_file = f.read()
 
 # loop through and create text files
@@ -32,7 +32,7 @@ for i in range(1, days+1):
             pass
     if not os.path.exists(this_qmd):
         with open(this_qmd, "w") as f:
-            f.write(qmd_file.format(x=i, year=year, python="{python}"))
+            f.write(qmd_file.format(x=i, year=year, r="{r}"))
 
 # create the overall readme file with notes for each day and part
 readme = """
@@ -48,7 +48,7 @@ readme = """
 
 # pre-formatted readme to describe each day's attempt
 with open(f'{year}/index-{year}.qmd', 'w') as f:
-    f.write(f"---\ntitle: Advent of Code {year}\n")
-    f.write(f"---\n\n## Solutions for {year}\n")
+    f.write(f"---\ntitle: Advent of Code {year}\n---\n")
+    f.write(f"\n## Solutions for {year}\n")
     for i in range(1, days+1):
         f.write(readme.format(i=i, year=year))

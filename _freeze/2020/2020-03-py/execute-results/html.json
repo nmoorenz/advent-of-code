@@ -1,0 +1,12 @@
+{
+  "hash": "d33b0715a2f15c75bf7a0ac0a5864d35",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2020 Day 3 - Py\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 3: Toboggan Trajectory ---\n\nThe toboggan you hire does not have much (any) steering.\n\nStarting at the top-left corner of your map and following a slope of right 3 and down 1, *how many trees would you encounter?*\n\n::: {#8b10fe88 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2020-03.txt', 'r') as f:\n    course = f.read().splitlines()\n```\n:::\n\n\nWrite a function\n\n::: {#80e9e45e .cell execution_count=2}\n``` {.python .cell-code}\n# function for riding the toboggan\ndef move_tobog(rght, dwn, course):\n  x_pos = 0\n  y_pos = 0\n  trees = 0\n  course_len = len(course)\n  course_wid = len(course[0])\n  while y_pos < course_len:\n    if course[y_pos][x_pos] == \"#\":\n      trees += 1\n    x_pos = (x_pos + rght) % course_wid\n    y_pos = y_pos + dwn\n    # print(x_pos, y_pos)\n  return trees\n  \ntrees_1 = move_tobog(3, 1, course)\n\ntrees_1\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n270\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nCan we find the best way to get down?\n\n*What do you get if you multiply together the number of trees encountered on each of the listed slopes?*\n\n::: {#fa084b62 .cell execution_count=3}\n``` {.python .cell-code}\n# gather the different number of trees for the course movements\ntrees_2 = move_tobog(1, 1, course)\ntrees_3 = move_tobog(5, 1, course)\ntrees_4 = move_tobog(7, 1, course)\ntrees_5 = move_tobog(1, 2, course)\n\n# part two answer\ntrees_1 * trees_2 * trees_3 * trees_4 * trees_5\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n2122848000\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2020-03-py_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

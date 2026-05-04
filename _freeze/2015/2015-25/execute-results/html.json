@@ -1,0 +1,12 @@
+{
+  "hash": "9f93c887462c7c7aa2274766bd8eb39e",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2015 Day 25\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 25: Let It Snow ---\n\nWe need to fix Santa's weather machine with some code generation.\n\nYour puzzle input contains the message on the machine's console. *What code do you give the machine?*\n\n::: {#44ea8094 .cell execution_count=1}\n``` {.python .cell-code}\n# actual requirement\n_r = 3010\n_c = 3019\n\n# testing requirement\n# _r = 301\n# _c = 309\n```\n:::\n\n\nThis seems like straight forward arithmetic, but I think I need to use triangular numbers to easily calculate where the 3010th row and 3019th column would be. It's not just 3010 \\* 3019, but I'll need to produce at least that many numbers.\n\nSince the sequence is sequential, I can't take any shortcuts to actually get to the number, so let's just loop through and keep track of the position. Probably: no doubt there's some kind of shortcut.\n\n::: {#2ea1935a .cell execution_count=2}\n``` {.python .cell-code}\n# first value, multiply by m, then divide by d\nnum = 20151125\nm = 252533\nd = 33554393\ni = 0\n\npos = {'r': 1, 'c': 1}\n\nwhile i < 10**8: \n    num = (num * m) % 33554393\n    i += 1\n    if pos['r'] == 1: \n        pos['r'] = pos['c'] + 1\n        pos['c'] = 1\n    else: \n        pos['r'] -= 1\n        pos['c'] += 1\n    \n    # print(str(num) + ', ' + str(pos))\n    # check for finish condition\n    if pos['r'] == _r and pos['c'] == _c:\n        break\n\nprint(str(num) + ', ' + str(pos))\n\n# 8997277\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n8997277, {'r': 3010, 'c': 3019}\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nDo all of the other days :)\n\n",
+    "supporting": [
+      "2015-25_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "hash": "54b9a435b93ba125f0dd2ab622a006f7",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2015 Day 1\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 1: Not Quite Lisp ---\n\nSanta is delivering presents in a large apartment building, but the lifts are a bit screwy.\n\nTo *what floor* do the instructions take Santa?\n\n::: {#8e414214 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2015-01.txt', 'r') as f:\n    paren = f.read()\n```\n:::\n\n\nSimple enough, count the ups and downs.\n\n::: {#fd5b5805 .cell execution_count=2}\n``` {.python .cell-code}\nparen.count('(') - paren.count(')')\n\n# 137\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n138\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nWhat is the *position* of the character that causes Santa to first enter the basement?\n\n::: {#3933b18b .cell execution_count=3}\n``` {.python .cell-code}\ni = 0\nsanta = 0\np = list(paren)\nwhile santa >= 0: \n    # move santa\n    if p[i] == '(':\n        santa += 1\n    else:\n        santa -= 1\n    # increment\n    i += 1\n    \nprint(i)\n\n# 1771\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n1771\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2015-01_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "hash": "4b950a9f46f73758dc1e4351d5c6c733",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2022 Day 1\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 1: Calorie Counting ---\n\nWe are going on a journey to collect some magical *star* fruit for the reindeer. The elves are carrying some rations for the journey.\n\nFind the Elf carrying the most Calories. *How many total Calories is that Elf carrying?*\n\n::: {#6c03c4ac .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2022-01.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nThis looks like a loop to me\n\n::: {#e375a06d .cell execution_count=2}\n``` {.python .cell-code}\ncal = [0]\n\nfor i in inp:\n    if i == '':\n        cal.append(0)\n    else:\n        cal[-1] += int(i)\n\nmax(cal)\n\n# 72511\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n72511\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nFind the top three Elves carrying the most Calories. *How many Calories are those Elves carrying in total?*\n\n::: {#bc511667 .cell execution_count=3}\n``` {.python .cell-code}\ncal.sort()\n\ncal[-3:]\n\nsum(cal[-3:])\n\n# 212117\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n212117\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2022-01_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "hash": "0046352b8657c34bf137196997a4eb1c",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2022 Day 20\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 20: Grove Positioning System ---\n\nWe're going to the grove where the star fruit grows, but we need to figure out where that is.\n\nMix your encrypted file exactly once. *What is the sum of the three numbers that form the grove coordinates?*\n\n::: {#caa147c3 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2022-20.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nWe need to keep track of the original order, and the list of numbers being mixed.\n\n::: {#b6505fe2 .cell execution_count=2}\n``` {.python .cell-code}\norig = [int(x) for x in inp]\nmix = [int(x) for x in inp]\n\n# print(mix)\n\nfor o in orig: \n    # find the current position of this one in mix\n    old_pos = mix.index(o)\n    # print(o, old_pos)\n    # work out the new index\n    new_pos = old_pos + o\n    if new_pos > len(orig): \n        new_pos = new_pos - len(orig) + 1\n    if new_pos == 0: \n        new_pos = len(orig)\n    # move\n    mix.insert(new_pos, mix.pop(old_pos))\n    # print to check\n    # print(mix)\n\n```\n:::\n\n\nWork out position 1000, 2000, 3000 after the value 0.\n\n::: {#47b2fa48 .cell execution_count=3}\n``` {.python .cell-code}\n# answer counter\nsums = 0\n\n# location of zero\nzz = mix.index(0)\n# zz\n\n# length of array for convenience\nll = len(mix)\n\n# need each of these permissions\nfor ii in [1000, 2000, 3000]: \n    # don't need to loop, just find the position assuming we have looped around\n    rr = ii % ll\n    # can't be bigger than the array, take the length off\n    # because we start from position 0\n    rr += zz\n    if rr > ll: \n        rr -= len(mix)\n    # print and record\n    # mix[rr]\n    sums += mix[rr]\n\nsums\n\n# -9675 incorrect\n# 3598 too low\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n-9675\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2022-20_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

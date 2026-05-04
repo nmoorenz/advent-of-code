@@ -1,0 +1,12 @@
+{
+  "hash": "750b01b19845d47d53a4c6144bc2f82d",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2021 Day 8\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\nWrite the Puzzle explanation here\n\n::: {#64697cc0 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2021-08.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nMaybe write an explanation of the solution approach here\n\n::: {#d6cca513 .cell execution_count=2}\n``` {.python .cell-code}\n# here's another python cell for good luck\n```\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2021-08_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

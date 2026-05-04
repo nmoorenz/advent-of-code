@@ -434,6 +434,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2020/2020-12-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2020 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2020/2020-13-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 13 - R</span></a>
   </div>
@@ -490,6 +496,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../2020/2020-23-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 23 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-24-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 24 - R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1197,6 +1209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2025/2025-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2025 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2025/2025-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2025 Day 12</span></a>
   </div>
@@ -1247,7 +1265,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="day-5-print-queue">— Day 5: Print Queue —</h2>
 <p>Follow the rules for the printing order.</p>
 <p>Determine which updates are already in the correct order. What do you get if you add up the middle page number from those correctly-ordered updates?</p>
-<div id="6236be24" class="cell" data-execution_count="1">
+<div id="c735a27b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'data-2024-05.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
@@ -1265,7 +1283,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># updates</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Loop through each of the updates and check that the orders are OK.</p>
-<div id="da7b0c97" class="cell" data-execution_count="2">
+<div id="23542a1e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>summer <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> u <span class="kw">in</span> updates: </span>
@@ -1297,7 +1315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="part-two">— Part Two —</h2>
 <p>For the incorrectly ordered updates maybe we can re-order them.</p>
 <p>Find the updates which are not in the correct order. What do you get if you add up the middle page numbers after correctly ordering just those updates?</p>
-<div id="8da0f0f8" class="cell" data-execution_count="3">
+<div id="ba0357d8" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>summer <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> u <span class="kw">in</span> updates: </span>
@@ -1326,7 +1344,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>So, I don’t want to go through and swap the items, I need to do an ordering algorithm comparing sequential values according to the order list. The alternative is creating a sort order and then looping more simply through each list. As below, the sets are the same, so we can go either way.</p>
-<div id="0905b933" class="cell" data-execution_count="4">
+<div id="d07b5897" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>all_u <span class="op">=</span> <span class="bu">set</span>([v <span class="cf">for</span> u <span class="kw">in</span> updates <span class="cf">for</span> v <span class="kw">in</span> u])</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>all_u</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1339,7 +1357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Attempt 1: create an ‘ordered’ list from the orders and use that as a key for sorting the updates.</p>
-<div id="658b7819" class="cell" data-execution_count="5">
+<div id="ce536362" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>list_o <span class="op">=</span> <span class="bu">list</span>(all_o)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>printer <span class="op">=</span> <span class="va">False</span></span>
@@ -1355,59 +1373,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>list_o</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>['77',
- '43',
- '96',
- '62',
- '59',
- '91',
- '63',
- '85',
- '76',
- '49',
- '39',
- '32',
- '42',
- '17',
- '71',
- '45',
- '68',
- '37',
+<pre><code>['63',
  '33',
- '11',
- '18',
  '75',
- '44',
- '61',
- '73',
- '88',
- '55',
- '19',
- '16',
- '41',
- '31',
- '81',
- '65',
- '35',
  '95',
- '89',
- '82',
- '79',
- '12',
- '83',
+ '45',
+ '37',
+ '18',
+ '85',
  '97',
+ '74',
+ '32',
+ '44',
+ '77',
+ '42',
+ '89',
+ '19',
+ '65',
+ '49',
  '99',
- '22',
+ '16',
+ '59',
+ '31',
+ '68',
+ '81',
  '67',
+ '88',
  '69',
  '25',
- '74',
+ '35',
+ '17',
+ '43',
+ '73',
+ '41',
+ '79',
+ '22',
+ '83',
  '92',
- '84']</code></pre>
+ '11',
+ '76',
+ '55',
+ '84',
+ '96',
+ '62',
+ '82',
+ '12',
+ '39',
+ '61',
+ '71',
+ '91']</code></pre>
 </div>
 </div>
 <p>Let’s check the inputs. Something is not right here.</p>
-<div id="4245655d" class="cell" data-execution_count="6">
+<div id="bfc83b6d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>left <span class="op">=</span> {}</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>right <span class="op">=</span> {}</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1477,7 +1495,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Oh. The orders are symmetric, or something? They all appear an equal amount of times on the left and right. I can’t create a nice thing from the orders that covers all the updates.</p>
 <p>Some other statistics</p>
-<div id="db94e1a3" class="cell" data-execution_count="7">
+<div id="22331d15" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>counters <span class="op">=</span> {}</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> u <span class="kw">in</span> updates: </span>
@@ -1493,7 +1511,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>This is good, and maybe something I should have confirmed before, but all of them are odd lengths, which means they have a middle value. They are also 23 or fewer, which means we have less than half the numbers and no cycles of dependencies. Let’s get the bad update lists</p>
-<div id="b7698674" class="cell" data-execution_count="8">
+<div id="4d55e1c1" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>bad_u <span class="op">=</span> []</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> u <span class="kw">in</span> updates: </span>
@@ -1514,7 +1532,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>111/203 are bad updates.</p>
 <p>I like the idea of looping through each of the bad update lists, and constructing a new list from scratch, starting with the first found order, and inserting the numbers in the correct place in the list. I think. This really assumes that these lists will be internally consistent.</p>
-<div id="0729c302" class="cell" data-execution_count="9">
+<div id="5bf1d226" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summer <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> u <span class="kw">in</span> bad_u:</span>

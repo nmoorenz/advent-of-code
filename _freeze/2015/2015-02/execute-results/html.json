@@ -1,0 +1,12 @@
+{
+  "hash": "891fae96e4a88689fd668a4efbfead26",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2015 Day 2\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 2: I Was Told There Would Be No Math ---\n\nThe elves need to order some wrapping paper, luckily they are all cube-ish.\n\nAll numbers in the elves' list are in feet. How many total *square feet of wrapping paper* should they order?\n\n::: {#4dd16a26 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2015-02.txt', 'r') as f:\n    pres = f.read().splitlines()\n```\n:::\n\n\nSplit into separate pieces for the different dimensions - try lists first? Do some calculations - we need area, minimum area, and then sum\n\n::: {#fb0cf5a4 .cell execution_count=2}\n``` {.python .cell-code}\npres_dim = [[int(y) for y in p.split('x')] for p in pres]\n\nfor y in pres_dim:\n    y.append(2 * y[0] * y[1])\n    y.append(2 * y[1] * y[2])\n    y.append(2 * y[0] * y[2])\n    y.append(min(y[3], y[4], y[5])/2)\n    y.append(y[3] + y[4] + y[5] + y[6])\n```\n:::\n\n\nNow to do a sum of the last elements of the lists\n\n::: {#3b406cf9 .cell execution_count=3}\n``` {.python .cell-code}\nsum(x[7] for x in pres_dim)\n\n# 1586300\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n1586300.0\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nWe also need some ribbon for the presents!\n\nHow many total *feet of ribbon* should they order?\n\n::: {#1adc014c .cell execution_count=4}\n``` {.python .cell-code}\npres_dim = [[int(y) for y in p.split('x')] for p in pres]\n\nfor y in pres_dim:\n    y.append(2 * y[0] + 2 * y[1]) \n    y.append(2 * y[1] + 2 * y[2])\n    y.append(2 * y[0] + 2 * y[2])\n    y.append(min(y[3], y[4], y[5]))\n    y.append(y[0] * y[1] * y[2])\n    y.append(y[6] + y[7]) \n```\n:::\n\n\nAnd sum up the ribbon lengths :)\n\n::: {#039f00b0 .cell execution_count=5}\n``` {.python .cell-code}\nsum(x[8] for x in pres_dim)\n\n# 3737498\n```\n\n::: {.cell-output .cell-output-display execution_count=5}\n```\n3737498\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2015-02_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

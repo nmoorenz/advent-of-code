@@ -434,6 +434,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2020/2020-12-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2020 Day 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2020/2020-13-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 13 - R</span></a>
   </div>
@@ -490,6 +496,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../2020/2020-23-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2020 Day 23 - R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../2020/2020-24-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2020 Day 24 - R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1197,6 +1209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../2025/2025-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Advent of Code 2025 Day 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../2025/2025-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2025 Day 12</span></a>
   </div>
@@ -1247,7 +1265,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="day-9-movie-theater">— Day 9: Movie Theater —</h2>
 <p>There are some interesting tiles on a movie theater floor.</p>
 <p>Using two red tiles as opposite corners, what is the largest area of any rectangle you can make?</p>
-<div id="ce3fb22c" class="cell" data-execution_count="1">
+<div id="26139fd4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
@@ -1259,7 +1277,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>tiles <span class="op">=</span> [[<span class="bu">int</span>(x.split(<span class="st">','</span>)[<span class="dv">0</span>]), <span class="bu">int</span>(x.split(<span class="st">','</span>)[<span class="dv">1</span>])] <span class="cf">for</span> x <span class="kw">in</span> inp]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Calculate all the combinations and record the maximum</p>
-<div id="ee272f0c" class="cell" data-execution_count="2">
+<div id="3bfa550e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>maxim <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> tiles: </span>
@@ -1281,7 +1299,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Using two red tiles as opposite corners, <em>what is the largest area of any rectangle you can make using only red and green tiles?</em></p>
 <p>I think we are going to have to create an array with these tiles, and then test things out. Can we be efficient with that? Maybe. <code>dtype='i1'</code> seems to be the smallest numpy array type.</p>
 <p>Create a rectangle, and if the sum of all the cells inside equals the number of cells, then we have a valid rectangle.</p>
-<div id="735ada1a" class="cell" data-execution_count="3">
+<div id="6fa472cd" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>recs <span class="op">=</span> np.zeros((<span class="dv">99999</span>,<span class="dv">99999</span>), dtype<span class="op">=</span><span class="st">'i1'</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> e, t <span class="kw">in</span> <span class="bu">enumerate</span>(tiles[:<span class="dv">10</span>]):</span>
@@ -1315,7 +1333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Prepare the inner parts</p>
-<div id="9a40fbab" class="cell" data-execution_count="4">
+<div id="b3a203e4" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for c in range(99999):</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     for d in range(99999):</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">97630</span>, <span class="dv">97640</span>):</span>
@@ -1335,7 +1353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>recs[<span class="dv">97630</span>:<span class="dv">97640</span>, <span class="dv">51385</span>:<span class="dv">51392</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\NathanMoore\AppData\Local\Temp\ipykernel_37144\2329989172.py:9: RuntimeWarning:
+<pre><code>C:\Users\NathanMoore\AppData\Local\Temp\ipykernel_34284\2329989172.py:9: RuntimeWarning:
 
 overflow encountered in scalar add
 </code></pre>
@@ -1355,7 +1373,7 @@ overflow encountered in scalar add
 </div>
 <p>This isn’t working, there should be ones and zeros?</p>
 <p>Hint from Reddit: compress the coordinates. Let’s write a thing to see what the gaps are and if we can reduce the size of the grid. Check all the differences.</p>
-<div id="b1c1c2af" class="cell" data-execution_count="5">
+<div id="54528db8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> {}</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> {}</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> {}</span>
@@ -1394,7 +1412,7 @@ overflow encountered in scalar add
 <span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="co"># t1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Okay, there’s no consistency here that I can immediately see. I could just do the ins and outs by interval of one but let’s check other things.</p>
-<div id="9d9a01f2" class="cell" data-execution_count="6">
+<div id="0406e0ed" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [t[<span class="dv">0</span>] <span class="cf">for</span> t <span class="kw">in</span> tiles]</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> [t[<span class="dv">1</span>] <span class="cf">for</span> t <span class="kw">in</span> tiles]</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1410,7 +1428,7 @@ overflow encountered in scalar add
 </div>
 </div>
 </div>
-<div id="fe636cc4" class="cell" data-execution_count="7">
+<div id="309594b2" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.vstack([x[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>:<span class="dv">1</span>],x[<span class="dv">1</span>::<span class="dv">1</span>]])</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>yy <span class="op">=</span> np.vstack([y[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>:<span class="dv">1</span>],y[<span class="dv">1</span>::<span class="dv">1</span>]])</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1436,7 +1454,7 @@ overflow encountered in scalar add
 <p>94553,48602</p>
 <p>We can have regions above or below the gap! Not above and below, and not to the right hand side of it. Obviously.</p>
 <p>In fact, it’s only going to be above or below, so we only need to test &lt; 48602 with each other and &gt; 50158 with each other.</p>
-<div id="53085357" class="cell" data-execution_count="8">
+<div id="7747dc84" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>maxim <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> tiles: </span>
@@ -1469,7 +1487,7 @@ overflow encountered in scalar add
 <p><a href="https://www.reddit.com/r/adventofcode/comments/1ptp0pw/2025_day_9_part_2_help/" class="uri">https://www.reddit.com/r/adventofcode/comments/1ptp0pw/2025_day_9_part_2_help/</a></p>
 <p><a href="https://www.reddit.com/r/adventofcode/comments/1pkvkvs/2025_day_9_part_2_need_a_hint_for_part_2/" class="uri">https://www.reddit.com/r/adventofcode/comments/1pkvkvs/2025_day_9_part_2_need_a_hint_for_part_2/</a></p>
 <p>This suggests I’m on the right track but could make the code below a bit better.</p>
-<div id="09d98e51" class="cell" data-execution_count="9">
+<div id="24393aa9" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>maxim <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>above <span class="op">=</span> <span class="dv">50158</span></span>

@@ -1,0 +1,12 @@
+{
+  "hash": "94762f5e8f67e771764e537a82798683",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2015 Day 10\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 10: Elves Look, Elves Say ---\n\n::: {#aa6660e9 .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2015-10.txt', 'r') as f:\n    inp = f.read()\n\ninp = list(inp)\n```\n:::\n\n\nFor loop, yeah?\n\n::: {#5bb2d914 .cell execution_count=2}\n``` {.python .cell-code}\nimport copy\n\ndef looper(inp, l):\n    for j in range(l):\n        new_inp = []\n        k = 1\n        for i in range(len(inp)):\n            if i == len(inp)-1:\n                new_inp.append(str(k))\n                new_inp.append(inp[i])\n            elif inp[i] == inp[i+1]:\n                k += 1\n            else: \n                new_inp.append(str(k))\n                new_inp.append(inp[i])\n                k = 1\n        # assign for the next iteration   \n        inp = copy.deepcopy(new_inp)\n        # print(inp)\n    return len(inp)\n```\n:::\n\n\nCheck the length\n\n::: {#766d3c7b .cell execution_count=3}\n``` {.python .cell-code}\nlooper(inp, 40)\n\n# 329356\n```\n\n::: {.cell-output .cell-output-display execution_count=3}\n```\n329356\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nNow, starting again with the digits in your puzzle input, apply this process *50* times. What is *the length of the new result*?\n\nMake this a function!\n\n::: {#3f4e2189 .cell execution_count=4}\n``` {.python .cell-code}\nlooper(inp, 50)\n\n# 4666278\n```\n\n::: {.cell-output .cell-output-display execution_count=4}\n```\n4666278\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2015-10_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "hash": "231683307dd47224baf7533ea87f65e8",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"2020 Day 9 - R\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 9: Encoding Error ---\n\nThe data appears to be encrypted with the eXchange-Masking Addition System (XMAS) which, conveniently for you, is an old cypher with an important weakness.\n\nThe first step of attacking the weakness in the XMAS data is to find the first number in the list (after the preamble) which is *not* the sum of two of the 25 numbers before it. *What is the first number that does not have this property?*\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# read the things\ncode <- read.delim(\"data-2020-09.txt\", header = FALSE)\n\n# setup\ntgt_num <- 26\nlen <- nrow(code)\n```\n:::\n\n\n\n\nLoop to see what doesn't work\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nfor (x in tgt_num:len) {\n  found = FALSE\n  tgt_sum = code$V1[[x]]\n  for (j in (x-25):(x-2)) {\n    for (k in (x-24):(x-1)) {\n      if (code$V1[[j]] + code$V1[[k]] == tgt_sum) {\n        found = TRUE\n      }\n      if (found) break\n    }\n    if (found) break\n  }\n  if (!found) {\n    print(tgt_sum)\n    print(x)\n    break\n  }\n}\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 1639024365\n[1] 654\n```\n\n\n:::\n:::\n\n\n\n\n## --- Part Two ---\n\nThere is a contiguous sequence of numbers that add up to the missing number. Find them!\n\n*What is the encryption weakness in your XMAS-encrypted list of numbers?*\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ntgt <- 1639024365\ntgt_loc <- 654\n\nfound <- FALSE\n# part two\nfor (qq in 3:50) { \n  for (x in 1:tgt_loc) {\n    chk_sum = sum(code$V1[x:(x+qq)])\n    if (chk_sum == tgt) {\n      chk_vect = code$V1[x:(x+qq)]\n      part_two = sum(min(chk_vect), max(chk_vect))\n      print(x)\n      print(qq)\n      print(paste(\"part two answer:\", part_two))\n      found = TRUE\n    }\n    if (found) break\n  }\n  if (found) break\n}\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 538\n[1] 16\n[1] \"part two answer: 219202240\"\n```\n\n\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

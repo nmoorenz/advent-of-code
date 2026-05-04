@@ -1,0 +1,12 @@
+{
+  "hash": "d7e1c113c0cad84d6af983210dde0a9c",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2022 Day 24\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 24: Blizzard Basin ---\n\nWe have to make our way through a blizzard. We can either wait, or move to where there is not a blizzard.\n\n*What is the fewest number of minutes required to avoid the blizzards and reach the goal?*\n\n::: {#d483658f .cell execution_count=1}\n``` {.python .cell-code}\nimport numpy as np\n\nwith open('data-2022-24.txt', 'r') as f:\n    inp = f.read().splitlines()\n\nbl = np.array([list(x) for x in inp])\n```\n:::\n\n\nThis isn't a regular shortest path problem. I expect that there's only one way to go, or even very limited options.\n\n::: {#73deb04a .cell execution_count=2}\n``` {.python .cell-code}\n# here's another python cell for good luck\n```\n:::\n\n\nPaste part two here\n\n",
+    "supporting": [
+      "2022-24_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "hash": "19c2d63b2267db63e192001507a0d9fe",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2020 Day 1 - Py\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 1: Report Repair ---\n\nThe elves give you an expense report and need you to fix things up.\n\nOf course, your expense report is much larger. *Find the two entries that sum to `2020`; what do you get if you multiply them together?*\n\n::: {#8647d3a3 .cell execution_count=1}\n``` {.python .cell-code}\nimport itertools\n\nwith open('data-2020-01.txt', 'r') as f:\n    inp = f.read().splitlines()\n```\n:::\n\n\nLoop through\n\n::: {#be0ffea3 .cell execution_count=2}\n``` {.python .cell-code}\n# want integer not strings\nmy_input = [int(i) for i in inp]\n\n# probably a good idea\nmy_input.sort()\n\n# for loops\nfor x in my_input:\n  for y in my_input:\n    if x + y == 2020:\n      print(x * y)\n\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n1005459\n1005459\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nActually, find three numbers that sum to 2020.\n\nIn your expense report, *what is the product of the three entries that sum to `2020`?*\n\n::: {#c6a835df .cell execution_count=3}\n``` {.python .cell-code}\n# itertools\nfor x, y in itertools.product(my_input, my_input):\n  if x + y == 2020:\n    print(x * y)\n    break\n\n# generator\nfor x, y in ((xx, yy) for xx in my_input for yy in my_input):\n  if x + y == 2020:\n    print(x * y)\n    break\n\n# triple itertools\nfor x, y, z in itertools.product(my_input, my_input, my_input):\n  if x + y + z == 2020:\n    print(x * y * z)\n    break\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n1005459\n1005459\n92643264\n```\n:::\n:::\n\n\nCode stolen from Python from R slack, courtesy of Zach Ingbretsen\n\n::: {#79ee9c75 .cell execution_count=4}\n``` {.python .cell-code}\ndef find_sum_combs(inputs, total=2020, n=2):\n    for comb in itertools.combinations(inputs, n):\n        if sum(comb) == total:\n            return comb\n            \n\nx, y = find_sum_combs(my_input)\nprint(x*y)\n\nx, y, z = find_sum_combs(my_input, n=3)\nprint(x*y*z)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n1005459\n92643264\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2020-01-py_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

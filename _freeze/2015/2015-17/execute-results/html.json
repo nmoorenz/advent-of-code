@@ -1,0 +1,12 @@
+{
+  "hash": "2fa6f13860194c02668e53077bf4cd94",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"2015 Day 17\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 17: No Such Thing as Too Much ---\n\nYou've got some containers and the elves have some eggnog that you need to put into the containers.\n\nFilling all containers entirely, how many different *combinations of containers* can exactly fit all `150` liters of eggnog?\n\n::: {#d3f4e70e .cell execution_count=1}\n``` {.python .cell-code}\nwith open('data-2015-17.txt', 'r') as f:\n    inp = f.read().splitlines()\n\ninp = [int(x) for x in inp]\ninp.sort()\n```\n:::\n\n\nThis seems like another use case for permutations.\n\nHow many permutations are there for 20 containers?\n\nNo! Let's use combinations, since we don't want to repeat ourselves.\n\n::: {#6f4cd740 .cell execution_count=2}\n``` {.python .cell-code}\n# https://stackoverflow.com/questions/44977216/get-the-total-number-of-permutations-in-python\n\nfrom math import factorial\n\ndef nPr(n, r):\n    return int(factorial(n)/factorial(n-r))\n  \ndef nCr(n, r):\n    return int(factorial(n)/(factorial(n-r)*factorial(r)))\n  \nnPr(20, 4)\nnCr(20, 4)\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n4845\n```\n:::\n:::\n\n\nCombinations and itertools!\n\n::: {#16305109 .cell execution_count=3}\n``` {.python .cell-code}\nfrom itertools import combinations\n\ni = 0\n\nfor k in range(4,14):\n    for c in combinations(inp, k):\n        if sum(list(c)) == 150:\n            i += 1\n\nprint(i)    \n\n# 4372\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n4372\n```\n:::\n:::\n\n\n## --- Part Two ---\n\nWe need to use the least amount of containers\n\n*How many different ways* can you fill that number of containers and still hold exactly `150` litres?\n\nKeep reducing the range until we find the shortest possible lists.\n\n::: {#40b24d1a .cell execution_count=4}\n``` {.python .cell-code}\ni = 0\n\nfor k in range(4,5):\n    for c in combinations(inp, k):\n        if sum(list(c)) == 150:\n            i += 1\n            print(c)\n\nprint(i)   \n\n# 4\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n(26, 31, 46, 47)\n(31, 36, 36, 47)\n(32, 36, 36, 46)\n(32, 36, 36, 46)\n4\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "2015-17_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

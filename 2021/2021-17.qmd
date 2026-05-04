@@ -7,17 +7,19 @@ editor: visual
 
 Write the Puzzle explanation here
 
-```{python}
+```{r}
 
-with open('data-2021-17.txt', 'r') as f:
-    inp = f.read().splitlines()
+library(tidyverse)
+
+my_file <- here::here("2021", "data-2021-17.txt")
+cards <- readLines(my_file)
 
 ```
 
 Maybe write an explanation of the solution approach here
 
-```{python}
-# here's another python cell for good luck
+```{r}
+# here's another R cell for good luck
 
 ```
 
