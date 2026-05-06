@@ -24,32 +24,56 @@ up and down mean different things, but we can handle that.
 
 ```{r}
 
-f02a <- function(x) {
-  # create a helper object to provide instructions
-  effect <- tribble(
-    ~direction, ~x, ~depth,
-    "forward", 1, 0,
-    "down", 0, 1,
-    "up", 0, -1
-  )
+# create a helper object to provide instructions
+effect <- tribble(
+~direction, ~x, ~depth,
+"forward", 1, 0,
+"down", 0, 1,
+"up", 0, -1
+)
 
-  # create direction and value in their own columns
-  instruct <- tibble(inpt = x) %>%
-    separate(inpt, c("direction", "val"), convert = TRUE)
+# create direction and value in their own columns
+instruct <- tibble(inpt = x) %>%
+separate(inpt, c("direction", "val"), convert = TRUE)
 
-  # join and calculate change at each step
-  delta_sub <- inner_join(instruct, effect, by = c("direction")) %>%
-    mutate(x_delta = val * x,
-           depth_delta = val * depth)
+# join and calculate change at each step
+delta_sub <- inner_join(instruct, effect, by = c("direction")) %>%
+mutate(x_delta = val * x,
+       depth_delta = val * depth)
 
-  # part one answer is sum of final x and depth position
-  sum(delta_sub$x_delta) * sum(delta_sub$depth_delta)
+# part one answer is sum of final x and depth position
+sum(delta_sub$x_delta) * sum(delta_sub$depth_delta)
 
-}
-
-p1 <- f02a(x)
-
-p1
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Actually, the instructions are different.
+
+Using this new interpretation of the commands, calculate the horizontal position and depth you would have after following the planned course. *What do you get if you multiply your final horizontal position by your final depth?*
+
+```{r}
+
+# create a helper object to provide instructions
+effect <- tribble(
+~direction, ~x, ~dp,
+"forward", 1, 0,
+"down", 0, 1,
+"up", 0, -1
+)
+
+# create direction and value in their own columns
+instruct <- tibble(inpt = x) %>%
+separate(inpt, c("direction", "val"), convert = TRUE)
+
+# join and calculate change at each step
+delta_sub <- inner_join(instruct, effect, by = c("direction")) %>%
+mutate(x_delta = val * x,
+       depth_delta = val * dp,
+       aim = cumsum(depth_delta),
+       depth_aim = aim * x_delta)
+
+# part one answer is sum of final x and depth position
+sum(delta_sub$x_delta) * sum(delta_sub$depth_aim)
+
+```

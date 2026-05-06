@@ -5,22 +5,140 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 3: Binary Diagnostic ---
+
+Use the binary numbers in your diagnostic report to calculate the gamma rate and epsilon rate, then multiply them together. *What is the power consumption of the submarine?* (Be sure to represent your answer in decimal, not binary.)
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-03.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
 Maybe write an explanation of the solution approach here
 
 ```{r}
-# here's another R cell for good luck
+
+# split into individual columns
+bins = str_split_fixed(x, "", 12) %>% as.data.frame()
+
+# need them to be numeric
+bin_num = sapply(bins, as.numeric)
+
+gamma_rate =  strtoi(paste(as.numeric(colSums(bin_num) >= 500), collapse = ""), base = 2)
+
+epsilon_rate = strtoi(paste(as.numeric(colSums(bin_num) < 500), collapse = ""), base = 2)
+
+part_one = gamma_rate * epsilon_rate
+  
+part_one
+```
+
+## --- Part Two ---
+
+Use the binary numbers in your diagnostic report to calculate the oxygen generator rating and CO2 scrubber rating, then multiply them together. *What is the life support rating of the submarine?* (Be sure to represent your answer in decimal, not binary.)
+
+```{r}
+
+return_oxygen <- function(z, colnum = 1) {
+  # z is a matrix of binary digits
+  # calculate the length
+  # then which digit is more common in the column
+  # input of colnum
+
+  # number of rows of array
+  lngth = nrow(z)
+
+  # wdth for stopping
+  wdth = ncol(z)
+
+  # column with greater number of digits
+  dgt = as.integer(sum(z[,colnum]) >= ceiling(lngth / 2))
+
+  # filter (is that the right word for non-tidyverse?)
+  row_bool = z[,colnum] == dgt
+  z = z[row_bool, , drop = FALSE]
+
+  # return if we are at the end
+  if (colnum == wdth) {
+    print("colnum = 12")
+    return(z)
+  }
+
+  if (nrow(z) == 1) {
+    print("only one row")
+    return(z)
+  }
+
+  # increment by 1
+  colnum = colnum + 1
+
+  # call same function again with new column to check
+  z = return_oxygen(z, colnum)
+
+}
+
+return_c02 <- function(z, colnum = 1) {
+  # this is the same as above but with less than sign
+
+  # number of rows of array
+  lngth = nrow(z)
+
+  # wdth for stopping
+  wdth = ncol(z)
+
+  # column with greater number of digits
+  dgt = as.integer(sum(z[,colnum]) < ceiling(lngth / 2))
+
+  # filter (is that the right word for non-tidyverse?)
+  row_bool = z[,colnum] == dgt
+  z = z[row_bool, , drop = FALSE]
+
+  # return if we are at the end
+  if (colnum == wdth) return(z)
+
+  if (nrow(z) == 1) return(z)
+
+  # increment by 1
+  colnum = colnum + 1
+
+  # call same function again with new column to check
+  z = return_c02(z, colnum)
+
+}
+
 
 ```
 
-Paste part two here
+And then use the functions
+
+```{r}
+
+# width of one string
+wdth = nchar(x[[1]])
+
+# split into individual columns
+bins = str_split_fixed(x, "", wdth) %>% as.data.frame()
+
+# need them to be numeric
+bin_num = sapply(bins, as.numeric)
+
+# recursive function call
+oxygen_binary = return_oxygen(bin_num)
+
+# convert to integer for oxygen
+oxygen_rating = strtoi(paste(oxygen_binary, collapse = ""), base = 2)
+
+# recursive with less than, c02
+c02_binary = return_c02(bin_num)
+
+# convert to integer
+c02_rating = strtoi(paste(c02_binary, collapse = ""), base = 2)
+
+# answer
+oxygen_rating * c02_rating
+  
+```

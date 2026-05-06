@@ -5,22 +5,202 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 4: Giant Squid ---
+
+Let's play bingo against a giant squid!
+
+To guarantee victory against the giant squid, figure out which board will win first. *What will your final score be if you choose that board?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-04.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+functions
 
 ```{r}
-# here's another R cell for good luck
+
+check_cards_1 <- function(cards) {
+  # group by card and row
+  # group by card and col
+
+  row_bingo = cards %>%
+    group_by(card_num, row_num) %>%
+    summarise(bingo = sum(called), .groups = "drop") %>%
+    filter(bingo == 5)
+
+  if (nrow(row_bingo) == 1) return (row_bingo$card_num[[1]])
+
+  col_bingo = cards %>%
+    group_by(card_num, col_num) %>%
+    summarise(bingo = sum(called), .groups = "drop") %>%
+    filter(bingo == 5)
+
+  if (nrow(col_bingo) == 1) return (col_bingo$card_num[[1]])
+
+  return(FALSE)
+
+}
+
+
+check_rows <- function(cards) {
+  # group by card and row
+
+  row_bingo = cards %>%
+    filter(bingo_done == FALSE) %>%
+    group_by(card_num, row_num) %>%
+    summarise(bingo = sum(called), .groups = "drop") %>%
+    filter(bingo == 5)
+
+  if (nrow(row_bingo) >= 1) return (row_bingo$card_num)
+
+  return(FALSE)
+
+}
+
+
+check_cols <- function(cards) {
+  # group by card and col
+
+  col_bingo = cards %>%
+    filter(bingo_done == FALSE) %>%
+    group_by(card_num, col_num) %>%
+    summarise(bingo = sum(called), .groups = "drop") %>%
+    filter(bingo == 5)
+
+  if (nrow(col_bingo) >= 1) return (col_bingo$card_num)
+
+  return(FALSE)
+
+}
+
+
+create_long_card_record <- function(z) {
+  # separate the columns
+  # number the bingo cards
+  # number the rows
+  # remove na
+  tibble(bb = z) %>%
+    separate(bb, c("c1", "c2", "c3", "c4", "c5"), sep = c(3, 6, 9, 12), convert = TRUE) %>%
+    mutate(row_na = is.na(c1),
+           card_num = cumsum(row_na)) %>%
+    group_by(card_num) %>%
+    mutate(row_num = row_number() - 1) %>%
+    ungroup() %>%
+    filter(row_num != 0) %>%
+    select(-row_na) %>%
+    pivot_longer(c("c1", "c2", "c3", "c4", "c5"), names_to = "col_num") %>%
+    mutate(col_num = parse_number(col_num),
+           called = FALSE)
+}
 
 ```
 
-Paste part two here
+We get the numbers and the cards, and figure out which cards are good. Score them all.
+
+```{r}
+
+# bingo numbers, first row in text file
+bingo_numbers = as.numeric(unlist(strsplit(x[1], ",")))
+
+# bingo cards
+bingo_cards = create_long_card_record(x[2:length(x)])
+
+# "call" our bingo numbers but stop if we have a bingo
+for (j in 1:length(bingo_numbers)) {
+    my_num = bingo_numbers[j]
+    # print(my_num)
+    bingo_cards = bingo_cards %>%
+      mutate(called = (called | value == my_num))
+    
+    do_we_have_bingo = check_cards_1(bingo_cards)
+    
+    if (do_we_have_bingo) break
+
+}
+
+# winning card numbers that haven't been called yet
+uncalled = bingo_cards %>%
+filter(called == FALSE & card_num == do_we_have_bingo) %>%
+summarise(win_card = sum(value))
+
+# part one answer
+uncalled$win_card[[1]] * my_num
+
+
+```
+
+## --- Part Two ---
+
+Maybe we should let the squid win.
+
+Figure out which board will win last. *Once it wins, what would its final score be?*
+
+```{r}
+
+# bingo numbers, first row in text file
+bingo_numbers = as.numeric(unlist(strsplit(x[1], ",")))
+
+# bingo cards
+bingo_cards = create_long_card_record(x[2:length(x)])
+
+bingo_cards = bingo_cards %>%
+mutate(bingo_done = FALSE)
+
+# "call" our bingo numbers but stop if we have a bingo
+for (j in 1:length(bingo_numbers)) {
+# for (j in 1:50) {
+    my_num = bingo_numbers[j]
+    # print(my_num)
+    bingo_cards = bingo_cards %>%
+    mutate(called = (called | value == my_num))
+    
+    # check rows for bingo
+    do_we_have_rows = check_rows(bingo_cards)
+    # adjust record of which cards have bingo
+    if (length(do_we_have_rows) == 1) {
+        bingo_cards = bingo_cards %>%
+            mutate(bingo_done = (bingo_done | do_we_have_rows == card_num))
+    } else {
+        for (x in do_we_have_rows) {
+            bingo_cards = bingo_cards %>%
+                mutate(bingo_done = (bingo_done | x == card_num))
+        }
+    }
+    
+    # check cols for bingo
+    do_we_have_cols = check_cols(bingo_cards)
+    
+    # adjust record of which cards have bingo
+    if (length(do_we_have_cols) == 1) {
+        bingo_cards = bingo_cards %>%
+            mutate(bingo_done = (bingo_done | do_we_have_cols == card_num))
+    } else {
+        for (x in do_we_have_cols) {
+            bingo_cards = bingo_cards %>%
+                mutate(bingo_done = (bingo_done | x == card_num))
+        }
+    }
+    
+    if (sum(bingo_cards$bingo_done) == 2500) break
+}
+
+# "winning" card numbers that haven't been called yet
+# winning for the second part is actually last to win
+if (do_we_have_cols) {
+    last_card = do_we_have_cols
+} else {
+    last_card = do_we_have_rows
+}
+uncalled = bingo_cards %>%
+    filter(called == FALSE & card_num == last_card) %>%
+    summarise(win_card = sum(value))
+
+# part two answer
+uncalled$win_card[[1]] * my_num
+
+```
