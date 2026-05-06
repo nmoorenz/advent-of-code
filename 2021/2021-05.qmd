@@ -5,22 +5,83 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 5: Hydrothermal Venture ---
+
+You come across a field of hydrothermal vents.
+
+Consider only horizontal and vertical lines. *At how many points do at least two lines overlap?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-05.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+function
 
 ```{r}
-# here's another R cell for good luck
+
+create_plumes <- function(x) {
+  tibble(init = x) %>%
+    separate(init, c("x1y1", "x2y2"), sep = " ->") %>%
+    separate(x1y1, c("x1", "y1"), sep = ",", convert = TRUE) %>%
+    separate(x2y2, c("x2", "y2"), sep = ",", convert = TRUE) %>%
+    mutate(vert = x1 == x2,
+           hori = y1 == y2)
+}
 
 ```
 
-Paste part two here
+Do the thing
+
+```{r}
+
+plumes = create_plumes(x)
+
+# range from 10 to 990
+sea_floor = array(0, c(1000,1000))
+
+for (j in 1:nrow(plumes)) {
+    if (plumes$vert[[j]] | plumes$hori[[j]]) {
+
+        sea_floor[plumes$x1[[j]]:plumes$x2[[j]], plumes$y1[[j]]:plumes$y2[[j]]] = 1 + sea_floor[plumes$x1[[j]]:plumes$x2[[j]], plumes$y1[[j]]:plumes$y2[[j]]]
+    }
+}
+
+# part one answer
+sum(sea_floor > 1)
+  
+```
+
+## --- Part Two ---
+
+Actually, we need to consider diagonals as well.
+
+Consider all of the lines. *At how many points do at least two lines overlap?*
+
+```{r}
+
+plumes = create_plumes(x)
+
+sea_floor = array(0, c(1000,1000))
+
+for (j in 1:nrow(plumes)) {
+    # sequences for x and y
+    xx = seq(plumes$x1[[j]], plumes$x2[[j]])
+    yy = seq(plumes$y1[[j]], plumes$y2[[j]])
+    # adjust for vert or horizontal
+    if (length(xx) == 1) xx = rep(xx, length(yy))
+    if (length(yy) == 1) yy = rep(yy, length(xx))
+    # loop for sea floor positions
+    for (k in seq_len(max(length(xx), length(yy)))) {
+        sea_floor[xx[k], yy[k]] = sea_floor[xx[k], yy[k]] + 1
+    }
+}
+
+# part two answer
+sum(sea_floor > 1)
+
+```

@@ -26,15 +26,9 @@ x <- readLines(my_file)
 
 ```{r}
 
-f01a <- function(x) {
-
-  x <- as.numeric(x)
-  x_lag <- diff(x) > 0
-  p1 <- sum(x_lag)
-
-}
-
-p1 <- f01a(x)
+x <- as.numeric(x)
+x_lag <- diff(x) > 0
+p1 <- sum(x_lag)
 
 p1
 ```
@@ -49,13 +43,9 @@ Consider sums of a three-measurement sliding window. *How many sums are larger t
 
 ```{r}
 
-f01b <- function(x) {
-  x <- as.numeric(x)
-  x_lag <- diff(x, lag = 3) > 0
-  p1 <- sum(x_lag)
-}
-
-p2 <- f01b(x)
+x <- as.numeric(x)
+x_lag <- diff(x, lag = 3) > 0
+p1 <- sum(x_lag)
 
 p2
 ```

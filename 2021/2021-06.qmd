@@ -5,22 +5,75 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 6: Lanternfish ---
+
+There are some lanternfish swimming past, and we want to calculate their spawning rate for some reason
+
+Find a way to simulate lanternfish. *How many lanternfish would there be after 80 days?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-06.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+This is pretty straightforward
 
 ```{r}
-# here's another R cell for good luck
 
+# split into separate fish
+fishes = as.numeric(unlist(strsplit(x, split = ",")))
+
+for (i in seq(80)) {
+    # down one day
+    fishes = fishes - 1
+
+    # append to the end
+    fishes = append(fishes, rep(8, sum(fishes < 0)))
+
+    # replace -1 with 6
+    fishes = replace(fishes, fishes < 0, 6)
+
+}
+
+# part one answer
+length(fishes)
 ```
 
-Paste part two here
+## --- Part Two ---
+
+*How many lanternfish would there be after 256 days?*
+
+```{r}
+
+# split into separate fish
+fishes = as.numeric(unlist(strsplit(x, split = ",")))
+
+# record days and count of fish
+lantern = tibble(days = fishes) %>%
+count(days)
+
+# big loop for many respawns
+for (k in seq(256)) {
+    lantern$days = lantern$days - 1
+
+    spawn = max(filter(lantern, days == -1)$n, 0)
+
+    if (any(lantern$days == 6)) {
+        lantern[lantern$days == 6, "n"] = lantern[lantern$days == 6, "n"] + spawn
+    } else {
+        lantern = rbind(lantern, c(6, spawn))
+    }
+
+    lantern = rbind(lantern, c(8, spawn))
+
+    lantern = filter(lantern, days != -1)
+
+}
+
+# part two answer
+format(sum(lantern$n), scientific=F)
+```
