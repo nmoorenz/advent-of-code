@@ -1459,7 +1459,31 @@
     "href": "2021/2021-05.html",
     "title": "2021 Day 5",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-05.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-05.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
+    "text": "You come across a field of hydrothermal vents.\nConsider only horizontal and vertical lines. At how many points do at least two lines overlap?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-05.txt\")\nx &lt;- readLines(my_file)\n\nfunction\n\ncreate_plumes &lt;- function(x) {\n  tibble(init = x) %&gt;%\n    separate(init, c(\"x1y1\", \"x2y2\"), sep = \" -&gt;\") %&gt;%\n    separate(x1y1, c(\"x1\", \"y1\"), sep = \",\", convert = TRUE) %&gt;%\n    separate(x2y2, c(\"x2\", \"y2\"), sep = \",\", convert = TRUE) %&gt;%\n    mutate(vert = x1 == x2,\n           hori = y1 == y2)\n}\n\nDo the thing\n\nplumes = create_plumes(x)\n\n# range from 10 to 990\nsea_floor = array(0, c(1000,1000))\n\nfor (j in 1:nrow(plumes)) {\n    if (plumes$vert[[j]] | plumes$hori[[j]]) {\n\n        sea_floor[plumes$x1[[j]]:plumes$x2[[j]], plumes$y1[[j]]:plumes$y2[[j]]] = 1 + sea_floor[plumes$x1[[j]]:plumes$x2[[j]], plumes$y1[[j]]:plumes$y2[[j]]]\n    }\n}\n\n# part one answer\nsum(sea_floor &gt; 1)\n\n[1] 6311",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 5"
+    ]
+  },
+  {
+    "objectID": "2021/2021-05.html#day-5-hydrothermal-venture",
+    "href": "2021/2021-05.html#day-5-hydrothermal-venture",
+    "title": "2021 Day 5",
+    "section": "",
+    "text": "You come across a field of hydrothermal vents.\nConsider only horizontal and vertical lines. At how many points do at least two lines overlap?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-05.txt\")\nx &lt;- readLines(my_file)\n\nfunction\n\ncreate_plumes &lt;- function(x) {\n  tibble(init = x) %&gt;%\n    separate(init, c(\"x1y1\", \"x2y2\"), sep = \" -&gt;\") %&gt;%\n    separate(x1y1, c(\"x1\", \"y1\"), sep = \",\", convert = TRUE) %&gt;%\n    separate(x2y2, c(\"x2\", \"y2\"), sep = \",\", convert = TRUE) %&gt;%\n    mutate(vert = x1 == x2,\n           hori = y1 == y2)\n}\n\nDo the thing\n\nplumes = create_plumes(x)\n\n# range from 10 to 990\nsea_floor = array(0, c(1000,1000))\n\nfor (j in 1:nrow(plumes)) {\n    if (plumes$vert[[j]] | plumes$hori[[j]]) {\n\n        sea_floor[plumes$x1[[j]]:plumes$x2[[j]], plumes$y1[[j]]:plumes$y2[[j]]] = 1 + sea_floor[plumes$x1[[j]]:plumes$x2[[j]], plumes$y1[[j]]:plumes$y2[[j]]]\n    }\n}\n\n# part one answer\nsum(sea_floor &gt; 1)\n\n[1] 6311",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 5"
+    ]
+  },
+  {
+    "objectID": "2021/2021-05.html#part-two",
+    "href": "2021/2021-05.html#part-two",
+    "title": "2021 Day 5",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nActually, we need to consider diagonals as well.\nConsider all of the lines. At how many points do at least two lines overlap?\n\nplumes = create_plumes(x)\n\nsea_floor = array(0, c(1000,1000))\n\nfor (j in 1:nrow(plumes)) {\n    # sequences for x and y\n    xx = seq(plumes$x1[[j]], plumes$x2[[j]])\n    yy = seq(plumes$y1[[j]], plumes$y2[[j]])\n    # adjust for vert or horizontal\n    if (length(xx) == 1) xx = rep(xx, length(yy))\n    if (length(yy) == 1) yy = rep(yy, length(xx))\n    # loop for sea floor positions\n    for (k in seq_len(max(length(xx), length(yy)))) {\n        sea_floor[xx[k], yy[k]] = sea_floor[xx[k], yy[k]] + 1\n    }\n}\n\n# part two answer\nsum(sea_floor &gt; 1)\n\n[1] 19929",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1471,7 +1495,31 @@
     "href": "2021/2021-03.html",
     "title": "2021 Day 3",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-03.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-03.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
+    "text": "Use the binary numbers in your diagnostic report to calculate the gamma rate and epsilon rate, then multiply them together. What is the power consumption of the submarine? (Be sure to represent your answer in decimal, not binary.)\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-03.txt\")\nx &lt;- readLines(my_file)\n\nMaybe write an explanation of the solution approach here\n\n# split into individual columns\nbins = str_split_fixed(x, \"\", 12) %&gt;% as.data.frame()\n\n# need them to be numeric\nbin_num = sapply(bins, as.numeric)\n\ngamma_rate =  strtoi(paste(as.numeric(colSums(bin_num) &gt;= 500), collapse = \"\"), base = 2)\n\nepsilon_rate = strtoi(paste(as.numeric(colSums(bin_num) &lt; 500), collapse = \"\"), base = 2)\n\npart_one = gamma_rate * epsilon_rate\n  \npart_one\n\n[1] 3895776",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 3"
+    ]
+  },
+  {
+    "objectID": "2021/2021-03.html#day-3-binary-diagnostic",
+    "href": "2021/2021-03.html#day-3-binary-diagnostic",
+    "title": "2021 Day 3",
+    "section": "",
+    "text": "Use the binary numbers in your diagnostic report to calculate the gamma rate and epsilon rate, then multiply them together. What is the power consumption of the submarine? (Be sure to represent your answer in decimal, not binary.)\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-03.txt\")\nx &lt;- readLines(my_file)\n\nMaybe write an explanation of the solution approach here\n\n# split into individual columns\nbins = str_split_fixed(x, \"\", 12) %&gt;% as.data.frame()\n\n# need them to be numeric\nbin_num = sapply(bins, as.numeric)\n\ngamma_rate =  strtoi(paste(as.numeric(colSums(bin_num) &gt;= 500), collapse = \"\"), base = 2)\n\nepsilon_rate = strtoi(paste(as.numeric(colSums(bin_num) &lt; 500), collapse = \"\"), base = 2)\n\npart_one = gamma_rate * epsilon_rate\n  \npart_one\n\n[1] 3895776",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 3"
+    ]
+  },
+  {
+    "objectID": "2021/2021-03.html#part-two",
+    "href": "2021/2021-03.html#part-two",
+    "title": "2021 Day 3",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nUse the binary numbers in your diagnostic report to calculate the oxygen generator rating and CO2 scrubber rating, then multiply them together. What is the life support rating of the submarine? (Be sure to represent your answer in decimal, not binary.)\n\nreturn_oxygen &lt;- function(z, colnum = 1) {\n  # z is a matrix of binary digits\n  # calculate the length\n  # then which digit is more common in the column\n  # input of colnum\n\n  # number of rows of array\n  lngth = nrow(z)\n\n  # wdth for stopping\n  wdth = ncol(z)\n\n  # column with greater number of digits\n  dgt = as.integer(sum(z[,colnum]) &gt;= ceiling(lngth / 2))\n\n  # filter (is that the right word for non-tidyverse?)\n  row_bool = z[,colnum] == dgt\n  z = z[row_bool, , drop = FALSE]\n\n  # return if we are at the end\n  if (colnum == wdth) {\n    print(\"colnum = 12\")\n    return(z)\n  }\n\n  if (nrow(z) == 1) {\n    print(\"only one row\")\n    return(z)\n  }\n\n  # increment by 1\n  colnum = colnum + 1\n\n  # call same function again with new column to check\n  z = return_oxygen(z, colnum)\n\n}\n\nreturn_c02 &lt;- function(z, colnum = 1) {\n  # this is the same as above but with less than sign\n\n  # number of rows of array\n  lngth = nrow(z)\n\n  # wdth for stopping\n  wdth = ncol(z)\n\n  # column with greater number of digits\n  dgt = as.integer(sum(z[,colnum]) &lt; ceiling(lngth / 2))\n\n  # filter (is that the right word for non-tidyverse?)\n  row_bool = z[,colnum] == dgt\n  z = z[row_bool, , drop = FALSE]\n\n  # return if we are at the end\n  if (colnum == wdth) return(z)\n\n  if (nrow(z) == 1) return(z)\n\n  # increment by 1\n  colnum = colnum + 1\n\n  # call same function again with new column to check\n  z = return_c02(z, colnum)\n\n}\n\nAnd then use the functions\n\n# width of one string\nwdth = nchar(x[[1]])\n\n# split into individual columns\nbins = str_split_fixed(x, \"\", wdth) %&gt;% as.data.frame()\n\n# need them to be numeric\nbin_num = sapply(bins, as.numeric)\n\n# recursive function call\noxygen_binary = return_oxygen(bin_num)\n\n[1] \"colnum = 12\"\n\n# convert to integer for oxygen\noxygen_rating = strtoi(paste(oxygen_binary, collapse = \"\"), base = 2)\n\n# recursive with less than, c02\nc02_binary = return_c02(bin_num)\n\n# convert to integer\nc02_rating = strtoi(paste(c02_binary, collapse = \"\"), base = 2)\n\n# answer\noxygen_rating * c02_rating\n\n[1] 7928162",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1483,7 +1531,7 @@
     "href": "2021/2021-01.html",
     "title": "2021 Day 1",
     "section": "",
-    "text": "You’re on a submarine trying to recover the keys for Santa’s sleigh.\nUse the sonar readouts to check the depth of the ocean.\nHow many measurements are larger than the previous measurement?\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-01.txt\")\nx &lt;- readLines(my_file)\n\ndiff function gives us what we need\n\nf01a &lt;- function(x) {\n\n  x &lt;- as.numeric(x)\n  x_lag &lt;- diff(x) &gt; 0\n  p1 &lt;- sum(x_lag)\n\n}\n\np1 &lt;- f01a(x)\n\np1\n\n[1] 1752",
+    "text": "You’re on a submarine trying to recover the keys for Santa’s sleigh.\nUse the sonar readouts to check the depth of the ocean.\nHow many measurements are larger than the previous measurement?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-01.txt\")\nx &lt;- readLines(my_file)\n\ndiff function gives us what we need\n\nx &lt;- as.numeric(x)\nx_lag &lt;- diff(x) &gt; 0\np1 &lt;- sum(x_lag)\n\np1\n\n[1] 1752",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1495,7 +1543,7 @@
     "href": "2021/2021-01.html#day-1-sonar-sweep",
     "title": "2021 Day 1",
     "section": "",
-    "text": "You’re on a submarine trying to recover the keys for Santa’s sleigh.\nUse the sonar readouts to check the depth of the ocean.\nHow many measurements are larger than the previous measurement?\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-01.txt\")\nx &lt;- readLines(my_file)\n\ndiff function gives us what we need\n\nf01a &lt;- function(x) {\n\n  x &lt;- as.numeric(x)\n  x_lag &lt;- diff(x) &gt; 0\n  p1 &lt;- sum(x_lag)\n\n}\n\np1 &lt;- f01a(x)\n\np1\n\n[1] 1752",
+    "text": "You’re on a submarine trying to recover the keys for Santa’s sleigh.\nUse the sonar readouts to check the depth of the ocean.\nHow many measurements are larger than the previous measurement?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-01.txt\")\nx &lt;- readLines(my_file)\n\ndiff function gives us what we need\n\nx &lt;- as.numeric(x)\nx_lag &lt;- diff(x) &gt; 0\np1 &lt;- sum(x_lag)\n\np1\n\n[1] 1752",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1507,7 +1555,7 @@
     "href": "2021/2021-01.html#part-two",
     "title": "2021 Day 1",
     "section": "— Part Two —",
-    "text": "— Part Two —\nActually,\nConsider sums of a three-measurement sliding window. How many sums are larger than the previous sum?\ndiff function has a lag argument!\n\nf01b &lt;- function(x) {\n  x &lt;- as.numeric(x)\n  x_lag &lt;- diff(x, lag = 3) &gt; 0\n  p1 &lt;- sum(x_lag)\n}\n\np2 &lt;- f01b(x)\n\np2\n\n[1] 1781",
+    "text": "— Part Two —\nActually,\nConsider sums of a three-measurement sliding window. How many sums are larger than the previous sum?\ndiff function has a lag argument!\n\nx &lt;- as.numeric(x)\nx_lag &lt;- diff(x, lag = 3) &gt; 0\np2 &lt;- sum(x_lag)\n\np2\n\n[1] 1781",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3279,7 +3327,7 @@
     "href": "2021/2021-02.html",
     "title": "2021 Day 2",
     "section": "",
-    "text": "We have to figure out where the submarine is going.\nCalculate the horizontal position and depth you would have after following the planned course. What do you get if you multiply your final horizontal position by your final depth?\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-02.txt\")\nx &lt;- readLines(my_file)\n\nup and down mean different things, but we can handle that.\n\nf02a &lt;- function(x) {\n  # create a helper object to provide instructions\n  effect &lt;- tribble(\n    ~direction, ~x, ~depth,\n    \"forward\", 1, 0,\n    \"down\", 0, 1,\n    \"up\", 0, -1\n  )\n\n  # create direction and value in their own columns\n  instruct &lt;- tibble(inpt = x) %&gt;%\n    separate(inpt, c(\"direction\", \"val\"), convert = TRUE)\n\n  # join and calculate change at each step\n  delta_sub &lt;- inner_join(instruct, effect, by = c(\"direction\")) %&gt;%\n    mutate(x_delta = val * x,\n           depth_delta = val * depth)\n\n  # part one answer is sum of final x and depth position\n  sum(delta_sub$x_delta) * sum(delta_sub$depth_delta)\n\n}\n\np1 &lt;- f02a(x)\n\np1\n\n[1] 1451208\n\n\nPaste part two here",
+    "text": "We have to figure out where the submarine is going.\nCalculate the horizontal position and depth you would have after following the planned course. What do you get if you multiply your final horizontal position by your final depth?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-02.txt\")\nx &lt;- readLines(my_file)\n\nup and down mean different things, but we can handle that.\n\n# create a helper object to provide instructions\neffect &lt;- tribble(\n~direction, ~x, ~depth,\n\"forward\", 1, 0,\n\"down\", 0, 1,\n\"up\", 0, -1\n)\n\n# create direction and value in their own columns\ninstruct &lt;- tibble(inpt = x) %&gt;%\nseparate(inpt, c(\"direction\", \"val\"), convert = TRUE)\n\n# join and calculate change at each step\ndelta_sub &lt;- inner_join(instruct, effect, by = c(\"direction\")) %&gt;%\nmutate(x_delta = val * x,\n       depth_delta = val * depth)\n\n# part one answer is sum of final x and depth position\nsum(delta_sub$x_delta) * sum(delta_sub$depth_delta)\n\n[1] 1451208",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3291,7 +3339,19 @@
     "href": "2021/2021-02.html#day-2-dive",
     "title": "2021 Day 2",
     "section": "",
-    "text": "We have to figure out where the submarine is going.\nCalculate the horizontal position and depth you would have after following the planned course. What do you get if you multiply your final horizontal position by your final depth?\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-02.txt\")\nx &lt;- readLines(my_file)\n\nup and down mean different things, but we can handle that.\n\nf02a &lt;- function(x) {\n  # create a helper object to provide instructions\n  effect &lt;- tribble(\n    ~direction, ~x, ~depth,\n    \"forward\", 1, 0,\n    \"down\", 0, 1,\n    \"up\", 0, -1\n  )\n\n  # create direction and value in their own columns\n  instruct &lt;- tibble(inpt = x) %&gt;%\n    separate(inpt, c(\"direction\", \"val\"), convert = TRUE)\n\n  # join and calculate change at each step\n  delta_sub &lt;- inner_join(instruct, effect, by = c(\"direction\")) %&gt;%\n    mutate(x_delta = val * x,\n           depth_delta = val * depth)\n\n  # part one answer is sum of final x and depth position\n  sum(delta_sub$x_delta) * sum(delta_sub$depth_delta)\n\n}\n\np1 &lt;- f02a(x)\n\np1\n\n[1] 1451208\n\n\nPaste part two here",
+    "text": "We have to figure out where the submarine is going.\nCalculate the horizontal position and depth you would have after following the planned course. What do you get if you multiply your final horizontal position by your final depth?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-02.txt\")\nx &lt;- readLines(my_file)\n\nup and down mean different things, but we can handle that.\n\n# create a helper object to provide instructions\neffect &lt;- tribble(\n~direction, ~x, ~depth,\n\"forward\", 1, 0,\n\"down\", 0, 1,\n\"up\", 0, -1\n)\n\n# create direction and value in their own columns\ninstruct &lt;- tibble(inpt = x) %&gt;%\nseparate(inpt, c(\"direction\", \"val\"), convert = TRUE)\n\n# join and calculate change at each step\ndelta_sub &lt;- inner_join(instruct, effect, by = c(\"direction\")) %&gt;%\nmutate(x_delta = val * x,\n       depth_delta = val * depth)\n\n# part one answer is sum of final x and depth position\nsum(delta_sub$x_delta) * sum(delta_sub$depth_delta)\n\n[1] 1451208",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 2"
+    ]
+  },
+  {
+    "objectID": "2021/2021-02.html#part-two",
+    "href": "2021/2021-02.html#part-two",
+    "title": "2021 Day 2",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nActually, the instructions are different.\nUsing this new interpretation of the commands, calculate the horizontal position and depth you would have after following the planned course. What do you get if you multiply your final horizontal position by your final depth?\n\n# create a helper object to provide instructions\neffect &lt;- tribble(\n~direction, ~x, ~dp,\n\"forward\", 1, 0,\n\"down\", 0, 1,\n\"up\", 0, -1\n)\n\n# create direction and value in their own columns\ninstruct &lt;- tibble(inpt = x) %&gt;%\nseparate(inpt, c(\"direction\", \"val\"), convert = TRUE)\n\n# join and calculate change at each step\ndelta_sub &lt;- inner_join(instruct, effect, by = c(\"direction\")) %&gt;%\nmutate(x_delta = val * x,\n       depth_delta = val * dp,\n       aim = cumsum(depth_delta),\n       depth_aim = aim * x_delta)\n\n# part one answer is sum of final x and depth position\nsum(delta_sub$x_delta) * sum(delta_sub$depth_aim)\n\n[1] 1620141160",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3303,7 +3363,31 @@
     "href": "2021/2021-04.html",
     "title": "2021 Day 4",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-04.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-04.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
+    "text": "Let’s play bingo against a giant squid!\nTo guarantee victory against the giant squid, figure out which board will win first. What will your final score be if you choose that board?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-04.txt\")\nx &lt;- readLines(my_file)\n\nfunctions\n\ncheck_cards_1 &lt;- function(cards) {\n  # group by card and row\n  # group by card and col\n\n  row_bingo = cards %&gt;%\n    group_by(card_num, row_num) %&gt;%\n    summarise(bingo = sum(called), .groups = \"drop\") %&gt;%\n    filter(bingo == 5)\n\n  if (nrow(row_bingo) == 1) return (row_bingo$card_num[[1]])\n\n  col_bingo = cards %&gt;%\n    group_by(card_num, col_num) %&gt;%\n    summarise(bingo = sum(called), .groups = \"drop\") %&gt;%\n    filter(bingo == 5)\n\n  if (nrow(col_bingo) == 1) return (col_bingo$card_num[[1]])\n\n  return(FALSE)\n\n}\n\n\ncheck_rows &lt;- function(cards) {\n  # group by card and row\n\n  row_bingo = cards %&gt;%\n    filter(bingo_done == FALSE) %&gt;%\n    group_by(card_num, row_num) %&gt;%\n    summarise(bingo = sum(called), .groups = \"drop\") %&gt;%\n    filter(bingo == 5)\n\n  if (nrow(row_bingo) &gt;= 1) return (row_bingo$card_num)\n\n  return(FALSE)\n\n}\n\n\ncheck_cols &lt;- function(cards) {\n  # group by card and col\n\n  col_bingo = cards %&gt;%\n    filter(bingo_done == FALSE) %&gt;%\n    group_by(card_num, col_num) %&gt;%\n    summarise(bingo = sum(called), .groups = \"drop\") %&gt;%\n    filter(bingo == 5)\n\n  if (nrow(col_bingo) &gt;= 1) return (col_bingo$card_num)\n\n  return(FALSE)\n\n}\n\n\ncreate_long_card_record &lt;- function(z) {\n  # separate the columns\n  # number the bingo cards\n  # number the rows\n  # remove na\n  tibble(bb = z) %&gt;%\n    separate(bb, c(\"c1\", \"c2\", \"c3\", \"c4\", \"c5\"), sep = c(3, 6, 9, 12), convert = TRUE) %&gt;%\n    mutate(row_na = is.na(c1),\n           card_num = cumsum(row_na)) %&gt;%\n    group_by(card_num) %&gt;%\n    mutate(row_num = row_number() - 1) %&gt;%\n    ungroup() %&gt;%\n    filter(row_num != 0) %&gt;%\n    select(-row_na) %&gt;%\n    pivot_longer(c(\"c1\", \"c2\", \"c3\", \"c4\", \"c5\"), names_to = \"col_num\") %&gt;%\n    mutate(col_num = parse_number(col_num),\n           called = FALSE)\n}\n\nWe get the numbers and the cards, and figure out which cards are good. Score them all.\n\n# bingo numbers, first row in text file\nbingo_numbers = as.numeric(unlist(strsplit(x[1], \",\")))\n\n# bingo cards\nbingo_cards = create_long_card_record(x[2:length(x)])\n\n# \"call\" our bingo numbers but stop if we have a bingo\nfor (j in 1:length(bingo_numbers)) {\n    my_num = bingo_numbers[j]\n    # print(my_num)\n    bingo_cards = bingo_cards %&gt;%\n      mutate(called = (called | value == my_num))\n    \n    do_we_have_bingo = check_cards_1(bingo_cards)\n    \n    if (do_we_have_bingo) break\n\n}\n\n# winning card numbers that haven't been called yet\nuncalled = bingo_cards %&gt;%\nfilter(called == FALSE & card_num == do_we_have_bingo) %&gt;%\nsummarise(win_card = sum(value))\n\n# part one answer\nuncalled$win_card[[1]] * my_num\n\n[1] 74320",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 4"
+    ]
+  },
+  {
+    "objectID": "2021/2021-04.html#day-4-giant-squid",
+    "href": "2021/2021-04.html#day-4-giant-squid",
+    "title": "2021 Day 4",
+    "section": "",
+    "text": "Let’s play bingo against a giant squid!\nTo guarantee victory against the giant squid, figure out which board will win first. What will your final score be if you choose that board?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-04.txt\")\nx &lt;- readLines(my_file)\n\nfunctions\n\ncheck_cards_1 &lt;- function(cards) {\n  # group by card and row\n  # group by card and col\n\n  row_bingo = cards %&gt;%\n    group_by(card_num, row_num) %&gt;%\n    summarise(bingo = sum(called), .groups = \"drop\") %&gt;%\n    filter(bingo == 5)\n\n  if (nrow(row_bingo) == 1) return (row_bingo$card_num[[1]])\n\n  col_bingo = cards %&gt;%\n    group_by(card_num, col_num) %&gt;%\n    summarise(bingo = sum(called), .groups = \"drop\") %&gt;%\n    filter(bingo == 5)\n\n  if (nrow(col_bingo) == 1) return (col_bingo$card_num[[1]])\n\n  return(FALSE)\n\n}\n\n\ncheck_rows &lt;- function(cards) {\n  # group by card and row\n\n  row_bingo = cards %&gt;%\n    filter(bingo_done == FALSE) %&gt;%\n    group_by(card_num, row_num) %&gt;%\n    summarise(bingo = sum(called), .groups = \"drop\") %&gt;%\n    filter(bingo == 5)\n\n  if (nrow(row_bingo) &gt;= 1) return (row_bingo$card_num)\n\n  return(FALSE)\n\n}\n\n\ncheck_cols &lt;- function(cards) {\n  # group by card and col\n\n  col_bingo = cards %&gt;%\n    filter(bingo_done == FALSE) %&gt;%\n    group_by(card_num, col_num) %&gt;%\n    summarise(bingo = sum(called), .groups = \"drop\") %&gt;%\n    filter(bingo == 5)\n\n  if (nrow(col_bingo) &gt;= 1) return (col_bingo$card_num)\n\n  return(FALSE)\n\n}\n\n\ncreate_long_card_record &lt;- function(z) {\n  # separate the columns\n  # number the bingo cards\n  # number the rows\n  # remove na\n  tibble(bb = z) %&gt;%\n    separate(bb, c(\"c1\", \"c2\", \"c3\", \"c4\", \"c5\"), sep = c(3, 6, 9, 12), convert = TRUE) %&gt;%\n    mutate(row_na = is.na(c1),\n           card_num = cumsum(row_na)) %&gt;%\n    group_by(card_num) %&gt;%\n    mutate(row_num = row_number() - 1) %&gt;%\n    ungroup() %&gt;%\n    filter(row_num != 0) %&gt;%\n    select(-row_na) %&gt;%\n    pivot_longer(c(\"c1\", \"c2\", \"c3\", \"c4\", \"c5\"), names_to = \"col_num\") %&gt;%\n    mutate(col_num = parse_number(col_num),\n           called = FALSE)\n}\n\nWe get the numbers and the cards, and figure out which cards are good. Score them all.\n\n# bingo numbers, first row in text file\nbingo_numbers = as.numeric(unlist(strsplit(x[1], \",\")))\n\n# bingo cards\nbingo_cards = create_long_card_record(x[2:length(x)])\n\n# \"call\" our bingo numbers but stop if we have a bingo\nfor (j in 1:length(bingo_numbers)) {\n    my_num = bingo_numbers[j]\n    # print(my_num)\n    bingo_cards = bingo_cards %&gt;%\n      mutate(called = (called | value == my_num))\n    \n    do_we_have_bingo = check_cards_1(bingo_cards)\n    \n    if (do_we_have_bingo) break\n\n}\n\n# winning card numbers that haven't been called yet\nuncalled = bingo_cards %&gt;%\nfilter(called == FALSE & card_num == do_we_have_bingo) %&gt;%\nsummarise(win_card = sum(value))\n\n# part one answer\nuncalled$win_card[[1]] * my_num\n\n[1] 74320",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 4"
+    ]
+  },
+  {
+    "objectID": "2021/2021-04.html#part-two",
+    "href": "2021/2021-04.html#part-two",
+    "title": "2021 Day 4",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nMaybe we should let the squid win.\nFigure out which board will win last. Once it wins, what would its final score be?\n\n# bingo numbers, first row in text file\nbingo_numbers = as.numeric(unlist(strsplit(x[1], \",\")))\n\n# bingo cards\nbingo_cards = create_long_card_record(x[2:length(x)])\n\nbingo_cards = bingo_cards %&gt;%\nmutate(bingo_done = FALSE)\n\n# \"call\" our bingo numbers but stop if we have a bingo\nfor (j in 1:length(bingo_numbers)) {\n# for (j in 1:50) {\n    my_num = bingo_numbers[j]\n    # print(my_num)\n    bingo_cards = bingo_cards %&gt;%\n    mutate(called = (called | value == my_num))\n    \n    # check rows for bingo\n    do_we_have_rows = check_rows(bingo_cards)\n    # adjust record of which cards have bingo\n    if (length(do_we_have_rows) == 1) {\n        bingo_cards = bingo_cards %&gt;%\n            mutate(bingo_done = (bingo_done | do_we_have_rows == card_num))\n    } else {\n        for (x in do_we_have_rows) {\n            bingo_cards = bingo_cards %&gt;%\n                mutate(bingo_done = (bingo_done | x == card_num))\n        }\n    }\n    \n    # check cols for bingo\n    do_we_have_cols = check_cols(bingo_cards)\n    \n    # adjust record of which cards have bingo\n    if (length(do_we_have_cols) == 1) {\n        bingo_cards = bingo_cards %&gt;%\n            mutate(bingo_done = (bingo_done | do_we_have_cols == card_num))\n    } else {\n        for (x in do_we_have_cols) {\n            bingo_cards = bingo_cards %&gt;%\n                mutate(bingo_done = (bingo_done | x == card_num))\n        }\n    }\n    \n    if (sum(bingo_cards$bingo_done) == 2500) break\n}\n\n# \"winning\" card numbers that haven't been called yet\n# winning for the second part is actually last to win\nif (do_we_have_cols) {\n    last_card = do_we_have_cols\n} else {\n    last_card = do_we_have_rows\n}\nuncalled = bingo_cards %&gt;%\n    filter(called == FALSE & card_num == last_card) %&gt;%\n    summarise(win_card = sum(value))\n\n# part two answer\nuncalled$win_card[[1]] * my_num\n\n[1] 17884",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3315,7 +3399,31 @@
     "href": "2021/2021-06.html",
     "title": "2021 Day 6",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-06.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-06.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
+    "text": "There are some lanternfish swimming past, and we want to calculate their spawning rate for some reason\nFind a way to simulate lanternfish. How many lanternfish would there be after 80 days?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-06.txt\")\nx &lt;- readLines(my_file)\n\nThis is pretty straightforward\n\n# split into separate fish\nfishes = as.numeric(unlist(strsplit(x, split = \",\")))\n\nfor (i in seq(80)) {\n    # down one day\n    fishes = fishes - 1\n\n    # append to the end\n    fishes = append(fishes, rep(8, sum(fishes &lt; 0)))\n\n    # replace -1 with 6\n    fishes = replace(fishes, fishes &lt; 0, 6)\n\n}\n\n# part one answer\nlength(fishes)\n\n[1] 365862",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 6"
+    ]
+  },
+  {
+    "objectID": "2021/2021-06.html#day-6-lanternfish",
+    "href": "2021/2021-06.html#day-6-lanternfish",
+    "title": "2021 Day 6",
+    "section": "",
+    "text": "There are some lanternfish swimming past, and we want to calculate their spawning rate for some reason\nFind a way to simulate lanternfish. How many lanternfish would there be after 80 days?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-06.txt\")\nx &lt;- readLines(my_file)\n\nThis is pretty straightforward\n\n# split into separate fish\nfishes = as.numeric(unlist(strsplit(x, split = \",\")))\n\nfor (i in seq(80)) {\n    # down one day\n    fishes = fishes - 1\n\n    # append to the end\n    fishes = append(fishes, rep(8, sum(fishes &lt; 0)))\n\n    # replace -1 with 6\n    fishes = replace(fishes, fishes &lt; 0, 6)\n\n}\n\n# part one answer\nlength(fishes)\n\n[1] 365862",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 6"
+    ]
+  },
+  {
+    "objectID": "2021/2021-06.html#part-two",
+    "href": "2021/2021-06.html#part-two",
+    "title": "2021 Day 6",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nHow many lanternfish would there be after 256 days?\n\n# split into separate fish\nfishes = as.numeric(unlist(strsplit(x, split = \",\")))\n\n# record days and count of fish\nlantern = tibble(days = fishes) %&gt;%\ncount(days)\n\n# big loop for many respawns\nfor (k in seq(256)) {\n    lantern$days = lantern$days - 1\n\n    spawn = max(filter(lantern, days == -1)$n, 0)\n\n    if (any(lantern$days == 6)) {\n        lantern[lantern$days == 6, \"n\"] = lantern[lantern$days == 6, \"n\"] + spawn\n    } else {\n        lantern = rbind(lantern, c(6, spawn))\n    }\n\n    lantern = rbind(lantern, c(8, spawn))\n\n    lantern = filter(lantern, days != -1)\n\n}\n\n# part two answer\nformat(sum(lantern$n), scientific=F)\n\n[1] \"1653250886439\"",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
