@@ -45,7 +45,7 @@ Consider sums of a three-measurement sliding window. *How many sums are larger t
 
 x <- as.numeric(x)
 x_lag <- diff(x, lag = 3) > 0
-p1 <- sum(x_lag)
+p2 <- sum(x_lag)
 
 p2
 ```
