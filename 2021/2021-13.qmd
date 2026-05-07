@@ -5,22 +5,107 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 13: Transparent Origami ---
+
+```         
+Congratulations on your purchase! To activate this infrared thermal imaging camera system, please enter the code found on page 1 of the manual.
+```
+
+The manual is transparent paper with dots and folding instructions.
+
+*How many dots are visible after completing just the first fold instruction on your transparent paper?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-13.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
 Maybe write an explanation of the solution approach here
 
 ```{r}
-# here's another R cell for good luck
 
+inputs <- tibble(inpt = x) %>%
+    separate(inpt, c("X", "Y"), sep = ",", convert = TRUE)
+
+folds = inputs %>%
+    filter(is.na(Y) & X != '') %>%
+    select(-Y) %>%
+    separate(X, c("dir", "num"), sep = "=", convert = TRUE) %>%
+    mutate(dir = str_remove(dir, "fold along "))
+
+thermal = inputs %>%
+    filter(!is.na(Y)) %>%
+    mutate(X = as.numeric(X))
+
+for (j in seq_along(folds)) {
+    if (folds$dir[[j]] == "x") {
+        for (k in seq_along(thermal$X)) {
+            if (thermal$X[[k]] > folds$num[[j]]){
+                thermal$X[[k]] = folds$num[[j]] - (thermal$X[[k]] - folds$num[[j]])
+            }
+        }
+    } else {
+        for (k in seq_along(thermal$Y)) {
+            if (thermal$Y[[k]] > folds$num[[j]]){
+                thermal$Y[[k]] = folds$num[[j]] - (thermal$Y[[k]] - folds$num[[j]])
+            }
+        }
+    }
+    break
+}
+
+nrow(thermal %>% distinct())
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Finish folding the transparent paper according to the instructions. The manual says the code is always *eight capital letters*.
+
+*What code do you use to activate the infrared thermal imaging camera system?*
+
+```{r}
+
+inputs <- tibble(inpt = x) %>%
+    separate(inpt, c("X", "Y"), sep = ",", convert = TRUE)
+
+folds = inputs %>%
+    filter(is.na(Y) & X != '') %>%
+    select(-Y) %>%
+    separate(X, c("dir", "num"), sep = "=", convert = TRUE) %>%
+    mutate(dir = str_remove(dir, "fold along "))
+
+thermal = inputs %>%
+    filter(!is.na(Y)) %>%
+    mutate(X = as.numeric(X))
+
+for (j in seq_along(folds$dir)) {
+    if (folds$dir[[j]] == "x") {
+        for (k in seq_along(thermal$X)) {
+            if (thermal$X[[k]] > folds$num[[j]]){
+                thermal$X[[k]] = folds$num[[j]] - (thermal$X[[k]] - folds$num[[j]])
+            }
+        }
+    } else {
+        for (k in seq_along(thermal$Y)) {
+            if (thermal$Y[[k]] > folds$num[[j]]){
+                thermal$Y[[k]] = folds$num[[j]] - (thermal$Y[[k]] - folds$num[[j]])
+            }
+        }
+    }
+}
+
+arr = array(".", c(max(thermal$Y)+1, max(thermal$X)+1))
+
+for (k in seq_along(thermal$X)) {
+    arr[thermal$Y[[k]]+1, thermal$X[[k]]+1] = '#'
+}
+
+for (a in 1:6) { 
+    print(paste(arr[a,], collapse=""))
+}
+
+```

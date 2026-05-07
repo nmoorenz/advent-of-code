@@ -5,22 +5,67 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 7: The Treachery of Whales ---
+
+Watch out for the whale that wants to eat you! We need to align some crabs.
+
+Determine the horizontal position that the crabs can align to using the least fuel possible. *How much fuel must they spend to align to that position?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-07.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+brute force to calculate everything, using vector differences.
 
 ```{r}
-# here's another R cell for good luck
 
+# positions of crabs
+crabs = as.numeric(unlist(strsplit(x[1], ",")))
+
+# brutish
+ss = sum(abs(crabs - 1)) + 1
+for (i in seq(floor(mean(crabs)))) {
+
+    tt = sum(abs(crabs - i))
+
+    if (tt < ss) {
+        ss = tt
+    } else {
+        break
+    }
+}
+
+ss
 ```
 
-Paste part two here
+Alternative approach: align with the median.
+
+```{r}
+
+# minimise the sum of differences
+crabs = as.numeric(unlist(strsplit(x[1], ",")))
+sum(abs(crabs - median(crabs)))
+  
+```
+
+## --- Part Two ---
+
+Actually, the calculations are different.
+
+Determine the horizontal position that the crabs can align to using the least fuel possible so they can make you an escape route! *How much fuel must they spend to align to that position?*
+
+```{r}
+
+# minimise the sum of differences - this time from the mean
+# with a triangular number function
+crabs = as.numeric(unlist(strsplit(x[1], ",")))
+diffs = abs(crabs - floor(mean(crabs)))
+# print(diffs)
+sum(diffs * (diffs + 1) / 2)
+  
+```

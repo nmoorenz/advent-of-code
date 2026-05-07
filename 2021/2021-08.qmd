@@ -5,22 +5,142 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 8: Seven Segment Search ---
+
+You need to find your way through a cave with some malfunctioning digital number displays.
+
+*In the output values, how many times do digits `1`, `4`, `7`, or `8` appear?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-08.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+These digits are ones that have the right hand side line.
+
+*Author's note: was I really good at R or did I copy this from the R for Data Science slack chat?*
 
 ```{r}
-# here's another R cell for good luck
+
+# split pieces by pipe
+# pipe is a character delimiter, need to escape
+segments = tibble(parts = x) %>%
+    separate(parts, into = c("nums", "digi"), sep = " \\| ", remove = FALSE)
+
+poss = c(2,3,4,7)
+
+digits = segments %>%
+    separate(digi, into = c("d1", "d2", "d3", "d4"), remove = FALSE) %>%
+    mutate(across(d1:d4, ~ nchar(.x) %in% poss))
+
+sum(digits %>% summarise(across(d1:d4, sum)))
+```
+
+## --- Part Two ---
+
+For each entry, determine all of the wire/segment connections and decode the four-digit output values. *What do you get if you add up all of the output values?*
+
+Functions!
+
+```{r}
+
+get_nums <- function(vct, cnt) {
+  paste0(sort(unlist(strsplit(vct[nchar(vct) == cnt], ""))), collapse = "")
+}
+
+get_cnt <- function(vct, cnt) {
+  letters[1:7][str_count(paste0(vct, collapse = ""), letters[1:7]) == cnt]
+}
+
+get_a <- function(v1, v2) {
+  setdiff(unlist(strsplit(v1, "")), unlist(strsplit(v2, "")))
+}
+
+get_d <- function(four, one, b) {
+  setdiff(setdiff(unlist(strsplit(four, "")), unlist(strsplit(one, ""))), b)
+}
+
+get_g <- function(one, seven, four, e) {
+  mid = union(union(unlist(strsplit(one, "")), unlist(strsplit(seven, ""))), unlist(strsplit(four, "")))
+  setdiff(setdiff(letters[1:7], mid), e)
+}
+
+get_c <- function(nn, aa) {
+  dub = get_cnt(nn, 8)
+  setdiff(dub, aa)
+}
+
+do_six <- function(z1, z2, z3, z4, z5, z6) {
+  paste0(sort(c(z1, z2, z3, z4, z5, z6)), collapse = "")
+}
+
+do_five <- function(z1, z2, z3, z4, z5) {
+  paste0(sort(c(z1, z2, z3, z4, z5)), collapse = "")
+}
+
+get_eight <- function(xx) {
+  paste0(letters[1:7], collapse = "")
+}
+
+get_digi <- function(dd) {
+  lapply(strsplit(dd, ""), sort)
+}
 
 ```
 
-Paste part two here
+Use the functions and create many columns for possibilities
+
+```{r}
+
+# so much mutate
+segments = tibble(parts = x) %>%
+    separate(parts, into = c("nums", "digi"), sep = " \\| ") %>%
+    mutate(nums = str_split(nums, " "),
+           n_1 = map(nums, get_nums, 2),
+           n_7 = map(nums, get_nums, 3),
+           n_4 = map(nums, get_nums, 4),
+           e_ = map(nums, get_cnt, 4),
+           b_ = map(nums, get_cnt, 6),
+           f_ = map(nums, get_cnt, 9),
+           a_ = map2(n_7, n_4, get_a),
+           d_ = pmap(list(n_4, n_1, b_), get_d),
+           g_ = pmap(list(n_1, n_7, n_4, e_), get_g),
+           c_ = map2(nums, a_, get_c),
+           n_0 = pmap(list(a_, b_, c_, e_, f_, g_), do_six),
+           n_6 = pmap(list(a_, b_, d_, e_, f_, g_), do_six),
+           n_9 = pmap(list(a_, b_, c_, d_, f_, g_), do_six),
+           n_2 = pmap(list(a_, c_, d_, e_, g_), do_five),
+           n_3 = pmap(list(a_, c_, d_, f_, g_), do_five),
+           n_5 = pmap(list(a_, b_, d_, f_, g_), do_five),
+           n_8 = map(8, get_eight),
+           rr = row_number()
+          ) %>%
+    pivot_longer(starts_with("n_")) %>%
+    rowwise() %>%
+    mutate(value = paste0(value, collapse = "")) %>%
+    select(!ends_with("_"), -digi, -nums)
+
+
+digits = tibble(parts = x) %>%
+    separate(parts, into = c("nums", "digi"), sep = " \\| ") %>%
+    mutate(digi = str_split(digi, " "),
+           digis = map(digi, get_digi),
+           rr = row_number()) %>%
+    unnest_wider(digis, names_sep = "_") %>%
+    pivot_longer(starts_with("digis_")) %>%
+    rowwise() %>%
+    mutate(value = paste0(value, collapse = "")) %>%
+    select(-nums, -digi)
+
+results = inner_join(digits, segments, by = c("rr", "value")) %>%
+    mutate(nums = parse_number(name.y)) %>%
+    pivot_wider(id_cols = rr, names_from = name.x, values_from = nums) %>%
+    rowwise() %>%
+    mutate(val = as.integer(paste0(c(digis_1, digis_2, digis_3, digis_4), collapse = "")))
+
+sum(results$val)
+```
