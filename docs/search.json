@@ -1411,7 +1411,31 @@
     "href": "2021/2021-13.html",
     "title": "2021 Day 13",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-13.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-13.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
+    "text": "Congratulations on your purchase! To activate this infrared thermal imaging camera system, please enter the code found on page 1 of the manual.\nThe manual is transparent paper with dots and folding instructions.\nHow many dots are visible after completing just the first fold instruction on your transparent paper?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-13.txt\")\nx &lt;- readLines(my_file)\n\nMaybe write an explanation of the solution approach here\n\ninputs &lt;- tibble(inpt = x) %&gt;%\n    separate(inpt, c(\"X\", \"Y\"), sep = \",\", convert = TRUE)\n\nWarning: Expected 2 pieces. Missing pieces filled with `NA` in 13 rows [847, 848, 849,\n850, 851, 852, 853, 854, 855, 856, 857, 858, 859].\n\nfolds = inputs %&gt;%\n    filter(is.na(Y) & X != '') %&gt;%\n    select(-Y) %&gt;%\n    separate(X, c(\"dir\", \"num\"), sep = \"=\", convert = TRUE) %&gt;%\n    mutate(dir = str_remove(dir, \"fold along \"))\n\nthermal = inputs %&gt;%\n    filter(!is.na(Y)) %&gt;%\n    mutate(X = as.numeric(X))\n\nfor (j in seq_along(folds)) {\n    if (folds$dir[[j]] == \"x\") {\n        for (k in seq_along(thermal$X)) {\n            if (thermal$X[[k]] &gt; folds$num[[j]]){\n                thermal$X[[k]] = folds$num[[j]] - (thermal$X[[k]] - folds$num[[j]])\n            }\n        }\n    } else {\n        for (k in seq_along(thermal$Y)) {\n            if (thermal$Y[[k]] &gt; folds$num[[j]]){\n                thermal$Y[[k]] = folds$num[[j]] - (thermal$Y[[k]] - folds$num[[j]])\n            }\n        }\n    }\n    break\n}\n\nnrow(thermal %&gt;% distinct())\n\n[1] 684",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 13"
+    ]
+  },
+  {
+    "objectID": "2021/2021-13.html#day-13-transparent-origami",
+    "href": "2021/2021-13.html#day-13-transparent-origami",
+    "title": "2021 Day 13",
+    "section": "",
+    "text": "Congratulations on your purchase! To activate this infrared thermal imaging camera system, please enter the code found on page 1 of the manual.\nThe manual is transparent paper with dots and folding instructions.\nHow many dots are visible after completing just the first fold instruction on your transparent paper?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-13.txt\")\nx &lt;- readLines(my_file)\n\nMaybe write an explanation of the solution approach here\n\ninputs &lt;- tibble(inpt = x) %&gt;%\n    separate(inpt, c(\"X\", \"Y\"), sep = \",\", convert = TRUE)\n\nWarning: Expected 2 pieces. Missing pieces filled with `NA` in 13 rows [847, 848, 849,\n850, 851, 852, 853, 854, 855, 856, 857, 858, 859].\n\nfolds = inputs %&gt;%\n    filter(is.na(Y) & X != '') %&gt;%\n    select(-Y) %&gt;%\n    separate(X, c(\"dir\", \"num\"), sep = \"=\", convert = TRUE) %&gt;%\n    mutate(dir = str_remove(dir, \"fold along \"))\n\nthermal = inputs %&gt;%\n    filter(!is.na(Y)) %&gt;%\n    mutate(X = as.numeric(X))\n\nfor (j in seq_along(folds)) {\n    if (folds$dir[[j]] == \"x\") {\n        for (k in seq_along(thermal$X)) {\n            if (thermal$X[[k]] &gt; folds$num[[j]]){\n                thermal$X[[k]] = folds$num[[j]] - (thermal$X[[k]] - folds$num[[j]])\n            }\n        }\n    } else {\n        for (k in seq_along(thermal$Y)) {\n            if (thermal$Y[[k]] &gt; folds$num[[j]]){\n                thermal$Y[[k]] = folds$num[[j]] - (thermal$Y[[k]] - folds$num[[j]])\n            }\n        }\n    }\n    break\n}\n\nnrow(thermal %&gt;% distinct())\n\n[1] 684",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 13"
+    ]
+  },
+  {
+    "objectID": "2021/2021-13.html#part-two",
+    "href": "2021/2021-13.html#part-two",
+    "title": "2021 Day 13",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nFinish folding the transparent paper according to the instructions. The manual says the code is always eight capital letters.\nWhat code do you use to activate the infrared thermal imaging camera system?\n\ninputs &lt;- tibble(inpt = x) %&gt;%\n    separate(inpt, c(\"X\", \"Y\"), sep = \",\", convert = TRUE)\n\nWarning: Expected 2 pieces. Missing pieces filled with `NA` in 13 rows [847, 848, 849,\n850, 851, 852, 853, 854, 855, 856, 857, 858, 859].\n\nfolds = inputs %&gt;%\n    filter(is.na(Y) & X != '') %&gt;%\n    select(-Y) %&gt;%\n    separate(X, c(\"dir\", \"num\"), sep = \"=\", convert = TRUE) %&gt;%\n    mutate(dir = str_remove(dir, \"fold along \"))\n\nthermal = inputs %&gt;%\n    filter(!is.na(Y)) %&gt;%\n    mutate(X = as.numeric(X))\n\nfor (j in seq_along(folds$dir)) {\n    if (folds$dir[[j]] == \"x\") {\n        for (k in seq_along(thermal$X)) {\n            if (thermal$X[[k]] &gt; folds$num[[j]]){\n                thermal$X[[k]] = folds$num[[j]] - (thermal$X[[k]] - folds$num[[j]])\n            }\n        }\n    } else {\n        for (k in seq_along(thermal$Y)) {\n            if (thermal$Y[[k]] &gt; folds$num[[j]]){\n                thermal$Y[[k]] = folds$num[[j]] - (thermal$Y[[k]] - folds$num[[j]])\n            }\n        }\n    }\n}\n\narr = array(\".\", c(max(thermal$Y)+1, max(thermal$X)+1))\n\nfor (k in seq_along(thermal$X)) {\n    arr[thermal$Y[[k]]+1, thermal$X[[k]]+1] = '#'\n}\n\nfor (a in 1:6) { \n    print(paste(arr[a,], collapse=\"\"))\n}\n\n[1] \"..##.###..####.###..#.....##..#..#.#..#\"\n[1] \"...#.#..#....#.#..#.#....#..#.#.#..#..#\"\n[1] \"...#.#..#...#..###..#....#....##...####\"\n[1] \"...#.###...#...#..#.#....#.##.#.#..#..#\"\n[1] \"#..#.#.#..#....#..#.#....#..#.#.#..#..#\"\n[1] \".##..#..#.####.###..####..###.#..#.#..#\"",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1423,7 +1447,31 @@
     "href": "2021/2021-11.html",
     "title": "2021 Day 11",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-11.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-11.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
+    "text": "Watch our for the bioluminescent octopuses.\nGiven the starting energy levels of the dumbo octopuses in your cavern, simulate 100 steps. How many total flashes are there after 100 steps?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-11.txt\")\nx &lt;- readLines(my_file)\n\nFunction!\n\nincrement_octo &lt;- function(arr, vct) {\n  for (j in seq(2, 11)) {\n    for (k in seq(2, 11)) {\n      pos = (k - 1) * 12 + j\n      if (arr[j, k] &gt; 9 & pos %in% vct) {\n        # print(pos)\n        arr[(j-1):(j+1), (k-1):(k+1)] = arr[(j-1):(j+1), (k-1):(k+1)] + 1\n      }\n    }\n  }\n  return(arr)\n}\n\nLoops!\n\n# array, I think\nocto_s = stringr::str_split_fixed(x, \"\", 10) %&gt;% as.data.frame()\nocto_s = sapply(octo_s, as.numeric)\n\nocto = array(NA, c(12, 12))\nocto[2:11, 2:11] = octo_s\n# keep track of how many flashes there have been\ncounter = 0\n\n# loop through 100 times\n# is part two going to be a million times?\nfor (j in seq(100)) {\n    # print(paste(\"iteration: \", j))\n    # add one to the array\n    octo = octo + 1\n    # are any octopi going to flash?\n    flash = which(octo &gt; 9)\n    # if none flash, go to next iteration\n    if (!any(flash, na.rm = TRUE)) next\n\n    # keep track of which have already flashed\n    new_flash = vector()\n    old_flash = vector()\n    # if we do have some flashing\n    repeat {\n        # new flash, iterate these ones\n        new_flash = setdiff(flash, old_flash)\n        # allocate to keep track\n        old_flash = flash\n        # this function takes care of iteration\n        octo = increment_octo(octo, new_flash)\n        # get a new list of flashers\n        flash = which(octo &gt; 9)\n        # break the repeat if we aren't flashing any more\n        # length might not be the best test but we can only add so it's ok?\n        if (length(flash) == length(old_flash)) break\n    }\n    octo[octo &gt; 9] = 0\n    counter = counter + length(flash)\n    # print(paste(\"length of flashes: \", length(flash)))\n\n}\n\ncounter \n\n[1] 1617",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 11"
+    ]
+  },
+  {
+    "objectID": "2021/2021-11.html#day-11-dumbo-octopus",
+    "href": "2021/2021-11.html#day-11-dumbo-octopus",
+    "title": "2021 Day 11",
+    "section": "",
+    "text": "Watch our for the bioluminescent octopuses.\nGiven the starting energy levels of the dumbo octopuses in your cavern, simulate 100 steps. How many total flashes are there after 100 steps?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-11.txt\")\nx &lt;- readLines(my_file)\n\nFunction!\n\nincrement_octo &lt;- function(arr, vct) {\n  for (j in seq(2, 11)) {\n    for (k in seq(2, 11)) {\n      pos = (k - 1) * 12 + j\n      if (arr[j, k] &gt; 9 & pos %in% vct) {\n        # print(pos)\n        arr[(j-1):(j+1), (k-1):(k+1)] = arr[(j-1):(j+1), (k-1):(k+1)] + 1\n      }\n    }\n  }\n  return(arr)\n}\n\nLoops!\n\n# array, I think\nocto_s = stringr::str_split_fixed(x, \"\", 10) %&gt;% as.data.frame()\nocto_s = sapply(octo_s, as.numeric)\n\nocto = array(NA, c(12, 12))\nocto[2:11, 2:11] = octo_s\n# keep track of how many flashes there have been\ncounter = 0\n\n# loop through 100 times\n# is part two going to be a million times?\nfor (j in seq(100)) {\n    # print(paste(\"iteration: \", j))\n    # add one to the array\n    octo = octo + 1\n    # are any octopi going to flash?\n    flash = which(octo &gt; 9)\n    # if none flash, go to next iteration\n    if (!any(flash, na.rm = TRUE)) next\n\n    # keep track of which have already flashed\n    new_flash = vector()\n    old_flash = vector()\n    # if we do have some flashing\n    repeat {\n        # new flash, iterate these ones\n        new_flash = setdiff(flash, old_flash)\n        # allocate to keep track\n        old_flash = flash\n        # this function takes care of iteration\n        octo = increment_octo(octo, new_flash)\n        # get a new list of flashers\n        flash = which(octo &gt; 9)\n        # break the repeat if we aren't flashing any more\n        # length might not be the best test but we can only add so it's ok?\n        if (length(flash) == length(old_flash)) break\n    }\n    octo[octo &gt; 9] = 0\n    counter = counter + length(flash)\n    # print(paste(\"length of flashes: \", length(flash)))\n\n}\n\ncounter \n\n[1] 1617",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 11"
+    ]
+  },
+  {
+    "objectID": "2021/2021-11.html#part-two",
+    "href": "2021/2021-11.html#part-two",
+    "title": "2021 Day 11",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nIf you can calculate the exact moments when the octopuses will all flash simultaneously, you should be able to navigate through the cavern. What is the first step during which all octopuses flash?\n\n# array, I think\nocto_s = stringr::str_split_fixed(x, \"\", 10) %&gt;% as.data.frame()\nocto_s = sapply(octo_s, as.numeric)\n\nocto = array(NA, c(12, 12))\nocto[2:11, 2:11] = octo_s\n# keep track of how many flashes there have been\ncounter = 0\n\n# loop through 100 times\n# is part two going to be a million times?\nfor (j in seq(1000)) {\n    # print(paste(\"iteration: \", j))\n    # add one to the array\n    octo = octo + 1\n    # are any octopi going to flash?\n    flash = which(octo &gt; 9)\n    # if none flash, go to next iteration\n    if (!any(flash, na.rm = TRUE)) next\n\n    # keep track of which have already flashed\n    new_flash = vector()\n    old_flash = vector()\n    # if we do have some flashing\n    repeat {\n        # new flash, iterate these ones\n        new_flash = setdiff(flash, old_flash)\n        # allocate to keep track\n        old_flash = flash\n        # this function takes care of iteration\n        octo = increment_octo(octo, new_flash)\n        # get a new list of flashers\n        flash = which(octo &gt; 9)\n        # break the repeat if we aren't flashing any more\n        # length might not be the best test but we can only add so it's ok?\n        if (length(flash) == length(old_flash)) break\n    }\n    octo[octo &gt; 9] = 0\n    counter = counter + length(flash)\n    # print(paste(\"length of flashes: \", length(flash)))\n    if (length(flash) == 100) break\n}\n\ncounter\n\n[1] 4026",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1435,7 +1483,31 @@
     "href": "2021/2021-09.html",
     "title": "2021 Day 9",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-09.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-09.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
+    "text": "Avoid the smoke!\nFind all of the low points on your heightmap. What is the sum of the risk levels of all low points on your heightmap?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-09.txt\")\nx &lt;- readLines(my_file)\n\nMaybe write an explanation of the solution approach here\n\ncave_width = nchar(x[[1]])\ncave_length = length(x)\n\nsmokes_L = stringr::str_split_fixed(x, \"\", cave_width) %&gt;% as.data.frame()\nsmokes_L = sapply(smokes_L, as.numeric)\n\nsmokes = array(NA, c(102, 102))\nsmokes[2:101, 2:101] = smokes_L\n\nlowpoints = vector()\n\nfor (i in seq(2, cave_width+1)) {\n    for (j in seq(2, cave_length+1)) {\n      surr = c(smokes[i,j], smokes[i-1,j], smokes[i+1,j], \n               smokes[i,j-1], smokes[i,j+1])\n      if (min(surr, na.rm=TRUE) == smokes[i,j]\n          & smokes[i,j] != 9) {\n            lowpoints = append(lowpoints, smokes[i,j])\n            # print(i)\n            # print(j)\n        }\n    }\n}\n\nsum(lowpoints) + length(lowpoints)\n\n[1] 504",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 9"
+    ]
+  },
+  {
+    "objectID": "2021/2021-09.html#day-9-smoke-basin",
+    "href": "2021/2021-09.html#day-9-smoke-basin",
+    "title": "2021 Day 9",
+    "section": "",
+    "text": "Avoid the smoke!\nFind all of the low points on your heightmap. What is the sum of the risk levels of all low points on your heightmap?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-09.txt\")\nx &lt;- readLines(my_file)\n\nMaybe write an explanation of the solution approach here\n\ncave_width = nchar(x[[1]])\ncave_length = length(x)\n\nsmokes_L = stringr::str_split_fixed(x, \"\", cave_width) %&gt;% as.data.frame()\nsmokes_L = sapply(smokes_L, as.numeric)\n\nsmokes = array(NA, c(102, 102))\nsmokes[2:101, 2:101] = smokes_L\n\nlowpoints = vector()\n\nfor (i in seq(2, cave_width+1)) {\n    for (j in seq(2, cave_length+1)) {\n      surr = c(smokes[i,j], smokes[i-1,j], smokes[i+1,j], \n               smokes[i,j-1], smokes[i,j+1])\n      if (min(surr, na.rm=TRUE) == smokes[i,j]\n          & smokes[i,j] != 9) {\n            lowpoints = append(lowpoints, smokes[i,j])\n            # print(i)\n            # print(j)\n        }\n    }\n}\n\nsum(lowpoints) + length(lowpoints)\n\n[1] 504",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 9"
+    ]
+  },
+  {
+    "objectID": "2021/2021-09.html#part-two",
+    "href": "2021/2021-09.html#part-two",
+    "title": "2021 Day 9",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nAvoid the big basins!\nWhat do you get if you multiply together the sizes of the three largest basins?\n\ncave_width = nchar(x[[1]])\ncave_length = length(x)\n\nsmokes_L = stringr::str_split_fixed(x, \"\", cave_width) %&gt;% as.data.frame()\nsmokes_L = sapply(smokes_L, as.numeric)\n\nsmokes = array(NA, c(102, 102))\nsmokes[2:101, 2:101] = smokes_L\n\n# basin_tracker\nbasin_t = array(NA, c(102, 102))\n\nbasin_num = 0\n\nfor (k in seq(40)) {\n    for (i in seq(2, cave_width+1)) {\n        for (j in seq(2, cave_length+1)) {\n            surr = c(basin_t[i-1,j], basin_t[i+1,j], \n                     basin_t[i,j-1], basin_t[i,j+1])\n            if (smokes[i,j] == 9) {\n                # if it is a 9 do nothing, keep as NA\n            } else if (any(surr[!is.na(surr)])) {\n                # if there is a basin number in any surrounding spot, \n                # adopt that number\n                basin_t[i,j] = min(surr[!is.na(surr)])\n            } else {\n                # if we find no surrounding basin number,\n                # add one to the basin and start a new basin counter\n                basin_num = basin_num + 1\n                basin_t[i,j] = basin_num\n            }\n        }\n    }\n}\n\ncounter = sort(table(unlist(basin_t)), decreasing=TRUE)\ncounter[1][[1]] * counter[2][[1]] * counter[3][[1]]\n\n[1] 1558722\n\nbasin_count = basin_t %&gt;%\n    as.data.frame() %&gt;%\n    mutate(rr = row_number()) %&gt;% \n    pivot_longer(cols = -rr, names_prefix = \"cols\") %&gt;% \n    count(value) %&gt;%\n    arrange(desc(n))\n\n# part two answer\nprod(basin_count$n[2:4])\n\n[1] 1558722\n\n\nLet’s make a chart for fun\n\ncave_width = nchar(x[[1]])\ncave_length = length(x)\n\nsmokes = stringr::str_split_fixed(x, \"\", cave_width) %&gt;% as.data.frame()\nsmokes = sapply(smokes, as.numeric)\n\nsmoker = smokes %&gt;%\n    as.data.frame() %&gt;%\n    mutate(rr = row_number()) %&gt;%\n    pivot_longer(-rr, names_to = \"cols\") %&gt;%\n    mutate(cols = parse_number(cols))\n\nsmoker %&gt;%\n    ggplot(aes(rr, cols, colour = factor(value))) +\n    geom_point() +\n    scale_color_brewer(palette = \"Set3\")\n\n\n\n\n\n\n\nbasin_grey = c(\"#D9D9D9\", \"#D9D9D9\", \"#D9D9D9\", \"#D9D9D9\", \"#D9D9D9\", \"#D9D9D9\", \"#D9D9D9\", \"#D9D9D9\", \"#D9D9D9\", \"#222222\")\n\nsmoker %&gt;%\n    ggplot(aes(rr, cols, colour = factor(value))) +\n    geom_point() +\n    scale_color_manual(values = basin_grey)",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -1447,7 +1519,31 @@
     "href": "2021/2021-07.html",
     "title": "2021 Day 7",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-07.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-07.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
+    "text": "Watch out for the whale that wants to eat you! We need to align some crabs.\nDetermine the horizontal position that the crabs can align to using the least fuel possible. How much fuel must they spend to align to that position?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-07.txt\")\nx &lt;- readLines(my_file)\n\nbrute force to calculate everything, using vector differences.\n\n# positions of crabs\ncrabs = as.numeric(unlist(strsplit(x[1], \",\")))\n\n# brutish\nss = sum(abs(crabs - 1)) + 1\nfor (i in seq(floor(mean(crabs)))) {\n\n    tt = sum(abs(crabs - i))\n\n    if (tt &lt; ss) {\n        ss = tt\n    } else {\n        break\n    }\n}\n\nss\n\n[1] 354129\n\n\nAlternative approach: align with the median.\n\n# minimise the sum of differences\ncrabs = as.numeric(unlist(strsplit(x[1], \",\")))\nsum(abs(crabs - median(crabs)))\n\n[1] 354129",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 7"
+    ]
+  },
+  {
+    "objectID": "2021/2021-07.html#day-7-the-treachery-of-whales",
+    "href": "2021/2021-07.html#day-7-the-treachery-of-whales",
+    "title": "2021 Day 7",
+    "section": "",
+    "text": "Watch out for the whale that wants to eat you! We need to align some crabs.\nDetermine the horizontal position that the crabs can align to using the least fuel possible. How much fuel must they spend to align to that position?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-07.txt\")\nx &lt;- readLines(my_file)\n\nbrute force to calculate everything, using vector differences.\n\n# positions of crabs\ncrabs = as.numeric(unlist(strsplit(x[1], \",\")))\n\n# brutish\nss = sum(abs(crabs - 1)) + 1\nfor (i in seq(floor(mean(crabs)))) {\n\n    tt = sum(abs(crabs - i))\n\n    if (tt &lt; ss) {\n        ss = tt\n    } else {\n        break\n    }\n}\n\nss\n\n[1] 354129\n\n\nAlternative approach: align with the median.\n\n# minimise the sum of differences\ncrabs = as.numeric(unlist(strsplit(x[1], \",\")))\nsum(abs(crabs - median(crabs)))\n\n[1] 354129",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 7"
+    ]
+  },
+  {
+    "objectID": "2021/2021-07.html#part-two",
+    "href": "2021/2021-07.html#part-two",
+    "title": "2021 Day 7",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nActually, the calculations are different.\nDetermine the horizontal position that the crabs can align to using the least fuel possible so they can make you an escape route! How much fuel must they spend to align to that position?\n\n# minimise the sum of differences - this time from the mean\n# with a triangular number function\ncrabs = as.numeric(unlist(strsplit(x[1], \",\")))\ndiffs = abs(crabs - floor(mean(crabs)))\n# print(diffs)\nsum(diffs * (diffs + 1) / 2)\n\n[1] 98905973",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3435,7 +3531,31 @@
     "href": "2021/2021-08.html",
     "title": "2021 Day 8",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-08.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-08.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
+    "text": "You need to find your way through a cave with some malfunctioning digital number displays.\nIn the output values, how many times do digits 1, 4, 7, or 8 appear?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-08.txt\")\nx &lt;- readLines(my_file)\n\nThese digits are ones that have the right hand side line.\nAuthor’s note: was I really good at R or did I copy this from the R for Data Science slack chat?\n\n# split pieces by pipe\n# pipe is a character delimiter, need to escape\nsegments = tibble(parts = x) %&gt;%\n    separate(parts, into = c(\"nums\", \"digi\"), sep = \" \\\\| \", remove = FALSE)\n\nposs = c(2,3,4,7)\n\ndigits = segments %&gt;%\n    separate(digi, into = c(\"d1\", \"d2\", \"d3\", \"d4\"), remove = FALSE) %&gt;%\n    mutate(across(d1:d4, ~ nchar(.x) %in% poss))\n\nsum(digits %&gt;% summarise(across(d1:d4, sum)))\n\n[1] 255",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 8"
+    ]
+  },
+  {
+    "objectID": "2021/2021-08.html#day-8-seven-segment-search",
+    "href": "2021/2021-08.html#day-8-seven-segment-search",
+    "title": "2021 Day 8",
+    "section": "",
+    "text": "You need to find your way through a cave with some malfunctioning digital number displays.\nIn the output values, how many times do digits 1, 4, 7, or 8 appear?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-08.txt\")\nx &lt;- readLines(my_file)\n\nThese digits are ones that have the right hand side line.\nAuthor’s note: was I really good at R or did I copy this from the R for Data Science slack chat?\n\n# split pieces by pipe\n# pipe is a character delimiter, need to escape\nsegments = tibble(parts = x) %&gt;%\n    separate(parts, into = c(\"nums\", \"digi\"), sep = \" \\\\| \", remove = FALSE)\n\nposs = c(2,3,4,7)\n\ndigits = segments %&gt;%\n    separate(digi, into = c(\"d1\", \"d2\", \"d3\", \"d4\"), remove = FALSE) %&gt;%\n    mutate(across(d1:d4, ~ nchar(.x) %in% poss))\n\nsum(digits %&gt;% summarise(across(d1:d4, sum)))\n\n[1] 255",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 8"
+    ]
+  },
+  {
+    "objectID": "2021/2021-08.html#part-two",
+    "href": "2021/2021-08.html#part-two",
+    "title": "2021 Day 8",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nFor each entry, determine all of the wire/segment connections and decode the four-digit output values. What do you get if you add up all of the output values?\nFunctions!\n\nget_nums &lt;- function(vct, cnt) {\n  paste0(sort(unlist(strsplit(vct[nchar(vct) == cnt], \"\"))), collapse = \"\")\n}\n\nget_cnt &lt;- function(vct, cnt) {\n  letters[1:7][str_count(paste0(vct, collapse = \"\"), letters[1:7]) == cnt]\n}\n\nget_a &lt;- function(v1, v2) {\n  setdiff(unlist(strsplit(v1, \"\")), unlist(strsplit(v2, \"\")))\n}\n\nget_d &lt;- function(four, one, b) {\n  setdiff(setdiff(unlist(strsplit(four, \"\")), unlist(strsplit(one, \"\"))), b)\n}\n\nget_g &lt;- function(one, seven, four, e) {\n  mid = union(union(unlist(strsplit(one, \"\")), unlist(strsplit(seven, \"\"))), unlist(strsplit(four, \"\")))\n  setdiff(setdiff(letters[1:7], mid), e)\n}\n\nget_c &lt;- function(nn, aa) {\n  dub = get_cnt(nn, 8)\n  setdiff(dub, aa)\n}\n\ndo_six &lt;- function(z1, z2, z3, z4, z5, z6) {\n  paste0(sort(c(z1, z2, z3, z4, z5, z6)), collapse = \"\")\n}\n\ndo_five &lt;- function(z1, z2, z3, z4, z5) {\n  paste0(sort(c(z1, z2, z3, z4, z5)), collapse = \"\")\n}\n\nget_eight &lt;- function(xx) {\n  paste0(letters[1:7], collapse = \"\")\n}\n\nget_digi &lt;- function(dd) {\n  lapply(strsplit(dd, \"\"), sort)\n}\n\nUse the functions and create many columns for possibilities\n\n# so much mutate\nsegments = tibble(parts = x) %&gt;%\n    separate(parts, into = c(\"nums\", \"digi\"), sep = \" \\\\| \") %&gt;%\n    mutate(nums = str_split(nums, \" \"),\n           n_1 = map(nums, get_nums, 2),\n           n_7 = map(nums, get_nums, 3),\n           n_4 = map(nums, get_nums, 4),\n           e_ = map(nums, get_cnt, 4),\n           b_ = map(nums, get_cnt, 6),\n           f_ = map(nums, get_cnt, 9),\n           a_ = map2(n_7, n_4, get_a),\n           d_ = pmap(list(n_4, n_1, b_), get_d),\n           g_ = pmap(list(n_1, n_7, n_4, e_), get_g),\n           c_ = map2(nums, a_, get_c),\n           n_0 = pmap(list(a_, b_, c_, e_, f_, g_), do_six),\n           n_6 = pmap(list(a_, b_, d_, e_, f_, g_), do_six),\n           n_9 = pmap(list(a_, b_, c_, d_, f_, g_), do_six),\n           n_2 = pmap(list(a_, c_, d_, e_, g_), do_five),\n           n_3 = pmap(list(a_, c_, d_, f_, g_), do_five),\n           n_5 = pmap(list(a_, b_, d_, f_, g_), do_five),\n           n_8 = map(8, get_eight),\n           rr = row_number()\n          ) %&gt;%\n    pivot_longer(starts_with(\"n_\")) %&gt;%\n    rowwise() %&gt;%\n    mutate(value = paste0(value, collapse = \"\")) %&gt;%\n    select(!ends_with(\"_\"), -digi, -nums)\n\n\ndigits = tibble(parts = x) %&gt;%\n    separate(parts, into = c(\"nums\", \"digi\"), sep = \" \\\\| \") %&gt;%\n    mutate(digi = str_split(digi, \" \"),\n           digis = map(digi, get_digi),\n           rr = row_number()) %&gt;%\n    unnest_wider(digis, names_sep = \"_\") %&gt;%\n    pivot_longer(starts_with(\"digis_\")) %&gt;%\n    rowwise() %&gt;%\n    mutate(value = paste0(value, collapse = \"\")) %&gt;%\n    select(-nums, -digi)\n\nresults = inner_join(digits, segments, by = c(\"rr\", \"value\")) %&gt;%\n    mutate(nums = parse_number(name.y)) %&gt;%\n    pivot_wider(id_cols = rr, names_from = name.x, values_from = nums) %&gt;%\n    rowwise() %&gt;%\n    mutate(val = as.integer(paste0(c(digis_1, digis_2, digis_3, digis_4), collapse = \"\")))\n\nsum(results$val)\n\n[1] 982158",
     "crumbs": [
       "Home",
       "Advent of Code 2021",
@@ -3447,7 +3567,31 @@
     "href": "2021/2021-10.html",
     "title": "2021 Day 10",
     "section": "",
-    "text": "Write the Puzzle explanation here\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-10.txt\")\ncards &lt;- readLines(my_file)\n\nWarning in readLines(my_file): incomplete final line found on\n'C:/Users/NathanMoore/code/advent-of-code/2021/data-2021-10.txt'\n\n\nMaybe write an explanation of the solution approach here\n\n# here's another R cell for good luck\n\nPaste part two here",
+    "text": "The navigation subsystem is corrupted! There are so many brackets.\nFind the first illegal character in each corrupted line of the navigation subsystem. What is the total syntax error score for those errors?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-10.txt\")\nx &lt;- readLines(my_file)\n\nWrite a function to get the error bracket\n\nreturn_error &lt;- function(x) {\n  new = x\n  pairs = c(\"\\\\[\\\\]\", \"\\\\(\\\\)\", \"\\\\{\\\\}\", \"\\\\&lt;\\\\&gt;\")\n  backs = \"[\\\\)\\\\}\\\\]\\\\&gt;]\"\n\n  repeat {\n    old = new\n    for (j in seq_along(pairs)) {\n      new = str_replace_all(new, pairs[j], \"\")\n    }\n    if (old == new) break\n  }\n\n  str_match(new, backs)[[1]]\n}\n\nSimple script to loop through the inputs and assign scores\n\n# replace the inner matches until we can replace no more\npieces = tibble(parts = x) %&gt;%\n    rowwise() %&gt;%\n    mutate(closer = return_error(parts))\n\npoints = tribble(\n    ~closer, ~points,\n    \")\", 3,\n    \"]\", 57,\n    \"}\", 1197,\n    \"&gt;\", 25137,\n  )\n\npart_one = inner_join(pieces, points, by='closer')\nsum(part_one$points)\n\n[1] 318099",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 10"
+    ]
+  },
+  {
+    "objectID": "2021/2021-10.html#day-10-syntax-scoring",
+    "href": "2021/2021-10.html#day-10-syntax-scoring",
+    "title": "2021 Day 10",
+    "section": "",
+    "text": "The navigation subsystem is corrupted! There are so many brackets.\nFind the first illegal character in each corrupted line of the navigation subsystem. What is the total syntax error score for those errors?\n\nlibrary(tidyverse)\n\nmy_file &lt;- here::here(\"2021\", \"data-2021-10.txt\")\nx &lt;- readLines(my_file)\n\nWrite a function to get the error bracket\n\nreturn_error &lt;- function(x) {\n  new = x\n  pairs = c(\"\\\\[\\\\]\", \"\\\\(\\\\)\", \"\\\\{\\\\}\", \"\\\\&lt;\\\\&gt;\")\n  backs = \"[\\\\)\\\\}\\\\]\\\\&gt;]\"\n\n  repeat {\n    old = new\n    for (j in seq_along(pairs)) {\n      new = str_replace_all(new, pairs[j], \"\")\n    }\n    if (old == new) break\n  }\n\n  str_match(new, backs)[[1]]\n}\n\nSimple script to loop through the inputs and assign scores\n\n# replace the inner matches until we can replace no more\npieces = tibble(parts = x) %&gt;%\n    rowwise() %&gt;%\n    mutate(closer = return_error(parts))\n\npoints = tribble(\n    ~closer, ~points,\n    \")\", 3,\n    \"]\", 57,\n    \"}\", 1197,\n    \"&gt;\", 25137,\n  )\n\npart_one = inner_join(pieces, points, by='closer')\nsum(part_one$points)\n\n[1] 318099",
+    "crumbs": [
+      "Home",
+      "Advent of Code 2021",
+      "2021 Day 10"
+    ]
+  },
+  {
+    "objectID": "2021/2021-10.html#part-two",
+    "href": "2021/2021-10.html#part-two",
+    "title": "2021 Day 10",
+    "section": "— Part Two —",
+    "text": "— Part Two —\nFind the completion string for each incomplete line, score the completion strings, and sort the scores. What is the middle score?\n\nreturn_closers &lt;- function(x) {\n  new = x\n  pairs = c(\"\\\\[\\\\]\", \"\\\\(\\\\)\", \"\\\\{\\\\}\", \"\\\\&lt;\\\\&gt;\")\n  openers = c(\"\\\\[\", \"\\\\(\", \"\\\\{\", \"\\\\&lt;\")\n  closers = c(\"\\\\]\", \"\\\\)\", \"\\\\}\", \"\\\\&gt;\")\n  backs = \"[\\\\)\\\\}\\\\]\\\\&gt;]\"\n\n  repeat {\n    old = new\n    for (j in seq_along(pairs)) {\n      new = str_replace_all(new, pairs[j], \"\")\n    }\n    if (old == new) break\n  }\n\n  if (!is.na(str_match(new, backs)[[1]])) return(\"\")\n\n  forward = stringi::stri_reverse(new)\n\n  backward = forward\n  for (k in seq_along(openers)) {\n    backward = str_replace_all(backward, openers[k], closers[k])\n  }\n  return(backward)\n}\n\nscore_seq &lt;- function(z) {\n  pp = unlist(strsplit(z, \"\"))\n\n  cc = \")]}&gt;\"\n\n  ss = 0\n  for (j in seq_along(pp)) {\n    ss = ss * 5\n    ss = ss + str_locate(cc, paste0(\"\\\\\", pp[[j]]))[[1]]\n  }\n  return(ss)\n}\n\nAgain, create functions and then use those for a nice tibble\n\npieces = tibble(parts = x) %&gt;%\n    rowwise() %&gt;%\n    mutate(closer = return_closers(parts),\n           scores = score_seq(closer)) %&gt;%\n    filter(scores != 0)\n\nscores = sort(pieces$scores)\nscores[ceiling(length(scores) / 2)]\n\n[1] 2389738699",
     "crumbs": [
       "Home",
       "Advent of Code 2021",

@@ -5,22 +5,122 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 10: Syntax Scoring ---
+
+The navigation subsystem is corrupted! There are so many brackets.
+
+Find the first illegal character in each corrupted line of the navigation subsystem. *What is the total syntax error score for those errors?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-10.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+Write a function to get the error bracket
 
 ```{r}
-# here's another R cell for good luck
+
+return_error <- function(x) {
+  new = x
+  pairs = c("\\[\\]", "\\(\\)", "\\{\\}", "\\<\\>")
+  backs = "[\\)\\}\\]\\>]"
+
+  repeat {
+    old = new
+    for (j in seq_along(pairs)) {
+      new = str_replace_all(new, pairs[j], "")
+    }
+    if (old == new) break
+  }
+
+  str_match(new, backs)[[1]]
+}
 
 ```
 
-Paste part two here
+Simple script to loop through the inputs and assign scores
+
+```{r}
+
+# replace the inner matches until we can replace no more
+pieces = tibble(parts = x) %>%
+    rowwise() %>%
+    mutate(closer = return_error(parts))
+
+points = tribble(
+    ~closer, ~points,
+    ")", 3,
+    "]", 57,
+    "}", 1197,
+    ">", 25137,
+  )
+
+part_one = inner_join(pieces, points, by='closer')
+sum(part_one$points)
+
+```
+
+## --- Part Two ---
+
+Find the completion string for each incomplete line, score the completion strings, and sort the scores. *What is the middle score?*
+
+```{r}
+
+return_closers <- function(x) {
+  new = x
+  pairs = c("\\[\\]", "\\(\\)", "\\{\\}", "\\<\\>")
+  openers = c("\\[", "\\(", "\\{", "\\<")
+  closers = c("\\]", "\\)", "\\}", "\\>")
+  backs = "[\\)\\}\\]\\>]"
+
+  repeat {
+    old = new
+    for (j in seq_along(pairs)) {
+      new = str_replace_all(new, pairs[j], "")
+    }
+    if (old == new) break
+  }
+
+  if (!is.na(str_match(new, backs)[[1]])) return("")
+
+  forward = stringi::stri_reverse(new)
+
+  backward = forward
+  for (k in seq_along(openers)) {
+    backward = str_replace_all(backward, openers[k], closers[k])
+  }
+  return(backward)
+}
+
+score_seq <- function(z) {
+  pp = unlist(strsplit(z, ""))
+
+  cc = ")]}>"
+
+  ss = 0
+  for (j in seq_along(pp)) {
+    ss = ss * 5
+    ss = ss + str_locate(cc, paste0("\\", pp[[j]]))[[1]]
+  }
+  return(ss)
+}
+```
+
+Again, create functions and then use those for a nice tibble
+
+```{r}
+
+pieces = tibble(parts = x) %>%
+    rowwise() %>%
+    mutate(closer = return_closers(parts),
+           scores = score_seq(closer)) %>%
+    filter(scores != 0)
+
+scores = sort(pieces$scores)
+scores[ceiling(length(scores) / 2)]
+
+```
