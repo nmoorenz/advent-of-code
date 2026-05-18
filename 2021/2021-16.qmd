@@ -5,18 +5,24 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 16: Packet Decoder ---
+
+As you leave the cave and reach open waters, you receive a transmission from the Elves back on the ship.
+
+The transmission was sent using the Buoyancy Interchange Transmission System (BITS), a method of packing numeric expressions into a binary sequence.
+
+Decode the structure of your hexadecimal-encoded BITS transmission; *what do you get if you add up the version numbers in all packets?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-16.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+Loops with lots of rules? Wish me luck.
 
 ```{r}
 # here's another R cell for good luck

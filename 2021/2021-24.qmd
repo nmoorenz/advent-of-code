@@ -5,14 +5,18 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 24: Arithmetic Logic Unit ---
+
+Fix the submarine!
+
+To enable as many submarine features as possible, find the largest valid fourteen-digit model number that contains no `0` digits. *What is the largest model number accepted by MONAD?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-24.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 

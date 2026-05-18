@@ -5,22 +5,48 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 19: Beacon Scanner ---
+
+As your [probe](https://adventofcode.com/2021/day/17) drifted down through this area, it released an assortment of *beacons* and *scanners* into the water. It's difficult to navigate in the pitch black open waters of the ocean trench, but if you can build a map of the trench using data from the scanners, you should be able to safely reach the bottom.
+
+Assemble the full map of beacons. *How many beacons are there?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-19.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
 Maybe write an explanation of the solution approach here
 
 ```{r}
-# here's another R cell for good luck
 
+bcn = tibble(zz = x) %>%
+    separate(zz, into = c("x", "y", "z"), sep = ",", remove = FALSE) %>%
+    mutate(scn = ifelse(str_detect(zz, "scanner"),
+                         parse_number(substr(zz, 5, 15)),
+                         NA)) %>%
+    fill(scn, .direction = "down") %>%
+    filter(!is.na(z)) %>%
+    select(-zz) %>%
+    group_by(scn) %>%
+    mutate(bb = row_number()) %>%
+    mutate(across(c(x, y, z), as.numeric)) %>%
+    ungroup()
+
+bcn_cross = full_join(bcn, bcn, by = c("scn"), suffix = c(".l", ".r")) %>%
+    filter(bb.l < bb.r) %>%
+    mutate(dd = round(sqrt((x.l - x.r)**2 + (y.l - y.r)**2 + (z.l - z.r)**2), 2))
+
+dists = bcn_cross %>%
+    arrange(dd)
+
+bcn_cross %>% distinct(dd)
+
+  # 6248
 ```
 
 Paste part two here

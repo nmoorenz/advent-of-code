@@ -5,22 +5,138 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 14: Extended Polymerization ---
+
+We need to reinforce the submarine with some polymers.
+
+Apply 10 steps of pair insertion to the polymer template and find the most and least common elements in the result. *What do you get if you take the quantity of the most common element and subtract the quantity of the least common element?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-14.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+Split the input to appropriate pieces.
 
 ```{r}
-# here's another R cell for good luck
+
+pol = unlist(strsplit(x[[1]], ""))
+
+rules = strsplit(x[3:length(x)], " -> ")
+
+rr = list()
+
+for (r in 1:length(rules)) {
+    rr[rules[[r]][1]] = rules[[r]][2]
+}
 
 ```
 
-Paste part two here
+Loop through ten times.
+
+```{r}
+
+old_list = pol
+new_list = vector()
+
+for (i in 1:10) {
+    # figure out the length to loop
+    loop = length(old_list) - 1
+    for (j in 1:loop) {
+        # allocate elements to new list
+        new_list = c(new_list, old_list[j])
+        # get the substitute key
+        key = paste0(old_list[j], old_list[j+1])
+        if (key %in% names(rr)){
+            # print(rr[key])
+            new_list = c(new_list, unlist(rr[key]))
+        } else {
+            print(key)
+        }
+    }
+    new_list = c(new_list, old_list[j+1])
+    old_list = new_list
+    new_list = vector()
+}
+
+sort(table(old_list))
+
+3108 - 506
+
+```
+
+## --- Part Two ---
+
+Apply *40* steps of pair insertion to the polymer template and find the most and least common elements in the result. *What do you get if you take the quantity of the most common element and subtract the quantity of the least common element?*
+
+```{r}
+
+# there might be a pattern to this
+# because 40 doesn't sound that big
+# but it is probably massively long lists? 
+# or maybe I need to only keep track of how many times characters appear
+# brute force to start
+# 20 is too much to start
+
+# old_list = pol
+# new_list = vector()
+# 
+# for (i in 1:20) {
+#     # figure out the length to loop
+#     loop = length(old_list) - 1
+#     for (j in 1:loop) {
+#         # allocate elements to new list
+#         new_list = c(new_list, old_list[j])
+#         # get the substitute key
+#         key = paste0(old_list[j], old_list[j+1])
+#         if (key %in% names(rr)){
+#             # print(rr[key])
+#             new_list = c(new_list, unlist(rr[key]))
+#         } else {
+#             print(key)
+#         }
+#     }
+#     new_list = c(new_list, old_list[j+1])
+#     old_list = new_list
+#     new_list = vector()
+# }
+# 
+# sort(table(old_list))
+
+```
+
+Another approach: go through and see if there are consistent amounts of letters added per round.
+
+```{r}
+
+for (k in 1:8) {
+    old_list = pol
+    new_list = vector()
+    
+    for (i in 1:k) {
+        # figure out the length to loop
+        loop = length(old_list) - 1
+        for (j in 1:loop) {
+            # allocate elements to new list
+            new_list = c(new_list, old_list[j])
+            # get the substitute key
+            key = paste0(old_list[j], old_list[j+1])
+            if (key %in% names(rr)){
+                # print(rr[key])
+                new_list = c(new_list, unlist(rr[key]))
+            } else {
+                print(key)
+            }
+        }
+        new_list = c(new_list, old_list[j+1])
+        old_list = new_list
+        new_list = vector()
+    }
+    
+    print(sort(table(old_list)))
+}
+```

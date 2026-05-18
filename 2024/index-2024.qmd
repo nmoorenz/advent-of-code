@@ -6,7 +6,7 @@ title: "Advent of Code 2024"
 
 Language: Python
 
-[Day 1](2024-01.qmd)
+[Day 1](2024-01.qmd) ⭐ ⭐
 
 1.  Parse the input and find the difference and add them up
 2.  Some numbers appear in both lists, so calculate a similarity score
@@ -15,7 +15,7 @@ Language: Python
 -   Getting the input in the right shape was easy
 -   Pre-calculate part two with collections.Counter rather than counting each time
 
-[Day 2](2024-02.qmd)
+[Day 2](2024-02.qmd) ⭐ ⭐
 
 1.  Check to see if the reports are all increasing or decreasing
 2.  Check the reports, but with the ability to remove one value
@@ -23,7 +23,7 @@ Language: Python
 -   Make a function and loop through the input
 -   Use the same function, but with another function to edit possible input
 
-[Day 3](2024-03.qmd)
+[Day 3](2024-03.qmd) ⭐ ⭐
 
 1.  Find the sum of the multiply statements - but find them first
 2.  There's a switch that turns the statements on and off
@@ -31,7 +31,7 @@ Language: Python
 -   Regex only on day 3. Find the mul() statements, then evaluate them
 -   Find the do() and don't() statements as well, then iterate
 
-[Day 4](2024-04.qmd)
+[Day 4](2024-04.qmd) ⭐ ⭐
 
 1.  Do a word search for XMAS
 2.  Actually search for MAS in in X shape
@@ -39,7 +39,7 @@ Language: Python
 -   Iterate for X and then go for different directions
 -   Iterate for A and then go for different directions
 
-[Day 5](2024-05.qmd)
+[Day 5](2024-05.qmd) ⭐ ⭐
 
 1.  Sum up the middle value of the updates that are in the correct order
 2.  Sort the bad updates into the correct order and sum the middle values
@@ -47,7 +47,7 @@ Language: Python
 -   Loop through the lists and if subsequent numbers are in the correct order, the whole list is in order
 -   For the bad lists, place the pieces in the correct order, then sum up. More difficult than it sounds
 
-[Day 6](2024-06.qmd)
+[Day 6](2024-06.qmd) ⭐ 
 
 1.  
 2.  
@@ -56,7 +56,7 @@ Language: Python
 -   
 
 
-[Day 7](2024-07.qmd)
+[Day 7](2024-07.qmd) ⭐ 
 
 1.  
 2.  
@@ -65,7 +65,7 @@ Language: Python
 -   
 
 
-[Day 8](2024-08.qmd)
+[Day 8](2024-08.qmd) ⭐ ⭐
 
 1.  
 2.  
@@ -74,7 +74,7 @@ Language: Python
 -   
 
 
-[Day 9](2024-09.qmd)
+[Day 9](2024-09.qmd) ⭐ 
 
 1.  
 2.  
@@ -92,7 +92,7 @@ Language: Python
 -   
 
 
-[Day 11](2024-11.qmd)
+[Day 11](2024-11.qmd) ⭐ ⭐
 
 1.  
 2.  
@@ -110,7 +110,7 @@ Language: Python
 -   
 
 
-[Day 13](2024-13.qmd)
+[Day 13](2024-13.qmd) ⭐ ⭐
 
 1.  
 2.  
@@ -119,7 +119,7 @@ Language: Python
 -   
 
 
-[Day 14](2024-14.qmd)
+[Day 14](2024-14.qmd) ⭐ 
 
 1.  
 2.  
@@ -146,7 +146,7 @@ Language: Python
 -   
 
 
-[Day 17](2024-17.qmd)
+[Day 17](2024-17.qmd) ⭐ 
 
 1.  
 2.  
@@ -173,7 +173,7 @@ Language: Python
 -   
 
 
-[Day 20](2024-20.qmd)
+[Day 20](2024-20.qmd) ⭐ 
 
 1.  
 2.  
@@ -209,7 +209,7 @@ Language: Python
 -   
 
 
-[Day 24](2024-24.qmd)
+[Day 24](2024-24.qmd) ⭐ 
 
 1.  
 2.  
@@ -218,7 +218,7 @@ Language: Python
 -   
 
 
-[Day 25](2024-25.qmd)
+[Day 25](2024-25.qmd) ⭐ 
 
 1.  
 2.  

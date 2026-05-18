@@ -5,22 +5,104 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 22: Reactor Reboot ---
+
+We need to reboot the reactor of the submarine.
+
+Execute the reboot steps. Afterward, considering only cubes in the region `x=-50..50,y=-50..50,z=-50..50`, *how many cubes are on?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-22.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
 Maybe write an explanation of the solution approach here
 
 ```{r}
-# here's another R cell for good luck
+
+cube = tibble(zz = x) %>%
+    separate(zz,
+             into = c("dd", "x_", "x1", "b_", "x2", "y_", "y1", 
+                      "c_", "y2", "z_", "z1", "d_", "z2"),
+             sep = "[, =\\.]") %>%
+    select(!ends_with("_")) %>%
+    mutate(across(x1:z2, as.integer),
+           across(x1:z2, ~ . + 50))
+
+reboot = array(0, c(101, 101, 101))
+
+
+for (i in seq(20)) {
+    if (cube$dd[i] == "on") {
+        chng = 1
+    } else {
+        chng = 0
+    }
+    reboot[cube$x1[i]:cube$x2[i], 
+           cube$y1[i]:cube$y2[i], 
+           cube$z1[i]:cube$z2[i]] = chng
+}
+
+sum(reboot)
 
 ```
 
-Paste part two here
+## --- Part Two ---
+
+Do all of the steps for all of the cubes!
+
+Starting again with all cubes *off*, execute all reboot steps. Afterward, considering all cubes, *how many cubes are on?*
+
+```{r}
+
+# create instructions
+cube = tibble(zz = x) %>%
+    separate(zz,
+             into = c("dd", "x_", "x1", "b_", "x2", "y_", "y1", 
+                      "c_", "y2", "z_", "z1", "d_", "z2"),
+             sep = "[, =\\.]") %>%
+    select(!ends_with("_")) %>%
+    mutate(across(x1:z2, as.integer))
+
+# reboot needs to be smarter than initialising the whole thing
+cube_min = cube %>%
+    summarise(across(x1:z2, min))
+# 
+# # add 100,000 to everything
+# cube = cube %>% mutate(across(x1:z2, ~ . + 100000))
+# 
+# # list of arrays
+# reboot = vector("list", nrow(cube))
+# 
+# # loop through instructions
+# for (i in seq_len(nrow(cube))) {
+#     xx = abs(cube$x1[i] - cube$x2[i]) + 1
+#     yy = abs(cube$y1[i] - cube$y2[i]) + 1
+#     zz = abs(cube$z1[i] - cube$z2[i]) + 1
+# 
+#     if (cube$dd[i] == "on") {
+#         arr = array(1, c(xx, yy, zz),
+#                   list(cube$x1[i]:cube$x2[i], 
+#                        cube$y1[i]:cube$y2[i], 
+#                        cube$z1[i]:cube$z2[i]))
+# 
+#       reboot[[i]] = arr
+# 
+#     } else {
+#         chng = 0
+#     }
+# }
+# 
+# # answer
+# sum(unlist(reboot))
+
+
+```
+
+```         
+Error: cannot allocate vector of size 49416.7 Gb
+```
