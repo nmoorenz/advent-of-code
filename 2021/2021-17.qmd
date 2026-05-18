@@ -5,18 +5,22 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 17: Trick Shot ---
+
+Send a probe into the ocean trench.
+
+Find the initial velocity that causes the probe to reach the highest `y` position and still eventually be within the target area after any step. *What is the highest `y` position it reaches on this trajectory?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-17.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+We can probably try out all options and figure this out. Part two guess: the target area is multiplied by 100 or 1,000,000 and brute force becomes impossible.
 
 ```{r}
 # here's another R cell for good luck

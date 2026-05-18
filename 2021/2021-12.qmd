@@ -5,22 +5,51 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 12: Passage Pathing ---
+
+We have to find a way through this cave system.
+
+*How many paths through this cave system are there that visit small caves at most once?*
 
 ```{r}
 
 library(tidyverse)
+library(igraph)
 
 my_file <- here::here("2021", "data-2021-12.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+Let's create a matrix and see what links up.
 
 ```{r}
-# here's another R cell for good luck
 
+pairs = strsplit(x, "-")
+caves = unique(unlist(pairs))
+
+cave_mat = matrix(FALSE, 
+                  nrow=length(caves), 
+                  ncol=length(caves), 
+                  dimnames=list(caves,caves))
+
+for (c in 1:length(x)) { 
+    cave_mat[pairs[[c]][1], pairs[[c]][2]] = TRUE
+}
+
+cave_mat
 ```
 
-Paste part two here
+But also we could try a proper graph packages
+
+```{r}
+
+g = make_graph(edges=unlist(pairs), directed=FALSE)
+
+plot(g)
+
+all_simple_paths(g, "start", "end")
+
+# 611 low
+
+```

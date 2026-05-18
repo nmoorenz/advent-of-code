@@ -105,7 +105,6 @@ octo[2:11, 2:11] = octo_s
 counter = 0
 
 # loop through 100 times
-# is part two going to be a million times?
 for (j in seq(1000)) {
     # print(paste("iteration: ", j))
     # add one to the array
@@ -139,5 +138,6 @@ for (j in seq(1000)) {
 }
 
 counter
+j
 
 ```

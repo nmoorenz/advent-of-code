@@ -12,7 +12,7 @@ Write the Puzzle explanation here
 library(tidyverse)
 
 my_file <- here::here("{year}", "data-{year}-{x:02d}.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 

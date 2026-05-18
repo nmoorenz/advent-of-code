@@ -5,18 +5,22 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 18: Snailfish ---
+
+We need to help the snailfish with their math homework, but of course it is weird.
+
+Add up all of the snailfish numbers from the homework assignment in the order they appear. *What is the magnitude of the final sum?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-18.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+Loops! Loops and rules.
 
 ```{r}
 # here's another R cell for good luck

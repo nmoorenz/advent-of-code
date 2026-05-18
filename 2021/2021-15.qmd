@@ -5,18 +5,22 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 15: Chiton ---
+
+The cave roof is getting lower and you can only move in two dimensions.
+
+*What is the lowest total risk of any path from the top left to the bottom right?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-15.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+Create a matrix and use some kind of graph movement.
 
 ```{r}
 # here's another R cell for good luck

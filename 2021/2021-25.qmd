@@ -5,18 +5,22 @@ format: html
 editor: visual
 ---
 
-Write the Puzzle explanation here
+## --- Day 25: Sea Cucumber ---
+
+The floor is just there, but it is covered in sea cucumbers.
+
+Find somewhere safe to land your submarine. *What is the first step on which no sea cucumbers move?*
 
 ```{r}
 
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-25.txt")
-cards <- readLines(my_file)
+x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+Loop a little to make sure we are moving properly, and then let the cucumbers move.
 
 ```{r}
 # here's another R cell for good luck
