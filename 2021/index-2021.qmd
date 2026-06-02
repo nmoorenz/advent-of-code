@@ -132,13 +132,14 @@ title: Advent of Code 2021
 - 
 - 
 
-[Day 17](2021-17.qmd)
+[Day 17](2021-17.qmd) ⭐ ⭐
 
-1.  
-2.  
+1.  Find the highest trajectory that lands in the box
+2.  How many trajectories land in the box? 
 
-- 
-- 
+- This could probably be solved in a nicer way than what I did, but I got there
+- Three of the x velocities gave the same max height which is cool but also probably mathematical
+- Part one you were only shooting up but part two you can shoot down as well
 
 [Day 18](2021-18.qmd)
 

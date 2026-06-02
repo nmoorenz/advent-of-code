@@ -1269,13 +1269,259 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>my_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"2021"</span>, <span class="st">"data-2021-17.txt"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">readLines</span>(my_file)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">readLines</span>(my_file)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>nums <span class="ot">=</span> <span class="fu">str_extract_all</span>(x, <span class="st">'-?</span><span class="sc">\\</span><span class="st">d+'</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>x0 <span class="ot">=</span> <span class="fu">as.integer</span>(nums[[<span class="dv">1</span>]][<span class="dv">1</span>])</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">=</span> <span class="fu">as.integer</span>(nums[[<span class="dv">1</span>]][<span class="dv">2</span>])</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>y0 <span class="ot">=</span> <span class="fu">as.integer</span>(nums[[<span class="dv">1</span>]][<span class="dv">3</span>])</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">=</span> <span class="fu">as.integer</span>(nums[[<span class="dv">1</span>]][<span class="dv">4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can probably try out all options and figure this out. Part two guess: the target area is multiplied by 100 or 1,000,000 and brute force becomes impossible.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># here's another R cell for good luck</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a function so we can reuse program</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cannonball <span class="ot">&lt;-</span> <span class="cf">function</span>(v) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    pos <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    max_y <span class="ot">=</span> <span class="sc">-</span><span class="dv">999</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># move cannonball</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        pos[<span class="dv">1</span>] <span class="ot">=</span> pos[<span class="dv">1</span>] <span class="sc">+</span> v[<span class="dv">1</span>]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        pos[<span class="dv">2</span>] <span class="ot">=</span> pos[<span class="dv">2</span>] <span class="sc">+</span> v[<span class="dv">2</span>]</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (pos[<span class="dv">2</span>] <span class="sc">&gt;</span> max_y) {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            max_y <span class="ot">=</span> pos[<span class="dv">2</span>]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print for debug</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(i)</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(pos)</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(v)</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># test position</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (pos[<span class="dv">1</span>] <span class="sc">&gt;=</span> x0 <span class="sc">&amp;&amp;</span> pos[<span class="dv">1</span>] <span class="sc">&lt;=</span> x1) { </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> (pos[<span class="dv">2</span>] <span class="sc">&gt;=</span> y0 <span class="sc">&amp;&amp;</span> pos[<span class="dv">2</span>] <span class="sc">&lt;=</span> y1) {</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                <span class="co"># found a good spot</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            }    </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># edit velocity</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># x must always be positive for my target, I think</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (v[<span class="dv">1</span>] <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            v[<span class="dv">1</span>] <span class="ot">=</span> v[<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            v[<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        v[<span class="dv">2</span>] <span class="ot">=</span> v[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">c</span>(i, max_y))</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Paste part two here</p>
+<p>Use this function and see what we can find</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cannonball(c(14,7))</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># has to be larger than 12, otherwise we don't get into the square</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 13: 5, 15; 6, 21; </span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 14: 6, 21; 7, 28; </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop!</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">30</span>) {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    max_y <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    step <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">5</span><span class="sc">:</span><span class="dv">1000</span>) { </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        res <span class="ot">=</span> <span class="fu">cannonball</span>(<span class="fu">c</span>(j, k))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(res)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (res[<span class="dv">1</span>] <span class="sc">&lt;</span> <span class="dv">1000</span>) { </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> (res[<span class="dv">2</span>] <span class="sc">&gt;</span> max_y) { </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                max_y <span class="ot">=</span> res[<span class="dv">2</span>]</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                step <span class="ot">=</span> res[<span class="dv">1</span>]</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">c</span>(j, step, max_y))</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10  0  0
+[1] 11  0  0
+[1] 12  0  0
+[1]    13   300 11175
+[1]    14   300 11175
+[1]    15   300 11175
+[1] 16  0  0
+[1] 17  0  0
+[1] 18  0  0
+[1] 19  0  0
+[1] 20  0  0
+[1] 21  0  0
+[1] 22  0  0
+[1] 23  0  0
+[1] 24  0  0
+[1] 25  0  0
+[1] 26  0  0
+[1] 27  0  0
+[1] 28  0  0
+[1] 29  0  0
+[1] 30  0  0</code></pre>
+</div>
+</div>
+</section>
+<section id="part-two" class="level2">
+<h2 class="anchored" data-anchor-id="part-two">— Part Two —</h2>
+<p><em>How many distinct initial velocity values cause the probe to be within the target area after any step?</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>all_count <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop!</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Negatives!</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">140</span>) {</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    counter <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> <span class="sc">-</span><span class="dv">200</span><span class="sc">:</span><span class="dv">1000</span>) { </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        res <span class="ot">=</span> <span class="fu">cannonball</span>(<span class="fu">c</span>(j, k))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(res)</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (res[<span class="dv">1</span>] <span class="sc">&lt;</span> <span class="dv">1000</span>) { </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            counter <span class="ot">=</span> counter <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">c</span>(j, counter))</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    all_count <span class="ot">=</span> all_count <span class="sc">+</span> counter</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10  0
+[1] 11  0
+[1] 12  0
+[1]  13 125
+[1]  14 128
+[1]  15 131
+[1] 16 19
+[1] 17 16
+[1] 18 15
+[1] 19 19
+[1] 20 16
+[1] 21 16
+[1] 22 21
+[1] 23 21
+[1] 24 21
+[1] 25 17
+[1] 26 17
+[1] 27 17
+[1] 28 24
+[1] 29 24
+[1] 30 24
+[1] 31 24
+[1] 32 24
+[1] 33 24
+[1] 34 15
+[1] 35 15
+[1] 36 15
+[1] 37 15
+[1] 38 15
+[1] 39 15
+[1] 40 15
+[1] 41 36
+[1] 42 36
+[1] 43 36
+[1] 44 36
+[1] 45 21
+[1] 46 21
+[1] 47 21
+[1] 48 21
+[1] 49 21
+[1] 50 21
+[1] 51 21
+[1] 52 21
+[1] 53 21
+[1] 54 21
+[1] 55 21
+[1] 56 21
+[1] 57 21
+[1] 58 21
+[1] 59 21
+[1] 60 21
+[1] 61 21
+[1] 62 21
+[1] 63 21
+[1] 64 21
+[1] 65 21
+[1] 66  0
+[1] 67  0
+[1] 68  0
+[1] 69  0
+[1] 70  0
+[1] 71  0
+[1] 72  0
+[1] 73  0
+[1] 74  0
+[1] 75  0
+[1] 76  0
+[1] 77  0
+[1] 78  0
+[1] 79  0
+[1] 80  0
+[1] 81 43
+[1] 82 43
+[1] 83 43
+[1] 84 43
+[1] 85 43
+[1] 86 43
+[1] 87 43
+[1] 88 43
+[1] 89 43
+[1] 90 43
+[1] 91 43
+[1] 92 43
+[1] 93 43
+[1] 94 43
+[1] 95 43
+[1] 96 43
+[1] 97 43
+[1] 98 43
+[1] 99 43
+[1] 100  43
+[1] 101  43
+[1] 102  43
+[1] 103  43
+[1] 104  43
+[1] 105  43
+[1] 106  43
+[1] 107  43
+[1] 108  43
+[1] 109  43
+[1] 110  43
+[1] 111  43
+[1] 112  43
+[1] 113  43
+[1] 114  43
+[1] 115  43
+[1] 116  43
+[1] 117  43
+[1] 118  43
+[1] 119  43
+[1] 120  43
+[1] 121  43
+[1] 122  43
+[1] 123  43
+[1] 124  43
+[1] 125  43
+[1] 126  43
+[1] 127  43
+[1] 128  43
+[1] 129  43
+[1] 130   0
+[1] 131   0
+[1] 132   0
+[1] 133   0
+[1] 134   0
+[1] 135   0
+[1] 136   0
+[1] 137   0
+[1] 138   0
+[1] 139   0
+[1] 140   0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(all_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3540</code></pre>
+</div>
+</div>
 
 
 </section>
