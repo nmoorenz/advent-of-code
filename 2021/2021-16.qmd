@@ -16,16 +16,25 @@ Decode the structure of your hexadecimal-encoded BITS transmission; *what do you
 ```{r}
 
 library(tidyverse)
+library(BMS)
 
 my_file <- here::here("2021", "data-2021-16.txt")
 x <- readLines(my_file)
+y = strsplit(x, "")
 
 ```
 
 Loops with lots of rules? Wish me luck.
 
 ```{r}
-# here's another R cell for good luck
+
+z = c()
+
+for (e in y) {
+    z = c(z, hex2bin(as.character(e)))
+}
+
+z[1:100]
 
 ```
 
