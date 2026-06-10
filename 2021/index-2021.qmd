@@ -6,51 +6,52 @@ title: Advent of Code 2021
 
 [Day 1](2021-01.qmd) ⭐ ⭐
 
-1.  
-2.  
+1.  How many numbers are bigger than the previous number? 
+2.  How many sums of three numbers are bigger than the previous three? 
 
-- 
-- 
+- `diff` function is very nice
+- `diff` function has a `lag` argument :)
 
 [Day 2](2021-02.qmd) ⭐ ⭐
 
-1.  
-2.  
+1.  Follow the forward, down, up instructions. Where do you end up?
+2.  Actually, the instructions are different. Where do you end up?
 
-- 
-- 
+- Use a tibble rather than a loop, and sum the columns, because it's linear
+- Similar, but a couple of extra steps, because it's cumulative
 
 [Day 3](2021-03.qmd) ⭐ ⭐
 
-1.  
-2.  
+1.  Find the 'gamma' and 'epsilon', calculating the most common bits in the columns. 
+2.  Finding the 'oxygen' and 'carbon dioxide' is a bit more difficult.
 
-- 
-- 
+- `strtoi` is the perfect function for this. 
+- Determine each column sequentially, so, recursive function with colnum as input. 
 
 [Day 4](2021-04.qmd) ⭐ ⭐
 
-1.  
-2.  
+1.  Which bingo card will win first? 
+2.  We should let the giant squid win, which card will win last? 
 
-- 
-- 
+- Lots of preparation and calculation and checking functions for this
+- We have to go through all the numbers to see which one is last
+- I don't think there's any way around this, there's no secret
 
 [Day 5](2021-05.qmd) ⭐ ⭐
 
-1.  
-2.  
+1.  Calculate what is happening with some hydrothermal vents
+2.  Calculate what is happening with all the hydrothermal vents
 
-- 
-- 
+- Create a matrix and add 1 to all the plumes
+- Do the same thing with all the diagonals as well
 
 [Day 6](2021-06.qmd) ⭐ ⭐
 
-1.  
-2.  
+1.  Find how many lanternfish there are after 80 days
+2.  How many lanternfish are there after 256 days?
 
-- 
-- 
+- Loop, apply the rules
+- Again, loop again
 
 [Day 7](2021-07.qmd) ⭐ ⭐
 

@@ -125,8 +125,8 @@ for (j in 1:length(bingo_numbers)) {
 
 # winning card numbers that haven't been called yet
 uncalled = bingo_cards %>%
-filter(called == FALSE & card_num == do_we_have_bingo) %>%
-summarise(win_card = sum(value))
+    filter(called == FALSE & card_num == do_we_have_bingo) %>%
+    summarise(win_card = sum(value))
 
 # part one answer
 uncalled$win_card[[1]] * my_num
@@ -157,7 +157,7 @@ for (j in 1:length(bingo_numbers)) {
     my_num = bingo_numbers[j]
     # print(my_num)
     bingo_cards = bingo_cards %>%
-    mutate(called = (called | value == my_num))
+        mutate(called = (called | value == my_num))
     
     # check rows for bingo
     do_we_have_rows = check_rows(bingo_cards)
@@ -196,6 +196,7 @@ if (do_we_have_cols) {
 } else {
     last_card = do_we_have_rows
 }
+
 uncalled = bingo_cards %>%
     filter(called == FALSE & card_num == last_card) %>%
     summarise(win_card = sum(value))
