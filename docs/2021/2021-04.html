@@ -1370,8 +1370,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># winning card numbers that haven't been called yet</span></span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>uncalled <span class="ot">=</span> bingo_cards <span class="sc">%&gt;%</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(called <span class="sc">==</span> <span class="cn">FALSE</span> <span class="sc">&amp;</span> card_num <span class="sc">==</span> do_we_have_bingo) <span class="sc">%&gt;%</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">win_card =</span> <span class="fu">sum</span>(value))</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(called <span class="sc">==</span> <span class="cn">FALSE</span> <span class="sc">&amp;</span> card_num <span class="sc">==</span> do_we_have_bingo) <span class="sc">%&gt;%</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">win_card =</span> <span class="fu">sum</span>(value))</span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># part one answer</span></span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>uncalled<span class="sc">$</span>win_card[[<span class="dv">1</span>]] <span class="sc">*</span> my_num</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1400,7 +1400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    my_num <span class="ot">=</span> bingo_numbers[j]</span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(my_num)</span></span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    bingo_cards <span class="ot">=</span> bingo_cards <span class="sc">%&gt;%</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">called =</span> (called <span class="sc">|</span> value <span class="sc">==</span> my_num))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">called =</span> (called <span class="sc">|</span> value <span class="sc">==</span> my_num))</span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># check rows for bingo</span></span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    do_we_have_rows <span class="ot">=</span> <span class="fu">check_rows</span>(bingo_cards)</span>
@@ -1439,12 +1439,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
 <span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    last_card <span class="ot">=</span> do_we_have_rows</span>
 <span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>uncalled <span class="ot">=</span> bingo_cards <span class="sc">%&gt;%</span></span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(called <span class="sc">==</span> <span class="cn">FALSE</span> <span class="sc">&amp;</span> card_num <span class="sc">==</span> last_card) <span class="sc">%&gt;%</span></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">win_card =</span> <span class="fu">sum</span>(value))</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="co"># part two answer</span></span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>uncalled<span class="sc">$</span>win_card[[<span class="dv">1</span>]] <span class="sc">*</span> my_num</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>uncalled <span class="ot">=</span> bingo_cards <span class="sc">%&gt;%</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(called <span class="sc">==</span> <span class="cn">FALSE</span> <span class="sc">&amp;</span> card_num <span class="sc">==</span> last_card) <span class="sc">%&gt;%</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">win_card =</span> <span class="fu">sum</span>(value))</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="co"># part two answer</span></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>uncalled<span class="sc">$</span>win_card[[<span class="dv">1</span>]] <span class="sc">*</span> my_num</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 17884</code></pre>
 </div>
