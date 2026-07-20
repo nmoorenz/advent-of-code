@@ -23,8 +23,133 @@ x <- readLines(my_file)
 Loop a little to make sure we are moving properly, and then let the cucumbers move.
 
 ```{r}
-# here's another R cell for good luck
+
+# prepare an array
+cuc_width = nchar(x[[1]])
+cuc_length = length(x)
+
+cuc = stringr::str_split_fixed(x, "", cuc_width)
 
 ```
 
-Paste part two here
+Test and move
+
+```{r}
+
+counter = 0
+
+while (counter < 10) {
+    movement = 0
+    counter = counter + 1
+    
+    # test the easterly cucumbers: >
+    for (i in seq(1,cuc_length)) {
+        for (j in seq(1,cuc_width)) {
+            if (cuc[i,j] == ">") {
+                if (j == cuc_width) {
+                    # if we're at the end of the row, check back
+                    if (cuc[i,1] == ".") {
+                        cuc[i,j] = "."
+                        cuc[i,1] = ">"
+                        movement = movement + 1      
+                        
+                    }
+                } else {
+                    # check the next cell
+                    if (cuc[i,j+1] == ".") {
+                        cuc[i,j] = "."
+                        cuc[i,j+1] = ">"
+                        movement = movement + 1                        
+                    }                      
+                }
+             
+            }
+        }
+    }        
+
+    # test the southerly cucumbers: v 
+    for (j in seq(1,cuc_width)) {
+        for (i in seq(1,cuc_length)) {
+#    for (i in seq(1,cuc_length)) {
+#        for (j in seq(1,cuc_width)) {
+            if (cuc[i,j] == "v") {
+                if (i == cuc_length) {
+                    # we're at the bottom, check the top
+                    if (cuc[1,j] == ".") {
+                        cuc[i,j] = "."
+                        cuc[1,j] = "v"
+                        movement = movement + 1                        
+                    }
+                } else {
+                    # test for space
+                    if (cuc[i+1,j] == ".") {
+                        cuc[i,j] = "."
+                        cuc[i+1,j] = "v"
+                        movement = movement + 1                        
+                    }                    
+                }
+            }
+
+        }
+    }   
+    
+    if (movement == 0) { 
+        break
+    }
+    # print(movement)
+}
+    
+# 462 too high
+# 448 too high 
+
+```
+
+The above catches the cucumbers that have already moved and I don't think there's an iteration schema that can move without collecting them, unless I iterate backwards? But that let's them move if they should be blocked.
+
+So, `which` for an efficient loop of where they are, collecting possible moves.
+
+```{r}
+
+counter = 0
+
+while (counter < 1) {
+    movement = 0
+    counter = counter + 1
+
+    east = which(cuc == ">", arr.ind = TRUE)
+    emoves = array()
+        
+    for (e in seq_len(nrow(east))) {
+        if (east[e,2] == cuc_width) {
+            # check the start of the row
+        } else if (cuc[east[e,1], east[e,2]+1] == ".") {
+            # if we can move, add it to moves
+        }
+    }
+    
+    for (m in seq_len(nrow(emoves))) {
+        # do the moves
+    }
+    
+    south = which(cuc == "v", arr.ind = TRUE)
+    smoves = array()
+    
+    for (s in seq_len(nrow(south))) {
+        if (south[s,1] == cuc_length) {
+            # check the top of the column
+        } else if (cuc[south[s,1] + 1, south[s,2]] == ".") {
+            # check for moves
+        }
+    }
+    
+    for (m in seq_len(nrow(smoves))) {
+        # do the moves
+    }
+    
+    if (nrow(emoves) + nrow(smoves) == 0) {
+        
+    }
+    
+}
+
+```

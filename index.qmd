@@ -19,6 +19,8 @@ For more on the mixture of code and prose, see [quarto.org](quarto.org)
 
 For more on this weird annual mix of code and somewhat pointless problem solving, see [adventofcode.com](adventofcode.com)
 
+Nota bene: none of this is AI, it's all me (and Stack Overflow). 
+
 ```         
 [2025] 24* / 24*
 [2024] 24* / 50*

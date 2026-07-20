@@ -48,7 +48,7 @@ g = make_graph(edges=unlist(pairs), directed=FALSE)
 
 plot(g)
 
-all_simple_paths(g, "start", "end")
+paths = all_simple_paths(g, "start", "end")
 
 # 611 low
 

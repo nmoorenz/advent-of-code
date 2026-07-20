@@ -113,7 +113,7 @@ Another approach: go through and see if there are consistent amounts of letters 
 
 ```{r}
 
-for (k in 1:8) {
+for (k in 1:10) {
     old_list = pol
     new_list = vector()
     
@@ -139,4 +139,23 @@ for (k in 1:8) {
     
     print(sort(table(old_list)))
 }
+```
+
+Check these figures
+
+```{r}
+
+506-259
+259-133
+133-69
+69-34
+34-14
+
+3108-1516
+1516-746
+746-365
+365-172
+172-84
+
+
 ```

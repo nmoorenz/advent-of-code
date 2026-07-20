@@ -20,7 +20,7 @@ x <- readLines(my_file)
 
 ```
 
-These digits are ones that have the right hand side line.
+These digits are ones that have the right hand side line. They are also the ones with a certain number of lines. The other digits have 5 or 6 segments.
 
 *Author's note: was I really good at R or did I copy this from the R for Data Science slack chat?*
 
