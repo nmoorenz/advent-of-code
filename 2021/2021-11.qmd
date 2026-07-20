@@ -104,7 +104,7 @@ octo[2:11, 2:11] = octo_s
 # keep track of how many flashes there have been
 counter = 0
 
-# loop through 100 times
+# loop through a variable amount of times
 for (j in seq(1000)) {
     # print(paste("iteration: ", j))
     # add one to the array

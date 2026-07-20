@@ -20,7 +20,7 @@ x <- readLines(my_file)
 
 ```
 
-Maybe write an explanation of the solution approach here
+I think the way to go with this is the distance between beacons? That will make a big matrix. Maybe the angle between beacons will have to be involved too.
 
 ```{r}
 
@@ -37,16 +37,22 @@ bcn = tibble(zz = x) %>%
     mutate(across(c(x, y, z), as.numeric)) %>%
     ungroup()
 
-bcn_cross = full_join(bcn, bcn, by = c("scn"), suffix = c(".l", ".r")) %>%
+bcn_cross = full_join(bcn, bcn, 
+                      by = c("scn"), 
+                      suffix = c(".l", ".r"),
+                      relationship = "many-to-many") %>%
     filter(bb.l < bb.r) %>%
     mutate(dd = round(sqrt((x.l - x.r)**2 + (y.l - y.r)**2 + (z.l - z.r)**2), 2))
 
-dists = bcn_cross %>%
-    arrange(dd)
+dist_order = bcn_cross %>% arrange(dd)
 
-bcn_cross %>% distinct(dd)
+distinct_distance <- bcn_cross %>% distinct(dd)
 
-  # 6248
+beacon_table <- table(bcn_cross$dd) |> 
+    as_tibble(.name_repair="unique") |> 
+    filter(n>1)
+
+
 ```
 
 Paste part two here
