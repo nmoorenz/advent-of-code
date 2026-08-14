@@ -38,7 +38,7 @@ Test and move
 
 counter = 0
 
-while (counter < 10) {
+while (counter < 1) {
     movement = 0
     counter = counter + 1
     
@@ -112,44 +112,84 @@ So, `which` for an efficient loop of where they are, collecting possible moves.
 
 counter = 0
 
-while (counter < 1) {
-    movement = 0
-    counter = counter + 1
+while (counter < 1000) {
 
+    # Easterly Cucumbers
     east = which(cuc == ">", arr.ind = TRUE)
-    emoves = array()
+    east = cbind(east, FALSE)
+    # print(nrow(east))
         
     for (e in seq_len(nrow(east))) {
         if (east[e,2] == cuc_width) {
             # check the start of the row
+            if (cuc[east[e,1], 1] == ".") {
+                east[e,3] = TRUE
+            }
         } else if (cuc[east[e,1], east[e,2]+1] == ".") {
             # if we can move, add it to moves
+            east[e,3] = TRUE
         }
     }
     
-    for (m in seq_len(nrow(emoves))) {
+    # move only the ones that we think can move
+    east = subset(east, east[,3] == TRUE)
+    
+    # do moves
+    for (m in seq_len(nrow(east))) {
         # do the moves
+        if (east[m,2] == cuc_width) {
+            cuc[east[m,1], 1] = ">"
+            cuc[east[m,1], east[m,2]] = "."
+        } else {
+            cuc[east[m,1], east[m,2]+1] = ">"
+            cuc[east[m,1], east[m,2]] = "."
+        }
     }
     
+    # Southerly Cucumbers
     south = which(cuc == "v", arr.ind = TRUE)
-    smoves = array()
+    south = cbind(south, FALSE)
+    # print(nrow(south))
     
     for (s in seq_len(nrow(south))) {
         if (south[s,1] == cuc_length) {
             # check the top of the column
+            if (cuc[1, south[s,2]] == ".") {
+                south[s,3] = TRUE
+            }
         } else if (cuc[south[s,1] + 1, south[s,2]] == ".") {
             # check for moves
+            south[s,3] = TRUE
         }
     }
     
-    for (m in seq_len(nrow(smoves))) {
+    # moves the ones we want to move  
+    south = subset(south, south[,3] == TRUE)
+    
+    for (m in seq_len(nrow(south))) {
         # do the moves
+        if (south[m,1] == cuc_length) {
+            cuc[1, south[m,2]] = "v"
+            cuc[south[m,1], south[m,2]] = "."
+        } else {
+            cuc[south[m,1] + 1, south[m,2]] = "v"
+            cuc[south[m,1], south[m,2]] = "."
+        }
     }
     
-    if (nrow(emoves) + nrow(smoves) == 0) {
-        
+    if (nrow(east) + nrow(south) == 0) {
+        break
+    } else {
+        # print(nrow(east) + nrow(south))
+        counter = counter + 1
     }
     
 }
+
+# 360 someone else's anwer
+# 361 incorrect
+# 362 incorrect
+
+# we don't move on that last run through - one less
 
 ```

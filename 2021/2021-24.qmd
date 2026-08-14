@@ -16,15 +16,221 @@ To enable as many submarine features as possible, find the largest valid fourtee
 library(tidyverse)
 
 my_file <- here::here("2021", "data-2021-24.txt")
-x <- readLines(my_file)
+inst = read.table(my_file, 
+                  sep=" ", 
+                  fill=TRUE, 
+                  row.names=NULL, 
+                  header=FALSE)
 
 ```
 
-Maybe write an explanation of the solution approach here
+I fettled around with different input readings, I think this is the best way.
+
+How do I efficiently check fourteen digit numbers? Unsure. I can eliminate anything with a zero though.
+
+`sample()` means I do not produce numbers with zeros, and I think I want to record what I've tried, because I'll start with randoms to make sure the algorithm works, but then need to be methodical.
 
 ```{r}
-# here's another R cell for good luck
+
+get_numbers <- function(len) {
+    # return a character vector that we can operate on
+    nums = c()
+    for (a in seq_len(len)) {
+        nums = append(nums, str_flatten(sample(1:9, 14, replace=TRUE)))
+    }
+    return(nums)
+}
+
+
+# get_numbers(2)
+```
+
+Now to construct the checking function. I'm sure there's some nice `tidyeval` way of doing this which I will probably have to implement.
+
+Process:
+
+- we need to know what the arguments are for the operation
+
+- use if statements to find out what operation we should be doing
+
+- create a string for the formula we want to evaluate and assign
+
+- `eval()` does an evaluation of the `expr()` expression of the string
+
+```{r}
+
+eql_ <- function(b,c) {
+    if (b == c) {
+        t = 1
+    } else {
+        t = 0
+    }
+    return(t)
+}
+
+process_number <- function(n, inst) {
+    # make the string a vector
+    nn = str_split_1(n, '')
+    
+    # record the mth character for inputs
+    m = 1
+    
+    # variables
+    x = 0
+    y = 0
+    z = 0
+    
+    # loop instructions
+    for (i in seq_len(nrow(inst))) {
+        a = inst$V1[[i]]
+        b = inst$V2[[i]]
+        c = inst$V3[[i]]
+        
+        # evaluate
+        if (a == "inp") { 
+            # input
+            w =as.integer(nn[m])
+            m = m + 1
+        } else if (a == "add") {
+            t = paste(eval(b), "<-", eval(b), "+", eval(c))
+            eval(parse(text=t))
+        } else if (a == "mul") {
+            t = paste(eval(b), "<-", eval(b), "*", eval(c))
+            eval(parse(text=t))
+        } else if (a == "div") {
+            t = paste(eval(b), "<-", eval(b), "/", eval(c))
+            eval(parse(text=t))
+        } else if (a == "mod") {
+            t = paste(eval(b), "<-", eval(b), "%%", eval(c))
+            eval(parse(text=t))
+        } else if (a == "eql") {
+            t = paste0(eval(b), "<-", "eql_(", eval(b), ",", eval(c), ")")
+            eval(parse(text=t))
+        } else {
+            print("instruction error")
+        }
+        
+    }
+    return(z)
+}
+
+
+process_number(n, inst)
 
 ```
 
-Paste part two here
+examples of things I've tried in the console
+
+```{r}
+
+a = inst$V1[[i]]
+b = inst$V2[[i]]
+c = inst$V3[[i]]
+
+x = 0
+y = 0
+z = 0
+
+expr(!!b)
+eval(b)
+
+rlang::call2("+", b, c)
+
+paste(eval(b), "<-", eval(b), "+", eval(c))
+
+rlang::parse_expr(paste(eval(b), "<-", eval(b), "+", eval(c)))
+
+eval(rlang::parse_expr(paste(eval(b), "<-", eval(b), "+", eval(c))))
+
+```
+
+Ready to try some numbers!
+
+```{r}
+
+# min = max
+nums = get_numbers(1000)
+
+
+for (n in nums) {
+    # print(n)
+    res = process_number(n, inst)
+    # print(paste("result: ", res))
+    if (res == 0) {
+        print(n)
+    }
+    if (res < min) {
+        print(n)
+        print(res)
+        min = res
+    }
+}
+```
+
+I want to do this methodically.
+
+Also maybe I want to go through the instructions and make sure there are no gotchas because this is Advent of Code and obviously there are going to be some gotchas.
+
+Anyway, backwards from 10\^14-1, recording what I have checked.
+
+```{r}
+max = 10**14-1
+write(as.character(max), file='day24tracking.txt')
+min = max
+```
+
+```{r}
+
+# decrease the numbers, based on what we've already searched
+# I sure hope the algorithm is correct
+# return a character vector of length len
+
+dec_numbers <- function(len) {
+    nums = c()
+    k = 0
+    i = as.double(readLines('day24tracking.txt'))
+    # print(nums)
+    # print(i)
+    while (k < len) {
+        j = as.character(i)
+        # print(j)
+        if (str_detect(j, "0")) {
+            # skip
+            # print("has a zero")
+        } else {
+            nums = append(nums, j)
+            k = k + 1
+        }
+        i = i - 1
+        # k = k + 1
+    }
+    
+    write(j, file='day24tracking.txt')
+    return(nums)
+}
+
+
+```
+
+Use the numbers function to get us some samples
+
+```{r}
+
+# dec_numbers(10)
+
+nums = dec_numbers(10000)
+# min = max
+
+for (n in nums) {
+    # print(n)
+    res = process_number(n, inst)
+    # print(paste("result: ", res))
+    if (res == 0) {
+        print(n)
+    }
+    if (res < min) {
+        # print(res)
+        min = res
+    }
+}
+```

@@ -40,7 +40,7 @@ for (c in 1:length(x)) {
 cave_mat
 ```
 
-But also we could try a proper graph packages
+But also we could try a proper graph package
 
 ```{r}
 
@@ -48,7 +48,7 @@ g = make_graph(edges=unlist(pairs), directed=FALSE)
 
 plot(g)
 
-paths = all_simple_paths(g, "start", "end")
+# paths = all_simple_paths(g, "start", "end")
 
 # 611 low
 

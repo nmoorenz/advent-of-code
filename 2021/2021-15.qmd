@@ -19,6 +19,7 @@ library(igraph)
 my_file <- here::here("2021", "data-2021-15.txt")
 x = read_fwf(my_file, fwf_widths(rep_len(1,100), col_names = 1:100))
 x = as.matrix(x)
+
 ```
 
 Create a matrix and use some kind of graph movement.

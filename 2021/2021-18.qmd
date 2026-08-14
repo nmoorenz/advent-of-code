@@ -23,8 +23,101 @@ x <- readLines(my_file)
 Loops! Loops and rules.
 
 ```{r}
-# here's another R cell for good luck
+
+process <- function(w) {
+    # explode and reduce
+    
+    # loop until we have no more operations
+    while (TRUE) {
+        depth = 0
+        left = 0
+        right = 0  
+        op = ""
+
+        # find the operation
+        for (i in seq_len(nchar(w))) {
+            cc = str_sub(w,i,i)
+            if (cc == "[") {
+                depth = depth + 1
+
+            } else if (cc == "]") {
+                depth = depth - 1
+            } else if (cc == "0") { 
+                # cc is a number, check for double digits
+            } else if (cc == ",") {
+                # comma, do nothing
+            } else {
+                # oops
+                print("loop error")
+            }
+            
+            if (depth == 5) {
+                # skip out, operate on this
+                break 
+            }   
+            
+        }
+        
+        # no operation found, break out of the loop
+        if (op == "") {
+            break
+        }
+        
+        # apply what we need to do
+        
+
+    }
+
+    
+    # return after we have finished
+    return(w)
+}
+
 
 ```
 
-Paste part two here
+Create functions to deal with things, then add the numbers.
+
+```{r}
+
+y = x[1]
+
+for (z in 2:length(x)) {
+    w = paste0("[", y, ",", x[z], "]")
+    y = process(w)
+}
+```
+
+And then we have to calculate the magnitude
+
+```{r}
+
+# calculate the magnitude
+# 3 * first element, 2 * second element
+
+# [[1,2],[[3,4],5]]
+# [7,[17,5]]
+# [7,61]
+# 143
+
+# [[[[0,7],4],[[7,8],[6,0]]],[8,1]]
+# [[[14,4],[37,18]],26]
+# [[50,147], 26]
+# [444,26]
+# 1384
+
+p = "\\[[0-9]+\\,[0-9]+\\]"
+# y = "[[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]"
+    
+while (str_detect(y, p)) {
+    loc = str_locate(y, p)
+    ext = str_extract(y, p)
+    dig = as.integer(unlist(str_extract_all(ext, "[0-9]+")))
+    sums = 3*dig[1] + 2*dig[2]
+    str_sub(y,loc[1], loc[2]) <- sums
+    # print(y)
+}
+
+as.integer(y)
+
+```
