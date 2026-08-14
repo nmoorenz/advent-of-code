@@ -1,0 +1,17 @@
+{
+  "hash": "f6761c44392fc7ebf857e40c35d2995c",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"2021 Day 24\"\nauthor: \"Nathan Moore\"\nformat: html\neditor: visual\n---\n\n\n\n\n## --- Day 24: Arithmetic Logic Unit ---\n\nFix the submarine!\n\nTo enable as many submarine features as possible, find the largest valid fourteen-digit model number that contains no `0` digits. *What is the largest model number accepted by MONAD?*\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\n\nmy_file <- here::here(\"2021\", \"data-2021-24.txt\")\nx <- readLines(my_file)\n```\n:::\n\n\n\n\nMaybe write an explanation of the solution approach here\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# here's another R cell for good luck\n```\n:::\n\n\n\n\nPaste part two here\n",
+    "supporting": [
+      "2021-24_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

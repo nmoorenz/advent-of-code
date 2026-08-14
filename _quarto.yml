@@ -11,6 +11,7 @@ execute:
   
 website:
   title: "Advent of Code"
+  favicon: favicon.png
   page-navigation: true
   navbar:
     left:
